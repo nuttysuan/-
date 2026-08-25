@@ -732,24 +732,32 @@
             document.getElementById('profileModal').style.display = 'flex';
         }
 
+        // ------------------ [อัปเดตระบบแชท & ดักจับข้อผิดพลาด] ------------------
         document.getElementById('sendChatBtn').addEventListener('click', async () => {
             if (!currentUser) return alert("⚠️ เข้าสู่ระบบก่อนพิมพ์แชทครับ");
             const msg = document.getElementById('chatInput').value;
             if (msg.trim() === "") return;
 
             try {
+                // พิมพ์ข้อความลง Database
                 await addDoc(collection(db, "chats"), {
                     sender: currentUser.email.split('@')[0],
                     text: msg,
                     timestamp: new Date().getTime()
                 });
                 document.getElementById('chatInput').value = ""; 
-            } catch (err) { console.error("Chat error: ", err); }
+            } catch (err) { 
+                console.error("Chat error: ", err); 
+                alert("❌ ส่งข้อความไม่ได้: " + err.message);
+            }
         });
 
+        // ดึงข้อความแชทแบบ Real-time พร้อมดักจับ Error สิทธิ์การเข้าถึง
         onSnapshot(collection(db, "chats"), (snapshot) => {
             let messages = [];
             snapshot.forEach(doc => messages.push(doc.data()));
+            
+            // เรียงลำดับข้อความตามเวลา (เก่าไปใหม่)
             messages.sort((a, b) => a.timestamp - b.timestamp);
             
             let chatHtml = "";
@@ -760,7 +768,12 @@
             
             const chatBox = document.getElementById('chatContainer');
             chatBox.innerHTML = chatHtml;
-            chatBox.scrollTop = chatBox.scrollHeight; 
+            chatBox.scrollTop = chatBox.scrollHeight; // เลื่อนแถบแชทลงมาล่างสุดอัตโนมัติ
+            
+        }, (error) => {
+            // โค้ดส่วนนี้จะทำงานถ้า Firebase Rules บล็อกการมองเห็น
+            console.error("Firebase Snapshot Error: ", error);
+            document.getElementById('chatContainer').innerHTML = `<p style="color:red; font-size:12px; text-align:center;">❌ ไม่สามารถโหลดแชทได้<br>(กรุณาตรวจสอบ Firebase Security Rules)</p>`;
         });
 
         renderMatches(maxGw);
