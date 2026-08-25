@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>อย่านอนใกล้คนหลายใจ (Shop + Username Login)</title>
-    <!-- เพิ่มฟอนต์ Kanit จาก Google Fonts ให้ดูมีความเป็นการ์ตูนและอ่านง่าย -->
+    <title>อย่านอนใกล้คนหลายใจ (Shop + Bet System)</title>
+    <!-- เพิ่มฟอนต์ Kanit จาก Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root { 
@@ -100,14 +100,7 @@
         
         .modal-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:1000; justify-content:center; align-items:center; backdrop-filter: blur(3px);}
         
-        .trend-up { color: #00ff85; font-size: 14px; margin-right: 5px; text-shadow: 1px 1px 0px #000;}
-        .trend-down { color: #ff0046; font-size: 14px; margin-right: 5px; text-shadow: 1px 1px 0px #000;}
         .trend-same { color: #999; font-size: 14px; margin-right: 5px; }
-        .sparkline { display: inline-block; width: 50px; height: 15px; vertical-align: middle; }
-        .sparkline svg { width: 100%; height: 100%; overflow: visible; }
-        .sparkline polyline { fill: none; stroke: var(--pl-purple); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
-        .sparkline circle { fill: var(--pl-green); stroke: var(--pl-purple); stroke-width: 1.5;}
-
         .shop-item { border: 2px solid var(--pl-purple); padding: 10px; border-radius: 8px; text-align: center; background: #fff; box-shadow: 3px 3px 0px var(--pl-purple); display: flex; flex-direction: column; justify-content: space-between;}
     </style>
 </head>
@@ -117,7 +110,7 @@
     
     <div class="container">
         <div class="left-column">
-            <!-- 1. ระบบ Auth (ปรับเป็น Username) -->
+            <!-- 1. ระบบ Auth -->
             <div class="card" id="auth-section">
                 <h2>🔐 เข้าสู่ระบบ</h2>
                 <input type="text" id="usernameInput" placeholder="ตั้งชื่อผู้ใช้ (ภาษาอังกฤษ/ตัวเลข)">
@@ -137,7 +130,6 @@
                     <span>⚽ โปรแกรมการแข่งขัน</span>
                     <select id="gwSelector"></select>
                 </h2>
-                <p style="font-size: 13px; color: #666; margin-bottom: 10px; font-weight: 600;">🎒 ทริค: เลือกใช้ไอเทมจากคลังเพื่อเพิ่มคะแนน! (ช่องจะล็อกเมื่อคิกออฟ)</p>
                 <div id="matchesContainer"></div>
             </div>
             
@@ -150,7 +142,15 @@
 
         <div class="right-column">
             
-            <!-- โซนร้านค้าและคลังไอเทม (Economy Section) -->
+            <!-- Inbox คำท้าเดิมพัน -->
+            <div class="card" id="inbox-section" style="display: none; border-color: #ff5722; box-shadow: 6px 6px 0px #ff5722;">
+                <h2 style="color: #ff5722; border-bottom: 3px dashed #ff5722;">⚔️ คำท้าเดิมพันของคุณ</h2>
+                <div id="inboxContainer" style="max-height: 150px; overflow-y: auto;">
+                    <p style="font-size: 13px; color: #999;">ไม่มีคำท้าที่รออยู่</p>
+                </div>
+            </div>
+
+            <!-- โซนร้านค้าและคลังไอเทม -->
             <div class="card" id="economy-section" style="display: none; border-color: #ff9800; box-shadow: 6px 6px 0px #ff9800;">
                 <h2 style="display: flex; justify-content: space-between; align-items: center; color: #ff9800; border-bottom: 3px dashed #ff9800;">
                     🛒 ร้านค้า & คลังไอเทม
@@ -163,56 +163,50 @@
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 10px;">
                     <div class="shop-item">
                         <h4 style="font-weight: 800; font-size: 14px;">🃏 การ์ดคะแนน x2</h4>
-                        <p style="font-size: 10px; margin: 5px 0; color: #666;">แต้ม x2 เมื่อทายถูก</p>
                         <button class="btn-action" onclick="buyItem('item_x2pt', 50)" style="width:100%; background:#2196f3; padding: 5px; font-size: 12px;">ซื้อ 50 💰</button>
                     </div>
                     <div class="shop-item">
                         <h4 style="font-weight: 800; font-size: 14px;">🔥 การ์ดคะแนน x3</h4>
-                        <p style="font-size: 10px; margin: 5px 0; color: #666;">แต้ม x3 เมื่อทายถูก</p>
                         <button class="btn-action" onclick="buyItem('item_x3pt', 80)" style="width:100%; background:#f44336; padding: 5px; font-size: 12px;">ซื้อ 80 💰</button>
                     </div>
                     <div class="shop-item">
                         <h4 style="font-weight: 800; font-size: 14px;">🛡️ การ์ดกันแตก</h4>
-                        <p style="font-size: 10px; margin: 5px 0; color: #666;">ทายผิดก็ยังได้ 1 แต้ม</p>
                         <button class="btn-action" onclick="buyItem('item_guard', 50)" style="width:100%; background:#4caf50; padding: 5px; font-size: 12px;">ซื้อ 50 💰</button>
                     </div>
                     <div class="shop-item">
                         <h4 style="font-weight: 800; font-size: 14px;">🪙 Coin x2</h4>
-                        <p style="font-size: 10px; margin: 5px 0; color: #666;">ออโต้เมื่อทายถูกแค่ผล</p>
                         <button class="btn-action" onclick="buyItem('item_x2coin', 40)" style="width:100%; background:#ffc107; color:#000; padding: 5px; font-size: 12px;">ซื้อ 40 💰</button>
                     </div>
                 </div>
-
-                <h3 style="font-size: 16px; margin: 20px 0 10px; border-top: 2px dashed #eee; padding-top: 15px;">🎒 คลังไอเทมส่วนตัว (Inventory)</h3>
-                <p style="font-size: 12px; color:#666; margin-bottom:10px;">*เลือกใช้ไอเทมที่ช่องทายผล (Coin x2 จะทำงานอัตโนมัติ)</p>
-                <div style="display: flex; gap: 8px; font-size: 12px; font-weight: bold; flex-wrap: wrap;">
-                    <span style="background: #e3f2fd; padding: 5px 10px; border: 2px solid var(--pl-purple); border-radius: 8px;">🃏 การ์ด x2: <span id="inv_x2pt" style="color:var(--pl-purple); font-size:16px;">0</span></span>
-                    <span style="background: #ffebee; padding: 5px 10px; border: 2px solid var(--pl-purple); border-radius: 8px;">🔥 การ์ด x3: <span id="inv_x3pt" style="color:var(--pl-purple); font-size:16px;">0</span></span>
-                    <span style="background: #e8f5e9; padding: 5px 10px; border: 2px solid var(--pl-purple); border-radius: 8px;">🛡️ กันแตก: <span id="inv_guard" style="color:var(--pl-purple); font-size:16px;">0</span></span>
-                    <span style="background: #fff8e1; padding: 5px 10px; border: 2px solid var(--pl-purple); border-radius: 8px;">🪙 Coin x2: <span id="inv_x2coin" style="color:var(--pl-purple); font-size:16px;">0</span></span>
-                </div>
             </div>
 
-            <!-- 4. Leaderboard -->
+            <!-- โซนสอดแนมเพื่อน แบบเปิดเผยทั้งหมด -->
+            <div class="card" id="activity-section" style="display: none; border-color: #9c27b0; box-shadow: 6px 6px 0px #9c27b0;">
+                <h2 style="display: flex; justify-content: space-between; align-items: center; color: #9c27b0; border-bottom: 3px dashed #9c27b0;">
+                    🕵️ สอดแนมเพื่อน
+                    <select id="activityGwSelector" style="width: 120px; padding: 5px; font-size: 14px; box-shadow: none; margin-bottom: 0;"></select>
+                </h2>
+                <div id="activityContainer" style="max-height: 400px; overflow-y: auto; padding-right: 5px;"></div>
+            </div>
+
+            <!-- Leaderboard -->
             <div class="card">
                 <h2>🏆 ตารางคะแนนรวม</h2>
-                <p style="font-size: 13px; color: #666; font-weight: 600;">👆 คลิกที่ชื่อผู้เล่นเพื่อดูประวัติและเหรียญตรา</p>
                 <table>
                     <thead>
                         <tr>
                             <th>อันดับ</th>
                             <th style="text-align: left;">ผู้เล่น</th>
-                            <th>ฟอร์ม</th>
                             <th>PTS</th>
                         </tr>
                     </thead>
                     <tbody id="leaderboard-body">
-                        <tr><td colspan="4">กำลังโหลดข้อมูล...</td></tr>
+                        <tr><td colspan="3">กำลังโหลดข้อมูล...</td></tr>
                     </tbody>
                 </table>
             </div>
 
-            <!-- 5. กล่องแชทขิงกัน -->
+            <!-- ห้องแชท -->
             <div class="card">
                 <h2>💬 ห้องแชทขิงเพื่อน</h2>
                 <div class="chat-container" id="chatContainer"></div>
@@ -224,44 +218,57 @@
         </div>
     </div>
 
-    <!-- 6. หน้าต่าง Player Profile Modal -->
+    <!-- หน้าต่าง Profile Modal -->
     <div class="modal-overlay" id="profileModal">
         <div class="card" style="width: 350px; text-align: center; position: relative; margin: 0; box-shadow: 8px 8px 0px var(--pl-purple);">
             <span onclick="document.getElementById('profileModal').style.display='none'" style="position:absolute; right:15px; top:15px; cursor:pointer; font-weight:900; font-size: 20px; color: #ff4d4d;">X</span>
             <h2 id="modalEmail" style="color: var(--pl-purple); display: block; text-align: center; border:none; margin-bottom: 5px;"></h2>
-            <p style="font-size: 14px; color: #666; margin-bottom: 15px; font-weight: 600;">ประวัติผลงาน (Player Stats)</p>
-            <div style="font-size: 30px; margin-bottom: 15px;" id="modalBadges"></div>
             <div style="text-align: left; background: #f9f9f9; padding: 15px; border-radius: 12px; font-size: 16px; border: 2px dashed #ccc; font-weight: 600;">
                 <p>🏆 คะแนนรวม: <b id="modalPts" style="color: var(--pl-purple); font-size: 20px;">0</b> แต้ม</p>
                 <p>💰 เหรียญสะสมรวม: <b id="modalCoins" style="color: #ff9800;">0</b> 🪙</p>
                 <p>🎯 ทายถูกเป๊ะ: <b id="modalExact">0</b> แมตช์</p>
-                <p>✅ ทายผลทิศทางถูก: <b id="modalCorrect">0</b> แมตช์</p>
             </div>
-            <p style="font-size: 12px; color: #999; margin-top: 15px; text-align: left; font-weight: 600;">
-                เงื่อนไขเหรียญ: 🎯แฮตทริก(ถูกเป๊ะ>3), 🌟เศรษฐี(หาเหรียญได้>100), 🛡️สายเหนียว(ถูกผล>5)
-            </p>
+        </div>
+    </div>
+
+    <!-- หน้าต่าง ท้าเดิมพัน (Challenge Modal) -->
+    <div class="modal-overlay" id="challengeModal">
+        <div class="card" style="width: 350px; text-align: center; position: relative; margin: 0; border-color: #ff5722; box-shadow: 8px 8px 0px #ff5722;">
+            <span onclick="document.getElementById('challengeModal').style.display='none'" style="position:absolute; right:15px; top:15px; cursor:pointer; font-weight:900; font-size: 20px; color: #ff4d4d;">X</span>
+            <h2 style="color: #ff5722; display: block; text-align: center; border:none; margin-bottom: 5px;">⚔️ สร้างคำท้าเดิมพัน</h2>
+            <p id="challengeMatchLabel" style="font-size: 14px; font-weight: 800; margin-bottom: 15px;"></p>
+            
+            <div style="text-align: left; margin-bottom: 15px;">
+                <label style="font-size: 14px; font-weight: bold;">เลือกผู้เล่นที่ต้องการท้า:</label>
+                <select id="challengeUserSelect" style="margin-top: 5px;"></select>
+            </div>
+            <div style="text-align: left; margin-bottom: 15px;">
+                <label style="font-size: 14px; font-weight: bold;">จำนวนเหรียญที่เดิมพัน:</label>
+                <input type="number" id="challengeWager" min="1" value="10" style="width: 100%; height: auto; text-align: left; font-size: 16px; margin: 5px 0 0 0;">
+            </div>
+            
+            <button class="btn-primary" style="background: #ff5722; box-shadow: 4px 4px 0px #bf360c;" onclick="submitChallenge()">ส่งคำท้า!</button>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getFirestore, collection, doc, setDoc, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getFirestore, collection, doc, setDoc, addDoc, updateDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
         const firebaseConfig = {
-  apiKey: "AIzaSyDmnL92Tlf0-omdZEUXFg1xb5W_c_0NQYE",
-  authDomain: "awang-promax.firebaseapp.com",
-  databaseURL: "https://awang-promax-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "awang-promax",
-  storageBucket: "awang-promax.firebasestorage.app",
-  messagingSenderId: "938318378311",
-  appId: "1:938318378311:web:1cf64e8521a22631844862",
-  measurementId: "G-SBZG2HR1MQ"
-};
+            apiKey: "AIzaSyDmnL92Tlf0-omdZEUXFg1xb5W_c_0NQYE",
+            authDomain: "awang-promax.firebaseapp.com",
+            databaseURL: "https://awang-promax-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "awang-promax",
+            storageBucket: "awang-promax.firebasestorage.app",
+            messagingSenderId: "938318378311",
+            appId: "1:938318378311:web:1cf64e8521a22631844862",
+            measurementId: "G-SBZG2HR1MQ"
+        };
         
-        // ------------------ [ปรับแก้ระบบ Admin และ โดเมนปลอม] ------------------
         const ADMIN_USERNAME = "nuttysuan"; 
-        const FAKE_DOMAIN = "@awang.game"; // ใช้สำหรับหลอก Firebase Authentication
+        const FAKE_DOMAIN = "@awang.game"; 
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
@@ -269,18 +276,6 @@
 
         // 📅 ข้อมูลโปรแกรม 
        const seasonFixtures = [
-            // --- Matchweek 1 ---
-            { id: "GW1_ARS_COV", gw: 1, home: "Arsenal", away: "Coventry City", kickoff: "2026-08-22T02:00:00" },
-            { id: "GW1_HUL_MUN", gw: 1, home: "Hull City", away: "Man Utd", kickoff: "2026-08-22T18:30:00" },
-            { id: "GW1_EVE_CRY", gw: 1, home: "Everton", away: "Crystal Palace", kickoff: "2026-08-22T21:00:00" },
-            { id: "GW1_IPS_SUN", gw: 1, home: "Ipswich Town", away: "Sunderland", kickoff: "2026-08-22T21:00:00" },
-            { id: "GW1_NFO_LEE", gw: 1, home: "Nott'm Forest", away: "Leeds United", kickoff: "2026-08-22T21:00:00" },
-            { id: "GW1_BRE_TOT", gw: 1, home: "Brentford", away: "Tottenham", kickoff: "2026-08-22T23:30:00" },
-            { id: "GW1_BHA_AVL", gw: 1, home: "Brighton", away: "Aston Villa", kickoff: "2026-08-23T20:00:00" },
-            { id: "GW1_MCI_BOU", gw: 1, home: "Man City", away: "Bournemouth", kickoff: "2026-08-23T20:00:00" },
-            { id: "GW1_NEW_LIV", gw: 1, home: "Newcastle", away: "Liverpool", kickoff: "2026-08-23T22:30:00" },
-            { id: "GW1_FUL_CHE", gw: 1, home: "Fulham", away: "Chelsea", kickoff: "2026-08-25T02:00:00" },
-
             // --- Matchweek 2 ---
             { id: "GW2_CRY_MCI", gw: 2, home: "Crystal Palace", away: "Man City", kickoff: "2026-08-29T02:00:00" },
             { id: "GW2_LIV_NFO", gw: 2, home: "Liverpool", away: "Nott'm Forest", kickoff: "2026-08-29T18:30:00" },
@@ -332,23 +327,30 @@
 
 
         const gwSelector = document.getElementById('gwSelector');
+        const activityGwSelector = document.getElementById('activityGwSelector');
         let maxGw = seasonFixtures.reduce((max, match) => Math.max(max, match.gw), 1) || 1;
         for(let i=1; i<=maxGw; i++) {
             let option = document.createElement('option');
             option.value = i;
             option.text = `Matchweek ${i}`;
             gwSelector.appendChild(option);
+            
+            let option2 = document.createElement('option');
+            option2.value = i;
+            option2.text = `Matchweek ${i}`;
+            activityGwSelector.appendChild(option2);
         }
 
         let currentUser = null;
         let allPredictions = [];
         let allResults = {};
         let allPurchases = [];
+        let allChallenges = []; // เก็บข้อมูลเดิมพัน
         
         let userStatsGlobal = {}; 
         let userInventoryGlobal = {};
+        let currentChallengeMatchId = ""; // จำไว้ว่ากำลังท้าคู่ไหน
 
-        // ------------------ [ปรับแก้การตรวจสอบ Auth State] ------------------
         onAuthStateChanged(auth, (user) => {
             currentUser = user;
             if (user) {
@@ -356,59 +358,48 @@
                 document.getElementById('welcome-section').style.display = 'flex';
                 document.getElementById('welcome-section').style.justifyContent = 'space-between';
                 
-                // ตัดเอาเฉพาะชื่อหน้า @ มาแสดงผล
                 const displayUsername = user.email.split('@')[0];
                 document.getElementById('userEmailDisplay').innerText = displayUsername; 
                 
-                // ตรวจสอบสิทธิ์แอดมินจาก Username
                 if(displayUsername.toLowerCase() === ADMIN_USERNAME.toLowerCase()) {
                     document.getElementById('adminZone').style.display = 'block';
-                } else {
-                    document.getElementById('adminZone').style.display = 'none';
                 }
+                document.getElementById('economy-section').style.display = 'block';
+                document.getElementById('activity-section').style.display = 'block';
+                document.getElementById('inbox-section').style.display = 'block';
+                
                 updateEconomyUI(); 
+                renderInbox();
             } else {
                 document.getElementById('auth-section').style.display = 'block';
                 document.getElementById('welcome-section').style.display = 'none';
                 document.getElementById('adminZone').style.display = 'none';
                 document.getElementById('economy-section').style.display = 'none';
+                document.getElementById('activity-section').style.display = 'none';
+                document.getElementById('inbox-section').style.display = 'none';
             }
         });
 
-        // ------------------ [ปรับแก้ปุ่ม สมัคร/ล็อกอิน] ------------------
         document.getElementById('registerBtn').onclick = () => {
             let username = document.getElementById('usernameInput').value.trim();
             let password = document.getElementById('passwordInput').value;
-            
             if (!username) return alert("⚠️ กรุณากรอกชื่อผู้ใช้");
-            if (password.length < 6) return alert("⚠️ รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร");
-            
-            // นำ Username มาต่อโดเมนสมมติก่อนส่ง
             let fakeEmail = username + FAKE_DOMAIN;
-
             createUserWithEmailAndPassword(auth, fakeEmail, password)
-                .then(() => alert("สมัครสมาชิกสำเร็จ! 🎉 พร้อมลุยเลย!"))
-                .catch(err => {
-                    if(err.code === 'auth/email-already-in-use') alert("❌ ชื่อผู้ใช้นี้มีคนใช้แล้วครับ ลองตั้งชื่อใหม่ดูนะ");
-                    else alert("ข้อผิดพลาด: " + err.message);
-                });
+                .then(() => alert("สมัครสมาชิกสำเร็จ! 🎉"))
+                .catch(err => alert("ข้อผิดพลาด: " + err.message));
         };
 
         document.getElementById('loginBtn').onclick = () => {
             let username = document.getElementById('usernameInput').value.trim();
             let password = document.getElementById('passwordInput').value;
-            
             if (!username) return alert("⚠️ กรุณากรอกชื่อผู้ใช้");
-
-            let fakeEmail = username + FAKE_DOMAIN;
-
-            signInWithEmailAndPassword(auth, fakeEmail, password)
+            signInWithEmailAndPassword(auth, username + FAKE_DOMAIN, password)
                 .catch(err => alert("❌ ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง"));
         };
 
         document.getElementById('logoutBtn').onclick = () => signOut(auth);
 
-        // (โค้ดส่วนที่เหลือด้านล่าง ทำงานเหมือนเดิมทุกประการ)
         function renderMatches(gameweek) {
             const matchesContainer = document.getElementById('matchesContainer');
             const adminContainer = document.getElementById('adminMatchesContainer');
@@ -422,7 +413,6 @@
                 let matchDate = match.kickoff ? new Date(match.kickoff) : new Date("2099-01-01");
                 let isLocked = now > matchDate;
                 let disabledTag = isLocked ? "disabled" : "";
-                let lockMsg = isLocked ? "<span style='color:red; font-size:12px; font-weight:bold;'>🔒 หมดเวลาทายผล/ใช้ไอเทม</span>" : "";
 
                 matchesContainer.innerHTML += `
                     <div class="match-row">
@@ -434,18 +424,18 @@
                                 <input type="number" min="0" id="predB_${match.id}" placeholder="-" ${disabledTag}>
                             </div>
                             <div style="margin-top: 10px; width: 100%;">
-                                <select id="item_${match.id}" class="item-selector" style="width: 100%; padding: 8px; font-size: 12px; border: 2px solid var(--pl-purple); border-radius: 8px; background: #fff8e1; font-weight:bold; box-shadow: 2px 2px 0px rgba(0,0,0,0.1);" ${disabledTag}>
+                                <select id="item_${match.id}" class="item-selector" style="width: 100%; padding: 8px; font-size: 12px; border: 2px solid var(--pl-purple); border-radius: 8px;" ${disabledTag}>
                                     <option value="">-- ไม่ใช้ไอเทม --</option>
-                                    <option value="item_x2pt" data-name="🃏 การ์ดคะแนน x2">🃏 การ์ดคะแนน x2 (โหลด...)</option>
-                                    <option value="item_x3pt" data-name="🔥 การ์ดคะแนน x3">🔥 การ์ดคะแนน x3 (โหลด...)</option>
-                                    <option value="item_guard" data-name="🛡️ การ์ดการันตี 1 แต้ม">🛡️ การ์ดการันตี 1 แต้ม (โหลด...)</option>
+                                    <option value="item_x2pt" data-name="🃏 การ์ดคะแนน x2">🃏 การ์ดคะแนน x2</option>
+                                    <option value="item_x3pt" data-name="🔥 การ์ดคะแนน x3">🔥 การ์ดคะแนน x3</option>
+                                    <option value="item_guard" data-name="🛡️ การ์ดการันตี 1 แต้ม">🛡️ การ์ดการันตี 1 แต้ม</option>
                                 </select>
                             </div>
                         </div>
                         <div class="team-box" style="text-align: left;">${match.away}</div>
                         <div style="text-align:center;">
                             <button class="btn-action" ${disabledTag} onclick="savePrediction('${match.id}', ${gameweek})">บันทึก</button>
-                            <br>${lockMsg}
+                            <button class="btn-action" style="background:#ff5722; margin-top:5px; border-color:#bf360c; box-shadow: 2px 2px 0px #bf360c;" ${disabledTag} onclick="openChallengeModal('${match.id}', '${match.home} vs ${match.away}')">⚔️ ท้าเดิมพัน</button>
                         </div>
                     </div>
                 `;
@@ -468,10 +458,10 @@
             populateExistingData();
         }
 
-        document.getElementById('gwSelector').addEventListener('change', (e) => {
-            renderMatches(e.target.value);
-        });
+        document.getElementById('gwSelector').addEventListener('change', (e) => renderMatches(e.target.value));
+        document.getElementById('activityGwSelector').addEventListener('change', (e) => renderActivity(e.target.value));
 
+        // ------------------ Firebase Listeners ------------------
         onSnapshot(collection(db, "results"), (snapshot) => {
             allResults = {}; snapshot.forEach(doc => { allResults[doc.id] = doc.data(); });
             calculateLeaderboard(); populateExistingData(); 
@@ -479,7 +469,7 @@
 
         onSnapshot(collection(db, "predictions"), (snapshot) => {
             allPredictions = []; snapshot.forEach(doc => { allPredictions.push(doc.data()); });
-            calculateLeaderboard(); populateExistingData(); 
+            calculateLeaderboard(); populateExistingData(); renderActivity(activityGwSelector.value);
         });
 
         onSnapshot(collection(db, "purchases"), (snapshot) => {
@@ -487,6 +477,12 @@
             calculateLeaderboard(); 
         });
 
+        onSnapshot(collection(db, "challenges"), (snapshot) => {
+            allChallenges = []; snapshot.forEach(doc => { allChallenges.push({ id: doc.id, ...doc.data() }); });
+            calculateLeaderboard(); renderInbox();
+        });
+
+        // ------------------ Core Logic ------------------
         function populateExistingData() {
             for (let matchId in allResults) {
                 let elA = document.getElementById(`realA_${matchId}`);
@@ -499,12 +495,7 @@
                     let elA = document.getElementById(`predA_${p.match}`);
                     let elB = document.getElementById(`predB_${p.match}`);
                     let elItem = document.getElementById(`item_${p.match}`);
-                    
-                    if(elA && elB) { 
-                        elA.value = p.scoreA; 
-                        elB.value = p.scoreB; 
-                        if(elItem && p.usedItem) elItem.value = p.usedItem;
-                    }
+                    if(elA && elB) { elA.value = p.scoreA; elB.value = p.scoreB; if(elItem && p.usedItem) elItem.value = p.usedItem; }
                 });
             }
             updateEconomyUI(); 
@@ -513,19 +504,19 @@
         function calculateLeaderboard() {
             userStatsGlobal = {};
             userInventoryGlobal = {};
-            let gwScores = {}; 
-            let maxFinishedGw = 0;
-            
-            let finishedMatches = seasonFixtures.filter(m => allResults[m.id]).sort((a,b) => new Date(a.kickoff) - new Date(b.kickoff));
+            let userMatchPoints = {}; // เก็บแต้มแยกรายแมตช์ไว้ใช้คำนวณแพ้ชนะเดิมพัน
 
+            let finishedMatches = seasonFixtures.filter(m => allResults[m.id]).sort((a,b) => new Date(a.kickoff) - new Date(b.kickoff));
             let allEmails = new Set([...allPredictions.map(p => p.email), ...allPurchases.map(p => p.email)]);
+            
             allEmails.forEach(email => {
                 let user = email.split('@')[0];
-                userStatsGlobal[user] = { score: 0, coins: 0, totalCoinsEarned: 0, exact: 0, correct: 0, rankHistory: [] };
+                userStatsGlobal[user] = { score: 0, coins: 0, exact: 0 };
                 userInventoryGlobal[user] = { item_x2pt: 0, item_x3pt: 0, item_guard: 0, item_x2coin: 0 };
-                gwScores[user] = {}; 
+                userMatchPoints[user] = {};
             });
 
+            // คำนวณรายจ่ายจากการซื้อไอเทม
             allPurchases.forEach(p => {
                 let user = p.email.split('@')[0];
                 if(userInventoryGlobal[user]) {
@@ -534,8 +525,8 @@
                 }
             });
 
+            // คำนวณคะแนนจากการทายผล
             finishedMatches.forEach(match => {
-                if (match.gw > maxFinishedGw) maxFinishedGw = match.gw;
                 let actual = allResults[match.id];
                 let predsForMatch = allPredictions.filter(p => p.match === match.id);
                 
@@ -549,7 +540,7 @@
                     let isCorrectDir = (!isExact) && ((pA-pB>0 && rA-rB>0) || (pA-pB<0 && rA-rB<0) || (pA-pB===0 && rA-rB===0));
 
                     if (isExact) { pts = 3; cns = 15; userStatsGlobal[user].exact++; }
-                    else if (isCorrectDir) { pts = 1; cns = 10; userStatsGlobal[user].correct++; }
+                    else if (isCorrectDir) { pts = 1; cns = 10; }
                     else { pts = 0; cns = 5; }
 
                     let usedItem = pred.usedItem;
@@ -561,79 +552,49 @@
                     }
 
                     if (isCorrectDir && userInventoryGlobal[user]['item_x2coin'] > 0) {
-                        userInventoryGlobal[user]['item_x2coin']--; 
-                        cns *= 2; 
+                        userInventoryGlobal[user]['item_x2coin']--; cns *= 2; 
                     }
 
-                    if (!gwScores[user][match.gw]) gwScores[user][match.gw] = 0;
-                    gwScores[user][match.gw] += pts;
                     userStatsGlobal[user].score += pts;
                     userStatsGlobal[user].coins += cns; 
-                    userStatsGlobal[user].totalCoinsEarned += cns; 
+                    userMatchPoints[user][match.id] = pts; // บันทึกแต้มแมตช์นี้ไว้ตัดสินเดิมพัน
                 });
             });
 
+            // ---------------- [ใหม่: คำนวณระบบแพ้ชนะท้าเดิมพัน] ----------------
+            allChallenges.filter(c => c.status === 'accepted').forEach(challenge => {
+                // เช็คว่าเตะจบหรือยัง
+                if (finishedMatches.find(m => m.id === challenge.matchId)) {
+                    let p1Pts = userMatchPoints[challenge.challenger]?.[challenge.matchId] || 0;
+                    let p2Pts = userMatchPoints[challenge.challenged]?.[challenge.matchId] || 0;
+                    
+                    if (p1Pts > p2Pts) {
+                        // คนท้าชนะ
+                        if(userStatsGlobal[challenge.challenger]) userStatsGlobal[challenge.challenger].coins += challenge.wager;
+                        if(userStatsGlobal[challenge.challenged]) userStatsGlobal[challenge.challenged].coins -= challenge.wager;
+                    } else if (p2Pts > p1Pts) {
+                        // คนถูกท้าชนะ
+                        if(userStatsGlobal[challenge.challenged]) userStatsGlobal[challenge.challenged].coins += challenge.wager;
+                        if(userStatsGlobal[challenge.challenger]) userStatsGlobal[challenge.challenger].coins -= challenge.wager;
+                    }
+                    // ถ้าแต้มเท่ากัน (เสมอ) ไม่หักหรือเพิ่ม Coin
+                }
+            });
+
+            // สร้างตาราง Leaderboard
             let allUsers = Object.keys(userStatsGlobal);
-            let cumulativeScores = {};
-            allUsers.forEach(u => cumulativeScores[u] = 0);
-
-            for (let w = 1; w <= maxFinishedGw; w++) {
-                allUsers.forEach(u => { cumulativeScores[u] += (gwScores[u][w] || 0); });
-                let sortedForGw = [...allUsers].sort((a, b) => cumulativeScores[b] - cumulativeScores[a]);
-                allUsers.forEach(u => {
-                    let rank = sortedForGw.indexOf(u) + 1;
-                    userStatsGlobal[u].rankHistory.push(rank);
-                });
-            }
-
             let sortedUsers = allUsers.sort((a, b) => userStatsGlobal[b].score - userStatsGlobal[a].score);
             let html = "";
             
             if (sortedUsers.length === 0) {
-                html = "<tr><td colspan='4' style='color: #999;'>ยังไม่มีสถิติ (รอจบสัปดาห์แรก)</td></tr>";
+                html = "<tr><td colspan='3' style='color: #999;'>ยังไม่มีข้อมูล</td></tr>";
             } else {
                 sortedUsers.forEach((user, index) => {
                     let currentRank = index + 1;
                     let medal = currentRank === 1 ? "🥇" : currentRank === 2 ? "🥈" : currentRank === 3 ? "🥉" : currentRank;
-                    
-                    let badges = "";
-                    if (userStatsGlobal[user].exact >= 3) badges += " 🎯"; 
-                    if (userStatsGlobal[user].totalCoinsEarned >= 100) badges += " 🌟"; 
-                    if (userStatsGlobal[user].correct >= 5) badges += " 🛡️"; 
-
-                    let trendIcon = "<span class='trend-same'>➖</span>";
-                    let history = userStatsGlobal[user].rankHistory;
-                    if (history.length > 1) {
-                        let prevRank = history[history.length - 2]; 
-                        if (currentRank < prevRank) trendIcon = "<span class='trend-up'>🔼</span>"; 
-                        else if (currentRank > prevRank) trendIcon = "<span class='trend-down'>🔽</span>"; 
-                    }
-
-                    let sparklineHtml = "";
-                    if (history.length > 0) {
-                        let totalPlayers = allUsers.length;
-                        let points = history.map((r, i) => {
-                            let x = (i / Math.max(1, history.length - 1)) * 50; 
-                            let y = ((r - 1) / Math.max(1, totalPlayers - 1)) * 15; 
-                            return `${x},${y}`;
-                        }).join(" ");
-                        let lastX = 50;
-                        let lastY = ((history[history.length-1] - 1) / Math.max(1, totalPlayers - 1)) * 15;
-
-                        sparklineHtml = `
-                            <div class="sparkline">
-                                <svg>
-                                    <polyline points="${points}"></polyline>
-                                    <circle cx="${lastX}" cy="${lastY}" r="3"></circle>
-                                </svg>
-                            </div>
-                        `;
-                    }
-
                     html += `<tr>
-                                <td style="font-size:18px;">${trendIcon} ${medal}</td>
-                                <td class="player-name" onclick="showProfile('${user}')">${user.toUpperCase()} ${badges}</td>
-                                <td>${sparklineHtml}</td>
+                                <td style="font-size:18px;">${medal}</td>
+                                <td class="player-name" onclick="showProfile('${user}')">${user.toUpperCase()}</td>
                                 <td style="color: var(--pl-purple); font-size: 20px; font-weight: 900;">${userStatsGlobal[user].score}</td>
                              </tr>`;
                 });
@@ -642,48 +603,160 @@
             updateEconomyUI(); 
         }
 
-        function updateEconomyUI() {
-            if (!currentUser) {
-                document.getElementById('economy-section').style.display = 'none';
+        // ------------------ [ใหม่: ระบบเปิดเผยข้อมูลสอดแนมแบบ 100%] ------------------
+        window.renderActivity = (gw) => {
+            const container = document.getElementById('activityContainer');
+            container.innerHTML = '';
+            
+            const weeklyMatches = seasonFixtures.filter(m => m.gw === parseInt(gw));
+            if (allPredictions.length === 0) {
+                container.innerHTML = '<p style="font-size: 14px; text-align: center; color: #999;">ยังไม่มีข้อมูลการทายผล</p>';
                 return;
             }
-            document.getElementById('economy-section').style.display = 'block';
+
+            let html = '';
+            let usersWithPredictions = [...new Set(allPredictions.map(p => p.email.split('@')[0]))];
             
+            usersWithPredictions.forEach(user => {
+                let userHtml = `<div style="background: #fdf5ff; border: 2px solid #9c27b0; border-radius: 8px; padding: 15px; margin-bottom: 15px; box-shadow: 3px 3px 0px rgba(156, 39, 176, 0.2);">`;
+                userHtml += `<h4 style="color: #9c27b0; border-bottom: 2px dashed #e1bee7; padding-bottom: 5px; margin-bottom: 10px; font-weight: 800;">👤 ${user.toUpperCase()}</h4>`;
+                
+                let hasPredictionsThisWeek = false;
+                
+                weeklyMatches.forEach(match => {
+                    let pred = allPredictions.find(p => p.email.split('@')[0] === user && p.match === match.id);
+                    if (pred) {
+                        hasPredictionsThisWeek = true;
+                        
+                        let itemName = "";
+                        if(pred.usedItem === "item_x2pt") itemName = "🃏 x2";
+                        else if(pred.usedItem === "item_x3pt") itemName = "🔥 x3";
+                        else if(pred.usedItem === "item_guard") itemName = "🛡️ กันแตก";
+
+                        let itemDisplay = itemName ? `<span style="background:var(--pl-purple); color:white; padding:2px 6px; border-radius:12px; font-size:10px; font-weight:bold; margin-left:5px;">${itemName}</span>` : '';
+                        
+                        // แฉข้อมูลทั้งหมด ไม่มีการซ่อนอีกต่อไป
+                        userHtml += `<p style="font-size: 14px; margin: 8px 0; font-weight:600;">⚽ ${match.home} <span style="color:var(--pl-purple); font-size: 16px;">${pred.scoreA} - ${pred.scoreB}</span> ${match.away} ${itemDisplay}</p>`;
+                    }
+                });
+                
+                userHtml += `</div>`;
+                if (hasPredictionsThisWeek) html += userHtml;
+            });
+            
+            container.innerHTML = html === '' ? '<p style="font-size: 14px; text-align: center; color: #999;">ยังไม่มีใครส่งคำทายในสัปดาห์นี้</p>' : html;
+        };
+
+        // ------------------ [ใหม่: ระบบจัดการท้าเดิมพัน] ------------------
+        window.openChallengeModal = (matchId, matchLabel) => {
+            if (!currentUser) return alert("⚠️ กรุณาเข้าสู่ระบบก่อนครับ");
+            
+            // ป้องกันไม่ให้ท้าตัวเอง และเอาเฉพาะยูสเซอร์ที่เคยเล่นแล้วมาให้เลือก
+            let myUsername = currentUser.email.split('@')[0];
+            let otherUsers = Object.keys(userStatsGlobal).filter(u => u !== myUsername);
+            
+            if(otherUsers.length === 0) return alert("ยังไม่มีผู้เล่นอื่นในระบบเลย ชวนเพื่อนมาเล่นก่อนนะ!");
+
+            currentChallengeMatchId = matchId;
+            document.getElementById('challengeMatchLabel').innerText = matchLabel;
+            
+            let select = document.getElementById('challengeUserSelect');
+            select.innerHTML = '';
+            otherUsers.forEach(u => {
+                let opt = document.createElement('option');
+                opt.value = u;
+                opt.text = u.toUpperCase();
+                select.appendChild(opt);
+            });
+            
+            document.getElementById('challengeModal').style.display = 'flex';
+        };
+
+        window.submitChallenge = async () => {
+            let challengedUser = document.getElementById('challengeUserSelect').value;
+            let wager = parseInt(document.getElementById('challengeWager').value);
+            let challenger = currentUser.email.split('@')[0];
+
+            if (isNaN(wager) || wager <= 0) return alert("⚠️ ใส่จำนวนเงินให้ถูกต้อง");
+            
+            let myCoins = userStatsGlobal[challenger] ? userStatsGlobal[challenger].coins : 0;
+            if (myCoins < wager) return alert(`❌ คุณมีเหรียญไม่พอ (มีอยู่ ${myCoins} 💰)`);
+
+            try {
+                await addDoc(collection(db, "challenges"), {
+                    matchId: currentChallengeMatchId,
+                    challenger: challenger,
+                    challenged: challengedUser,
+                    wager: wager,
+                    status: 'pending',
+                    timestamp: new Date().getTime()
+                });
+                alert(`✅ ส่งคำท้าไปหา ${challengedUser.toUpperCase()} เรียบร้อยแล้ว!`);
+                document.getElementById('challengeModal').style.display = 'none';
+            } catch (err) { alert("เกิดข้อผิดพลาด: " + err.message); }
+        };
+
+        function renderInbox() {
+            if (!currentUser) return;
+            const container = document.getElementById('inboxContainer');
+            let myUsername = currentUser.email.split('@')[0];
+            
+            // หาคำท้าที่ยังเป็น pending และตัวเราเป็นคนถูกท้า
+            let myPendingChallenges = allChallenges.filter(c => c.challenged === myUsername && c.status === 'pending');
+            
+            if (myPendingChallenges.length === 0) {
+                container.innerHTML = '<p style="font-size: 13px; color: #999;">ไม่มีคำท้าที่รออยู่</p>';
+                return;
+            }
+
+            let html = '';
+            myPendingChallenges.forEach(c => {
+                let matchInfo = seasonFixtures.find(m => m.id === c.matchId);
+                let matchLabel = matchInfo ? `${matchInfo.home} vs ${matchInfo.away}` : c.matchId;
+                
+                html += `
+                    <div style="background: #fbe9e7; border: 2px solid #ff5722; padding: 10px; border-radius: 8px; margin-bottom: 10px;">
+                        <p style="font-size: 13px; font-weight: bold; margin-bottom: 5px;">🔥 <span style="color:#bf360c">${c.challenger.toUpperCase()}</span> ขอท้าดวล!</p>
+                        <p style="font-size: 12px; margin-bottom: 5px;">คู่: ${matchLabel} <br>เดิมพัน: 💰 <b>${c.wager}</b> เหรียญ</p>
+                        <button class="btn-primary" style="background:#4caf50; padding: 5px; font-size: 12px; border-color:#2e7d32;" onclick="acceptChallenge('${c.id}')">รับคำท้า!</button>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        window.acceptChallenge = async (challengeId) => {
+            let myUsername = currentUser.email.split('@')[0];
+            let challenge = allChallenges.find(c => c.id === challengeId);
+            
+            let myCoins = userStatsGlobal[myUsername] ? userStatsGlobal[myUsername].coins : 0;
+            if (myCoins < challenge.wager) return alert(`❌ คุณมีเหรียญไม่พอรับคำท้า (ต้องมี ${challenge.wager} 💰)`);
+
+            try {
+                const docRef = doc(db, "challenges", challengeId);
+                await updateDoc(docRef, { status: 'accepted' });
+                alert("⚔️ รับคำท้าเรียบร้อยแล้ว! วัดกันที่คะแนนเลย!");
+            } catch (err) { alert("เกิดข้อผิดพลาด: " + err.message); }
+        };
+
+        // ------------------ [ฟังก์ชันเดิม] ------------------
+        function updateEconomyUI() {
+            if (!currentUser) return;
             let user = currentUser.email.split('@')[0];
             let myStats = userStatsGlobal[user] || { coins: 0 };
-            let myInv = userInventoryGlobal[user] || { item_x2pt: 0, item_x3pt: 0, item_guard: 0, item_x2coin: 0 };
-            
             document.getElementById('userCoinsDisplay').innerText = myStats.coins;
-            document.getElementById('inv_x2pt').innerText = myInv.item_x2pt;
-            document.getElementById('inv_x3pt').innerText = myInv.item_x3pt;
-            document.getElementById('inv_guard').innerText = myInv.item_guard;
-            document.getElementById('inv_x2coin').innerText = myInv.item_x2coin;
-
-            document.querySelectorAll('.item-selector').forEach(select => {
-                let currentVal = select.value;
-                Array.from(select.options).forEach(opt => {
-                    if (opt.value === "") return;
-                    let available = myInv[opt.value] || 0;
-                    opt.text = `${opt.getAttribute('data-name')} (มี ${available})`;
-                    opt.disabled = (available <= 0 && opt.value !== currentVal);
-                });
-            });
         }
 
         window.buyItem = async (itemId, price) => {
             if (!currentUser) return alert("⚠️ เข้าสู่ระบบก่อนครับ!");
             let user = currentUser.email.split('@')[0];
             let myCoins = userStatsGlobal[user] ? userStatsGlobal[user].coins : 0;
-            
             if (myCoins < price) return alert("❌ เหรียญไม่พอครับ!");
-            if (!confirm(`ยืนยันการซื้อไอเทมนี้ราคา ${price} เหรียญ?`)) return;
-
+            if (!confirm(`ยืนยันซื้อไอเทม ${price} เหรียญ?`)) return;
             try {
-                await addDoc(collection(db, "purchases"), {
-                    email: currentUser.email, item: itemId, cost: price, timestamp: new Date().getTime()
-                });
-                alert("✅ ซื้อสำเร็จ! เช็คไอเทมได้ที่คลังส่วนตัวเลยครับ");
-            } catch (err) { alert("เกิดข้อผิดพลาด: " + err.message); }
+                await addDoc(collection(db, "purchases"), { email: currentUser.email, item: itemId, cost: price, timestamp: new Date().getTime() });
+                alert("✅ ซื้อสำเร็จ!");
+            } catch (err) { alert("ข้อผิดพลาด: " + err.message); }
         };
 
         window.savePrediction = async (matchId, gw) => {
@@ -691,93 +764,55 @@
             const scoreA = parseInt(document.getElementById(`predA_${matchId}`).value);
             const scoreB = parseInt(document.getElementById(`predB_${matchId}`).value);
             const usedItem = document.getElementById(`item_${matchId}`).value; 
-
             if (isNaN(scoreA) || isNaN(scoreB)) return alert("⚠️ กรุณากรอกสกอร์ให้ครบ");
-
             try {
-                const docId = `${currentUser.email}_${matchId}`;
-                await setDoc(doc(db, "predictions", docId), { 
-                    email: currentUser.email, match: matchId, scoreA: scoreA, scoreB: scoreB, usedItem: usedItem 
-                });
+                await setDoc(doc(db, "predictions", `${currentUser.email}_${matchId}`), { email: currentUser.email, match: matchId, scoreA, scoreB, usedItem });
                 alert("✅ บันทึกคำทายสำเร็จ!");
-            } catch (error) { alert("เกิดข้อผิดพลาด: " + error.message); }
+            } catch (error) { alert("ข้อผิดพลาด: " + error.message); }
         };
 
         window.saveRealResult = async (matchId) => {
             const scoreA = parseInt(document.getElementById(`realA_${matchId}`).value);
             const scoreB = parseInt(document.getElementById(`realB_${matchId}`).value);
-            if (isNaN(scoreA) || isNaN(scoreB)) return alert("⚠️ กรอกผลบอลจริงให้ครบ");
-            
-            await setDoc(doc(db, "results", matchId), { scoreA: scoreA, scoreB: scoreB });
-            alert("ประกาศผลเสร็จสิ้น ระบบกำลังคำนวณคะแนนใหม่!");
+            if (isNaN(scoreA) || isNaN(scoreB)) return alert("⚠️ กรอกผลจริงให้ครบ");
+            await setDoc(doc(db, "results", matchId), { scoreA, scoreB });
+            alert("ประกาศผลเสร็จสิ้น!");
         };
 
         window.showProfile = (username) => {
             const stats = userStatsGlobal[username];
             if(!stats) return;
-
-            let badges = "";
-            if (stats.exact >= 3) badges += "🎯 ";
-            if (stats.totalCoinsEarned >= 100) badges += "🌟 ";
-            if (stats.correct >= 5) badges += "🛡️ ";
-            if (badges === "") badges = "ไม่มีเหรียญตรา (สู้เขานะ!)";
-
             document.getElementById('modalEmail').innerText = username.toUpperCase();
-            document.getElementById('modalBadges').innerText = badges;
             document.getElementById('modalPts').innerText = stats.score;
-            document.getElementById('modalCoins').innerText = stats.totalCoinsEarned; 
             document.getElementById('modalExact').innerText = stats.exact;
-            document.getElementById('modalCorrect').innerText = stats.correct;
-
             document.getElementById('profileModal').style.display = 'flex';
         }
 
-        // ------------------ [อัปเดตระบบแชท & ดักจับข้อผิดพลาด] ------------------
         document.getElementById('sendChatBtn').addEventListener('click', async () => {
-            if (!currentUser) return alert("⚠️ เข้าสู่ระบบก่อนพิมพ์แชทครับ");
+            if (!currentUser) return alert("⚠️ เข้าสู่ระบบก่อนครับ");
             const msg = document.getElementById('chatInput').value;
             if (msg.trim() === "") return;
-
             try {
-                // พิมพ์ข้อความลง Database
-                await addDoc(collection(db, "chats"), {
-                    sender: currentUser.email.split('@')[0],
-                    text: msg,
-                    timestamp: new Date().getTime()
-                });
+                await addDoc(collection(db, "chats"), { sender: currentUser.email.split('@')[0], text: msg, timestamp: new Date().getTime() });
                 document.getElementById('chatInput').value = ""; 
-            } catch (err) { 
-                console.error("Chat error: ", err); 
-                alert("❌ ส่งข้อความไม่ได้: " + err.message);
-            }
+            } catch (err) { alert("❌ ส่งไม่ได้: " + err.message); }
         });
 
-        // ดึงข้อความแชทแบบ Real-time พร้อมดักจับ Error สิทธิ์การเข้าถึง
         onSnapshot(collection(db, "chats"), (snapshot) => {
-            let messages = [];
-            snapshot.forEach(doc => messages.push(doc.data()));
-            
-            // เรียงลำดับข้อความตามเวลา (เก่าไปใหม่)
+            let messages = []; snapshot.forEach(doc => messages.push(doc.data()));
             messages.sort((a, b) => a.timestamp - b.timestamp);
-            
             let chatHtml = "";
             messages.forEach(m => {
                 let timeStr = new Date(m.timestamp).toLocaleTimeString('th-TH', {hour: '2-digit', minute:'2-digit'});
                 chatHtml += `<div class="chat-msg"><span class="chat-name">${m.sender}:</span> ${m.text} <div class="chat-time">(${timeStr})</div></div>`;
             });
-            
             const chatBox = document.getElementById('chatContainer');
-            chatBox.innerHTML = chatHtml;
-            chatBox.scrollTop = chatBox.scrollHeight; // เลื่อนแถบแชทลงมาล่างสุดอัตโนมัติ
-            
-        }, (error) => {
-            // โค้ดส่วนนี้จะทำงานถ้า Firebase Rules บล็อกการมองเห็น
-            console.error("Firebase Snapshot Error: ", error);
-            document.getElementById('chatContainer').innerHTML = `<p style="color:red; font-size:12px; text-align:center;">❌ ไม่สามารถโหลดแชทได้<br>(กรุณาตรวจสอบ Firebase Security Rules)</p>`;
+            chatBox.innerHTML = chatHtml; chatBox.scrollTop = chatBox.scrollHeight; 
         });
 
         renderMatches(maxGw);
         document.getElementById('gwSelector').value = maxGw;
+        document.getElementById('activityGwSelector').value = maxGw;
     </script>
 </body>
 </html>
