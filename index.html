@@ -92,7 +92,6 @@
         .btn-action { background-color: #0288d1; color: white; width: auto; padding: 8px 15px; font-size: 14px; border-width: 2px; box-shadow: 3px 3px 0px var(--text-main);}
         .btn-danger { background-color: #ff4d4d; color: white; margin-top: 15px; }
 
-        /* แก้ปัญหา UI ตกบรรทัด (Layout Fix) */
         .match-row { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 2px dashed #eee; flex-wrap: wrap; gap: 15px; position: relative;}
         .match-row:last-child { border-bottom: none; }
         .match-teams-wrapper { display: flex; flex: 1; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: nowrap; min-width: 300px; }
@@ -119,9 +118,15 @@
         .admin-zone { border-color: #ffb74d; background-color: #fff8e1; display: none; box-shadow: 6px 6px 0px var(--text-main);} 
         
         .chat-container { height: 250px; overflow-y: scroll; border: 3px solid var(--text-main); padding: 15px; margin-bottom: 15px; background: #fff; border-radius: 12px; box-shadow: inset 3px 3px 0px rgba(0,0,0,0.05);}
-        .chat-msg { margin-bottom: 10px; font-size: 14px; background: #f0f8ff; padding: 8px 12px; border-radius: 12px; border: 2px solid var(--text-main); display: inline-block; width: 100%; box-shadow: 2px 2px 0px var(--text-main);}
+        .chat-msg { margin-bottom: 10px; font-size: 14px; padding: 8px 12px; border-radius: 12px; border: 2px solid var(--text-main); display: inline-block; width: 100%; box-shadow: 2px 2px 0px var(--text-main);}
+        
+        .chat-default { background: #f0f8ff; }
+        .chat-gold { background: #ffecb3; border-color: #ff8f00; }
+        .chat-neon { background: #b2ff59; border-color: #1b5e20; }
+        
         .chat-name { font-weight: 800; color: var(--pl-purple); }
         .chat-time { font-size: 11px; color: #666; float: right; margin-top: 3px;}
+        .title-badge { font-size: 10px; background: var(--text-main); color: #fff; padding: 2px 6px; border-radius: 6px; margin-right: 5px; vertical-align: middle;}
         
         .modal-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:1000; justify-content:center; align-items:center; backdrop-filter: blur(3px);}
         .shop-item { border: 2px solid var(--text-main); padding: 10px; border-radius: 8px; text-align: center; background: #fff; box-shadow: 3px 3px 0px var(--text-main); display: flex; flex-direction: column; justify-content: space-between;}
@@ -139,13 +144,22 @@
         .badge { margin-left: 5px; font-size: 16px; cursor: help; }
         .sparkline-container { display: flex; align-items: flex-end; gap: 2px; height: 20px; width: 40px; margin-left: auto; border-bottom: 2px solid var(--text-main); padding-bottom: 1px;}
         .spark-bar { width: 6px; background-color: var(--pl-purple); border: 1px solid var(--text-main); border-bottom: none; border-radius: 2px 2px 0 0;}
+
+        /* แจ้งเตือน Brutalist Toast */
+        #toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; pointer-events: none;}
+        .toast { pointer-events: auto; padding: 12px 20px; border: 3px solid var(--text-main); border-radius: 8px; font-weight: 800; font-size: 14px; box-shadow: 4px 4px 0px var(--text-main); background: #fff; animation: slideIn 0.3s ease-out; cursor: pointer; color: var(--text-main); display: flex; align-items: center; gap: 10px;}
+        .toast.success { background-color: var(--pl-green); }
+        .toast.error { background-color: #ff4d4d; color: white; }
+        .toast.info { background-color: #0288d1; color: white; }
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes slideOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(100%); opacity: 0; } }
     </style>
 </head>
 <body>
+    <div id="toast-container"></div>
 
     <header><h1>🏆 อย่านอนใกล้คนหลายใจ</h1></header>
     
-    <!-- 📰 แถบข่าววิ่ง Ticker -->
     <div class="marquee-container">
         <span style="background:var(--pl-purple); color:white; padding:2px 8px; border-radius:6px; margin-right:10px; border:2px solid var(--text-main);">LIVE NEWS</span>
         <marquee id="newsTicker" behavior="scroll" direction="left" scrollamount="6">
@@ -193,7 +207,7 @@
                 <div id="mvpShowcaseContainer">กำลังโหลดข้อมูล MVP...</div>
             </div>
 
-            <!-- 🎁 กล่องสุ่มรางวัลรายวัน (ย้ายออกมาเป็น Card เดี่ยวๆ ให้เห็นชัดเจน) -->
+            <!-- 🎁 กล่องสุ่มรางวัลรายวัน -->
             <div class="card" id="daily-reward-section" style="display: none; background: #fff3e0; border-color: #ff9800; box-shadow: 6px 6px 0px #ff9800; text-align: center;">
                 <h2 style="color: #e65100; border-bottom: 3px dashed #ff9800; justify-content: center; margin-bottom: 10px;">🎁 กล่องสุ่มโชครายวัน</h2>
                 <p style="font-size: 13px; color: #666; margin-bottom: 15px; font-weight: bold;">กดรับเหรียญหรือไอเทมฟรีได้วันละ 1 ครั้ง!</p>
@@ -217,7 +231,7 @@
                     </span>
                 </h2>
                 
-                <h3 style="font-size: 16px; margin: 15px 0 10px;">🏪 ร้านค้า (Shop)</h3>
+                <h3 style="font-size: 16px; margin: 15px 0 10px;">🏪 ไอเทมตัวช่วย (Power-ups)</h3>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 10px;">
                     <div class="shop-item">
                         <h4 style="font-weight: 800; font-size: 13px;">🃏 การ์ด x2</h4>
@@ -234,6 +248,27 @@
                     <div class="shop-item">
                         <h4 style="font-weight: 800; font-size: 13px;">🪙 Coin x2</h4>
                         <button class="btn-action" onclick="buyItem('item_x2coin', 40)" style="width:100%; background:#ffc107; color:#000; padding: 5px; font-size: 12px;">ซื้อ 40 💰</button>
+                    </div>
+                </div>
+
+                <h3 style="font-size: 16px; margin: 20px 0 10px; border-top: 2px dashed #eee; padding-top: 15px;">💎 ตกแต่งโปรไฟล์ (Cosmetics)</h3>
+                <p style="font-size: 12px; color:#666; margin-bottom:10px;">*ซื้อแล้วจะแสดงผลในตารางคะแนนและห้องแชทอัตโนมัติ</p>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px;">
+                    <div class="shop-item" style="background:#f3e5f5; border-color:#8e24aa;">
+                        <h4 style="font-weight: 800; font-size: 13px;">🏷️ [เซียนล้มโต๊ะ]</h4>
+                        <button class="btn-action" onclick="buyCosmetic('title', '[เซียนล้มโต๊ะ]', 200, 'ฉายาเซียนล้มโต๊ะ')" style="width:100%; background:#8e24aa; padding: 5px; font-size: 12px;">ซื้อ 200 💰</button>
+                    </div>
+                    <div class="shop-item" style="background:#fff3e0; border-color:#e65100;">
+                        <h4 style="font-weight: 800; font-size: 13px;">🏷️ [สายสวน]</h4>
+                        <button class="btn-action" onclick="buyCosmetic('title', '[สายสวน]', 100, 'ฉายาสายสวน')" style="width:100%; background:#e65100; padding: 5px; font-size: 12px;">ซื้อ 100 💰</button>
+                    </div>
+                    <div class="shop-item" style="background:#fff8e1; border-color:#ffb300;">
+                        <h4 style="font-weight: 800; font-size: 13px;">🎨 แชทสีทอง</h4>
+                        <button class="btn-action" onclick="buyCosmetic('color', 'gold', 300, 'กรอบแชทสีทอง')" style="width:100%; background:#ffb300; color:#000; padding: 5px; font-size: 12px;">ซื้อ 300 💰</button>
+                    </div>
+                    <div class="shop-item" style="background:#f1f8e9; border-color:#689f38;">
+                        <h4 style="font-weight: 800; font-size: 13px;">🎨 แชทนีออน</h4>
+                        <button class="btn-action" onclick="buyCosmetic('color', 'neon', 300, 'กรอบแชทนีออน')" style="width:100%; background:#689f38; color:#fff; padding: 5px; font-size: 12px;">ซื้อ 300 💰</button>
                     </div>
                 </div>
 
@@ -354,27 +389,38 @@
         const db = getFirestore(app);
         const auth = getAuth(app);
 
+        // 🔔 ระบบแจ้งเตือน Toasts
+        window.showToast = (msg, type = 'success') => {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            let icon = type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️';
+            toast.innerHTML = `<span>${icon}</span> <span>${msg}</span>`;
+            container.appendChild(toast);
+            
+            toast.onclick = () => { toast.style.animation = 'slideOut 0.3s ease-in forwards'; setTimeout(()=>toast.remove(), 300); };
+            setTimeout(() => { if (toast.parentElement) { toast.style.animation = 'slideOut 0.3s ease-in forwards'; setTimeout(() => toast.remove(), 300); } }, 4000);
+        };
+
+        // 🔊 ระบบเสียง (Sound Effects)
+        const sounds = {
+            kaching: new Audio('https://actions.google.com/sounds/v1/foley/cash_register_kaching.ogg'),
+            sword: new Audio('https://actions.google.com/sounds/v1/weapons/swords_clashing.ogg'),
+            whistle: new Audio('https://actions.google.com/sounds/v1/sports/football_whistle.ogg')
+        };
+        window.playSound = (type) => {
+            if(sounds[type]) {
+                sounds[type].currentTime = 0; 
+                sounds[type].play().catch(e=>console.log("Audio play blocked by browser:", e));
+            }
+        };
+
         const teamData = {
-            "Arsenal": { logoUrl: "./images/arsenal.png" },
-            "Aston Villa": { logoUrl: "./images/astonvilla.png" },
-            "Bournemouth": { logoUrl: "./images/bournemouth.png" },
-            "Brentford": { logoUrl: "./images/brentford.png" },
-            "Brighton": { logoUrl: "./images/brighton.png" },
-            "Chelsea": { logoUrl: "./images/chelsea.png" },
-            "Coventry City": { logoUrl: "./images/coventry.png" },
-            "Crystal Palace": { logoUrl: "./images/crystalpalace.png" },
-            "Everton": { logoUrl: "./images/everton.png" },
-            "Fulham": { logoUrl: "./images/fulham.png" },
-            "Hull City": { logoUrl: "./images/hullcity.png" },
-            "Ipswich Town": { logoUrl: "./images/ipswich.png" },
-            "Leeds United": { logoUrl: "./images/leeds.png" },
-            "Liverpool": { logoUrl: "./images/liverpool.png" },
-            "Man City": { logoUrl: "./images/mancity.png" },
-            "Man Utd": { logoUrl: "./images/manutd.png" },
-            "Newcastle": { logoUrl: "./images/newcastle.png" },
-            "Nott'm Forest": { logoUrl: "./images/forest.png" },
-            "Sunderland": { logoUrl: "./images/sunderland.png" },
-            "Tottenham": { logoUrl: "./images/tottenham.png" }
+            "Arsenal": { logoUrl: "./images/arsenal.png" }, "Aston Villa": { logoUrl: "./images/astonvilla.png" }, "Bournemouth": { logoUrl: "./images/bournemouth.png" }, "Brentford": { logoUrl: "./images/brentford.png" },
+            "Brighton": { logoUrl: "./images/brighton.png" }, "Chelsea": { logoUrl: "./images/chelsea.png" }, "Coventry City": { logoUrl: "./images/coventry.png" }, "Crystal Palace": { logoUrl: "./images/crystalpalace.png" },
+            "Everton": { logoUrl: "./images/everton.png" }, "Fulham": { logoUrl: "./images/fulham.png" }, "Hull City": { logoUrl: "./images/hullcity.png" }, "Ipswich Town": { logoUrl: "./images/ipswich.png" },
+            "Leeds United": { logoUrl: "./images/leeds.png" }, "Liverpool": { logoUrl: "./images/liverpool.png" }, "Man City": { logoUrl: "./images/mancity.png" }, "Man Utd": { logoUrl: "./images/manutd.png" },
+            "Newcastle": { logoUrl: "./images/newcastle.png" }, "Nott'm Forest": { logoUrl: "./images/forest.png" }, "Sunderland": { logoUrl: "./images/sunderland.png" }, "Tottenham": { logoUrl: "./images/tottenham.png" }
         };
 
        const seasonFixtures = [
@@ -418,7 +464,7 @@
             { id: "GW5_NFO_COV", gw: 5, home: "Nott'm Forest", away: "Coventry City", kickoff: "2026-09-19T23:30:00" },
             { id: "GW5_BOU_LIV", gw: 5, home: "Bournemouth", away: "Liverpool", kickoff: "2026-09-20T20:00:00" },
             { id: "GW5_FUL_MUN", gw: 5, home: "Fulham", away: "Man Utd", kickoff: "2026-09-20T22:30:00" },
-                        { id: "GW6_ARS_LEE", gw: 6, home: "Arsenal", away: "Leeds United", kickoff: "2026-10-10T18:30:00" },
+            { id: "GW6_ARS_LEE", gw: 6, home: "Arsenal", away: "Leeds United", kickoff: "2026-10-10T18:30:00" },
             { id: "GW6_AVL_BRE", gw: 6, home: "Aston Villa", away: "Brentford", kickoff: "2026-10-10T21:00:00" },
             { id: "GW6_CHE_BOU", gw: 6, home: "Chelsea", away: "Bournemouth", kickoff: "2026-10-10T21:00:00" },
             { id: "GW6_IPS_FUL", gw: 6, home: "Ipswich Town", away: "Fulham", kickoff: "2026-10-10T21:00:00" },
@@ -476,7 +522,9 @@
         const lbModeSelector = document.getElementById('lbModeSelector'); 
 
         let maxGw = seasonFixtures.reduce((max, match) => Math.max(max, match.gw), 1) || 1;
-        for(let i=1; i<=maxGw; i++) {
+        // ปรับให้ Dropdown เริ่มแสดงที่ GW2 เป็นต้นไป (เพื่อซ่อน GW1 แต่ยังคงเก็บข้อมูลดิบไว้คิดคะแนน)
+        let startGw = 2; 
+        for(let i=startGw; i<=maxGw; i++) {
             let option = document.createElement('option');
             option.value = i; option.text = `Matchweek ${i}`;
             gwSelector.appendChild(option);
@@ -496,6 +544,8 @@
         let allPurchases = [];
         let allChallenges = []; 
         let allDailyRewards = [];
+        let allUserProfiles = {}; // 💎 สำหรับเก็บข้อมูลโปรไฟล์ (ฉายา/สีแชท)
+        let allChats = []; // เก็บข้อความแชทเพื่อเรนเดอร์ใหม่
         
         let userStatsGlobal = {}; 
         let userInventoryGlobal = {};
@@ -521,8 +571,6 @@
             currentUser = user;
             if (user) {
                 document.getElementById('auth-section').style.display = 'none';
-                
-                // ควบคุมการแสดงผล Card หลักเมื่อล็อกอิน
                 ['welcome-section', 'mvp-section', 'daily-reward-section', 'economy-section', 'activity-section', 'inbox-section'].forEach(id => {
                     let el = document.getElementById(id);
                     if(el) el.style.display = (id==='welcome-section'?'flex':'block');
@@ -535,8 +583,7 @@
                     document.getElementById('adminZone').style.display = 'block';
                 }
                 
-                updateEconomyUI(); 
-                renderInbox();
+                updateEconomyUI(); renderInbox();
             } else {
                 document.getElementById('auth-section').style.display = 'block';
                 ['welcome-section', 'adminZone', 'mvp-section', 'daily-reward-section', 'economy-section', 'activity-section', 'inbox-section'].forEach(id => {
@@ -549,22 +596,22 @@
         document.getElementById('registerBtn').onclick = () => {
             let username = document.getElementById('usernameInput').value.trim();
             let password = document.getElementById('passwordInput').value;
-            if (!username) return alert("⚠️ กรุณากรอกชื่อผู้ใช้");
+            if (!username) return showToast("⚠️ กรุณากรอกชื่อผู้ใช้", "error");
             let fakeEmail = username + FAKE_DOMAIN;
             createUserWithEmailAndPassword(auth, fakeEmail, password)
-                .then(() => alert("สมัครสมาชิกสำเร็จ! 🎉"))
-                .catch(err => alert("ข้อผิดพลาด: " + err.message));
+                .then(() => showToast("สมัครสมาชิกสำเร็จ! 🎉", "success"))
+                .catch(err => showToast("ข้อผิดพลาด: " + err.message, "error"));
         };
 
         document.getElementById('loginBtn').onclick = () => {
             let username = document.getElementById('usernameInput').value.trim();
             let password = document.getElementById('passwordInput').value;
-            if (!username) return alert("⚠️ กรุณากรอกชื่อผู้ใช้");
+            if (!username) return showToast("⚠️ กรุณากรอกชื่อผู้ใช้", "error");
             signInWithEmailAndPassword(auth, username + FAKE_DOMAIN, password)
-                .catch(err => alert("❌ ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง"));
+                .catch(err => showToast("❌ ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง", "error"));
         };
 
-        document.getElementById('logoutBtn').onclick = () => signOut(auth);
+        document.getElementById('logoutBtn').onclick = () => { signOut(auth); showToast("ออกจากระบบแล้ว", "info"); };
 
         function renderMatches(gameweek) {
             const matchesContainer = document.getElementById('matchesContainer');
@@ -587,7 +634,6 @@
                 let homeLogo = `<img class="team-logo-img" src="${homeTeamInfo.logoUrl}" alt="${match.home}" title="${match.home}">`;
                 let awayLogo = `<img class="team-logo-img" src="${awayTeamInfo.logoUrl}" alt="${match.away}" title="${match.away}">`;
 
-                // โครงสร้างที่แก้ให้ไม่ตกบรรทัด
                 matchesContainer.innerHTML += `
                     <div class="match-row" id="matchRow_${match.id}">
                         <div class="match-teams-wrapper">
@@ -597,7 +643,6 @@
                                 </div>
                                 <div id="formHome_${match.id}" class="form-container"></div>
                             </div>
-
                             <div class="score-box">
                                 <div style="display:flex; justify-content:center; align-items:center; gap:5px; width:100%;">
                                     <input type="number" min="0" id="predA_${match.id}" placeholder="-" ${disabledTag} style="width:48px; height:48px;">
@@ -613,7 +658,6 @@
                                     </select>
                                 </div>
                             </div>
-
                             <div class="team-box away">
                                 <div style="display:flex; align-items:center; justify-content:flex-start; gap:8px; width:100%;">
                                     ${awayLogo} <span>${match.away}</span>
@@ -621,7 +665,6 @@
                                 <div id="formAway_${match.id}" class="form-container"></div>
                             </div>
                         </div>
-
                         <div class="match-action-box">
                             <button class="btn-action" style="width:100%; padding: 8px;" ${disabledTag} onclick="savePrediction('${match.id}', ${gameweek})">บันทึก</button>
                             <button class="btn-action" style="background:#ff5722; width:100%; padding: 8px; border-color:#bf360c; box-shadow: 2px 2px 0px var(--text-main);" ${disabledTag} onclick="openChallengeModal('${match.id}')">⚔️ ท้าดวล</button>
@@ -651,49 +694,38 @@
         document.getElementById('activityGwSelector').addEventListener('change', (e) => renderActivity(e.target.value));
         document.getElementById('lbModeSelector').addEventListener('change', () => renderLeaderboardUI()); 
 
-        onSnapshot(collection(db, "results"), (snapshot) => {
-            allResults = {}; snapshot.forEach(doc => { allResults[doc.id] = doc.data(); });
-            calculateLeaderboard(); populateExistingData(); updateTicker();
-        });
-        onSnapshot(collection(db, "predictions"), (snapshot) => {
-            allPredictions = []; snapshot.forEach(doc => { allPredictions.push(doc.data()); });
-            calculateLeaderboard(); populateExistingData(); renderActivity(activityGwSelector.value); updateTicker();
-        });
-        onSnapshot(collection(db, "purchases"), (snapshot) => {
-            allPurchases = []; snapshot.forEach(doc => { allPurchases.push(doc.data()); });
-            calculateLeaderboard(); 
-        });
-        onSnapshot(collection(db, "dailyRewards"), (snapshot) => {
-            allDailyRewards = []; snapshot.forEach(doc => { allDailyRewards.push(doc.data()); });
-            calculateLeaderboard(); 
-        });
-        onSnapshot(collection(db, "challenges"), (snapshot) => {
-            allChallenges = []; snapshot.forEach(doc => { allChallenges.push({ id: doc.id, ...doc.data() }); });
-            calculateLeaderboard(); renderInbox(); populateExistingData(); updateTicker();
+        // Listeners ต่างๆ
+        onSnapshot(collection(db, "results"), (snapshot) => { allResults = {}; snapshot.forEach(doc => { allResults[doc.id] = doc.data(); }); calculateLeaderboard(); populateExistingData(); updateTicker(); });
+        onSnapshot(collection(db, "predictions"), (snapshot) => { allPredictions = []; snapshot.forEach(doc => { allPredictions.push(doc.data()); }); calculateLeaderboard(); populateExistingData(); renderActivity(activityGwSelector.value); updateTicker(); });
+        onSnapshot(collection(db, "purchases"), (snapshot) => { allPurchases = []; snapshot.forEach(doc => { allPurchases.push(doc.data()); }); calculateLeaderboard(); });
+        onSnapshot(collection(db, "dailyRewards"), (snapshot) => { allDailyRewards = []; snapshot.forEach(doc => { allDailyRewards.push(doc.data()); }); calculateLeaderboard(); });
+        onSnapshot(collection(db, "challenges"), (snapshot) => { allChallenges = []; snapshot.forEach(doc => { allChallenges.push({ id: doc.id, ...doc.data() }); }); calculateLeaderboard(); renderInbox(); populateExistingData(); updateTicker(); });
+        onSnapshot(collection(db, "userProfiles"), (snapshot) => { allUserProfiles = {}; snapshot.forEach(doc => { allUserProfiles[doc.id] = doc.data(); }); renderLeaderboardUI(); renderChatUI(); });
+        onSnapshot(collection(db, "chats"), (snapshot) => { 
+            let messages = []; snapshot.forEach(doc => messages.push(doc.data()));
+            let now = new Date().getTime(); let dayMs = 24 * 60 * 60 * 1000;
+            allChats = messages.filter(m => (now - m.timestamp) <= dayMs).sort((a, b) => a.timestamp - b.timestamp);
+            renderChatUI(); 
         });
 
         function populateExistingData() {
             let currentGwMatches = seasonFixtures.filter(m => m.gw === parseInt(document.getElementById('gwSelector').value));
 
             for (let matchId in allResults) {
-                let elA = document.getElementById(`realA_${matchId}`);
-                let elB = document.getElementById(`realB_${matchId}`);
+                let elA = document.getElementById(`realA_${matchId}`), elB = document.getElementById(`realB_${matchId}`);
                 if(elA && elB) { elA.value = allResults[matchId].scoreA; elB.value = allResults[matchId].scoreB; }
             }
             if (currentUser) {
                 let userPreds = allPredictions.filter(p => p.email === currentUser.email);
                 userPreds.forEach(p => {
-                    let elA = document.getElementById(`predA_${p.match}`);
-                    let elB = document.getElementById(`predB_${p.match}`);
-                    let elItem = document.getElementById(`item_${p.match}`);
+                    let elA = document.getElementById(`predA_${p.match}`), elB = document.getElementById(`predB_${p.match}`), elItem = document.getElementById(`item_${p.match}`);
                     if(elA && elB) { elA.value = p.scoreA; elB.value = p.scoreB; if(elItem && p.usedItem) elItem.value = p.usedItem; }
                 });
             }
             
             currentGwMatches.forEach(m => {
                 const genFormHTML = (arr) => arr.map(f => `<span class="form-tag form-${f.toLowerCase()}">${f}</span>`).join('');
-                let fHome = document.getElementById(`formHome_${m.id}`);
-                let fAway = document.getElementById(`formAway_${m.id}`);
+                let fHome = document.getElementById(`formHome_${m.id}`), fAway = document.getElementById(`formAway_${m.id}`);
                 if(fHome) fHome.innerHTML = genFormHTML(getTeamForm(m.home));
                 if(fAway) fAway.innerHTML = genFormHTML(getTeamForm(m.away));
 
@@ -710,7 +742,7 @@
 
         function calculateLeaderboard() {
             userStatsGlobal = {}; userInventoryGlobal = {}; gwScoresGlobal = {}; userMatchPointsGlobal = {}; 
-            let finishedMatches = seasonFixtures.filter(m => allResults[m.id]).sort((a,b) => new Date(a.kickoff) - new Date(b.kickoff));
+            let finishedMatches = seasonFixtures.filter(m => allResults[m.id]);
             let allEmails = new Set([...allPredictions.map(p => p.email), ...allPurchases.map(p => p.email), ...allDailyRewards.map(d => d.email)]);
             
             allEmails.forEach(email => {
@@ -776,12 +808,7 @@
         window.renderLeaderboardUI = () => {
             let mode = document.getElementById('lbModeSelector').value;
             let allUsers = Object.keys(userStatsGlobal);
-            let sortedUsers = [];
-            if (mode === 'total') sortedUsers = allUsers.sort((a, b) => userStatsGlobal[b].score - userStatsGlobal[a].score);
-            else {
-                let gw = parseInt(mode);
-                sortedUsers = allUsers.sort((a, b) => (gwScoresGlobal[b][gw] || 0) - (gwScoresGlobal[a][gw] || 0));
-            }
+            let sortedUsers = mode === 'total' ? allUsers.sort((a, b) => userStatsGlobal[b].score - userStatsGlobal[a].score) : allUsers.sort((a, b) => (gwScoresGlobal[b][parseInt(mode)] || 0) - (gwScoresGlobal[a][parseInt(mode)] || 0));
 
             let html = "";
             if (sortedUsers.length === 0) html = "<tr><td colspan='3' style='color: #999;'>ยังไม่มีข้อมูลการแข่งขัน</td></tr>";
@@ -793,6 +820,9 @@
                     let badges = "";
                     if (userStatsGlobal[user].exact >= 3) badges += `<span class="badge" title="🎯 แม่นเป๊ะ (ทายถูก 3 คู่ขึ้นไป)">🎯</span>`;
                     if (userStatsGlobal[user].coins >= 100) badges += `<span class="badge" title="🤑 เศรษฐี (มีเหรียญเกิน 100)">🤑</span>`;
+
+                    // 💎 ดึงฉายา (Title) มาแสดงในตารางคะแนน
+                    let profileTitle = allUserProfiles[user]?.title ? `<span class="title-badge">${allUserProfiles[user].title}</span>` : "";
 
                     let sparkHtml = "";
                     if (mode === 'total') {
@@ -807,7 +837,9 @@
                     }
                     html += `<tr>
                                 <td style="font-size:18px;">${medal}</td>
-                                <td class="player-name" onclick="showProfile('${user}')">${user.toUpperCase()} ${badges} ${sparkHtml}</td>
+                                <td class="player-name" onclick="showProfile('${user}')">
+                                    ${profileTitle}${user.toUpperCase()} ${badges} ${sparkHtml}
+                                </td>
                                 <td style="color: var(--pl-purple); font-size: 20px; font-weight: 900;">${displayPoints}</td>
                              </tr>`;
                 });
@@ -826,12 +858,13 @@
             let topUser = allUsers.sort((a, b) => userStatsGlobal[b].score - userStatsGlobal[a].score)[0];
             let topScore = userStatsGlobal[topUser]?.score || 0;
             let topExact = userStatsGlobal[topUser]?.exact || 0;
+            let profileTitle = allUserProfiles[topUser]?.title ? `<span class="title-badge" style="font-size:12px;">${allUserProfiles[topUser].title}</span>` : "";
 
             mvpBox.innerHTML = `
                 <div style="display:flex; align-items:center; justify-content:space-between;">
                     <div>
                         <div style="font-size:12px; font-weight:900; color:#b78103;">👑 ผู้เล่นฟอร์มเดือดสุด (MVP)</div>
-                        <div style="font-size:18px; font-weight:900; color:var(--pl-purple); cursor:pointer;" onclick="showProfile('${topUser}')">🌟 ${topUser.toUpperCase()}</div>
+                        <div style="font-size:18px; font-weight:900; color:var(--pl-purple); cursor:pointer;" onclick="showProfile('${topUser}')">🌟 ${profileTitle}${topUser.toUpperCase()}</div>
                     </div>
                     <div style="text-align:right;">
                         <span style="background:var(--pl-purple); color:var(--pl-green); padding:4px 10px; border-radius:12px; font-weight:900; font-size:15px; border:2px solid var(--text-main); box-shadow:2px 2px 0px var(--text-main);">
@@ -848,7 +881,6 @@
             let allUsers = Object.keys(userStatsGlobal);
             let topUser = allUsers.sort((a,b) => userStatsGlobal[b].score - userStatsGlobal[a].score)[0] || "-";
             let topScore = userStatsGlobal[topUser]?.score || 0;
-            
             let tickerText = `🔥 มีคำท้าดวลรอตอบรับ ${activeChallCount} รายการ | 🏆 จ่าฝูงตาราง: ${topUser.toUpperCase()} (${topScore} PTS) | ⚽ แข่งขันจบไปแล้ว ${finishedCount}/50 แมตช์ | 💬 ห้องแชทจะลบข้อความเก่าเกิน 24 ชม. อัตโนมัติ | 🎁 อย่าลืมกดรับกล่องสุ่มฟรีรายวัน!`;
             const tickerEl = document.getElementById('newsTickerText');
             if (tickerEl) tickerEl.innerText = tickerText;
@@ -862,14 +894,12 @@
                 container.innerHTML = '<p style="font-size: 14px; text-align: center; color: #999;">ยังไม่มีข้อมูลการทายผล</p>';
                 return;
             }
-
             let html = '';
             let usersWithPredictions = [...new Set(allPredictions.map(p => p.email.split('@')[0]))];
             usersWithPredictions.forEach(user => {
                 let userHtml = `<div style="background: #e0f7fa; border: 2px solid #00838f; border-radius: 8px; padding: 15px; margin-bottom: 15px; box-shadow: 3px 3px 0px rgba(0, 131, 143, 0.2);">`;
                 userHtml += `<h4 style="color: #00838f; border-bottom: 2px dashed #b2ebf2; padding-bottom: 5px; margin-bottom: 10px; font-weight: 800;">👤 ${user.toUpperCase()}</h4>`;
                 let hasPredictionsThisWeek = false;
-                
                 weeklyMatches.forEach(match => {
                     let pred = allPredictions.find(p => p.email.split('@')[0] === user && p.match === match.id);
                     if (pred) {
@@ -892,7 +922,6 @@
             if (!currentUser || !opponent) return;
             let myUsername = currentUser.email.split('@')[0];
             let duels = allChallenges.filter(c => c.status === 'accepted' && ((c.challenger === myUsername && c.challenged === opponent) || (c.challenger === opponent && c.challenged === myUsername)));
-            
             let finishedMatches = seasonFixtures.filter(m => allResults[m.id]);
             let myWins = 0, oppWins = 0, draws = 0;
             
@@ -905,20 +934,16 @@
                     if (myPts > oppPts) myWins++; else if (oppPts > myPts) oppWins++; else draws++;
                 }
             });
-            
             const el = document.getElementById('h2hStatsBox');
-            if (el) {
-                el.innerHTML = `⚔️ <b>สถิติ H2H พบ ${opponent.toUpperCase()}</b><br>ชนะ <b style="color:#2e7d32;">${myWins}</b> | เสมอ <b style="color:#666;">${draws}</b> | แพ้ <b style="color:#c62828;">${oppWins}</b> (ดวลแล้ว ${myWins + draws + oppWins} ครั้ง)`;
-            }
+            if (el) el.innerHTML = `⚔️ <b>สถิติ H2H พบ ${opponent.toUpperCase()}</b><br>ชนะ <b style="color:#2e7d32;">${myWins}</b> | เสมอ <b style="color:#666;">${draws}</b> | แพ้ <b style="color:#c62828;">${oppWins}</b> (ดวลแล้ว ${myWins + draws + oppWins} ครั้ง)`;
         }
 
-        // แก้ปัญหาปุ่มท้าดวล (ส่งค่าแค่ MatchId ป้องกัน Syntax Error จากเครื่องหมาย ')
         window.openChallengeModal = (matchId) => {
-            if (!currentUser) return alert("⚠️ กรุณาเข้าสู่ระบบก่อนครับ");
+            if (!currentUser) return showToast("⚠️ กรุณาเข้าสู่ระบบก่อนครับ", "error");
             
             let myUsername = currentUser.email.split('@')[0];
             let otherUsers = Object.keys(userStatsGlobal).filter(u => u !== myUsername);
-            if(otherUsers.length === 0) return alert("ยังไม่มีผู้เล่นอื่นในระบบเลย ชวนเพื่อนมาเล่นก่อนนะ!");
+            if(otherUsers.length === 0) return showToast("ยังไม่มีผู้เล่นอื่นในระบบเลย ชวนเพื่อนมาเล่นก่อนนะ!", "info");
 
             let matchInfo = seasonFixtures.find(m => m.id === matchId);
             let matchLabel = matchInfo ? `${matchInfo.home} vs ${matchInfo.away}` : matchId;
@@ -933,10 +958,8 @@
                 opt.value = u; opt.text = u.toUpperCase();
                 select.appendChild(opt);
             });
-
             select.onchange = (e) => updateH2HDisplay(e.target.value);
             updateH2HDisplay(otherUsers[0]);
-            
             document.getElementById('challengeModal').style.display = 'flex';
         };
 
@@ -945,31 +968,18 @@
             let wager = parseInt(document.getElementById('challengeWager').value);
             let challenger = currentUser.email.split('@')[0];
 
-            if (isNaN(wager) || wager <= 0) return alert("⚠️ ใส่จำนวนเงินให้ถูกต้อง");
-            
+            if (isNaN(wager) || wager <= 0) return showToast("⚠️ ใส่จำนวนเงินให้ถูกต้อง", "error");
             let myCoins = userStatsGlobal[challenger] ? userStatsGlobal[challenger].coins : 0;
-            if (myCoins < wager) return alert(`❌ คุณมีเหรียญไม่พอ (มีอยู่ ${myCoins} 💰)`);
+            if (myCoins < wager) return showToast(`❌ คุณมีเหรียญไม่พอ (มีอยู่ ${myCoins} 💰)`, "error");
 
             try {
-                await addDoc(collection(db, "challenges"), {
-                    matchId: currentChallengeMatchId,
-                    challenger: challenger,
-                    challenged: challengedUser,
-                    wager: wager,
-                    status: 'pending',
-                    timestamp: new Date().getTime()
-                });
-
-                await addDoc(collection(db, "chats"), {
-                    sender: "SYSTEM",
-                    isSystem: true,
-                    text: `🔥 ${challenger.toUpperCase()} ท้าดวล ${challengedUser.toUpperCase()} เดิมพัน ${wager} 💰 ในคู่ ${document.getElementById('challengeMatchLabel').innerText}!`,
-                    timestamp: new Date().getTime()
-                });
-
-                alert(`✅ ส่งคำท้าไปหา ${challengedUser.toUpperCase()} เรียบร้อยแล้ว!`);
+                await addDoc(collection(db, "challenges"), { matchId: currentChallengeMatchId, challenger: challenger, challenged: challengedUser, wager: wager, status: 'pending', timestamp: new Date().getTime() });
+                await addDoc(collection(db, "chats"), { sender: "SYSTEM", isSystem: true, text: `🔥 ${challenger.toUpperCase()} ท้าดวล ${challengedUser.toUpperCase()} เดิมพัน ${wager} 💰 ในคู่ ${document.getElementById('challengeMatchLabel').innerText}!`, timestamp: new Date().getTime() });
+                
+                playSound('sword');
+                showToast(`✅ ส่งคำท้าไปหา ${challengedUser.toUpperCase()} เรียบร้อยแล้ว!`, "success");
                 document.getElementById('challengeModal').style.display = 'none';
-            } catch (err) { alert("เกิดข้อผิดพลาด: " + err.message); }
+            } catch (err) { showToast("เกิดข้อผิดพลาด: " + err.message, "error"); }
         };
 
         function renderInbox() {
@@ -978,10 +988,7 @@
             let myUsername = currentUser.email.split('@')[0];
             let myPendingChallenges = allChallenges.filter(c => c.challenged === myUsername && c.status === 'pending');
             
-            if (myPendingChallenges.length === 0) {
-                container.innerHTML = '<p style="font-size: 13px; color: #999;">ไม่มีคำท้าที่รออยู่</p>';
-                return;
-            }
+            if (myPendingChallenges.length === 0) { container.innerHTML = '<p style="font-size: 13px; color: #999;">ไม่มีคำท้าที่รออยู่</p>'; return; }
 
             let html = '';
             myPendingChallenges.forEach(c => {
@@ -1001,15 +1008,14 @@
         window.acceptChallenge = async (challengeId) => {
             let myUsername = currentUser.email.split('@')[0];
             let challenge = allChallenges.find(c => c.id === challengeId);
-            
             let myCoins = userStatsGlobal[myUsername] ? userStatsGlobal[myUsername].coins : 0;
-            if (myCoins < challenge.wager) return alert(`❌ คุณมีเหรียญไม่พอรับคำท้า (ต้องมี ${challenge.wager} 💰)`);
+            if (myCoins < challenge.wager) return showToast(`❌ คุณมีเหรียญไม่พอรับคำท้า (ต้องมี ${challenge.wager} 💰)`, "error");
 
             try {
-                const docRef = doc(db, "challenges", challengeId);
-                await updateDoc(docRef, { status: 'accepted' });
-                alert("⚔️ รับคำท้าเรียบร้อยแล้ว! วัดกันที่คะแนนเลย!");
-            } catch (err) { alert("เกิดข้อผิดพลาด: " + err.message); }
+                await updateDoc(doc(db, "challenges", challengeId), { status: 'accepted' });
+                playSound('sword');
+                showToast("⚔️ รับคำท้าเรียบร้อยแล้ว! วัดกันที่คะแนนเลย!", "success");
+            } catch (err) { showToast("เกิดข้อผิดพลาด: " + err.message, "error"); }
         };
 
         function updateEconomyUI() {
@@ -1025,69 +1031,86 @@
         }
 
         window.claimDailyReward = async () => {
-            if (!currentUser) return alert("⚠️ กรุณาเข้าสู่ระบบก่อนครับ!");
+            if (!currentUser) return showToast("⚠️ กรุณาเข้าสู่ระบบก่อนครับ!", "error");
             let todayStr = new Date().toISOString().slice(0, 10);
             let alreadyClaimed = allDailyRewards.some(d => d.email === currentUser.email && d.date === todayStr);
-            if (alreadyClaimed) return alert("⚠️ คุณกดรับรางวัลประจำวันไปแล้ว กลับมาใหม่พรุ่งนี้นะครับ!");
+            if (alreadyClaimed) return showToast("⚠️ คุณกดรับรางวัลประจำวันไปแล้ว กลับมาใหม่พรุ่งนี้นะครับ!", "info");
 
             let roll = Math.random();
             let rewardMsg = "";
             try {
                 if (roll < 0.5) {
                     let coinsEarned = [15, 25, 35, 50][Math.floor(Math.random() * 4)];
-                    await addDoc(collection(db, "dailyRewards"), {
-                        email: currentUser.email, date: todayStr, type: "coins", amount: coinsEarned, timestamp: new Date().getTime()
-                    });
+                    await addDoc(collection(db, "dailyRewards"), { email: currentUser.email, date: todayStr, type: "coins", amount: coinsEarned, timestamp: new Date().getTime() });
                     rewardMsg = `🎉 ยินดีด้วย! คุณได้รับเหรียญฟรี ${coinsEarned} 💰!`;
                 } else {
                     let items = ["item_x2pt", "item_x3pt", "item_guard", "item_x2coin"];
                     let itemNames = { item_x2pt: "🃏 การ์ด x2", item_x3pt: "🔥 การ์ด x3", item_guard: "🛡️ การ์ดกันแตก", item_x2coin: "🪙 Coin x2" };
                     let picked = items[Math.floor(Math.random() * items.length)];
-                    await addDoc(collection(db, "dailyRewards"), {
-                        email: currentUser.email, date: todayStr, type: "item", item: picked, timestamp: new Date().getTime()
-                    });
+                    await addDoc(collection(db, "dailyRewards"), { email: currentUser.email, date: todayStr, type: "item", item: picked, timestamp: new Date().getTime() });
                     rewardMsg = `🎉 ยินดีด้วย! คุณได้รับไอเทมฟรี: ${itemNames[picked]}!`;
                 }
-                alert(rewardMsg);
-            } catch (err) { alert("เกิดข้อผิดพลาด: " + err.message); }
+                playSound('kaching');
+                showToast(rewardMsg, "success");
+            } catch (err) { showToast("เกิดข้อผิดพลาด: " + err.message, "error"); }
         };
 
         window.buyItem = async (itemId, price) => {
-            if (!currentUser) return alert("⚠️ เข้าสู่ระบบก่อนครับ!");
+            if (!currentUser) return showToast("⚠️ เข้าสู่ระบบก่อนครับ!", "error");
             let user = currentUser.email.split('@')[0];
             let myCoins = userStatsGlobal[user] ? userStatsGlobal[user].coins : 0;
-            if (myCoins < price) return alert("❌ เหรียญไม่พอครับ!");
+            if (myCoins < price) return showToast("❌ เหรียญไม่พอครับ!", "error");
             if (!confirm(`ยืนยันซื้อไอเทม ${price} เหรียญ?`)) return;
             try {
                 await addDoc(collection(db, "purchases"), { email: currentUser.email, item: itemId, cost: price, timestamp: new Date().getTime() });
-                alert("✅ ซื้อสำเร็จ!");
-            } catch (err) { alert("ข้อผิดพลาด: " + err.message); }
+                playSound('kaching');
+                showToast("✅ ซื้อสำเร็จ!", "success");
+            } catch (err) { showToast("ข้อผิดพลาด: " + err.message, "error"); }
+        };
+
+        // 💎 ฟังก์ชันซื้อของตกแต่งโปรไฟล์ (ฉายา / สีแชท)
+        window.buyCosmetic = async (type, val, cost, name) => {
+            if (!currentUser) return showToast("⚠️ เข้าสู่ระบบก่อนครับ!", "error");
+            let user = currentUser.email.split('@')[0];
+            let myCoins = userStatsGlobal[user] ? userStatsGlobal[user].coins : 0;
+            if (myCoins < cost) return showToast("❌ เหรียญไม่พอครับ!", "error");
+            if (!confirm(`ยืนยันจ่าย ${cost} 💰 เพื่อซื้อและใช้งาน ${name}?`)) return;
+            try {
+                await addDoc(collection(db, "purchases"), { email: currentUser.email, item: `cosmetic_${type}_${val}`, cost: cost, timestamp: new Date().getTime() });
+                await setDoc(doc(db, "userProfiles", user), { [type]: val }, { merge: true });
+                
+                playSound('kaching');
+                showToast(`✅ ซื้อและติดตั้ง ${name} สำเร็จ!`, "success");
+            } catch (err) { showToast("ข้อผิดพลาด: " + err.message, "error"); }
         };
 
         window.savePrediction = async (matchId, gw) => {
-            if (!currentUser) return alert("⚠️ กรุณาเข้าสู่ระบบก่อนครับ!");
+            if (!currentUser) return showToast("⚠️ กรุณาเข้าสู่ระบบก่อนครับ!", "error");
             const scoreA = parseInt(document.getElementById(`predA_${matchId}`).value);
             const scoreB = parseInt(document.getElementById(`predB_${matchId}`).value);
             const usedItem = document.getElementById(`item_${matchId}`).value; 
-            if (isNaN(scoreA) || isNaN(scoreB)) return alert("⚠️ กรุณากรอกสกอร์ให้ครบ");
+            if (isNaN(scoreA) || isNaN(scoreB)) return showToast("⚠️ กรุณากรอกสกอร์ให้ครบ", "error");
             try {
                 await setDoc(doc(db, "predictions", `${currentUser.email}_${matchId}`), { email: currentUser.email, match: matchId, scoreA, scoreB, usedItem });
-                alert("✅ บันทึกคำทายสำเร็จ!");
-            } catch (error) { alert("ข้อผิดพลาด: " + error.message); }
+                playSound('whistle');
+                showToast("✅ บันทึกคำทายสำเร็จ!", "success");
+            } catch (error) { showToast("ข้อผิดพลาด: " + error.message, "error"); }
         };
 
         window.saveRealResult = async (matchId) => {
             const scoreA = parseInt(document.getElementById(`realA_${matchId}`).value);
             const scoreB = parseInt(document.getElementById(`realB_${matchId}`).value);
-            if (isNaN(scoreA) || isNaN(scoreB)) return alert("⚠️ กรอกผลจริงให้ครบ");
+            if (isNaN(scoreA) || isNaN(scoreB)) return showToast("⚠️ กรอกผลจริงให้ครบ", "error");
             await setDoc(doc(db, "results", matchId), { scoreA, scoreB });
-            alert("ประกาศผลเสร็จสิ้น!");
+            playSound('whistle');
+            showToast("ประกาศผลเสร็จสิ้น!", "success");
         };
 
         window.showProfile = (username) => {
             const stats = userStatsGlobal[username];
             if(!stats) return;
-            document.getElementById('modalEmail').innerText = username.toUpperCase();
+            let profileTitle = allUserProfiles[username]?.title ? `<br><span class="title-badge" style="font-size:14px;">${allUserProfiles[username].title}</span>` : "";
+            document.getElementById('modalEmail').innerHTML = `${username.toUpperCase()} ${profileTitle}`;
             document.getElementById('modalPts').innerText = stats.score;
             document.getElementById('modalCoins').innerText = stats.coins;
             document.getElementById('modalExact').innerText = stats.exact;
@@ -1095,38 +1118,39 @@
         }
 
         document.getElementById('sendChatBtn').addEventListener('click', async () => {
-            if (!currentUser) return alert("⚠️ เข้าสู่ระบบก่อนครับ");
+            if (!currentUser) return showToast("⚠️ เข้าสู่ระบบก่อนครับ", "error");
             const msg = document.getElementById('chatInput').value;
             if (msg.trim() === "") return;
             try {
                 await addDoc(collection(db, "chats"), { sender: currentUser.email.split('@')[0], text: msg, isSystem: false, timestamp: new Date().getTime() });
                 document.getElementById('chatInput').value = ""; 
-            } catch (err) { alert("❌ ส่งไม่ได้: " + err.message); }
+            } catch (err) { showToast("❌ ส่งไม่ได้: " + err.message, "error"); }
         });
 
-        onSnapshot(collection(db, "chats"), (snapshot) => {
-            let messages = []; snapshot.forEach(doc => messages.push(doc.data()));
-            let now = new Date().getTime();
-            let dayMs = 24 * 60 * 60 * 1000;
-            messages = messages.filter(m => (now - m.timestamp) <= dayMs);
-            messages.sort((a, b) => a.timestamp - b.timestamp);
-            
+        function renderChatUI() {
             let chatHtml = "";
-            if (messages.length === 0) {
+            if (allChats.length === 0) {
                 chatHtml = '<p style="font-size: 13px; text-align: center; color: #888; margin-top: 20px;">ยังไม่มีข้อความในรอบ 24 ชม. ทักทายเพื่อนเลย!</p>';
             } else {
-                messages.forEach(m => {
+                allChats.forEach(m => {
                     let timeStr = new Date(m.timestamp).toLocaleTimeString('th-TH', {hour: '2-digit', minute:'2-digit'});
+                    
                     if (m.isSystem) {
                         chatHtml += `<div class="chat-msg" style="background:#fff9c4; border-color:#fbc02d;"><span class="chat-name" style="color:#e65100;">📢 ประกาศ:</span> ${m.text} <div class="chat-time">(${timeStr})</div></div>`;
                     } else {
-                        chatHtml += `<div class="chat-msg"><span class="chat-name">${m.sender}:</span> ${m.text} <div class="chat-time">(${timeStr})</div></div>`;
+                        let pData = allUserProfiles[m.sender] || {};
+                        let tBadge = pData.title ? `<span class="title-badge">${pData.title}</span>` : "";
+                        let colorClass = "chat-default";
+                        if(pData.color === 'gold') colorClass = "chat-gold";
+                        if(pData.color === 'neon') colorClass = "chat-neon";
+
+                        chatHtml += `<div class="chat-msg ${colorClass}"><span class="chat-name">${tBadge}${m.sender}:</span> ${m.text} <div class="chat-time">(${timeStr})</div></div>`;
                     }
                 });
             }
             const chatBox = document.getElementById('chatContainer');
             chatBox.innerHTML = chatHtml; chatBox.scrollTop = chatBox.scrollHeight; 
-        });
+        }
 
         renderMatches(maxGw);
         document.getElementById('gwSelector').value = maxGw;
