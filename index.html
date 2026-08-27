@@ -238,7 +238,6 @@
         </div>
     </div>
 
-
     <!-- ================= PAGE 2: ตลาดมืด & คู่มือ (Market Wrapper) ================= -->
     <div class="container full-width" id="market-wrapper" style="display: none;">
         
@@ -309,6 +308,8 @@
 
     </div>
 
+    <!-- ================= MODALS ================= -->
+
     <!-- Modal แกล้งเพื่อน (Troll Modal) -->
     <div class="modal-overlay" id="trollModal">
         <div class="card" style="width: 360px; text-align: center; position: relative; margin: 0; border-color: #9c27b0; box-shadow: 8px 8px 0px var(--text-main);">
@@ -359,7 +360,7 @@
         </div>
     </div>
 
-    <!-- Modal ท้าเดิมพัน (เดิม) -->
+    <!-- Modal ท้าเดิมพัน -->
     <div class="modal-overlay" id="challengeModal">
         <div class="card" style="width: 360px; text-align: center; position: relative; margin: 0; border-color: #ff5722; box-shadow: 8px 8px 0px var(--text-main);">
             <span onclick="document.getElementById('challengeModal').style.display='none'" style="position:absolute; right:15px; top:15px; cursor:pointer; font-weight:900; font-size: 20px; color: #ff4d4d;">X</span>
@@ -378,7 +379,7 @@
         </div>
     </div>
     
-    <!-- Profile Modal (เดิม) -->
+    <!-- Profile Modal -->
     <div class="modal-overlay" id="profileModal">
         <div class="card" style="width: 350px; text-align: center; position: relative; margin: 0; box-shadow: 8px 8px 0px var(--text-main);">
             <span onclick="document.getElementById('profileModal').style.display='none'" style="position:absolute; right:15px; top:15px; cursor:pointer; font-weight:900; font-size: 20px; color: #ff4d4d;">X</span>
@@ -391,6 +392,7 @@
         </div>
     </div>
 
+    <!-- ================= SCRIPT ================= -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getFirestore, collection, doc, setDoc, addDoc, updateDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
@@ -430,7 +432,6 @@
         window.playSound = (type) => { if(sounds[type]) { sounds[type].currentTime = 0; sounds[type].play().catch(e=>console.log(e)); } };
 
         // ================= TCG CARD DATABASE (40 Cards) =================
-        // วิธีตั้งชื่อไฟล์ให้อัพโหลดไปที่ /cards/
         const cardDB = {
             // 1. x2pt
             "item_x2pt_base": { name: "x2 ทั่วไป", type: "คะแนน x2", img: "./cards/card_x2pt_base.jpg", fallback: "🃏", rarity: "common" },
@@ -516,7 +517,7 @@
             "Newcastle": { logoUrl: "./images/newcastle.png" }, "Nott'm Forest": { logoUrl: "./images/forest.png" }, "Sunderland": { logoUrl: "./images/sunderland.png" }, "Tottenham": { logoUrl: "./images/tottenham.png" }
         };
 
-       const seasonFixtures = [
+      const seasonFixtures = [
             { id: "GW2_CRY_MCI", gw: 2, home: "Crystal Palace", away: "Man City", kickoff: "2026-08-29T02:00:00" },
             { id: "GW2_LIV_NFO", gw: 2, home: "Liverpool", away: "Nott'm Forest", kickoff: "2026-08-29T18:30:00" },
             { id: "GW2_BOU_EVE", gw: 2, home: "Bournemouth", away: "Everton", kickoff: "2026-08-29T21:00:00" },
@@ -607,9 +608,7 @@
  	    { id: "GW10_MUN_AVL", gw: 10, home: "Man Utd", away: "Aston Villa", kickoff: "2026-11-07T22:00:00" },
  	    { id: "GW10_NFO_MCI", gw: 10, home: "Nott'm Forest", away: "Man City", kickoff: "2026-11-07T22:00:00" },
   	    { id: "GW10_SUN_CHE", gw: 10, home: "Sunderland", away: "Chelsea", kickoff: "2026-11-07T22:00:00" }
-
         ];
-
 
         const gwSelector = document.getElementById('gwSelector');
         const activityGwSelector = document.getElementById('activityGwSelector');
@@ -822,11 +821,11 @@
                     if(p.item.startsWith('consume_')) {
                         let realItem = p.item.replace('consume_', '');
                         userInventoryGlobal[u][realItem] = (userInventoryGlobal[u][realItem] || 0) - 1;
-                    } else if (!p.item.startsWith('cosmetic_') && !p.item.startsWith('use_shield')) {
+                    } else if (!p.item.startsWith('cosmetic_') && !p.item.startsWith('use_item_shield')) {
                         let iKey = p.item;
                         if(!iKey.includes('_')) iKey += "_base";
                         userInventoryGlobal[u][iKey] = (userInventoryGlobal[u][iKey] || 0) + 1; 
-                    } else if (p.item.startsWith('use_shield')) {
+                    } else if (p.item.startsWith('use_item_shield')) {
                         // หักโล่สะท้อนทิ้งเมื่อถูกใช้
                         let shieldKey = p.item.replace('use_', '');
                         if(userInventoryGlobal[u][shieldKey] > 0) userInventoryGlobal[u][shieldKey]--;
@@ -1182,7 +1181,6 @@
             if((userInventoryGlobal[myUser][itemKey]||0) <= 0) return showToast(`คุณไม่มีการ์ดใบนี้แล้ว`, "error");
 
             try {
-                // เช็คว่าเป้าหมายมีกระจกสะท้อนไหม (การ์ดอะไรก็ได้ที่ขึ้นต้นด้วย item_shield)
                 let targetHasShield = Object.keys(userInventoryGlobal[target]||{}).some(k => k.startsWith('item_shield') && userInventoryGlobal[target][k] > 0);
                 let actualTarget = target;
                 let reflected = false;
@@ -1190,14 +1188,14 @@
                 if (targetHasShield) {
                     actualTarget = myUser; 
                     reflected = true;
-                    // ทำลายการ์ดกระจกของเป้าหมายทิ้ง 1 ใบ (ใบแรกที่เจอ)
+                    // ทำลายการ์ดกระจกของเป้าหมายทิ้ง 1 ใบ
                     let shieldKey = Object.keys(userInventoryGlobal[target]).find(k => k.startsWith('item_shield') && userInventoryGlobal[target][k] > 0);
                     await addDoc(collection(db, "purchases"), { email: target+"@awang.game", item: 'use_'+shieldKey, cost: 0, timestamp: Date.now() });
                     showToast("🛡️ เป้าหมายมีกระจกสะท้อน! ของเข้าตัว!", "error");
                 }
 
                 if (itemKey.startsWith('item_theft')) {
-                    let victimCoins = userStatsGlobal[actualTarget].coins;
+                    let victimCoins = userStatsGlobal[actualTarget]?.coins || 0;
                     let percent = Math.floor(Math.random() * 11) + 10; 
                     let stealAmount = Math.max(1, Math.floor(victimCoins * (percent/100)));
                     let gainer = reflected ? target : myUser;
