@@ -430,63 +430,63 @@
         window.playSound = (type) => { if(sounds[type]) { sounds[type].currentTime = 0; sounds[type].play().catch(e=>console.log(e)); } };
 
         // ================= TCG CARD DATABASE (40 Cards) =================
-        // วิธีตั้งชื่อไฟล์ให้อัพโหลดไปที่ /images/
+        // วิธีตั้งชื่อไฟล์ให้อัพโหลดไปที่ /cards/
         const cardDB = {
             // 1. x2pt
-            "item_x2pt_base": { name: "x2 ทั่วไป", type: "คะแนน x2", img: "./images/card_x2pt_base.jpg", fallback: "🃏", rarity: "common" },
-            "item_x2pt_rare": { name: "x2 แรร์", type: "คะแนน x2", img: "./images/card_x2pt_rare.jpg", fallback: "🃏", rarity: "rare" },
-            "item_x2pt_epic": { name: "x2 อีปิค", type: "คะแนน x2", img: "./images/card_x2pt_epic.jpg", fallback: "🃏", rarity: "epic" },
-            "item_x2pt_legendary": { name: "x2 ตำนาน", type: "คะแนน x2", img: "./images/card_x2pt_legendary.jpg", fallback: "🃏", rarity: "legendary" },
-            "item_x2pt_meme": { name: "x2 สายปั่น", type: "คะแนน x2", img: "./images/card_x2pt_meme.jpg", fallback: "🤡", rarity: "epic" },
+            "item_x2pt_base": { name: "x2 ทั่วไป", type: "คะแนน x2", img: "./cards/card_x2pt_base.jpg", fallback: "🃏", rarity: "common" },
+            "item_x2pt_rare": { name: "x2 แรร์", type: "คะแนน x2", img: "./cards/card_x2pt_rare.jpg", fallback: "🃏", rarity: "rare" },
+            "item_x2pt_epic": { name: "x2 อีปิค", type: "คะแนน x2", img: "./cards/card_x2pt_epic.jpg", fallback: "🃏", rarity: "epic" },
+            "item_x2pt_legendary": { name: "x2 ตำนาน", type: "คะแนน x2", img: "./cards/card_x2pt_legendary.jpg", fallback: "🃏", rarity: "legendary" },
+            "item_x2pt_meme": { name: "x2 สายปั่น", type: "คะแนน x2", img: "./cards/card_x2pt_meme.jpg", fallback: "🤡", rarity: "epic" },
             
             // 2. x3pt
-            "item_x3pt_base": { name: "x3 ทั่วไป", type: "คะแนน x3", img: "./images/card_x3pt_base.jpg", fallback: "🔥", rarity: "common" },
-            "item_x3pt_rare": { name: "x3 แรร์", type: "คะแนน x3", img: "./images/card_x3pt_rare.jpg", fallback: "🔥", rarity: "rare" },
-            "item_x3pt_epic": { name: "x3 อีปิค", type: "คะแนน x3", img: "./images/card_x3pt_epic.jpg", fallback: "🔥", rarity: "epic" },
-            "item_x3pt_legendary": { name: "x3 ตำนาน", type: "คะแนน x3", img: "./images/card_x3pt_legendary.jpg", fallback: "🔥", rarity: "legendary" },
-            "item_x3pt_meme": { name: "x3 สายปั่น", type: "คะแนน x3", img: "./images/card_x3pt_meme.jpg", fallback: "🤡", rarity: "epic" },
+            "item_x3pt_base": { name: "x3 ทั่วไป", type: "คะแนน x3", img: "./cards/card_x3pt_base.jpg", fallback: "🔥", rarity: "common" },
+            "item_x3pt_rare": { name: "x3 แรร์", type: "คะแนน x3", img: "./cards/card_x3pt_rare.jpg", fallback: "🔥", rarity: "rare" },
+            "item_x3pt_epic": { name: "x3 อีปิค", type: "คะแนน x3", img: "./cards/card_x3pt_epic.jpg", fallback: "🔥", rarity: "epic" },
+            "item_x3pt_legendary": { name: "x3 ตำนาน", type: "คะแนน x3", img: "./cards/card_x3pt_legendary.jpg", fallback: "🔥", rarity: "legendary" },
+            "item_x3pt_meme": { name: "x3 สายปั่น", type: "คะแนน x3", img: "./cards/card_x3pt_meme.jpg", fallback: "🤡", rarity: "epic" },
 
             // 3. guard
-            "item_guard_base": { name: "กันแตก ทั่วไป", type: "การ์ดกันแตก", img: "./images/card_guard_base.jpg", fallback: "🛡️", rarity: "common" },
-            "item_guard_rare": { name: "กันแตก แรร์", type: "การ์ดกันแตก", img: "./images/card_guard_rare.jpg", fallback: "🛡️", rarity: "rare" },
-            "item_guard_epic": { name: "กันแตก อีปิค", type: "การ์ดกันแตก", img: "./images/card_guard_epic.jpg", fallback: "🛡️", rarity: "epic" },
-            "item_guard_legendary": { name: "กันแตก ตำนาน", type: "การ์ดกันแตก", img: "./images/card_guard_legendary.jpg", fallback: "🛡️", rarity: "legendary" },
-            "item_guard_meme": { name: "กันแตก แม็กไกวร์", type: "การ์ดกันแตก", img: "./images/card_guard_meme.jpg", fallback: "🤪", rarity: "epic" },
+            "item_guard_base": { name: "กันแตก ทั่วไป", type: "การ์ดกันแตก", img: "./cards/card_guard_base.jpg", fallback: "🛡️", rarity: "common" },
+            "item_guard_rare": { name: "กันแตก แรร์", type: "การ์ดกันแตก", img: "./cards/card_guard_rare.jpg", fallback: "🛡️", rarity: "rare" },
+            "item_guard_epic": { name: "กันแตก อีปิค", type: "การ์ดกันแตก", img: "./cards/card_guard_epic.jpg", fallback: "🛡️", rarity: "epic" },
+            "item_guard_legendary": { name: "กันแตก ตำนาน", type: "การ์ดกันแตก", img: "./cards/card_guard_legendary.jpg", fallback: "🛡️", rarity: "legendary" },
+            "item_guard_meme": { name: "กันแตก แม็กไกวร์", type: "การ์ดกันแตก", img: "./cards/card_guard_meme.jpg", fallback: "🤪", rarity: "epic" },
 
             // 4. curse
-            "item_curse_base": { name: "สาปแช่ง ทั่วไป", type: "การ์ดสาปแช่ง", img: "./images/card_curse_base.jpg", fallback: "💣", rarity: "common" },
-            "item_curse_rare": { name: "สาปแช่ง แรร์", type: "การ์ดสาปแช่ง", img: "./images/card_curse_rare.jpg", fallback: "💣", rarity: "rare" },
-            "item_curse_epic": { name: "สาปแช่ง อีปิค", type: "การ์ดสาปแช่ง", img: "./images/card_curse_epic.jpg", fallback: "💣", rarity: "epic" },
-            "item_curse_legendary": { name: "สาปแช่ง ตำนาน", type: "การ์ดสาปแช่ง", img: "./images/card_curse_legendary.jpg", fallback: "💣", rarity: "legendary" },
-            "item_curse_meme": { name: "สาปแช่ง สายปั่น", type: "การ์ดสาปแช่ง", img: "./images/card_curse_meme.jpg", fallback: "😈", rarity: "epic" },
+            "item_curse_base": { name: "สาปแช่ง ทั่วไป", type: "การ์ดสาปแช่ง", img: "./cards/card_curse_base.jpg", fallback: "💣", rarity: "common" },
+            "item_curse_rare": { name: "สาปแช่ง แรร์", type: "การ์ดสาปแช่ง", img: "./cards/card_curse_rare.jpg", fallback: "💣", rarity: "rare" },
+            "item_curse_epic": { name: "สาปแช่ง อีปิค", type: "การ์ดสาปแช่ง", img: "./cards/card_curse_epic.jpg", fallback: "💣", rarity: "epic" },
+            "item_curse_legendary": { name: "สาปแช่ง ตำนาน", type: "การ์ดสาปแช่ง", img: "./cards/card_curse_legendary.jpg", fallback: "💣", rarity: "legendary" },
+            "item_curse_meme": { name: "สาปแช่ง สายปั่น", type: "การ์ดสาปแช่ง", img: "./cards/card_curse_meme.jpg", fallback: "😈", rarity: "epic" },
 
             // 5. theft
-            "item_theft_base": { name: "โจรทั่วไป", type: "การ์ดปล้น", img: "./images/card_theft_base.jpg", fallback: "🥷", rarity: "common" },
-            "item_theft_rare": { name: "โจรแรร์", type: "การ์ดปล้น", img: "./images/card_theft_rare.jpg", fallback: "🥷", rarity: "rare" },
-            "item_theft_epic": { name: "ซาลาห์ฉกบอล", type: "การ์ดปล้น", img: "./images/card_theft_epic.jpg", fallback: "🥷", rarity: "epic" },
-            "item_theft_legendary": { name: "ฮาลันด์โหด", type: "การ์ดปล้น", img: "./images/card_theft_legendary.jpg", fallback: "🥷", rarity: "legendary" },
-            "item_theft_meme": { name: "แอนโทนี่หมุน", type: "การ์ดปล้น", img: "./images/card_theft_meme.jpg", fallback: "🌪️", rarity: "epic" },
+            "item_theft_base": { name: "โจรทั่วไป", type: "การ์ดปล้น", img: "./cards/card_theft_base.jpg", fallback: "🥷", rarity: "common" },
+            "item_theft_rare": { name: "โจรแรร์", type: "การ์ดปล้น", img: "./cards/card_theft_rare.jpg", fallback: "🥷", rarity: "rare" },
+            "item_theft_epic": { name: "ซาลาห์ฉกบอล", type: "การ์ดปล้น", img: "./cards/card_theft_epic.jpg", fallback: "🥷", rarity: "epic" },
+            "item_theft_legendary": { name: "ฮาลันด์โหด", type: "การ์ดปล้น", img: "./cards/card_theft_legendary.jpg", fallback: "🥷", rarity: "legendary" },
+            "item_theft_meme": { name: "แอนโทนี่หมุน", type: "การ์ดปล้น", img: "./cards/card_theft_meme.jpg", fallback: "🌪️", rarity: "epic" },
 
             // 6. silence
-            "item_silence_base": { name: "รูดซิปปาก", type: "การ์ดปิดปาก", img: "./images/card_silence_base.jpg", fallback: "🤐", rarity: "common" },
-            "item_silence_rare": { name: "เทนฮากโวย", type: "การ์ดปิดปาก", img: "./images/card_silence_rare.jpg", fallback: "🤐", rarity: "rare" },
-            "item_silence_epic": { name: "เป๊ปเครียด", type: "การ์ดปิดปาก", img: "./images/card_silence_epic.jpg", fallback: "🤐", rarity: "epic" },
-            "item_silence_legendary": { name: "อาร์เตต้ามึน", type: "การ์ดปิดปาก", img: "./images/card_silence_legendary.jpg", fallback: "🤐", rarity: "legendary" },
-            "item_silence_meme": { name: "ใบแดงวาร์", type: "การ์ดปิดปาก", img: "./images/card_silence_meme.jpg", fallback: "🟥", rarity: "epic" },
+            "item_silence_base": { name: "รูดซิปปาก", type: "การ์ดปิดปาก", img: "./cards/card_silence_base.jpg", fallback: "🤐", rarity: "common" },
+            "item_silence_rare": { name: "เทนฮากโวย", type: "การ์ดปิดปาก", img: "./cards/card_silence_rare.jpg", fallback: "🤐", rarity: "rare" },
+            "item_silence_epic": { name: "เป๊ปเครียด", type: "การ์ดปิดปาก", img: "./cards/card_silence_epic.jpg", fallback: "🤐", rarity: "epic" },
+            "item_silence_legendary": { name: "อาร์เตต้ามึน", type: "การ์ดปิดปาก", img: "./cards/card_silence_legendary.jpg", fallback: "🤐", rarity: "legendary" },
+            "item_silence_meme": { name: "ใบแดงวาร์", type: "การ์ดปิดปาก", img: "./cards/card_silence_meme.jpg", fallback: "🟥", rarity: "epic" },
 
             // 7. shield
-            "item_shield_base": { name: "กระจกทั่วไป", type: "การ์ดสะท้อน", img: "./images/card_shield_base.jpg", fallback: "🪞", rarity: "common" },
-            "item_shield_rare": { name: "กระจกแรร์", type: "การ์ดสะท้อน", img: "./images/card_shield_rare.jpg", fallback: "🪞", rarity: "rare" },
-            "item_shield_epic": { name: "กระจกอีปิค", type: "การ์ดสะท้อน", img: "./images/card_shield_epic.jpg", fallback: "🪞", rarity: "epic" },
-            "item_shield_legendary": { name: "กระจกตำนาน", type: "การ์ดสะท้อน", img: "./images/card_shield_legendary.jpg", fallback: "🪞", rarity: "legendary" },
-            "item_shield_meme": { name: "การ์ดอูโน่", type: "การ์ดสะท้อน", img: "./images/card_shield_meme.jpg", fallback: "🔄", rarity: "epic" },
+            "item_shield_base": { name: "กระจกทั่วไป", type: "การ์ดสะท้อน", img: "./cards/card_shield_base.jpg", fallback: "🪞", rarity: "common" },
+            "item_shield_rare": { name: "กระจกแรร์", type: "การ์ดสะท้อน", img: "./cards/card_shield_rare.jpg", fallback: "🪞", rarity: "rare" },
+            "item_shield_epic": { name: "กระจกอีปิค", type: "การ์ดสะท้อน", img: "./cards/card_shield_epic.jpg", fallback: "🪞", rarity: "epic" },
+            "item_shield_legendary": { name: "กระจกตำนาน", type: "การ์ดสะท้อน", img: "./cards/card_shield_legendary.jpg", fallback: "🪞", rarity: "legendary" },
+            "item_shield_meme": { name: "การ์ดอูโน่", type: "การ์ดสะท้อน", img: "./cards/card_shield_meme.jpg", fallback: "🔄", rarity: "epic" },
 
             // 8. x2coin
-            "item_x2coin_base": { name: "เหรียญ x2 ทั่วไป", type: "เหรียญ x2", img: "./images/card_x2coin_base.jpg", fallback: "🪙", rarity: "common" },
-            "item_x2coin_rare": { name: "เหรียญ x2 แรร์", type: "เหรียญ x2", img: "./images/card_x2coin_rare.jpg", fallback: "🪙", rarity: "rare" },
-            "item_x2coin_epic": { name: "เหรียญ x2 อีปิค", type: "เหรียญ x2", img: "./images/card_x2coin_epic.jpg", fallback: "🪙", rarity: "epic" },
-            "item_x2coin_legendary": { name: "เหรียญ x2 ตำนาน", type: "เหรียญ x2", img: "./images/card_x2coin_legendary.jpg", fallback: "🪙", rarity: "legendary" },
-            "item_x2coin_meme": { name: "เหรียญ x2 สายปั่น", type: "เหรียญ x2", img: "./images/card_x2coin_meme.jpg", fallback: "🤑", rarity: "epic" }
+            "item_x2coin_base": { name: "เหรียญ x2 ทั่วไป", type: "เหรียญ x2", img: "./cards/card_x2coin_base.jpg", fallback: "🪙", rarity: "common" },
+            "item_x2coin_rare": { name: "เหรียญ x2 แรร์", type: "เหรียญ x2", img: "./cards/card_x2coin_rare.jpg", fallback: "🪙", rarity: "rare" },
+            "item_x2coin_epic": { name: "เหรียญ x2 อีปิค", type: "เหรียญ x2", img: "./cards/card_x2coin_epic.jpg", fallback: "🪙", rarity: "epic" },
+            "item_x2coin_legendary": { name: "เหรียญ x2 ตำนาน", type: "เหรียญ x2", img: "./cards/card_x2coin_legendary.jpg", fallback: "🪙", rarity: "legendary" },
+            "item_x2coin_meme": { name: "เหรียญ x2 สายปั่น", type: "เหรียญ x2", img: "./cards/card_x2coin_meme.jpg", fallback: "🤑", rarity: "epic" }
         };
 
         function getCardHTML(cardKey) {
@@ -508,7 +508,15 @@
             `;
         }
 
-        const seasonFixtures = [
+        const teamData = {
+            "Arsenal": { logoUrl: "./images/arsenal.png" }, "Aston Villa": { logoUrl: "./images/astonvilla.png" }, "Bournemouth": { logoUrl: "./images/bournemouth.png" }, "Brentford": { logoUrl: "./images/brentford.png" },
+            "Brighton": { logoUrl: "./images/brighton.png" }, "Chelsea": { logoUrl: "./images/chelsea.png" }, "Coventry City": { logoUrl: "./images/coventry.png" }, "Crystal Palace": { logoUrl: "./images/crystalpalace.png" },
+            "Everton": { logoUrl: "./images/everton.png" }, "Fulham": { logoUrl: "./images/fulham.png" }, "Hull City": { logoUrl: "./images/hullcity.png" }, "Ipswich Town": { logoUrl: "./images/ipswich.png" },
+            "Leeds United": { logoUrl: "./images/leeds.png" }, "Liverpool": { logoUrl: "./images/liverpool.png" }, "Man City": { logoUrl: "./images/mancity.png" }, "Man Utd": { logoUrl: "./images/manutd.png" },
+            "Newcastle": { logoUrl: "./images/newcastle.png" }, "Nott'm Forest": { logoUrl: "./images/forest.png" }, "Sunderland": { logoUrl: "./images/sunderland.png" }, "Tottenham": { logoUrl: "./images/tottenham.png" }
+        };
+
+       const seasonFixtures = [
             { id: "GW2_CRY_MCI", gw: 2, home: "Crystal Palace", away: "Man City", kickoff: "2026-08-29T02:00:00" },
             { id: "GW2_LIV_NFO", gw: 2, home: "Liverpool", away: "Nott'm Forest", kickoff: "2026-08-29T18:30:00" },
             { id: "GW2_BOU_EVE", gw: 2, home: "Bournemouth", away: "Everton", kickoff: "2026-08-29T21:00:00" },
@@ -599,7 +607,9 @@
  	    { id: "GW10_MUN_AVL", gw: 10, home: "Man Utd", away: "Aston Villa", kickoff: "2026-11-07T22:00:00" },
  	    { id: "GW10_NFO_MCI", gw: 10, home: "Nott'm Forest", away: "Man City", kickoff: "2026-11-07T22:00:00" },
   	    { id: "GW10_SUN_CHE", gw: 10, home: "Sunderland", away: "Chelsea", kickoff: "2026-11-07T22:00:00" }
+
         ];
+
 
         const gwSelector = document.getElementById('gwSelector');
         const activityGwSelector = document.getElementById('activityGwSelector');
@@ -812,13 +822,14 @@
                     if(p.item.startsWith('consume_')) {
                         let realItem = p.item.replace('consume_', '');
                         userInventoryGlobal[u][realItem] = (userInventoryGlobal[u][realItem] || 0) - 1;
-                    } else if (!p.item.startsWith('cosmetic_') && p.item !== 'use_shield') {
+                    } else if (!p.item.startsWith('cosmetic_') && !p.item.startsWith('use_shield')) {
                         let iKey = p.item;
                         if(!iKey.includes('_')) iKey += "_base";
                         userInventoryGlobal[u][iKey] = (userInventoryGlobal[u][iKey] || 0) + 1; 
-                    } else if (p.item === 'use_shield') {
-                        let sKey = Object.keys(userInventoryGlobal[u]).find(k=>k.startsWith('item_shield') && userInventoryGlobal[u][k] > 0);
-                        if(sKey) userInventoryGlobal[u][sKey]--;
+                    } else if (p.item.startsWith('use_shield')) {
+                        // หักโล่สะท้อนทิ้งเมื่อถูกใช้
+                        let shieldKey = p.item.replace('use_', '');
+                        if(userInventoryGlobal[u][shieldKey] > 0) userInventoryGlobal[u][shieldKey]--;
                     }
                     userStatsGlobal[u].coins -= p.cost; 
                 } 
@@ -896,7 +907,6 @@
             });
 
             renderLeaderboardUI(); updateEconomyUI(); updateMVPShowcase(); updateTicker(); checkTop2Reward();
-            // Re-render dropdowns in case inventory changed
             if(document.getElementById('app-wrapper').style.display !== 'none') renderMatches(document.getElementById('gwSelector').value || startGw);
         }
 
@@ -1140,14 +1150,12 @@
             let otherUsers = Array.from(registeredUsersSet).filter(u => u && u.toLowerCase() !== myUser.toLowerCase());
             if(otherUsers.length === 0) return showToast("ยังไม่มีใครให้แกล้ง!", "info");
 
-            // ดึงลายการ์ดที่ตัวเองมีมาแสดงให้เลือก
             let selectCard = document.getElementById('trollCardKeyToUse');
             let preview = document.getElementById('trollCardPreview');
             let firstCard = trollCards[0];
             selectCard.value = firstCard;
             preview.innerHTML = getCardHTML(firstCard);
             
-            // ถ้ามีหลายใบ ให้กดเปลี่ยนรูปเอาไว้ต่อยอดได้
             if(trollCards.length > 1) {
                 preview.innerHTML += `<div style="font-size:11px; margin-top:5px; color:#666;">(ระบบดึงการ์ดใบแรกที่เจอ: ${cardDB[firstCard].name})</div>`;
             }
@@ -1174,26 +1182,38 @@
             if((userInventoryGlobal[myUser][itemKey]||0) <= 0) return showToast(`คุณไม่มีการ์ดใบนี้แล้ว`, "error");
 
             try {
+                // เช็คว่าเป้าหมายมีกระจกสะท้อนไหม (การ์ดอะไรก็ได้ที่ขึ้นต้นด้วย item_shield)
                 let targetHasShield = Object.keys(userInventoryGlobal[target]||{}).some(k => k.startsWith('item_shield') && userInventoryGlobal[target][k] > 0);
                 let actualTarget = target;
                 let reflected = false;
 
-                if (targetHasShield && !itemKey.startsWith('item_curse')) {
-                    actualTarget = myUser; reflected = true;
+                if (targetHasShield) {
+                    actualTarget = myUser; 
+                    reflected = true;
+                    // ทำลายการ์ดกระจกของเป้าหมายทิ้ง 1 ใบ (ใบแรกที่เจอ)
                     let shieldKey = Object.keys(userInventoryGlobal[target]).find(k => k.startsWith('item_shield') && userInventoryGlobal[target][k] > 0);
-                    await addDoc(collection(db, "purchases"), { email: target+"@awang.game", item: 'consume_'+shieldKey, cost: 0, timestamp: Date.now() });
+                    await addDoc(collection(db, "purchases"), { email: target+"@awang.game", item: 'use_'+shieldKey, cost: 0, timestamp: Date.now() });
                     showToast("🛡️ เป้าหมายมีกระจกสะท้อน! ของเข้าตัว!", "error");
                 }
 
                 if (itemKey.startsWith('item_theft')) {
                     let victimCoins = userStatsGlobal[actualTarget].coins;
-                    if(victimCoins <= 0 && !reflected) return showToast("เป้าหมายไม่มีเงินให้ปล้น!", "error");
                     let percent = Math.floor(Math.random() * 11) + 10; 
                     let stealAmount = Math.max(1, Math.floor(victimCoins * (percent/100)));
                     let gainer = reflected ? target : myUser;
-                    await addDoc(collection(db, "dailyRewards"), { email: gainer+"@awang.game", type: "coins", amount: stealAmount, date: `theft_${Date.now()}` });
-                    await addDoc(collection(db, "dailyRewards"), { email: actualTarget+"@awang.game", type: "coins", amount: -stealAmount, date: `stolen_${Date.now()}` });
-                    await addDoc(collection(db, "chats"), { sender: "SYSTEM", isSystem: true, text: `🥷 ${gainer.toUpperCase()} ใช้ ${cardDB[itemKey].name} ปล้นเงิน ${actualTarget.toUpperCase()} ไปได้ ${stealAmount} 💰!`, timestamp: Date.now() });
+                    
+                    if (reflected && victimCoins <= 0) {
+                        showToast("กระจกสะท้อนทำงาน แต่คุณไม่มีเงินให้เป้าหมายปล้น!", "info");
+                        stealAmount = 0;
+                    } else if (!reflected && victimCoins <= 0) {
+                        return showToast("เป้าหมายไม่มีเงินให้ปล้น!", "error");
+                    }
+
+                    if (stealAmount > 0) {
+                        await addDoc(collection(db, "dailyRewards"), { email: gainer+"@awang.game", type: "coins", amount: stealAmount, date: `theft_${Date.now()}` });
+                        await addDoc(collection(db, "dailyRewards"), { email: actualTarget+"@awang.game", type: "coins", amount: -stealAmount, date: `stolen_${Date.now()}` });
+                        await addDoc(collection(db, "chats"), { sender: "SYSTEM", isSystem: true, text: `🥷 ${gainer.toUpperCase()} ใช้ ${cardDB[itemKey].name} ปล้นเงิน ${actualTarget.toUpperCase()} ไปได้ ${stealAmount} 💰!`, timestamp: Date.now() });
+                    }
                 } 
                 else if (itemKey.startsWith('item_silence')) {
                     let muteUntil = Date.now() + (5 * 60 * 1000); 
@@ -1202,9 +1222,13 @@
                 }
                 else if (itemKey.startsWith('item_curse')) {
                     if(!matchId) return showToast("กรูณาเลือกแมตช์", "error");
-                    await addDoc(collection(db, "curses"), { curser: myUser, target: target, matchId: matchId, timestamp: Date.now() });
+                    await addDoc(collection(db, "curses"), { curser: myUser, target: actualTarget, matchId: matchId, timestamp: Date.now() });
                     let mInfo = seasonFixtures.find(m=>m.id === matchId);
-                    await addDoc(collection(db, "chats"), { sender: "SYSTEM", isSystem: true, text: `💣 ${myUser.toUpperCase()} ใช้ ${cardDB[itemKey].name} สาปแช่งใส่ ${target.toUpperCase()} ในคู่ ${mInfo.home} vs ${mInfo.away}!`, timestamp: Date.now() });
+                    
+                    let chatMsg = reflected 
+                        ? `🛡️ กระจกทำงาน! ${myUser.toUpperCase()} โดนสะท้อนคำสาปใส่ตัวเองในคู่ ${mInfo.home} vs ${mInfo.away}!`
+                        : `💣 ${myUser.toUpperCase()} ใช้ ${cardDB[itemKey].name} สาปแช่งใส่ ${actualTarget.toUpperCase()} ในคู่ ${mInfo.home} vs ${mInfo.away}!`;
+                    await addDoc(collection(db, "chats"), { sender: "SYSTEM", isSystem: true, text: chatMsg, timestamp: Date.now() });
                 }
 
                 await addDoc(collection(db, "purchases"), { email: currentUser.email, item: 'consume_'+itemKey, cost: 0, timestamp: Date.now() });
