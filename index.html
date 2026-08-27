@@ -118,6 +118,12 @@
 </head>
 <body>
     <div id="toast-container"></div>
+    
+    <!-- 🛠️ เพิ่มโครงสร้างที่หายไป ป้องกัน JS Error 🛠️ -->
+    <div style="display: none;">
+        <select id="activityGwSelector"></select>
+        <div id="activityContainer"></div>
+    </div>
 
     <header><h1>🏆 อย่านอนใกล้คนหลายใจ</h1></header>
 
@@ -430,6 +436,53 @@
             whistle: new Audio('https://actions.google.com/sounds/v1/sports/football_whistle.ogg')
         };
         window.playSound = (type) => { if(sounds[type]) { sounds[type].currentTime = 0; sounds[type].play().catch(e=>console.log(e)); } };
+
+        // ================= 🛠️ เพิ่มฟังก์ชันที่หายไป 🛠️ =================
+        window.savePrediction = async (matchId, gw) => {
+            if (!currentUser) return showToast("⚠️ กรุณาเข้าสู่ระบบ", "error");
+            let pA = parseInt(document.getElementById(`predA_${matchId}`).value);
+            let pB = parseInt(document.getElementById(`predB_${matchId}`).value);
+            let item = document.getElementById(`item_${matchId}`).value;
+            
+            if (isNaN(pA) || isNaN(pB)) return showToast("⚠️ กรุณากรอกผลประตูให้ครบ", "error");
+            
+            let userEmail = currentUser.email;
+            let matchInfo = seasonFixtures.find(m => m.id === matchId);
+            if (matchInfo && new Date() > new Date(matchInfo.kickoff)) return showToast("⚠️ หมดเวลาทายผลคู่นี้แล้ว!", "error");
+            
+            try {
+                let docId = `${userEmail.split('@')[0]}_${matchId}`;
+                await setDoc(doc(db, "predictions", docId), {
+                    email: userEmail, match: matchId, scoreA: pA, scoreB: pB, usedItem: item, gw: parseInt(gw), timestamp: Date.now()
+                });
+                playSound('kaching'); showToast("บันทึกคำทายสำเร็จ!", "success");
+            } catch (e) { showToast(e.message, "error"); }
+        };
+
+        window.buyItem = async (key, price) => {
+            if (!currentUser) return showToast("⚠️ กรุณาเข้าสู่ระบบ", "error");
+            let myUser = currentUser.email.split('@')[0];
+            if ((userStatsGlobal[myUser]?.coins || 0) < price) return showToast("⚠️ เหรียญไม่พอ!", "error");
+            if (!confirm(`ยืนยันการซื้อในราคา ${price} เหรียญ?`)) return;
+            try {
+                await addDoc(collection(db, "purchases"), { email: currentUser.email, item: key, cost: price, timestamp: Date.now() });
+                playSound('kaching'); showToast("ซื้อไอเทมสำเร็จ!", "success");
+            } catch (e) { showToast(e.message, "error"); }
+        };
+
+        window.buyCosmetic = async (type, value, price, name) => {
+            if (!currentUser) return showToast("⚠️ กรุณาเข้าสู่ระบบ", "error");
+            let myUser = currentUser.email.split('@')[0];
+            if ((userStatsGlobal[myUser]?.coins || 0) < price) return showToast("⚠️ เหรียญไม่พอ!", "error");
+            if (!confirm(`ยืนยันการซื้อ ${name} ในราคา ${price} เหรียญ?`)) return;
+            try {
+                let updateData = {}; updateData[type] = value;
+                await setDoc(doc(db, "userProfiles", myUser), updateData, { merge: true });
+                await addDoc(collection(db, "purchases"), { email: currentUser.email, item: `cosmetic_${type}_${value}`, cost: price, timestamp: Date.now() });
+                playSound('kaching'); showToast(`ซื้อ ${name} สำเร็จ!`, "success");
+            } catch (e) { showToast(e.message, "error"); }
+        };
+        // =========================================================
 
         // ================= TCG CARD DATABASE (40 Cards) =================
         const cardDB = {
@@ -1028,10 +1081,14 @@
             Object.keys(myInv).forEach(k => {
                 if(myInv[k] > 0 && cardDB[k]) {
                     hasCards = true;
+                    // 🛠️ เพิ่มปุ่มใช้งานการ์ดสำหรับแกล้งเพื่อน
+                    let isTroll = k.startsWith('item_theft') || k.startsWith('item_curse') || k.startsWith('item_silence');
+                    let trollBtn = isTroll ? `<button class="btn-action" style="background:#9c27b0; color:#fff; width:100%; margin-top:5px; padding:4px;" onclick="openTrollModal('${k}')">🎯 ใช้งานแกล้งเพื่อน</button>` : '';
                     myBoard.innerHTML += `
                         <div style="position:relative;">
                             ${getCardHTML(k)}
                             <div style="position:absolute; top:-5px; right:-5px; background:var(--pl-purple); color:#fff; border-radius:50%; width:24px; height:24px; font-weight:900; font-size:12px; display:flex; align-items:center; justify-content:center; border:2px solid var(--text-main); z-index:3;">${myInv[k]}</div>
+                            ${trollBtn}
                             <button class="btn-action" style="background:#ff9800; color:#000; width:100%; margin-top:5px; padding:4px;" onclick="openSellModal('${k}')">ตั้งขาย</button>
                         </div>`;
                 }
@@ -1138,7 +1195,7 @@
         };
 
         // ================= TROLL MODAL =================
-        window.openTrollModal = () => {
+        window.openTrollModal = (specificCardKey = null) => {
             if (!currentUser) return showToast("⚠️ กรุณาเข้าสู่ระบบ", "error");
             let myUser = currentUser.email.split('@')[0];
             let myInv = userInventoryGlobal[myUser] || {};
@@ -1151,11 +1208,12 @@
 
             let selectCard = document.getElementById('trollCardKeyToUse');
             let preview = document.getElementById('trollCardPreview');
-            let firstCard = trollCards[0];
+            // 🛠️ แก้ไขให้รับค่า specificCardKey จากปุ่มได้
+            let firstCard = (specificCardKey && typeof specificCardKey === 'string' && trollCards.includes(specificCardKey)) ? specificCardKey : trollCards[0];
             selectCard.value = firstCard;
             preview.innerHTML = getCardHTML(firstCard);
             
-            if(trollCards.length > 1) {
+            if(trollCards.length > 1 && !specificCardKey) {
                 preview.innerHTML += `<div style="font-size:11px; margin-top:5px; color:#666;">(ระบบดึงการ์ดใบแรกที่เจอ: ${cardDB[firstCard].name})</div>`;
             }
 
@@ -1250,9 +1308,13 @@
 
         window.renderActivity = (gw) => {
             const container = document.getElementById('activityContainer');
-            container.innerHTML = '';
+            if(container) container.innerHTML = ''; // 🛠️ ตรวจสอบก่อนเคลียร์ค่า
+            
             const weeklyMatches = seasonFixtures.filter(m => m.gw === (parseInt(gw) || startGw));
-            if (allPredictions.length === 0) { container.innerHTML = '<p style="font-size: 14px; text-align: center; color: #999;">ยังไม่มีข้อมูล</p>'; return; }
+            if (allPredictions.length === 0) { 
+                if(container) container.innerHTML = '<p style="font-size: 14px; text-align: center; color: #999;">ยังไม่มีข้อมูล</p>'; 
+                return; 
+            }
 
             let html = '';
             let usersWithPredictions = [...new Set(allPredictions.map(p => p.email.split('@')[0]))];
@@ -1271,7 +1333,7 @@
                 userHtml += `</div>`;
                 if (hasPreds) html += userHtml;
             });
-            container.innerHTML = html === '' ? '<p style="font-size: 14px; text-align: center; color: #999;">ยังไม่มีใครส่งคำทาย</p>' : html;
+            if(container) container.innerHTML = html === '' ? '<p style="font-size: 14px; text-align: center; color: #999;">ยังไม่มีใครส่งคำทาย</p>' : html;
         };
 
         function updateH2HDisplay(opponent) {
