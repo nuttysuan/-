@@ -103,6 +103,7 @@
         .rarity-rare { background: #29b6f6; color: #fff; }
         .rarity-epic { background: #ab47bc; color: #fff; }
         .rarity-legendary { background: #ffca28; color: #000; }
+        .rarity-ssr { background: #ff1744; color: #fff; box-shadow: 0 0 10px #ff1744; } /* 🛠️ Updated rarity color for SSR+ */
 
         .market-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 15px; }
         
@@ -114,10 +115,20 @@
         .gacha-pack:active { transform: scale(0.95); }
         .shake-anim { animation: shake 0.5s infinite; }
         @keyframes shake { 0% { transform: translate(1px, 1px) rotate(0deg); } 25% { transform: translate(-3px, 0px) rotate(-5deg); } 50% { transform: translate(2px, 2px) rotate(5deg); } 75% { transform: translate(-2px, -2px) rotate(-5deg); } 100% { transform: translate(1px, -1px) rotate(0deg); } }
+
+        /* 🛠️ Add styles for Image Viewer Modal */
+        #imageViewerModal img { max-width: 90%; max-height: 80vh; border: 4px solid var(--text-main); box-shadow: 8px 8px 0px var(--text-main); border-radius: 12px; }
+        .image-viewer-close { position: absolute; top: 20px; right: 30px; font-size: 40px; font-weight: 900; color: #fff; cursor: pointer; text-shadow: 2px 2px 0px #000; }
     </style>
 </head>
 <body>
     <div id="toast-container"></div>
+    
+    <!-- 🛠️ เพิ่มโครงสร้างที่หายไป ป้องกัน JS Error 🛠️ -->
+    <div style="display: none;">
+        <select id="activityGwSelector"></select>
+        <div id="activityContainer"></div>
+    </div>
 
     <header><h1>🏆 อย่านอนใกล้คนหลายใจ</h1></header>
 
@@ -320,6 +331,12 @@
 
     <!-- ================= MODALS ================= -->
 
+    <!-- 🛠️ Add Image Viewer Modal -->
+    <div class="modal-overlay" id="imageViewerModal" onclick="this.style.display='none'">
+        <span class="image-viewer-close" onclick="document.getElementById('imageViewerModal').style.display='none'">&times;</span>
+        <img id="imageViewerSrc" src="" alt="Card Image Preview">
+    </div>
+
     <!-- Modal แกล้งเพื่อน (Troll Modal) -->
     <div class="modal-overlay" id="trollModal">
         <div class="card" style="width: 360px; text-align: center; position: relative; margin: 0; border-color: #9c27b0; box-shadow: 8px 8px 0px var(--text-main);">
@@ -441,6 +458,16 @@
         };
         window.playSound = (type) => { if(sounds[type]) { sounds[type].currentTime = 0; sounds[type].play().catch(e=>console.log(e)); } };
 
+        // 🛠️ Add Function to View Image Fullscreen
+        window.viewImage = (imgSrc) => {
+            const modal = document.getElementById('imageViewerModal');
+            const imgEl = document.getElementById('imageViewerSrc');
+            if(imgSrc && imgSrc !== '') {
+                imgEl.src = imgSrc;
+                modal.style.display = 'flex';
+            }
+        };
+
         // ================= 🛠️ เพิ่มฟังก์ชันที่หายไป 🛠️ =================
         window.savePrediction = async (matchId, gw) => {
             if (!currentUser) return showToast("⚠️ กรุณาเข้าสู่ระบบ", "error");
@@ -495,67 +522,68 @@
             "item_x2pt_rare": { name: "x2 แรร์", type: "คะแนน x2", img: "./cards/card_x2pt_rare.jpg", fallback: "🃏", rarity: "rare" },
             "item_x2pt_epic": { name: "x2 อีปิค", type: "คะแนน x2", img: "./cards/card_x2pt_epic.jpg", fallback: "🃏", rarity: "epic" },
             "item_x2pt_legendary": { name: "x2 ตำนาน", type: "คะแนน x2", img: "./cards/card_x2pt_legendary.jpg", fallback: "🃏", rarity: "legendary" },
-            "item_x2pt_meme": { name: "x2 สายปั่น", type: "คะแนน x2", img: "./cards/card_x2pt_meme.jpg", fallback: "🤡", rarity: "epic" },
+            "item_x2pt_meme": { name: "x2 สายปั่น", type: "คะแนน x2", img: "./cards/card_x2pt_meme.jpg", fallback: "🤡", rarity: "ssr" },
             
             // 2. x3pt
             "item_x3pt_base": { name: "x3 ทั่วไป", type: "คะแนน x3", img: "./cards/card_x3pt_base.jpg", fallback: "🔥", rarity: "common" },
             "item_x3pt_rare": { name: "x3 แรร์", type: "คะแนน x3", img: "./cards/card_x3pt_rare.jpg", fallback: "🔥", rarity: "rare" },
             "item_x3pt_epic": { name: "x3 อีปิค", type: "คะแนน x3", img: "./cards/card_x3pt_epic.jpg", fallback: "🔥", rarity: "epic" },
             "item_x3pt_legendary": { name: "x3 ตำนาน", type: "คะแนน x3", img: "./cards/card_x3pt_legendary.jpg", fallback: "🔥", rarity: "legendary" },
-            "item_x3pt_meme": { name: "x3 สายปั่น", type: "คะแนน x3", img: "./cards/card_x3pt_meme.jpg", fallback: "🤡", rarity: "epic" },
+            "item_x3pt_meme": { name: "x3 สายปั่น", type: "คะแนน x3", img: "./cards/card_x3pt_meme.jpg", fallback: "🤡", rarity: "ssr" },
 
             // 3. guard
             "item_guard_base": { name: "กันแตก ทั่วไป", type: "การ์ดกันแตก", img: "./cards/card_guard_base.jpg", fallback: "🛡️", rarity: "common" },
             "item_guard_rare": { name: "กันแตก แรร์", type: "การ์ดกันแตก", img: "./cards/card_guard_rare.jpg", fallback: "🛡️", rarity: "rare" },
             "item_guard_epic": { name: "กันแตก อีปิค", type: "การ์ดกันแตก", img: "./cards/card_guard_epic.jpg", fallback: "🛡️", rarity: "epic" },
             "item_guard_legendary": { name: "กันแตก ตำนาน", type: "การ์ดกันแตก", img: "./cards/card_guard_legendary.jpg", fallback: "🛡️", rarity: "legendary" },
-            "item_guard_meme": { name: "กันแตก แม็กไกวร์", type: "การ์ดกันแตก", img: "./cards/card_guard_meme.jpg", fallback: "🤪", rarity: "epic" },
+            "item_guard_meme": { name: "กันแตก แม็กไกวร์", type: "การ์ดกันแตก", img: "./cards/card_guard_meme.jpg", fallback: "🤪", rarity: "ssr" },
 
             // 4. curse
             "item_curse_base": { name: "สาปแช่ง ทั่วไป", type: "การ์ดสาปแช่ง", img: "./cards/card_curse_base.jpg", fallback: "💣", rarity: "common" },
             "item_curse_rare": { name: "สาปแช่ง แรร์", type: "การ์ดสาปแช่ง", img: "./cards/card_curse_rare.jpg", fallback: "💣", rarity: "rare" },
             "item_curse_epic": { name: "สาปแช่ง อีปิค", type: "การ์ดสาปแช่ง", img: "./cards/card_curse_epic.jpg", fallback: "💣", rarity: "epic" },
             "item_curse_legendary": { name: "สาปแช่ง ตำนาน", type: "การ์ดสาปแช่ง", img: "./cards/card_curse_legendary.jpg", fallback: "💣", rarity: "legendary" },
-            "item_curse_meme": { name: "สาปแช่ง สายปั่น", type: "การ์ดสาปแช่ง", img: "./cards/card_curse_meme.jpg", fallback: "😈", rarity: "epic" },
+            "item_curse_meme": { name: "สาปแช่ง สายปั่น", type: "การ์ดสาปแช่ง", img: "./cards/card_curse_meme.jpg", fallback: "😈", rarity: "ssr" },
 
             // 5. theft
             "item_theft_base": { name: "โจรทั่วไป", type: "การ์ดปล้น", img: "./cards/card_theft_base.jpg", fallback: "🥷", rarity: "common" },
             "item_theft_rare": { name: "โจรแรร์", type: "การ์ดปล้น", img: "./cards/card_theft_rare.jpg", fallback: "🥷", rarity: "rare" },
             "item_theft_epic": { name: "ซาลาห์ฉกบอล", type: "การ์ดปล้น", img: "./cards/card_theft_epic.jpg", fallback: "🥷", rarity: "epic" },
             "item_theft_legendary": { name: "ฮาลันด์โหด", type: "การ์ดปล้น", img: "./cards/card_theft_legendary.jpg", fallback: "🥷", rarity: "legendary" },
-            "item_theft_meme": { name: "แอนโทนี่หมุน", type: "การ์ดปล้น", img: "./cards/card_theft_meme.jpg", fallback: "🌪️", rarity: "epic" },
+            "item_theft_meme": { name: "แอนโทนี่หมุน", type: "การ์ดปล้น", img: "./cards/card_theft_meme.jpg", fallback: "🌪️", rarity: "ssr" },
 
             // 6. silence
             "item_silence_base": { name: "รูดซิปปาก", type: "การ์ดปิดปาก", img: "./cards/card_silence_base.jpg", fallback: "🤐", rarity: "common" },
             "item_silence_rare": { name: "เทนฮากโวย", type: "การ์ดปิดปาก", img: "./cards/card_silence_rare.jpg", fallback: "🤐", rarity: "rare" },
             "item_silence_epic": { name: "เป๊ปเครียด", type: "การ์ดปิดปาก", img: "./cards/card_silence_epic.jpg", fallback: "🤐", rarity: "epic" },
             "item_silence_legendary": { name: "อาร์เตต้ามึน", type: "การ์ดปิดปาก", img: "./cards/card_silence_legendary.jpg", fallback: "🤐", rarity: "legendary" },
-            "item_silence_meme": { name: "ใบแดงวาร์", type: "การ์ดปิดปาก", img: "./cards/card_silence_meme.jpg", fallback: "🟥", rarity: "epic" },
+            "item_silence_meme": { name: "ใบแดงวาร์", type: "การ์ดปิดปาก", img: "./cards/card_silence_meme.jpg", fallback: "🟥", rarity: "ssr" },
 
             // 7. shield
             "item_shield_base": { name: "กระจกทั่วไป", type: "การ์ดสะท้อน", img: "./cards/card_shield_base.jpg", fallback: "🪞", rarity: "common" },
             "item_shield_rare": { name: "กระจกแรร์", type: "การ์ดสะท้อน", img: "./cards/card_shield_rare.jpg", fallback: "🪞", rarity: "rare" },
             "item_shield_epic": { name: "กระจกอีปิค", type: "การ์ดสะท้อน", img: "./cards/card_shield_epic.jpg", fallback: "🪞", rarity: "epic" },
             "item_shield_legendary": { name: "กระจกตำนาน", type: "การ์ดสะท้อน", img: "./cards/card_shield_legendary.jpg", fallback: "🪞", rarity: "legendary" },
-            "item_shield_meme": { name: "การ์ดอูโน่", type: "การ์ดสะท้อน", img: "./cards/card_shield_meme.jpg", fallback: "🔄", rarity: "epic" },
+            "item_shield_meme": { name: "การ์ดอูโน่", type: "การ์ดสะท้อน", img: "./cards/card_shield_meme.jpg", fallback: "🔄", rarity: "ssr" },
 
             // 8. x2coin
             "item_x2coin_base": { name: "เหรียญ x2 ทั่วไป", type: "เหรียญ x2", img: "./cards/card_x2coin_base.jpg", fallback: "🪙", rarity: "common" },
             "item_x2coin_rare": { name: "เหรียญ x2 แรร์", type: "เหรียญ x2", img: "./cards/card_x2coin_rare.jpg", fallback: "🪙", rarity: "rare" },
             "item_x2coin_epic": { name: "เหรียญ x2 อีปิค", type: "เหรียญ x2", img: "./cards/card_x2coin_epic.jpg", fallback: "🪙", rarity: "epic" },
             "item_x2coin_legendary": { name: "เหรียญ x2 ตำนาน", type: "เหรียญ x2", img: "./cards/card_x2coin_legendary.jpg", fallback: "🪙", rarity: "legendary" },
-            "item_x2coin_meme": { name: "เหรียญ x2 สายปั่น", type: "เหรียญ x2", img: "./cards/card_x2coin_meme.jpg", fallback: "🤑", rarity: "epic" }
+            "item_x2coin_meme": { name: "เหรียญ x2 สายปั่น", type: "เหรียญ x2", img: "./cards/card_x2coin_meme.jpg", fallback: "🤑", rarity: "ssr" }
         };
 
         function getCardHTML(cardKey) {
             let card = cardDB[cardKey];
             if(!card) return '';
             let rClass = `rarity-${card.rarity}`;
+            // 🛠️ Updated image tag to have cursor-pointer and onclick to viewImage
             return `
                 <div class="tcg-card">
-                    <span class="tcg-badge ${rClass}">${card.rarity.toUpperCase()}</span>
-                    <div class="tcg-img-box">
-                        <img src="${card.img}" onerror="this.src=\'\'; this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <span class="tcg-badge ${rClass}">${card.rarity === 'ssr' ? 'SSR+' : card.rarity.toUpperCase()}</span>
+                    <div class="tcg-img-box" style="cursor: zoom-in;" onclick="viewImage('${card.img}')">
+                        <img src="${card.img}" onerror="this.src=''; this.style.display='none'; this.nextElementSibling.style.display='block';">
                         <span style="display:none; font-size:50px;">${card.fallback}</span>
                     </div>
                     <div class="tcg-info">
