@@ -103,7 +103,7 @@
         .rarity-rare { background: #29b6f6; color: #fff; }
         .rarity-epic { background: #ab47bc; color: #fff; }
         .rarity-legendary { background: #ffca28; color: #000; }
-        .rarity-ssr { background: #ff1744; color: #fff; box-shadow: 0 0 10px #ff1744; } /* 🛠️ Updated rarity color for SSR+ */
+        .rarity-ssr { background: #ff1744; color: #fff; box-shadow: 0 0 10px #ff1744; }
 
         .market-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 15px; }
         
@@ -116,7 +116,6 @@
         .shake-anim { animation: shake 0.5s infinite; }
         @keyframes shake { 0% { transform: translate(1px, 1px) rotate(0deg); } 25% { transform: translate(-3px, 0px) rotate(-5deg); } 50% { transform: translate(2px, 2px) rotate(5deg); } 75% { transform: translate(-2px, -2px) rotate(-5deg); } 100% { transform: translate(1px, -1px) rotate(0deg); } }
 
-        /* 🛠️ Add styles for Image Viewer Modal */
         #imageViewerModal img { max-width: 90%; max-height: 80vh; border: 4px solid var(--text-main); box-shadow: 8px 8px 0px var(--text-main); border-radius: 12px; }
         .image-viewer-close { position: absolute; top: 20px; right: 30px; font-size: 40px; font-weight: 900; color: #fff; cursor: pointer; text-shadow: 2px 2px 0px #000; }
     </style>
@@ -126,7 +125,6 @@
     
     <header><h1>🏆 อย่านอนใกล้คนหลายใจ</h1></header>
 
-    <!-- 🌟 เมนูนำทาง (Navbar) -->
     <nav id="main-nav">
         <button class="nav-btn active" id="tabHome" onclick="switchTab('home')">⚽ โซนแข่งขัน</button>
         <button class="nav-btn" id="tabMarket" onclick="switchTab('market')">🛒 ตลาดมืด & คู่มือ</button>
@@ -169,7 +167,7 @@
                 <div id="matchesContainer"></div>
             </div>
             
-            <!-- 🛠️ เพิ่มหน้าต่างสอดแนมเพื่อนกลับเข้ามา 🛠️ -->
+            <!-- หน้าต่างสอดแนม -->
             <div class="card" id="activity-section">
                 <h2>
                     <span>👀 หน้าต่างสอดแนม</span>
@@ -187,21 +185,17 @@
         </div>
 
         <div class="right-column">
-            <!-- 🏆 กล่องรับรางวัล Top 2 -->
             <div class="card" id="top2-reward-section" style="display: none; background: #e8f5e9; border-color: #2e7d32; box-shadow: 6px 6px 0px #2e7d32; text-align: center;"></div>
 
-            <!-- 👑 ตู้โชว์ MVP -->
             <div class="card" id="mvp-section" style="background: #fffde7; border-color: #fbc02d; box-shadow: 6px 6px 0px #fbc02d; padding: 18px;">
                 <div id="mvpShowcaseContainer">กำลังโหลดข้อมูล MVP...</div>
             </div>
             
-            <!-- Inbox คำท้าเดิมพัน -->
             <div class="card" id="inbox-section" style="border-color: #ff5722; box-shadow: 6px 6px 0px #ff5722;">
                 <h2 style="color: #ff5722; border-bottom: 3px dashed #ff5722;">⚔️ คำท้าเดิมพันของคุณ</h2>
                 <div id="inboxContainer" style="max-height: 150px; overflow-y: auto;"><p style="font-size: 13px; color: #999;">ไม่มีคำท้าที่รออยู่</p></div>
             </div>
 
-            <!-- ร้านค้าแบบ Basic -->
             <div class="card" id="economy-section" style="border-color: #9c27b0; box-shadow: 6px 6px 0px #9c27b0;">
                 <h2 style="display: flex; justify-content: space-between; align-items: center; color: #9c27b0; border-bottom: 3px dashed #9c27b0;">
                     🛒 ร้านค้าฉุกเฉิน
@@ -256,7 +250,6 @@
     <!-- ================= PAGE 2: ตลาดมืด & คู่มือ (Market Wrapper) ================= -->
     <div class="container full-width" id="market-wrapper" style="display: none;">
         
-        <!-- 🎁 1. มินิเกมเปิดซอง (Gacha) -->
         <div class="comic-panel" style="border-color: #ff9800; text-align: center; background: url('https://www.transparenttextures.com/patterns/cubes.png') #fff3e0;">
             <div class="comic-title" style="background: #ff9800;">🎁 เสบียงฟรีรายวัน (Supply Drop)</div>
             <p style="font-weight: 900; margin-bottom: 20px; font-size: 18px; color: #e65100;">กดฉีกซองเพื่อลุ้นรับ เหรียญทอง หรือ การ์ดระดับแรร์ ฟรีวันละ 1 ครั้ง!</p>
@@ -265,30 +258,22 @@
             <p style="font-size: 13px; color: #666; margin-top:10px;">(การ์ดระดับ Epic และ Legendary หาได้จากการเปิดซองหรือซื้อต่อจากเพื่อนเท่านั้น!)</p>
         </div>
 
-        <!-- 🛒 2. ตลาดมืด (Black Market) -->
         <div class="comic-panel" style="border-color: #9c27b0; background: #fafafa;">
             <div class="comic-title" style="background: #9c27b0;">🛒 ตลาดมืด (Black Market)</div>
             <div style="display: flex; flex-wrap: wrap; gap: 25px;">
                 
-                <!-- คลังของฉัน (ไว้ตั้งขาย / ใช้แกล้ง) -->
                 <div style="flex: 1; min-width: 300px; border-right: 3px dashed #ccc; padding-right: 20px;">
                     <h3 style="font-size: 16px; margin-bottom: 15px; color: var(--pl-purple);">🎒 คลังการ์ดของคุณ (กดเพื่อใช้แกล้งเพื่อนได้)</h3>
-                    <div id="myInventoryCards" class="market-grid" style="grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));">
-                        <!-- JS renders my cards here -->
-                    </div>
+                    <div id="myInventoryCards" class="market-grid" style="grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));"></div>
                 </div>
 
-                <!-- กระดานซื้อขาย -->
                 <div style="flex: 2; min-width: 300px;">
                     <h3 style="font-size: 16px; margin-bottom: 15px; color: var(--pl-green); background: var(--pl-purple); display: inline-block; padding: 5px 15px; border-radius: 8px;">แผงขายของเพื่อน (กำลังวางขาย)</h3>
-                    <div id="marketListingsBoard" class="market-grid">
-                        <!-- JS renders market items here -->
-                    </div>
+                    <div id="marketListingsBoard" class="market-grid"></div>
                 </div>
             </div>
         </div>
 
-        <!-- 📖 3. คู่มือเอาตัวรอด & สมุดภาพการ์ด -->
         <div class="comic-panel" style="border-color: #0288d1;">
             <div class="comic-title" style="background: #0288d1;">📖 คู่มือเอาตัวรอด (The Survival Guide)</div>
             
@@ -316,22 +301,17 @@
 
             <h3 style="font-size: 18px; margin-bottom: 15px; text-align: center;">🎴 สมุดภาพสะสมการ์ด (Card Dex)</h3>
             <p style="text-align:center; font-size:12px; margin-bottom:20px; color:#666;">การ์ดบางใบมีลายพิเศษที่ซ่อนอยู่ สะสมให้ครบเพื่ออวดเพื่อน!</p>
-            <div id="cardDexContainer" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 15px;">
-                <!-- JS renders Card Dex here -->
-            </div>
+            <div id="cardDexContainer" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 15px;"></div>
         </div>
 
     </div>
 
     <!-- ================= MODALS ================= -->
-
-    <!-- 🛠️ Add Image Viewer Modal -->
     <div class="modal-overlay" id="imageViewerModal" onclick="this.style.display='none'">
         <span class="image-viewer-close" onclick="document.getElementById('imageViewerModal').style.display='none'">&times;</span>
         <img id="imageViewerSrc" src="" alt="Card Image Preview">
     </div>
 
-    <!-- Modal แกล้งเพื่อน (Troll Modal) -->
     <div class="modal-overlay" id="trollModal">
         <div class="card" style="width: 360px; text-align: center; position: relative; margin: 0; border-color: #9c27b0; box-shadow: 8px 8px 0px var(--text-main);">
             <span onclick="document.getElementById('trollModal').style.display='none'" style="position:absolute; right:15px; top:15px; cursor:pointer; font-weight:900; font-size: 20px; color: #ff4d4d;">X</span>
@@ -354,7 +334,6 @@
         </div>
     </div>
 
-    <!-- Modal ขายการ์ด (Sell Modal) -->
     <div class="modal-overlay" id="sellModal">
         <div class="card" style="width: 300px; text-align: center; position: relative; margin: 0; border-color: #ff9800; box-shadow: 8px 8px 0px var(--text-main);">
             <span onclick="document.getElementById('sellModal').style.display='none'" style="position:absolute; right:15px; top:15px; cursor:pointer; font-weight:900; font-size: 20px; color: #ff4d4d;">X</span>
@@ -369,19 +348,15 @@
         </div>
     </div>
 
-    <!-- Gacha Reveal Modal -->
     <div class="modal-overlay" id="gachaModal">
         <div style="text-align: center;">
             <h2 style="color:#fff; font-size:30px; font-weight:900; text-shadow:2px 2px 0px #000; margin-bottom: 20px;">ยินดีด้วย! คุณได้รับ</h2>
-            <div id="gachaResultContent" style="background:var(--card-bg); padding:30px; border-radius:16px; border:4px solid var(--text-main); box-shadow:8px 8px 0px #000; display:inline-block; margin-bottom:20px;">
-                <!-- Result renders here -->
-            </div>
+            <div id="gachaResultContent" style="background:var(--card-bg); padding:30px; border-radius:16px; border:4px solid var(--text-main); box-shadow:8px 8px 0px #000; display:inline-block; margin-bottom:20px;"></div>
             <br>
             <button class="btn-primary" style="width:200px;" onclick="document.getElementById('gachaModal').style.display='none'">เก็บเข้ากระเป๋า</button>
         </div>
     </div>
 
-    <!-- Modal ท้าเดิมพัน -->
     <div class="modal-overlay" id="challengeModal">
         <div class="card" style="width: 360px; text-align: center; position: relative; margin: 0; border-color: #ff5722; box-shadow: 8px 8px 0px var(--text-main);">
             <span onclick="document.getElementById('challengeModal').style.display='none'" style="position:absolute; right:15px; top:15px; cursor:pointer; font-weight:900; font-size: 20px; color: #ff4d4d;">X</span>
@@ -400,7 +375,6 @@
         </div>
     </div>
     
-    <!-- Profile Modal -->
     <div class="modal-overlay" id="profileModal">
         <div class="card" style="width: 350px; text-align: center; position: relative; margin: 0; box-shadow: 8px 8px 0px var(--text-main);">
             <span onclick="document.getElementById('profileModal').style.display='none'" style="position:absolute; right:15px; top:15px; cursor:pointer; font-weight:900; font-size: 20px; color: #ff4d4d;">X</span>
@@ -435,7 +409,6 @@
         const db = getFirestore(app);
         const auth = getAuth(app);
 
-        // 🔔 ระบบแจ้งเตือน Toasts & Sounds
         window.showToast = (msg, type = 'success') => {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
@@ -452,7 +425,6 @@
         };
         window.playSound = (type) => { if(sounds[type]) { sounds[type].currentTime = 0; sounds[type].play().catch(e=>console.log(e)); } };
 
-        // 🛠️ Add Function to View Image Fullscreen
         window.viewImage = (imgSrc) => {
             const modal = document.getElementById('imageViewerModal');
             const imgEl = document.getElementById('imageViewerSrc');
@@ -462,7 +434,6 @@
             }
         };
 
-        // ================= 🛠️ เพิ่มฟังก์ชันที่หายไป 🛠️ =================
         window.savePrediction = async (matchId, gw) => {
             if (!currentUser) return showToast("⚠️ กรุณาเข้าสู่ระบบ", "error");
             let pA = parseInt(document.getElementById(`predA_${matchId}`).value);
@@ -507,60 +478,43 @@
                 playSound('kaching'); showToast(`ซื้อ ${name} สำเร็จ!`, "success");
             } catch (e) { showToast(e.message, "error"); }
         };
-        // =========================================================
 
-        // ================= TCG CARD DATABASE (40 Cards) =================
         const cardDB = {
-            // 1. x2pt
             "item_x2pt_base": { name: "x2 ทั่วไป", type: "คะแนน x2", img: "./cards/card_x2pt_base.jpg", fallback: "🃏", rarity: "common" },
             "item_x2pt_rare": { name: "x2 แรร์", type: "คะแนน x2", img: "./cards/card_x2pt_rare.jpg", fallback: "🃏", rarity: "rare" },
             "item_x2pt_epic": { name: "x2 อีปิค", type: "คะแนน x2", img: "./cards/card_x2pt_epic.jpg", fallback: "🃏", rarity: "epic" },
             "item_x2pt_legendary": { name: "x2 ตำนาน", type: "คะแนน x2", img: "./cards/card_x2pt_legendary.jpg", fallback: "🃏", rarity: "legendary" },
             "item_x2pt_meme": { name: "x2 สายปั่น", type: "คะแนน x2", img: "./cards/card_x2pt_meme.jpg", fallback: "🤡", rarity: "ssr" },
-            
-            // 2. x3pt
             "item_x3pt_base": { name: "x3 ทั่วไป", type: "คะแนน x3", img: "./cards/card_x3pt_base.jpg", fallback: "🔥", rarity: "common" },
             "item_x3pt_rare": { name: "x3 แรร์", type: "คะแนน x3", img: "./cards/card_x3pt_rare.jpg", fallback: "🔥", rarity: "rare" },
             "item_x3pt_epic": { name: "x3 อีปิค", type: "คะแนน x3", img: "./cards/card_x3pt_epic.jpg", fallback: "🔥", rarity: "epic" },
             "item_x3pt_legendary": { name: "x3 ตำนาน", type: "คะแนน x3", img: "./cards/card_x3pt_legendary.jpg", fallback: "🔥", rarity: "legendary" },
             "item_x3pt_meme": { name: "x3 สายปั่น", type: "คะแนน x3", img: "./cards/card_x3pt_meme.jpg", fallback: "🤡", rarity: "ssr" },
-
-            // 3. guard
             "item_guard_base": { name: "กันแตก ทั่วไป", type: "การ์ดกันแตก", img: "./cards/card_guard_base.jpg", fallback: "🛡️", rarity: "common" },
             "item_guard_rare": { name: "กันแตก แรร์", type: "การ์ดกันแตก", img: "./cards/card_guard_rare.jpg", fallback: "🛡️", rarity: "rare" },
             "item_guard_epic": { name: "กันแตก อีปิค", type: "การ์ดกันแตก", img: "./cards/card_guard_epic.jpg", fallback: "🛡️", rarity: "epic" },
             "item_guard_legendary": { name: "กันแตก ตำนาน", type: "การ์ดกันแตก", img: "./cards/card_guard_legendary.jpg", fallback: "🛡️", rarity: "legendary" },
             "item_guard_meme": { name: "กันแตก แม็กไกวร์", type: "การ์ดกันแตก", img: "./cards/card_guard_meme.jpg", fallback: "🤪", rarity: "ssr" },
-
-            // 4. curse
             "item_curse_base": { name: "สาปแช่ง ทั่วไป", type: "การ์ดสาปแช่ง", img: "./cards/card_curse_base.jpg", fallback: "💣", rarity: "common" },
             "item_curse_rare": { name: "สาปแช่ง แรร์", type: "การ์ดสาปแช่ง", img: "./cards/card_curse_rare.jpg", fallback: "💣", rarity: "rare" },
             "item_curse_epic": { name: "สาปแช่ง อีปิค", type: "การ์ดสาปแช่ง", img: "./cards/card_curse_epic.jpg", fallback: "💣", rarity: "epic" },
             "item_curse_legendary": { name: "สาปแช่ง ตำนาน", type: "การ์ดสาปแช่ง", img: "./cards/card_curse_legendary.jpg", fallback: "💣", rarity: "legendary" },
             "item_curse_meme": { name: "สาปแช่ง สายปั่น", type: "การ์ดสาปแช่ง", img: "./cards/card_curse_meme.jpg", fallback: "😈", rarity: "ssr" },
-
-            // 5. theft
             "item_theft_base": { name: "โจรทั่วไป", type: "การ์ดปล้น", img: "./cards/card_theft_base.jpg", fallback: "🥷", rarity: "common" },
             "item_theft_rare": { name: "โจรแรร์", type: "การ์ดปล้น", img: "./cards/card_theft_rare.jpg", fallback: "🥷", rarity: "rare" },
             "item_theft_epic": { name: "ซาลาห์ฉกบอล", type: "การ์ดปล้น", img: "./cards/card_theft_epic.jpg", fallback: "🥷", rarity: "epic" },
             "item_theft_legendary": { name: "ฮาลันด์โหด", type: "การ์ดปล้น", img: "./cards/card_theft_legendary.jpg", fallback: "🥷", rarity: "legendary" },
             "item_theft_meme": { name: "แอนโทนี่หมุน", type: "การ์ดปล้น", img: "./cards/card_theft_meme.jpg", fallback: "🌪️", rarity: "ssr" },
-
-            // 6. silence
             "item_silence_base": { name: "รูดซิปปาก", type: "การ์ดปิดปาก", img: "./cards/card_silence_base.jpg", fallback: "🤐", rarity: "common" },
             "item_silence_rare": { name: "เทนฮากโวย", type: "การ์ดปิดปาก", img: "./cards/card_silence_rare.jpg", fallback: "🤐", rarity: "rare" },
             "item_silence_epic": { name: "เป๊ปเครียด", type: "การ์ดปิดปาก", img: "./cards/card_silence_epic.jpg", fallback: "🤐", rarity: "epic" },
             "item_silence_legendary": { name: "อาร์เตต้ามึน", type: "การ์ดปิดปาก", img: "./cards/card_silence_legendary.jpg", fallback: "🤐", rarity: "legendary" },
             "item_silence_meme": { name: "ใบแดงวาร์", type: "การ์ดปิดปาก", img: "./cards/card_silence_meme.jpg", fallback: "🟥", rarity: "ssr" },
-
-            // 7. shield
             "item_shield_base": { name: "กระจกทั่วไป", type: "การ์ดสะท้อน", img: "./cards/card_shield_base.jpg", fallback: "🪞", rarity: "common" },
             "item_shield_rare": { name: "กระจกแรร์", type: "การ์ดสะท้อน", img: "./cards/card_shield_rare.jpg", fallback: "🪞", rarity: "rare" },
             "item_shield_epic": { name: "กระจกอีปิค", type: "การ์ดสะท้อน", img: "./cards/card_shield_epic.jpg", fallback: "🪞", rarity: "epic" },
             "item_shield_legendary": { name: "กระจกตำนาน", type: "การ์ดสะท้อน", img: "./cards/card_shield_legendary.jpg", fallback: "🪞", rarity: "legendary" },
             "item_shield_meme": { name: "การ์ดอูโน่", type: "การ์ดสะท้อน", img: "./cards/card_shield_meme.jpg", fallback: "🔄", rarity: "ssr" },
-
-            // 8. x2coin
             "item_x2coin_base": { name: "เหรียญ x2 ทั่วไป", type: "เหรียญ x2", img: "./cards/card_x2coin_base.jpg", fallback: "🪙", rarity: "common" },
             "item_x2coin_rare": { name: "เหรียญ x2 แรร์", type: "เหรียญ x2", img: "./cards/card_x2coin_rare.jpg", fallback: "🪙", rarity: "rare" },
             "item_x2coin_epic": { name: "เหรียญ x2 อีปิค", type: "เหรียญ x2", img: "./cards/card_x2coin_epic.jpg", fallback: "🪙", rarity: "epic" },
@@ -572,7 +526,6 @@
             let card = cardDB[cardKey];
             if(!card) return '';
             let rClass = `rarity-${card.rarity}`;
-            // 🛠️ Updated image tag to have cursor-pointer and onclick to viewImage
             return `
                 <div class="tcg-card">
                     <span class="tcg-badge ${rClass}">${card.rarity === 'ssr' ? 'SSR+' : card.rarity.toUpperCase()}</span>
@@ -596,7 +549,7 @@
             "Newcastle": { logoUrl: "./images/newcastle.png" }, "Nott'm Forest": { logoUrl: "./images/forest.png" }, "Sunderland": { logoUrl: "./images/sunderland.png" }, "Tottenham": { logoUrl: "./images/tottenham.png" }
         };
 
-      const seasonFixtures = [
+        const seasonFixtures = [
             { id: "GW2_CRY_MCI", gw: 2, home: "Crystal Palace", away: "Man City", kickoff: "2026-08-29T02:00:00" },
             { id: "GW2_LIV_NFO", gw: 2, home: "Liverpool", away: "Nott'm Forest", kickoff: "2026-08-29T18:30:00" },
             { id: "GW2_BOU_EVE", gw: 2, home: "Bournemouth", away: "Everton", kickoff: "2026-08-29T21:00:00" },
@@ -665,28 +618,28 @@
             { id: "GW8_CHE_TOT", gw: 8, home: "Chelsea", away: "Tottenham", kickoff: "2026-10-24T23:30:00" },
             { id: "GW8_CRY_NEW", gw: 8, home: "Crystal Palace", away: "Newcastle", kickoff: "2026-10-25T21:00:00" },
             { id: "GW8_HUL_BRE", gw: 8, home: "Hull City", away: "Brentford", kickoff: "2026-10-25T21:00:00" },
-  	    { id: "GW8_MUN_BOU", gw: 8, home: "Man Utd", away: "Bournemouth", kickoff: "2026-10-25T21:00:00" },
-  	    { id: "GW8_SUN_LEE", gw: 8, home: "Sunderland", away: "Leeds United", kickoff: "2026-10-25T23:30:00" },
-	    { id: "GW9_CHE_MUN", gw: 9, home: "Chelsea", away: "Man Utd", kickoff: "2026-10-31T19:30:00" },
-   	    { id: "GW9_BOU_LEE", gw: 9, home: "Bournemouth", away: "Leeds United", kickoff: "2026-10-31T22:00:00" },
- 	    { id: "GW9_BRE_NFO", gw: 9, home: "Brentford", away: "Nott'm Forest", kickoff: "2026-10-31T22:00:00" },
-	    { id: "GW9_COV_SUN", gw: 9, home: "Coventry City", away: "Sunderland", kickoff: "2026-10-31T22:00:00" },
- 	    { id: "GW9_HUL_IPS", gw: 9, home: "Hull City", away: "Ipswich Town", kickoff: "2026-10-31T22:00:00" },
-  	    { id: "GW9_MCI_BHA", gw: 9, home: "Man City", away: "Brighton", kickoff: "2026-10-31T22:00:00" },
-  	    { id: "GW9_TOT_CRY", gw: 9, home: "Tottenham", away: "Crystal Palace", kickoff: "2026-11-01T00:30:00" },
- 	    { id: "GW9_AVL_FUL", gw: 9, home: "Aston Villa", away: "Fulham", kickoff: "2026-11-01T21:00:00" },
- 	    { id: "GW9_LIV_ARS", gw: 9, home: "Liverpool", away: "Arsenal", kickoff: "2026-11-01T23:30:00" },
-  	    { id: "GW9_NEW_EVE", gw: 9, home: "Newcastle", away: "Everton", kickoff: "2026-11-03T03:00:00" },
+  	        { id: "GW8_MUN_BOU", gw: 8, home: "Man Utd", away: "Bournemouth", kickoff: "2026-10-25T21:00:00" },
+  	        { id: "GW8_SUN_LEE", gw: 8, home: "Sunderland", away: "Leeds United", kickoff: "2026-10-25T23:30:00" },
+	        { id: "GW9_CHE_MUN", gw: 9, home: "Chelsea", away: "Man Utd", kickoff: "2026-10-31T19:30:00" },
+   	        { id: "GW9_BOU_LEE", gw: 9, home: "Bournemouth", away: "Leeds United", kickoff: "2026-10-31T22:00:00" },
+ 	        { id: "GW9_BRE_NFO", gw: 9, home: "Brentford", away: "Nott'm Forest", kickoff: "2026-10-31T22:00:00" },
+	        { id: "GW9_COV_SUN", gw: 9, home: "Coventry City", away: "Sunderland", kickoff: "2026-10-31T22:00:00" },
+ 	        { id: "GW9_HUL_IPS", gw: 9, home: "Hull City", away: "Ipswich Town", kickoff: "2026-10-31T22:00:00" },
+  	        { id: "GW9_MCI_BHA", gw: 9, home: "Man City", away: "Brighton", kickoff: "2026-10-31T22:00:00" },
+  	        { id: "GW9_TOT_CRY", gw: 9, home: "Tottenham", away: "Crystal Palace", kickoff: "2026-11-01T00:30:00" },
+ 	        { id: "GW9_AVL_FUL", gw: 9, home: "Aston Villa", away: "Fulham", kickoff: "2026-11-01T21:00:00" },
+ 	        { id: "GW9_LIV_ARS", gw: 9, home: "Liverpool", away: "Arsenal", kickoff: "2026-11-01T23:30:00" },
+  	        { id: "GW9_NEW_EVE", gw: 9, home: "Newcastle", away: "Everton", kickoff: "2026-11-03T03:00:00" },
     	    { id: "GW10_ARS_HUL", gw: 10, home: "Arsenal", away: "Hull City", kickoff: "2026-11-07T22:00:00" },
-   	    { id: "GW10_BHA_BRE", gw: 10, home: "Brighton", away: "Brentford", kickoff: "2026-11-07T22:00:00" },
-   	    { id: "GW10_CRY_LIV", gw: 10, home: "Crystal Palace", away: "Liverpool", kickoff: "2026-11-07T22:00:00" },
-   	    { id: "GW10_EVE_COV", gw: 10, home: "Everton", away: "Coventry City", kickoff: "2026-11-07T22:00:00" },
-  	    { id: "GW10_FUL_NEW", gw: 10, home: "Fulham", away: "Newcastle", kickoff: "2026-11-07T22:00:00" },
- 	    { id: "GW10_IPS_BOU", gw: 10, home: "Ipswich Town", away: "Bournemouth", kickoff: "2026-11-07T22:00:00" },
- 	    { id: "GW10_LEE_TOT", gw: 10, home: "Leeds United", away: "Tottenham", kickoff: "2026-11-07T22:00:00" },
- 	    { id: "GW10_MUN_AVL", gw: 10, home: "Man Utd", away: "Aston Villa", kickoff: "2026-11-07T22:00:00" },
- 	    { id: "GW10_NFO_MCI", gw: 10, home: "Nott'm Forest", away: "Man City", kickoff: "2026-11-07T22:00:00" },
-  	    { id: "GW10_SUN_CHE", gw: 10, home: "Sunderland", away: "Chelsea", kickoff: "2026-11-07T22:00:00" }
+   	        { id: "GW10_BHA_BRE", gw: 10, home: "Brighton", away: "Brentford", kickoff: "2026-11-07T22:00:00" },
+   	        { id: "GW10_CRY_LIV", gw: 10, home: "Crystal Palace", away: "Liverpool", kickoff: "2026-11-07T22:00:00" },
+   	        { id: "GW10_EVE_COV", gw: 10, home: "Everton", away: "Coventry City", kickoff: "2026-11-07T22:00:00" },
+  	        { id: "GW10_FUL_NEW", gw: 10, home: "Fulham", away: "Newcastle", kickoff: "2026-11-07T22:00:00" },
+ 	        { id: "GW10_IPS_BOU", gw: 10, home: "Ipswich Town", away: "Bournemouth", kickoff: "2026-11-07T22:00:00" },
+ 	        { id: "GW10_LEE_TOT", gw: 10, home: "Leeds United", away: "Tottenham", kickoff: "2026-11-07T22:00:00" },
+ 	        { id: "GW10_MUN_AVL", gw: 10, home: "Man Utd", away: "Aston Villa", kickoff: "2026-11-07T22:00:00" },
+ 	        { id: "GW10_NFO_MCI", gw: 10, home: "Nott'm Forest", away: "Man City", kickoff: "2026-11-07T22:00:00" },
+  	        { id: "GW10_SUN_CHE", gw: 10, home: "Sunderland", away: "Chelsea", kickoff: "2026-11-07T22:00:00" }
         ];
 
         const gwSelector = document.getElementById('gwSelector');
@@ -694,7 +647,7 @@
         const lbModeSelector = document.getElementById('lbModeSelector'); 
 
         let maxGw = seasonFixtures.reduce((max, match) => Math.max(max, match.gw), 1) || 1;
-        let startGw = 2; // ซ่อน GW1
+        let startGw = 2;
 
         gwSelector.innerHTML = ''; activityGwSelector.innerHTML = ''; lbModeSelector.innerHTML = `<option value="total">รวมทั้งหมด</option>`;
         for(let i=startGw; i<=maxGw; i++) {
@@ -711,7 +664,6 @@
         let userStatsGlobal = {}; let userInventoryGlobal = {}; let gwScoresGlobal = {}; let userMatchPointsGlobal = {};
         let currentChallengeMatchId = ""; 
 
-        // สลับ Tabs
         window.switchTab = (tab) => {
             document.getElementById('tabHome').classList.remove('active');
             document.getElementById('tabMarket').classList.remove('active');
@@ -790,7 +742,6 @@
                 let hLogo = `<img class="team-logo-img" src="${(teamData[match.home]||{logoUrl:defLogo}).logoUrl}">`;
                 let aLogo = `<img class="team-logo-img" src="${(teamData[match.away]||{logoUrl:defLogo}).logoUrl}">`;
 
-                // ไดนามิกสร้าง Select Option สำหรับการ์ดบัฟ
                 let itemOptions = `<option value="">-- ไม่ใช้ไอเทม --</option>`;
                 Object.keys(userMyInv).forEach(k => {
                     if(userMyInv[k] > 0 && (k.startsWith('item_x2pt') || k.startsWith('item_x3pt') || k.startsWith('item_guard'))) {
@@ -837,7 +788,27 @@
         document.getElementById('lbModeSelector').addEventListener('change', () => renderLeaderboardUI()); 
 
         onSnapshot(collection(db, "results"), (s) => { allResults = {}; s.forEach(d => allResults[d.id] = d.data()); calculateLeaderboard(); populateExistingData(); updateTicker(); });
-        onSnapshot(collection(db, "predictions"), (s) => { allPredictions = []; s.forEach(d => { allPredictions.push(d.data()); if(d.data().email) registeredUsersSet.add(d.data().email.split('@')[0]); }); calculateLeaderboard(); populateExistingData(); renderActivity(activityGwSelector.value || startGw); });
+        
+        // 🛠️ อัปเดต: กรอง Document ที่ซ้ำซ้อนใน Firestore โดยใช้ timestamp ล่าสุด 
+        onSnapshot(collection(db, "predictions"), (s) => { 
+            let tempMap = {};
+            s.forEach(d => { 
+                let data = d.data();
+                if(data.email && data.match) {
+                    let key = `${data.email}_${data.match}`;
+                    let t = data.timestamp || 0;
+                    if (!tempMap[key] || t > (tempMap[key].timestamp || 0)) {
+                        tempMap[key] = data;
+                    }
+                    registeredUsersSet.add(data.email.split('@')[0]); 
+                }
+            }); 
+            allPredictions = Object.values(tempMap); // ใช้เฉพาะข้อมูลที่ไม่ซ้ำและล่าสุด
+            calculateLeaderboard(); 
+            populateExistingData(); 
+            renderActivity(activityGwSelector.value || startGw); 
+        });
+
         onSnapshot(collection(db, "purchases"), (s) => { allPurchases = []; s.forEach(d => { allPurchases.push(d.data()); if(d.data().email) registeredUsersSet.add(d.data().email.split('@')[0]); }); calculateLeaderboard(); });
         onSnapshot(collection(db, "dailyRewards"), (s) => { allDailyRewards = []; s.forEach(d => { allDailyRewards.push(d.data()); if(d.data().email) registeredUsersSet.add(d.data().email.split('@')[0]); }); calculateLeaderboard(); });
         onSnapshot(collection(db, "challenges"), (s) => { allChallenges = []; s.forEach(d => allChallenges.push({ id: d.id, ...d.data() })); calculateLeaderboard(); renderInbox(); populateExistingData(); updateTicker(); });
@@ -905,7 +876,6 @@
                         if(!iKey.includes('_')) iKey += "_base";
                         userInventoryGlobal[u][iKey] = (userInventoryGlobal[u][iKey] || 0) + 1; 
                     } else if (p.item.startsWith('use_item_shield')) {
-                        // หักโล่สะท้อนทิ้งเมื่อถูกใช้
                         let shieldKey = p.item.replace('use_', '');
                         if(userInventoryGlobal[u][shieldKey] > 0) userInventoryGlobal[u][shieldKey]--;
                     }
@@ -925,13 +895,11 @@
                 }
             });
 
-            // ตลาดมืด: ลบของจากคนขาย, ให้เงินคนขาย, หักเงินคนซื้อ, ให้ของคนซื้อ
             allTrades.forEach(t => {
                 if(userStatsGlobal[t.seller]) { userStatsGlobal[t.seller].coins += t.price; userInventoryGlobal[t.seller][t.cardKey] = (userInventoryGlobal[t.seller][t.cardKey] || 0) - 1; }
                 if(userStatsGlobal[t.buyer]) { userStatsGlobal[t.buyer].coins -= t.price; userInventoryGlobal[t.buyer][t.cardKey] = (userInventoryGlobal[t.buyer][t.cardKey] || 0) + 1; }
             });
 
-            // ของที่กำลังวางขาย ต้องหักออกจากกระเป๋าชั่วคราว
             allMarketListings.forEach(l => {
                 if(userInventoryGlobal[l.seller]) userInventoryGlobal[l.seller][l.cardKey] = (userInventoryGlobal[l.seller][l.cardKey] || 0) - 1;
             });
@@ -956,7 +924,6 @@
                         if (usedItem.startsWith('item_guard') && pts === 0) pts = 1;
                     }
 
-                    // ใช้ Coin x2 อัตโนมัติถ้ามี (ใบแรกที่เจอ)
                     let coinCard = Object.keys(userInventoryGlobal[u]).find(k=>k.startsWith('item_x2coin') && userInventoryGlobal[u][k] > 0);
                     if (isDir && coinCard) { userInventoryGlobal[u][coinCard]--; cns *= 2; }
 
@@ -1088,7 +1055,6 @@
             if (tickerEl) tickerEl.innerText = tickerText;
         }
 
-        // ================= TCG Market Logic =================
         function renderCardDex() {
             const dex = document.getElementById('cardDexContainer');
             if(!dex) return;
@@ -1107,7 +1073,6 @@
             Object.keys(myInv).forEach(k => {
                 if(myInv[k] > 0 && cardDB[k]) {
                     hasCards = true;
-                    // 🛠️ เพิ่มปุ่มใช้งานการ์ดสำหรับแกล้งเพื่อน
                     let isTroll = k.startsWith('item_theft') || k.startsWith('item_curse') || k.startsWith('item_silence');
                     let trollBtn = isTroll ? `<button class="btn-action" style="background:#9c27b0; color:#fff; width:100%; margin-top:5px; padding:4px;" onclick="openTrollModal('${k}')">🎯 ใช้งานแกล้งเพื่อน</button>` : '';
                     myBoard.innerHTML += `
@@ -1178,7 +1143,6 @@
             } catch(e) { showToast(e.message, "error"); }
         };
 
-        // ================= Gacha Animation =================
         window.openGachaPack = async () => {
             if (!currentUser) return showToast("⚠️ กรุณาเข้าสู่ระบบ", "error");
             let todayStr = new Date().toISOString().slice(0, 10);
@@ -1220,7 +1184,6 @@
             }, 1000);
         };
 
-        // ================= TROLL MODAL =================
         window.openTrollModal = (specificCardKey = null) => {
             if (!currentUser) return showToast("⚠️ กรุณาเข้าสู่ระบบ", "error");
             let myUser = currentUser.email.split('@')[0];
@@ -1234,7 +1197,6 @@
 
             let selectCard = document.getElementById('trollCardKeyToUse');
             let preview = document.getElementById('trollCardPreview');
-            // 🛠️ แก้ไขให้รับค่า specificCardKey จากปุ่มได้
             let firstCard = (specificCardKey && typeof specificCardKey === 'string' && trollCards.includes(specificCardKey)) ? specificCardKey : trollCards[0];
             selectCard.value = firstCard;
             preview.innerHTML = getCardHTML(firstCard);
@@ -1272,7 +1234,6 @@
                 if (targetHasShield) {
                     actualTarget = myUser; 
                     reflected = true;
-                    // ทำลายการ์ดกระจกของเป้าหมายทิ้ง 1 ใบ
                     let shieldKey = Object.keys(userInventoryGlobal[target]).find(k => k.startsWith('item_shield') && userInventoryGlobal[target][k] > 0);
                     await addDoc(collection(db, "purchases"), { email: target+"@awang.game", item: 'use_'+shieldKey, cost: 0, timestamp: Date.now() });
                     showToast("🛡️ เป้าหมายมีกระจกสะท้อน! ของเข้าตัว!", "error");
@@ -1334,7 +1295,7 @@
 
         window.renderActivity = (gw) => {
             const container = document.getElementById('activityContainer');
-            if(container) container.innerHTML = ''; // 🛠️ ตรวจสอบก่อนเคลียร์ค่า
+            if(container) container.innerHTML = '';
             
             const weeklyMatches = seasonFixtures.filter(m => m.gw === (parseInt(gw) || startGw));
             if (allPredictions.length === 0) { 
