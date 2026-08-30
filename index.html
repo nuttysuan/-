@@ -17,7 +17,6 @@
         header { background-color: var(--pl-purple); color: white; padding: 15px; text-align: center; border-bottom: 4px solid var(--pl-green); box-shadow: 0 6px 0px rgba(0,0,0,0.1); }
         header h1 { font-weight: 900; letter-spacing: 1px; text-shadow: 2px 2px 0px #000; font-size: 24px;}
 
-        /* Navbar TCG */
         #main-nav { display: none; justify-content: center; gap: 15px; padding: 15px; background: #fff; border-bottom: 3px solid var(--text-main); box-shadow: 0 4px 0px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100;}
         .nav-btn { padding: 10px 20px; font-size: 16px; font-weight: 900; background: #eee; border: 3px solid var(--text-main); border-radius: 8px; cursor: pointer; box-shadow: 3px 3px 0px var(--text-main); transition: 0.1s; }
         .nav-btn.active { background: var(--pl-green); color: var(--pl-purple); transform: translate(2px, 2px); box-shadow: 1px 1px 0px var(--text-main); }
@@ -80,7 +79,6 @@
         .sparkline-container { display: flex; align-items: flex-end; gap: 2px; height: 20px; width: 40px; margin-left: auto; border-bottom: 2px solid var(--text-main); padding-bottom: 1px;}
         .spark-bar { width: 6px; background-color: var(--pl-purple); border: 1px solid var(--text-main); border-bottom: none; border-radius: 2px 2px 0 0;}
 
-        /* Brutalist Toast */
         #toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; pointer-events: none;}
         .toast { pointer-events: auto; padding: 12px 20px; border: 3px solid var(--text-main); border-radius: 8px; font-weight: 900; font-size: 14px; box-shadow: 4px 4px 0px var(--text-main); background: #fff; animation: slideIn 0.3s ease-out; cursor: pointer; color: var(--text-main); display: flex; align-items: center; gap: 10px;}
         .toast.success { background-color: var(--pl-green); } .toast.error { background-color: #ff4d4d; color: white; } .toast.info { background-color: #0288d1; color: white; }
@@ -90,7 +88,6 @@
         #auth-wrapper { display: flex; justify-content: center; align-items: center; padding: 40px 20px; min-height: 65vh; }
         #auth-wrapper .card { width: 100%; max-width: 450px; margin: 0; }
 
-        /* ================= TCG & Market Styles ================= */
         .tcg-card { border: 3px solid var(--text-main); border-radius: 12px; background: #fff; overflow: hidden; box-shadow: 4px 4px 0px var(--text-main); display: flex; flex-direction: column; text-align: center; position: relative; transition: 0.2s;}
         .tcg-card:hover { transform: translateY(-4px); box-shadow: 6px 6px 0px var(--text-main); }
         .tcg-img-box { width: 100%; height: 130px; background: #eee; border-bottom: 3px solid var(--text-main); display:flex; align-items:center; justify-content:center; font-size: 40px; overflow:hidden;}
@@ -110,7 +107,6 @@
         .comic-panel { border: 4px solid var(--text-main); background: #fff; box-shadow: 8px 8px 0px var(--text-main); border-radius: 8px; padding: 20px; margin-bottom: 25px; position:relative; overflow:hidden;}
         .comic-title { background: var(--text-main); color: white; display: inline-block; padding: 5px 15px; font-size: 16px; font-weight: 900; transform: skew(-5deg); margin-bottom: 15px;}
         
-        /* Gacha Animation */
         .gacha-pack { width: 150px; height: 200px; background: repeating-linear-gradient(45deg, #ff5722, #ff5722 10px, #e64a19 10px, #e64a19 20px); border: 4px solid var(--text-main); border-radius: 8px; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; color: white; font-size: 40px; box-shadow: 6px 6px 0px var(--text-main); cursor: pointer; transition: 0.1s;}
         .gacha-pack:active { transform: scale(0.95); }
         .shake-anim { animation: shake 0.5s infinite; }
@@ -788,8 +784,6 @@
         document.getElementById('lbModeSelector').addEventListener('change', () => renderLeaderboardUI()); 
 
         onSnapshot(collection(db, "results"), (s) => { allResults = {}; s.forEach(d => allResults[d.id] = d.data()); calculateLeaderboard(); populateExistingData(); updateTicker(); });
-        
-        // 🛠️ อัปเดต: กรอง Document ที่ซ้ำซ้อนใน Firestore โดยใช้ timestamp ล่าสุด 
         onSnapshot(collection(db, "predictions"), (s) => { 
             let tempMap = {};
             s.forEach(d => { 
@@ -803,7 +797,7 @@
                     registeredUsersSet.add(data.email.split('@')[0]); 
                 }
             }); 
-            allPredictions = Object.values(tempMap); // ใช้เฉพาะข้อมูลที่ไม่ซ้ำและล่าสุด
+            allPredictions = Object.values(tempMap); 
             calculateLeaderboard(); 
             populateExistingData(); 
             renderActivity(activityGwSelector.value || startGw); 
@@ -925,7 +919,7 @@
                     }
 
                     let coinCard = Object.keys(userInventoryGlobal[u]).find(k=>k.startsWith('item_x2coin') && userInventoryGlobal[u][k] > 0);
-                    if (isDir && coinCard) { userInventoryGlobal[u][coinCard]--; cns *= 2; }
+                    if ((isEx || isDir) && coinCard) { userInventoryGlobal[u][coinCard]--; cns *= 2; }
 
                     let isCursed = allCurses.some(c => c.target === u && c.matchId === match.id);
                     if (isCursed && pts === 0) { cns = 0; } 
@@ -937,7 +931,7 @@
                 });
             });
 
-            allChallenges.filter(c => c.status === 'accepted').forEach(challenge => {
+            allChallenges.filter(c => c.status === 'accepted' || c.status === 'resolved').forEach(challenge => {
                 if (finishedMatches.find(m => m.id === challenge.matchId)) {
                     let p1Pts = userMatchPointsGlobal[challenge.challenger]?.[challenge.matchId] || 0;
                     let p2Pts = userMatchPointsGlobal[challenge.challenged]?.[challenge.matchId] || 0;
@@ -1145,10 +1139,14 @@
 
         window.openGachaPack = async () => {
             if (!currentUser) return showToast("⚠️ กรุณาเข้าสู่ระบบ", "error");
+            
+            const pack = document.getElementById('gachaPackBtn');
+            if (pack.dataset.rolling) return; 
+            
             let todayStr = new Date().toISOString().slice(0, 10);
             if (allDailyRewards.some(d => d.email === currentUser.email && d.date === todayStr)) return showToast("⚠️ คุณเปิดซองของวันนี้ไปแล้ว!", "info");
 
-            const pack = document.getElementById('gachaPackBtn');
+            pack.dataset.rolling = "true"; 
             pack.classList.add('shake-anim');
             playSound('sword'); 
 
@@ -1181,6 +1179,9 @@
                     document.getElementById('gachaModal').style.display = 'flex';
                     playSound('kaching');
                 } catch(e) { showToast(e.message, "error"); }
+                finally {
+                    delete pack.dataset.rolling;
+                }
             }, 1000);
         };
 
