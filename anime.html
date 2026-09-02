@@ -1,0 +1,3898 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime TCG: ศึกการ์ดอนิเมะข้ามมิติ</title>
+    <!-- Google Fonts: Kanit -->
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #0f1423;
+            --bg-card: #182035;
+            --bg-card-header: #212c49;
+            --border-color: #2e3d66;
+            --primary: #ff4757;
+            --primary-hover: #ff6b81;
+            --secondary: #5352ed;
+            --secondary-hover: #70a1ff;
+            --gem-color: #00d2d3;
+            --gem-glow: rgba(0, 210, 211, 0.4);
+            --gold: #ffa502;
+            --text-main: #f1f2f6;
+            --text-muted: #a4b0be;
+            
+            /* Elements */
+            --el-fire: #ff4757;
+            --el-wind: #2ed573;
+            --el-earth: #eccc68;
+            --el-lightning: #ffa502;
+            --el-water: #1e90ff;
+            --el-light: #f1f2f6;
+            --el-dark: #a55eea;
+
+            /* Rarities */
+            --r-ur: linear-gradient(135deg, #ff007f, #7928ca, #0070f3, #00dfd8);
+            --r-ssr: linear-gradient(135deg, #f39c12, #f1c40f, #e67e22);
+            --r-sr: linear-gradient(135deg, #8e44ad, #9b59b6, #3498db);
+            --r-r: linear-gradient(135deg, #2980b9, #3498db);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Kanit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(83, 82, 237, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(255, 71, 87, 0.15) 0%, transparent 40%),
+                radial-gradient(#1e2942 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 24px 24px;
+            color: var(--text-main);
+            line-height: 1.5;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+            background: rgba(15, 20, 35, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 3px solid var(--secondary);
+            padding: 15px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-box h1 {
+            font-size: 22px;
+            font-weight: 900;
+            background: linear-gradient(45deg, #ff4757, #ffa502, #00d2d3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 10px rgba(255, 71, 87, 0.3);
+        }
+
+        .nav-link-btn {
+            background: linear-gradient(135deg, #37003c, #00ff85);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border: 2px solid #00ff85;
+            box-shadow: 0 0 10px rgba(0, 255, 133, 0.3);
+            transition: all 0.2s;
+        }
+        .nav-link-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(0, 255, 133, 0.6);
+        }
+
+        /* Currency & User Bar */
+        .user-hud {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .gem-badge {
+            background: #112338;
+            border: 2px solid var(--gem-color);
+            padding: 6px 14px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 800;
+            font-size: 16px;
+            color: var(--gem-color);
+            box-shadow: 0 0 10px var(--gem-glow);
+        }
+
+        .daily-btn {
+            background: linear-gradient(135deg, #ffa502, #ff7f50);
+            border: none;
+            color: #fff;
+            padding: 7px 14px;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 13px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .daily-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255, 165, 2, 0.6);
+        }
+        .daily-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1200px;
+            margin: 25px auto;
+            padding: 0 20px 60px;
+        }
+
+        /* Tab Navigation */
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+
+        .tab-btn {
+            background: var(--bg-card);
+            color: var(--text-muted);
+            border: 2px solid var(--border-color);
+            padding: 12px 22px;
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+        .tab-btn:hover {
+            background: #212c49;
+            color: #fff;
+            border-color: var(--secondary);
+        }
+        .tab-btn.active {
+            background: var(--secondary);
+            color: #fff;
+            border-color: #70a1ff;
+            box-shadow: 0 4px 15px rgba(83, 82, 237, 0.4);
+        }
+
+        /* Sections */
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cards Panel */
+        .panel {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 18px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px dashed var(--border-color);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .panel-title {
+            font-size: 20px;
+            font-weight: 900;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Gacha Banner */
+        .gacha-banner {
+            background: linear-gradient(135deg, #1b2038 0%, #2f1d47 50%, #1a2f4c 100%);
+            border: 3px solid #ff4757;
+            border-radius: 20px;
+            padding: 35px 25px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(255, 71, 87, 0.25);
+            margin-bottom: 30px;
+        }
+
+        .gacha-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.06) 0%, transparent 60%);
+            animation: rotateBg 20s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes rotateBg {
+            100% { transform: rotate(360deg); }
+        }
+
+        .gacha-banner h2 {
+            font-size: 32px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            background: linear-gradient(45deg, #fff, #ffd700, #ff4757);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gacha-banner p {
+            color: #ced6e0;
+            font-size: 15px;
+            margin-bottom: 25px;
+        }
+
+        .gacha-actions {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 2;
+        }
+
+        .btn-pull {
+            padding: 14px 28px;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 900;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 180px;
+            box-shadow: 0 6px 0px rgba(0,0,0,0.3);
+        }
+        .btn-pull:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0px rgba(0,0,0,0.3);
+        }
+
+        .btn-pull-1 {
+            background: linear-gradient(135deg, #00d2d3, #0288d1);
+            color: #fff;
+        }
+        .btn-pull-1:hover {
+            background: linear-gradient(135deg, #10e0e1, #039be5);
+            box-shadow: 0 0 20px rgba(0, 210, 211, 0.5);
+        }
+
+        .btn-pull-10 {
+            background: linear-gradient(135deg, #ff4757, #ffa502);
+            color: #fff;
+            border: 2px solid #ffd700;
+        }
+        .btn-pull-10:hover {
+            background: linear-gradient(135deg, #ff6b81, #ffb142);
+            box-shadow: 0 0 25px rgba(255, 71, 87, 0.6);
+        }
+
+        .btn-sub-label {
+            font-size: 12px;
+            opacity: 0.9;
+            font-weight: 600;
+            margin-top: 3px;
+        }
+
+        .gacha-rates-badge {
+            display: inline-block;
+            margin-top: 15px;
+            font-size: 13px;
+            color: #a4b0be;
+            cursor: pointer;
+            text-decoration: underline;
+            position: relative;
+            z-index: 2;
+        }
+        .gacha-rates-badge:hover {
+            color: #fff;
+        }
+
+        /* Card Grid */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        /* Anime Card Component */
+        .tcg-card {
+            background: #151b2e;
+            border-radius: 16px;
+            border: 2px solid var(--border-color);
+            overflow: hidden;
+            position: relative;
+            transition: all 0.25s ease;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+        }
+        .tcg-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.5);
+        }
+
+        .tcg-card.rarity-UR {
+            border: 2px solid #ff007f;
+            box-shadow: 0 0 15px rgba(255, 0, 127, 0.35);
+        }
+        .tcg-card.rarity-SSR {
+            border: 2px solid #ffa502;
+            box-shadow: 0 0 12px rgba(255, 165, 2, 0.3);
+        }
+        .tcg-card.rarity-SR {
+            border: 2px solid #a55eea;
+            box-shadow: 0 0 10px rgba(165, 94, 234, 0.25);
+        }
+        .tcg-card.rarity-R {
+            border: 2px solid #3498db;
+        }
+
+        .card-top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            background: rgba(0, 0, 0, 0.4);
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .rarity-tag {
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: 0.5px;
+        }
+        .tag-UR { background: var(--r-ur); }
+        .tag-SSR { background: var(--r-ssr); }
+        .tag-SR { background: var(--r-sr); }
+        .tag-R { background: var(--r-r); }
+
+        .element-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+        .el-Fire { background: rgba(255, 71, 87, 0.2); color: #ff6b81; border: 1px solid #ff4757; }
+        .el-Wind { background: rgba(46, 213, 115, 0.2); color: #2ed573; border: 1px solid #2ed573; }
+        .el-Earth { background: rgba(236, 204, 104, 0.2); color: #eccc68; border: 1px solid #eccc68; }
+        .el-Lightning { background: rgba(255, 165, 2, 0.2); color: #ffa502; border: 1px solid #ffa502; }
+        .el-Water { background: rgba(30, 144, 255, 0.2); color: #70a1ff; border: 1px solid #1e90ff; }
+        .el-Light { background: rgba(255, 255, 255, 0.2); color: #fff; border: 1px solid #fff; }
+        .el-Dark { background: rgba(165, 94, 234, 0.2); color: #d2b4de; border: 1px solid #a55eea; }
+
+        .card-img-wrap {
+            width: 100%;
+            height: 170px;
+            background: #1e263d;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-avatar-fallback {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 34px;
+            font-weight: 900;
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            border: 3px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .card-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .card-body {
+            padding: 12px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card-name {
+            font-size: 15px;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-series {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .card-role-badge {
+            display: inline-block;
+            align-self: flex-start;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 800;
+            background: #2a3556;
+            color: #ced6e0;
+            margin-bottom: 8px;
+        }
+
+        .stats-mini-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4px;
+            font-size: 11px;
+            background: #0f1526;
+            padding: 6px 8px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .stat-label { font-size: 9px; color: var(--text-muted); display: block; }
+
+        .card-actions {
+            display: flex;
+            gap: 6px;
+            margin-top: 5px;
+        }
+
+        .btn-card-action {
+            flex: 1;
+            padding: 6px 8px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        .btn-view-card {
+            background: #2f3542;
+            color: #fff;
+        }
+        .btn-view-card:hover {
+            background: #57606f;
+        }
+
+        .btn-sell-card {
+            background: #ff4757;
+            color: #fff;
+        }
+        .btn-sell-card:hover {
+            background: #ff6b81;
+        }
+
+        .btn-buy-card {
+            background: linear-gradient(135deg, #00d2d3, #0288d1);
+            color: #fff;
+            width: 100%;
+            padding: 8px;
+            font-size: 13px;
+        }
+        .btn-buy-card:hover {
+            background: linear-gradient(135deg, #10e0e1, #039be5);
+        }
+
+        /* Filter Controls */
+        .filter-bar {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+
+        .filter-select, .search-input {
+            background: #111728;
+            border: 2px solid var(--border-color);
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            outline: none;
+        }
+        .filter-select:focus, .search-input:focus {
+            border-color: var(--secondary);
+        }
+
+        /* Modals */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(5px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-box {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 20px;
+            max-width: 520px;
+            width: 100%;
+            padding: 25px;
+            position: relative;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #2f3542;
+            border: none;
+            color: #fff;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: 800;
+            font-size: 16px;
+        }
+
+        /* Reveal Modal for Gacha */
+        .reveal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 12px;
+            margin: 20px 0;
+            max-height: 60vh;
+            overflow-y: auto;
+            padding: 5px;
+        }
+
+        .reveal-item {
+            background: #13192b;
+            border-radius: 12px;
+            padding: 10px;
+            text-align: center;
+            border: 2px solid var(--border-color);
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.6); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* Elements Chart Table */
+        .chart-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            font-size: 13px;
+        }
+        .chart-card {
+            background: #111728;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: var(--text-muted);
+        }
+        .empty-state h3 {
+            color: #fff;
+            margin-bottom: 6px;
+        }
+
+        /* Auth Form */
+        .auth-card {
+            max-width: 420px;
+            margin: 60px auto;
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+
+        .auth-card input {
+            width: 100%;
+            background: #111728;
+            border: 2px solid var(--border-color);
+            color: #fff;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 14px;
+            margin-bottom: 12px;
+            outline: none;
+        }
+
+        .btn-auth-primary {
+            width: 100%;
+            background: var(--secondary);
+            color: #fff;
+            border: none;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            margin-bottom: 10px;
+            transition: background 0.2s;
+        }
+        .btn-auth-primary:hover {
+            background: var(--secondary-hover);
+        }
+
+        .btn-auth-secondary {
+            width: 100%;
+            background: transparent;
+            color: var(--secondary-hover);
+            border: 2px solid var(--secondary);
+            padding: 10px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-auth-secondary:hover {
+            background: rgba(83, 82, 237, 0.15);
+        }
+
+        .badge-count {
+            background: var(--primary);
+            color: #fff;
+            font-size: 11px;
+            padding: 2px 7px;
+            border-radius: 10px;
+            margin-left: 4px;
+        }
+    
+        /* Formation Slots */
+        .formation-container {
+            background: #0d1220;
+            border: 2px solid var(--border-color);
+            border-radius: 18px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .formation-title {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--gold);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .formation-row {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .team-slot {
+            width: 180px;
+            min-height: 220px;
+            background: #141b2d;
+            border: 2px dashed #2f3e66;
+            border-radius: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+            padding: 8px;
+        }
+        .team-slot:hover {
+            border-color: var(--secondary-hover);
+            background: #1b243c;
+        }
+        .team-slot.filled {
+            border-style: solid;
+            border-color: var(--secondary);
+            background: #161e33;
+        }
+
+        .slot-badge {
+            position: absolute;
+            top: 6px;
+            left: 6px;
+            background: rgba(0,0,0,0.6);
+            padding: 2px 6px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 800;
+            color: var(--text-muted);
+            z-index: 2;
+        }
+
+        .slot-remove-btn {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            background: #ff4757;
+            color: #fff;
+            border: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: 800;
+            font-size: 12px;
+            z-index: 2;
+        }
+
+        .synergy-box {
+            background: #101626;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .synergy-chip {
+            background: #1c2642;
+            border: 1px solid var(--secondary);
+            color: #70a1ff;
+            padding: 4px 10px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Stage Cards */
+        .stage-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+
+        .stage-card {
+            background: #111728;
+            border: 2px solid var(--border-color);
+            border-radius: 14px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.2s;
+        }
+        .stage-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-3px);
+        }
+
+        /* Battle Arena Screen */
+        .battle-view {
+            background: #080c16;
+            border: 2px solid var(--border-color);
+            border-radius: 20px;
+            padding: 18px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+        }
+
+        .battle-top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #11172a;
+            padding: 8px 16px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .atb-track {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            overflow-x: auto;
+            max-width: 500px;
+            padding: 4px;
+        }
+
+        .atb-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            border: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 900;
+            background: #1e263d;
+            flex-shrink: 0;
+        }
+        .atb-avatar.current {
+            border-color: var(--gold);
+            transform: scale(1.2);
+            box-shadow: 0 0 12px var(--gold);
+        }
+
+        .battle-side-box {
+            margin-bottom: 16px;
+        }
+
+        .side-label {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .combatants-row {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+        }
+        @media (max-width: 900px) {
+            .combatants-row { grid-template-columns: repeat(3, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .combatants-row { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        .combatant-card {
+            background: #12182b;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 8px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        .combatant-card.selected-target {
+            border-color: #ff4757 !important;
+            box-shadow: 0 0 15px rgba(255, 71, 87, 0.6) !important;
+            transform: scale(1.03);
+        }
+        .combatant-card.active-turn {
+            border-color: var(--gold) !important;
+            box-shadow: 0 0 15px rgba(255, 165, 2, 0.6) !important;
+            animation: pulseGlow 1.5s infinite;
+        }
+        .combatant-card.dead {
+            opacity: 0.35;
+            filter: grayscale(1);
+            pointer-events: none;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 10px rgba(255, 165, 2, 0.4); }
+            50% { box-shadow: 0 0 20px rgba(255, 165, 2, 0.8); }
+        }
+
+        .bar-wrap {
+            background: #080c16;
+            height: 7px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 3px 0;
+            position: relative;
+        }
+        .hp-fill {
+            background: linear-gradient(90deg, #ff4757, #2ed573);
+            height: 100%;
+            transition: width 0.3s;
+        }
+        .shield-fill {
+            background: #00d2d3;
+            height: 100%;
+            transition: width 0.3s;
+        }
+        .sp-fill {
+            background: #ffa502;
+            height: 100%;
+            transition: width 0.3s;
+        }
+
+        .status-tray {
+            display: flex;
+            gap: 4px;
+            justify-content: center;
+            min-height: 18px;
+            margin-top: 4px;
+            flex-wrap: wrap;
+        }
+        .status-icon {
+            font-size: 11px;
+            background: rgba(0,0,0,0.6);
+            padding: 1px 4px;
+            border-radius: 4px;
+            font-weight: 800;
+        }
+
+        .command-dock {
+            background: #11172a;
+            border: 2px solid var(--secondary);
+            border-radius: 16px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .ap-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 800;
+            color: #00d2d3;
+            margin-bottom: 12px;
+        }
+        .ap-orb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #00d2d3;
+            box-shadow: 0 0 8px #00d2d3;
+            transition: all 0.2s;
+        }
+        .ap-orb.spent {
+            background: #1a273b;
+            box-shadow: none;
+            border: 1px solid #2e3e5c;
+        }
+
+        .command-actions-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        @media (max-width: 768px) {
+            .command-actions-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        .btn-command {
+            padding: 12px 10px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            background: #1b243d;
+            color: #fff;
+        }
+        .btn-command:hover:not(:disabled) {
+            transform: translateY(-2px);
+            border-color: var(--secondary-hover);
+        }
+        .btn-command:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            filter: grayscale(0.8);
+        }
+
+        .btn-cmd-attack { background: linear-gradient(135deg, #1b243d, #2f1d2e); border-color: #ff4757; }
+        .btn-cmd-skill { background: linear-gradient(135deg, #1b243d, #1a2f4c); border-color: #00d2d3; }
+        .btn-cmd-guard { background: linear-gradient(135deg, #1b243d, #21352e); border-color: #2ed573; }
+        .btn-cmd-ulti { background: linear-gradient(135deg, #421c27, #531e0f); border-color: #ffa502; }
+        .btn-cmd-ulti.ready {
+            animation: pulseGlow 1s infinite;
+            border-color: #ffd700;
+        }
+
+        .combat-log-box {
+            background: #0a0e1a;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 8px 12px;
+            height: 95px;
+            overflow-y: auto;
+            font-size: 12px;
+            color: #ced6e0;
+            margin-top: 12px;
+            font-family: monospace;
+        }
+        .log-entry { margin-bottom: 4px; }
+        .log-reaction { color: #00d2d3; font-weight: bold; }
+        .log-crit { color: #ff4757; font-weight: bold; }
+        .log-heal { color: #2ed573; font-weight: bold; }
+
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="header-content">
+            <div class="logo-box">
+                <h1>🎴 Anime TCG</h1>
+                <span style="font-size: 12px; background: #212c49; padding: 4px 8px; border-radius: 6px; color: var(--gem-color); font-weight: 700;">
+                    50 Characters
+                </span>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <a href="index.html" class="nav-link-btn">
+                    ⚽ เว็บบอล (อย่านอนใกล้คนหลายใจ)
+                </a>
+
+                <div id="userHud" class="user-hud" style="display: none;">
+                    <div class="gem-badge">
+                        💎 <span id="userGemsDisplay">0</span>
+                    </div>
+                    <button class="daily-btn" id="dailyRewardBtn" onclick="claimDailyReward()">
+                        🎁 รับฟรี 100
+                    </button>
+                    <button class="btn-card-action" style="background:#ff4757; color:#fff; padding:6px 12px;" onclick="handleLogout()">
+                        ออกจากระบบ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+
+        <!-- Auth Section (Shown if logged out) -->
+        <div id="authSection" class="auth-card" style="display: none;">
+            <h2 style="font-size: 24px; font-weight: 900; margin-bottom: 8px;">🔐 เข้าสู่ระบบ</h2>
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">
+                ใช้ชื่อผู้ใช้และรหัสผ่านชุดเดียวกับเว็บบอลเดิมได้ทันที
+            </p>
+            <input type="text" id="usernameInput" placeholder="ชื่อผู้ใช้ (เช่น nutty4k)">
+            <input type="password" id="passwordInput" placeholder="รหัสผ่าน">
+            <button class="btn-auth-primary" id="loginBtn">เข้าสู่ระบบ</button>
+            <button class="btn-auth-secondary" id="registerBtn">สมัครสมาชิกใหม่</button>
+        </div>
+
+        <!-- App Section (Shown if logged in) -->
+        <div id="appSection" style="display: none;">
+            
+            <!-- Tab Buttons -->
+            <div class="nav-tabs">
+                <button class="tab-btn active" onclick="switchTab('arena')">⚔️ จัดทีม & ประลอง (Arena)</button>
+                <button class="tab-btn" onclick="switchTab('gacha')">
+                    🎰 ตู้สุ่มการ์ด (Gacha)
+                </button>
+                <button class="tab-btn" onclick="switchTab('inventory')">
+                    🎒 คลังการ์ดของฉัน <span id="invCountBadge" class="badge-count">0</span>
+                </button>
+                <button class="tab-btn" onclick="switchTab('market')">
+                    🏪 ตลาดมังงะ (Market) <span id="marketCountBadge" class="badge-count">0</span>
+                </button>
+                <button class="tab-btn" onclick="switchTab('codex')">
+                    📖 สมุดภาพ 50 ตัวละคร
+                </button>
+                <button class="tab-btn" onclick="switchTab('elements')">
+                    ⚡ กฎ 7 ธาตุ & บทบาท
+                </button>
+            </div>
+
+            <!-- Tab 1: Gacha Section -->
+            
+            <!-- Tab: Arena & Team Builder -->
+            <div id="tab-arena" class="content-section active">
+                
+                <!-- Sub-view 1: Arena Lobby / Team Setup -->
+                <div id="arenaLobbyView">
+                    
+                    <!-- Team Formation Panel -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <div class="panel-title">
+                                ⚔️ จัดทีมต่อสู้ 5 ใบ (Formation Deck)
+                            </div>
+                            <div style="display: flex; gap: 8px;">
+                                <button class="btn-auth-primary" style="margin-bottom:0; padding:6px 14px; font-size:13px;" onclick="saveTeamToCloud()">
+                                    💾 บันทึกทีมลงระบบ
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Active Synergies Display -->
+                        <div class="synergy-box">
+                            <span style="font-size: 13px; font-weight: 800; color: var(--gold);">✨ Team Synergies:</span>
+                            <div id="synergyChipsContainer" style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                <span style="font-size: 12px; color: var(--text-muted);">จัดทีมเพื่อปลดล็อกโบนัสซีรีส์ & ธาตุ</span>
+                            </div>
+                        </div>
+
+                        <!-- 5 Slots: 2 Front, 3 Back -->
+                        <div class="formation-container">
+                            <div class="formation-title">🛡️ แถวหน้า (Frontline - รับดาเมจก่อน / แทงก์)</div>
+                            <div class="formation-row">
+                                <div class="team-slot" id="slot-0" onclick="openSlotPicker(0)">
+                                    <span class="slot-badge">ตำแหน่ง 1 (หน้า)</span>
+                                    <div class="slot-content">➕ เลือกการ์ด</div>
+                                </div>
+                                <div class="team-slot" id="slot-1" onclick="openSlotPicker(1)">
+                                    <span class="slot-badge">ตำแหน่ง 2 (หน้า)</span>
+                                    <div class="slot-content">➕ เลือกการ์ด</div>
+                                </div>
+                            </div>
+
+                            <div class="formation-title" style="color: #70a1ff;">⚡ แถวหลัง (Backline - ตัวทำดาเมจ / คาถา / ซัพพอร์ต)</div>
+                            <div class="formation-row">
+                                <div class="team-slot" id="slot-2" onclick="openSlotPicker(2)">
+                                    <span class="slot-badge">ตำแหน่ง 3 (หลัง)</span>
+                                    <div class="slot-content">➕ เลือกการ์ด</div>
+                                </div>
+                                <div class="team-slot" id="slot-3" onclick="openSlotPicker(3)">
+                                    <span class="slot-badge">ตำแหน่ง 4 (หลัง)</span>
+                                    <div class="slot-content">➕ เลือกการ์ด</div>
+                                </div>
+                                <div class="team-slot" id="slot-4" onclick="openSlotPicker(4)">
+                                    <span class="slot-badge">ตำแหน่ง 5 (หลัง)</span>
+                                    <div class="slot-content">➕ เลือกการ์ด</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PvE Challenge Stages Panel -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <div class="panel-title">🏆 ด่านท้าทายมัลติเวิร์ส (PvE Campaign 5 Stages)</div>
+                            <div style="font-size: 13px; color: var(--gem-color);">ชนะผ่านด่านรับ Gems รางวัลทันที!</div>
+                        </div>
+                        <div class="stage-grid" id="stageGrid"></div>
+                    </div>
+
+                    
+                    <!-- Realtime PvP 1v1 Room Lobby Panel -->
+                    <div class="panel" style="border-color: #00d2d3; box-shadow: 0 0 20px rgba(0, 210, 211, 0.2);">
+                        <div class="panel-header">
+                            <div class="panel-title">
+                                🌐 ลานประลองสด Realtime PvP (1v1 Live Match)
+                                <span style="font-size: 11px; background: #ff4757; color: #fff; padding: 2px 8px; border-radius: 10px; margin-left: 6px;">
+                                    LIVE SYNC
+                                </span>
+                            </div>
+                            <div style="font-size: 13px; color: var(--gem-color); font-weight: 700;">
+                                สู้กับเพื่อนแบบเรียลไทม์ 30 วิ/เทิร์น • แข่งกระชับมิตรวัด Rank Points
+                            </div>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1.3fr; gap: 20px; margin-bottom: 10px;">
+                            <!-- Create / Join by code -->
+                            <div style="background: #0f1424; padding: 18px; border-radius: 14px; border: 1px solid var(--border-color);">
+                                <h4 style="font-size: 15px; color: var(--gold); margin-bottom: 10px;">🔑 สร้างห้องหรือเข้าร่วมด้วยรหัส</h4>
+                                <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                                    <button class="btn-pull btn-pull-1" style="flex: 1; padding: 10px; font-size: 13px; min-width: auto;" onclick="createRealtimeRoom()">
+                                        ➕ สร้างห้องใหม่
+                                    </button>
+                                </div>
+                                <div style="display: flex; gap: 8px;">
+                                    <input type="text" id="roomCodeInput" placeholder="รหัสห้อง 4 หลัก" maxlength="4"
+                                           style="flex: 1; background: #161e33; border: 2px solid var(--border-color); color: #fff; padding: 10px 14px; border-radius: 10px; font-size: 14px; font-weight: 800; text-align: center; letter-spacing: 2px;">
+                                    <button class="btn-card-action" style="background: var(--secondary); color: #fff; padding: 0 16px; font-size: 13px; flex: none;" onclick="joinRealtimeRoomByCode()">
+                                        เข้าร่วม
+                                    </button>
+                                </div>
+                                <div id="myWaitingRoomBox" style="margin-top: 14px; display: none;"></div>
+                            </div>
+
+                            <!-- Live Public Rooms List -->
+                            <div style="background: #0f1424; padding: 18px; border-radius: 14px; border: 1px solid var(--border-color);">
+                                <h4 style="font-size: 15px; color: #2ed573; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+                                    <span>🟢 ห้องสาธารณะที่เปิดรออยู่</span>
+                                    <span id="publicRoomsCountBadge" style="font-size: 11px; background: #1f2a44; padding: 2px 8px; border-radius: 10px; color: #fff;">0 ห้อง</span>
+                                </h4>
+                                <div id="publicRoomsListContainer" style="max-height: 180px; overflow-y: auto; padding-right: 4px;">
+                                    <p style="font-size: 13px; color: var(--text-muted); text-align: center; padding: 25px 0;">ยังไม่มีห้องสาธารณะเปิดรอในขณะนี้</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+<!-- PvP Arena Panel -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <div class="panel-title">⚔️ ลานประลองผู้เล่น (Async PvP Arena)</div>
+                            <div style="font-size: 13px; color: var(--gold);">ท้าสู้กับทีม 5 ใบของผู้เล่นคนอื่นในระบบ</div>
+                        </div>
+                        <div id="pvpChallengersGrid" class="stage-grid"></div>
+                    </div>
+
+                    <!-- PvP Leaderboard & Hall of Fame Panel -->
+                    <div class="panel" style="border-color: #ffa502; box-shadow: 0 0 20px rgba(255, 165, 2, 0.15); margin-top: 25px;">
+                        <div class="panel-header">
+                            <div class="panel-title">
+                                🏆 ตารางอันดับผู้เล่น (PvP Leaderboard & Hall of Fame)
+                            </div>
+                            <div style="font-size: 13px; color: var(--gold); font-weight: 800;">
+                                อันดับยอดฝีมือ Realtime & Async Arena
+                            </div>
+                        </div>
+
+                        <div style="overflow-x: auto;">
+                            <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 14px;">
+                                <thead>
+                                    <tr style="background: #0f1424; color: var(--text-muted); border-bottom: 2px solid var(--border-color);">
+                                        <th style="padding: 10px 14px; width: 70px; text-align: center;">อันดับ</th>
+                                        <th style="padding: 10px 14px;">ผู้เล่น (Player)</th>
+                                        <th style="padding: 10px 14px; text-align: center;">การ์ดสะสม</th>
+                                        <th style="padding: 10px 14px; text-align: right; color: var(--gold);">PvP Points</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="pvpLeaderboardBody">
+                                    <tr><td colspan="4" style="text-align: center; padding: 25px; color: var(--text-muted);">กำลังโหลดตารางคะแนน...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <!-- Sub-view 2: Active Battle Screen -->
+                <div id="arenaBattleView" style="display: none;">
+                    <div class="battle-view">
+                        
+                        <!-- Top status bar -->
+                        <div class="battle-top-bar">
+                            <div>
+                                <h3 id="battleOpponentName" style="font-size: 16px; font-weight: 900; color: #ff4757;">
+                                    ⚔️ กำลังต่อสู้: ด่านท้าทาย
+                                </h3>
+                                <div style="display: flex; align-items: center; gap: 15px;">
+
+                            <div id="realtimeTimerBox" style="display: none; align-items: center; gap: 6px; background: #0b1120; border: 2px solid #ff4757; padding: 4px 12px; border-radius: 20px;">
+                                <span style="font-size: 14px;">⏱️</span>
+                                <span id="turnTimerText" style="font-size: 14px; font-weight: 900; color: #ff4757;">30s</span>
+                            </div>
+
+                                <div style="font-size: 12px; color: var(--text-muted);">
+                                    รอบที่ (Round): <span id="battleRoundCounter" style="color:#fff; font-weight:800;">1</span>
+                                </div>
+                            </div>
+
+                            <!-- ATB Queue -->
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <span style="font-size: 11px; font-weight: 800; color: var(--gold);">คิวออกท่า:</span>
+                                <div class="atb-track" id="atbQueueTrack"></div>
+                            </div>
+
+                            <button class="btn-card-action" style="background:#2a3556; color:#fff; padding:6px 12px; flex:none;" onclick="surrenderBattle()">
+                                🏳️ ยอมแพ้
+                            </button>
+                        </div>
+
+                        <!-- Enemy Team (Top) -->
+                        <div class="battle-side-box">
+                            <div class="side-label">
+                                <span>🔴 ทีมศัตรู (คลิกการ์ดเพื่อล็อกเป้าหมาย)</span>
+                                <span id="enemyTargetLabel" style="color: #ff6b81; font-weight: 800;">เป้าหมาย: -</span>
+                            </div>
+                            <div class="combatants-row" id="enemyCombatantsRow"></div>
+                        </div>
+
+                        <!-- Player Team (Bottom) -->
+                        <div class="battle-side-box" style="margin-top: 15px;">
+                            <div class="side-label">
+                                <span>🔵 ทีมของคุณ</span>
+                                <span id="playerActiveHeroLabel" style="color: #00d2d3; font-weight: 800;">ถึงคิว: -</span>
+                            </div>
+                            <div class="combatants-row" id="playerCombatantsRow"></div>
+                        </div>
+
+                        <!-- Tactical Command Panel -->
+                        <div class="command-dock" id="battleCommandDock">
+                            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+                                <div class="ap-bar">
+                                    <span>แต้มคำสั่ง (Team AP):</span>
+                                    <div style="display: flex; gap: 6px;" id="apOrbsContainer">
+                                        <div class="ap-orb"></div>
+                                        <div class="ap-orb"></div>
+                                        <div class="ap-orb"></div>
+                                        <div class="ap-orb"></div>
+                                        <div class="ap-orb"></div>
+                                    </div>
+                                    <span id="apNumberLabel" style="margin-left: 6px; font-size: 13px;">(5/5)</span>
+                                </div>
+
+                                <div id="targetAdvantageHint" style="font-size: 12px; font-weight: 800; color: var(--gold);">
+                                    ⚡ กำลังเล็งเป้าหมาย...
+                                </div>
+                            </div>
+
+                            <!-- 4 Actions -->
+                            <div class="command-actions-grid">
+                                <button class="btn-command btn-cmd-attack" id="btnActionAttack" onclick="executePlayerAction('attack')">
+                                    <span>🗡️ Normal Strike</span>
+                                    <span style="font-size: 11px; opacity: 0.8;">ใช้ 1 AP • +20 SP • ติดธาตุ</span>
+                                </button>
+                                <button class="btn-command btn-cmd-skill" id="btnActionSkill" onclick="executePlayerAction('skill')">
+                                    <span id="roleSkillLabel">✨ Tactical Skill</span>
+                                    <span id="roleSkillSubLabel" style="font-size: 11px; opacity: 0.8;">ใช้ 2 AP • สกิลบทบาท</span>
+                                </button>
+                                <button class="btn-command btn-cmd-guard" id="btnActionGuard" onclick="executePlayerAction('guard')">
+                                    <span>🛡️ Guard</span>
+                                    <span style="font-size: 11px; opacity: 0.8;">ใช้ 1 AP • ลดดาเมจ 50%</span>
+                                </button>
+                                <button class="btn-command btn-cmd-ulti" id="btnActionUlti" onclick="executePlayerAction('ultimate')">
+                                    <span id="ultimateSkillLabel">💥 Ultimate Finisher</span>
+                                    <span id="ultimateSkillSubLabel" style="font-size: 11px; opacity: 0.8;">ใช้ 3 AP • ต้องมี 100 SP</span>
+                                </button>
+                            </div>
+
+                            <!-- Live Battle Log -->
+                            <div class="combat-log-box" id="combatLogBox">
+                                <div class="log-entry">⚔️ การประลองเริ่มต้นขึ้นแล้ว! วางแผนคำสั่งและเลือกเป้าหมายได้เลย!</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="tab-gacha" class="content-section">
+                <div class="gacha-banner">
+                    <h2>✨ SUMMON FESTIVAL: THE MULTIVERSE</h2>
+                    <p>รวบรวม 50 ยอดฝีมือจาก 8 ซีรีส์อนิเมะชั้นนำ การันตีการ์ด SR ขึ้นไปทุกๆ การสุ่ม 10 ใบ!</p>
+                    
+                    <div class="gacha-actions">
+                        <button class="btn-pull btn-pull-1" onclick="pullGacha(1)">
+                            <span>สุ่ม 1 ครั้ง</span>
+                            <span class="btn-sub-label">💎 100 Gems</span>
+                        </button>
+                        <button class="btn-pull btn-pull-10" onclick="pullGacha(10)">
+                            <span>สุ่ม 10 ครั้ง</span>
+                            <span class="btn-sub-label">💎 900 Gems (ลด 10% + การันตี SR+)</span>
+                        </button>
+                    </div>
+
+                    <div class="gacha-rates-badge" onclick="openRatesModal()">
+                        📊 ตรวจสอบอัตราการสุ่ม (Rarity Drop Rates)
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <div class="panel-title">⭐ ตัวละครระดับ UR ประจำตู้</div>
+                    </div>
+                    <div id="urShowcaseGrid" class="card-grid"></div>
+                </div>
+            </div>
+
+            <!-- Tab 2: Inventory Section -->
+            <div id="tab-inventory" class="content-section">
+                <div class="panel">
+                    <div class="panel-header">
+                        <div class="panel-title">🎒 คลังการ์ดที่ครอบครอง</div>
+                        <div style="font-size: 13px; color: var(--text-muted);">
+                            คลิกการ์ดเพื่อดูรายละเอียดสเตตัส หรือนำไปตั้งขายในตลาด
+                        </div>
+                    </div>
+
+                    <!-- Filters -->
+                    <div class="filter-bar">
+                        <input type="text" id="invSearch" class="search-input" placeholder="🔍 ค้นหาชื่อการ์ด..." oninput="renderInventoryUI()">
+                        
+                        <select id="invFilterSeries" class="filter-select" onchange="renderInventoryUI()">
+                            <option value="all">ทุกซีรีส์ (All)</option>
+                        </select>
+
+                        <select id="invFilterRarity" class="filter-select" onchange="renderInventoryUI()">
+                            <option value="all">ทุก Rarity</option>
+                            <option value="UR">UR (Ultra Rare)</option>
+                            <option value="SSR">SSR</option>
+                            <option value="SR">SR</option>
+                            <option value="R">R</option>
+                        </select>
+
+                        <select id="invFilterElement" class="filter-select" onchange="renderInventoryUI()">
+                            <option value="all">ทุกธาตุ</option>
+                            <option value="Fire">🔥 Fire</option>
+                            <option value="Wind">🌪️ Wind</option>
+                            <option value="Earth">🪨 Earth</option>
+                            <option value="Lightning">⚡ Lightning</option>
+                            <option value="Water">💧 Water</option>
+                            <option value="Light">☀️ Light</option>
+                            <option value="Dark">🌑 Dark</option>
+                        </select>
+
+                        <select id="invFilterRole" class="filter-select" onchange="renderInventoryUI()">
+                            <option value="all">ทุกบทบาท</option>
+                            <option value="Attacker">⚔️ Attacker</option>
+                            <option value="Tank">🛡️ Tank</option>
+                            <option value="Assassin">🗡️ Assassin</option>
+                            <option value="Spell">📜 Spell</option>
+                            <option value="Healer">💖 Healer</option>
+                            <option value="Tactician">🧠 Tactician</option>
+                        </select>
+                    </div>
+
+                    <div id="inventoryGrid" class="card-grid"></div>
+                </div>
+            </div>
+
+            <!-- Tab 3: Marketplace Section -->
+            <div id="tab-market" class="content-section">
+                <div class="panel">
+                    <div class="panel-header">
+                        <div class="panel-title">🏪 ตลาดมังงะ (Card Marketplace)</div>
+                        <div style="font-size: 13px; color: var(--gem-color); font-weight: 700;">
+                            ซื้อ-ขายแลกเปลี่ยนการ์ดด้วย Gems แบบเรียลไทม์
+                        </div>
+                    </div>
+
+                    <div class="filter-bar">
+                        <input type="text" id="marketSearch" class="search-input" placeholder="🔍 ค้นหาในตลาด..." oninput="renderMarketUI()">
+                        
+                        <select id="marketFilterRarity" class="filter-select" onchange="renderMarketUI()">
+                            <option value="all">ทุก Rarity</option>
+                            <option value="UR">UR</option>
+                            <option value="SSR">SSR</option>
+                            <option value="SR">SR</option>
+                            <option value="R">R</option>
+                        </select>
+
+                        <select id="marketSort" class="filter-select" onchange="renderMarketUI()">
+                            <option value="newest">รายการล่าสุด</option>
+                            <option value="price_asc">ราคา: ต่ำไปสูง</option>
+                            <option value="price_desc">ราคา: สูงไปต่ำ</option>
+                        </select>
+                    </div>
+
+                    <div id="marketGrid" class="card-grid"></div>
+                </div>
+            </div>
+
+            <!-- Tab 4: Codex Section -->
+            <div id="tab-codex" class="content-section">
+                <div class="panel">
+                    <div class="panel-header">
+                        <div class="panel-title">📖 สมุดภาพสารานุกรม 50 ตัวละคร (Codex)</div>
+                        <div id="codexProgress" style="font-size: 14px; font-weight: 800; color: var(--gold);">
+                            ปลดล็อก: 0 / 50 ใบ
+                        </div>
+                    </div>
+                    <div id="codexGrid" class="card-grid"></div>
+                </div>
+            </div>
+
+            <!-- Tab 5: Elements & Roles Rules -->
+            <div id="tab-elements" class="content-section">
+                <div class="panel">
+                    <div class="panel-header">
+                        <div class="panel-title">⚡ กฎวงจร 7 ธาตุ (7 Elements Matrix)</div>
+                    </div>
+                    
+                    <div class="chart-grid">
+                        <div class="chart-card">
+                            <h4 style="color: #ffa502; margin-bottom: 8px;">🔄 วงจร 5 ธาตุหลัก (ได้เปรียบ +25% / เสียเปรียบ -20%)</h4>
+                            <p style="font-size: 14px; line-height: 1.8;">
+                                🔥 <b>Fire</b> ชนะ 🌪️ <b>Wind</b><br>
+                                🌪️ <b>Wind</b> ชนะ 🪨 <b>Earth</b><br>
+                                🪨 <b>Earth</b> ชนะ ⚡ <b>Lightning</b><br>
+                                ⚡ <b>Lightning</b> ชนะ 💧 <b>Water</b><br>
+                                💧 <b>Water</b> ชนะ 🔥 <b>Fire</b>
+                            </p>
+                        </div>
+                        <div class="chart-card">
+                            <h4 style="color: #a55eea; margin-bottom: 8px;">⚔️ 2 ธาตุพิเศษคู่ตรงข้าม (Light & Dark)</h4>
+                            <p style="font-size: 14px; line-height: 1.8;">
+                                ☀️ <b>Light</b> ⚔️ 🌑 <b>Dark</b><br>
+                                • ทั้งคู่สร้างความเสียหายใส่กันรุนแรงขึ้น <b>+30%</b><br>
+                                • เป็นกลาง (ดาเมจปกติ 100%) เมื่อปะทะกับ 5 ธาตุหลัก
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <div class="panel-title">🛡️ 6 บทบาทของการ์ด (6 Roles System)</div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px;">
+                        <div class="chart-card">
+                            <h4 style="color: #ff4757;">⚔️ Attacker</h4>
+                            <p style="font-size: 13px; color: var(--text-muted);">พลังโจมตี ATK สูงสุด เป็นแกนหลักในการทำดาเมจทะลวงแนวรบ</p>
+                        </div>
+                        <div class="chart-card">
+                            <h4 style="color: #2ed573;">🛡️ Tank</h4>
+                            <p style="font-size: 13px; color: var(--text-muted);">HP และ DEF หนาแน่น ยืนระยะดูดซับดาเมจเพื่อปกป้องทีม</p>
+                        </div>
+                        <div class="chart-card">
+                            <h4 style="color: #a55eea;">🗡️ Assassin</h4>
+                            <p style="font-size: 13px; color: var(--text-muted);">ความเร็ว SPD สูงสุด ออกตัวลงมือก่อนใคร โจมตีจุดตาย</p>
+                        </div>
+                        <div class="chart-card">
+                            <h4 style="color: #70a1ff;">📜 Spell</h4>
+                            <p style="font-size: 13px; color: var(--text-muted);">เน้นเวทมนต์/คาถา สร้างความเสียหายหมู่และดีบัฟลดพลังศัตรู</p>
+                        </div>
+                        <div class="chart-card">
+                            <h4 style="color: #ff6b81;">💖 Healer</h4>
+                            <p style="font-size: 13px; color: var(--text-muted);">ฟื้นฟู HP เพื่อนร่วมทีม ชุบชีวิต และลบล้างสถานะผิดปกติ</p>
+                        </div>
+                        <div class="chart-card">
+                            <h4 style="color: #ffa502;">🧠 Tactician</h4>
+                            <p style="font-size: 13px; color: var(--text-muted);">กลยุทธ์เสริมกำลัง บัฟค่าพลัง ATK/DEF และเกจ SP ให้ทั้งทีม</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modals -->
+
+    <!-- Fusion / Limit Break Modal -->
+    <div id="fusionModal" class="modal-backdrop">
+        <div class="modal-box" style="max-width: 480px; text-align: center;">
+            <button class="modal-close-btn" onclick="closeFusionModal()">✕</button>
+            <h3 style="font-size: 20px; font-weight: 800; margin-bottom: 6px; color: #ffd700;">
+                ⭐ หลอมการ์ดซ้ำ (Limit Break)
+            </h3>
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px;">
+                ใช้การ์ดซ้ำ 1 ใบเพื่อปลดล็อกดาว เพิ่มค่าสเตตัส HP และ ATK +5% อย่างถาวร (สูงสุด 5 ดาว)
+            </p>
+            <div id="fusionPreviewContainer" style="margin-bottom: 20px;"></div>
+            <button class="btn-auth-primary" id="btnConfirmFusion" style="background: linear-gradient(135deg, #ffa502, #ff4757); margin-bottom: 0;">
+                ยืนยันการหลอมการ์ด
+            </button>
+        </div>
+    </div>
+
+
+    <!-- Slot Picker Modal -->
+    <div id="slotPickerModal" class="modal-backdrop">
+        <div class="modal-box" style="max-width: 650px;">
+            <button class="modal-close-btn" onclick="closeSlotPicker()">✕</button>
+            <h3 style="font-size: 18px; font-weight: 800; margin-bottom: 12px; color: var(--gold);">
+                🎴 เลือกการ์ดลงตำแหน่งทีม
+            </h3>
+            <div id="slotPickerGrid" class="card-grid" style="max-height: 60vh; overflow-y: auto; padding: 5px;"></div>
+        </div>
+    </div>
+
+    <!-- Battle Result Modal -->
+    <div id="battleResultModal" class="modal-backdrop">
+        <div class="modal-box" style="text-align: center;">
+            <h2 id="battleResultTitle" style="font-size: 30px; font-weight: 900; margin-bottom: 8px;"></h2>
+            <p id="battleResultDesc" style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px;"></p>
+            <div id="battleRewardDisplay" style="margin-bottom: 20px; font-size: 20px; font-weight: 900; color: var(--gem-color);"></div>
+            <button class="btn-auth-primary" onclick="closeBattleResultModal()">
+                กลับสู่หน้าหลัก
+            </button>
+        </div>
+    </div>
+
+
+    <!-- Card Detail Modal -->
+    <div id="cardDetailModal" class="modal-backdrop">
+        <div class="modal-box">
+            <button class="modal-close-btn" onclick="closeCardModal()">✕</button>
+            <div id="cardDetailContent"></div>
+        </div>
+    </div>
+
+    <!-- Sell Modal -->
+    <div id="sellModal" class="modal-backdrop">
+        <div class="modal-box">
+            <button class="modal-close-btn" onclick="closeSellModal()">✕</button>
+            <h3 style="font-size: 20px; font-weight: 800; margin-bottom: 12px; color: #ff4757;">
+                🏪 นำการ์ดไปตั้งขายในตลาด
+            </h3>
+            <div id="sellCardPreview" style="margin-bottom: 15px;"></div>
+            <label style="font-size: 13px; color: var(--text-muted); display: block; margin-bottom: 6px;">
+                กำหนดราคาขาย (Gems):
+            </label>
+            <input type="number" id="sellPriceInput" placeholder="เช่น 250" min="10" step="10" 
+                   style="width: 100%; background: #111728; border: 2px solid var(--border-color); color: #fff; padding: 12px; border-radius: 12px; font-size: 16px; margin-bottom: 15px;">
+            <button class="btn-auth-primary" style="background: #ff4757;" onclick="confirmListCard()">
+                ยืนยันการตั้งขาย
+            </button>
+        </div>
+    </div>
+
+    <!-- Gacha Reveal Modal -->
+    <div id="revealModal" class="modal-backdrop">
+        <div class="modal-box" style="max-width: 650px;">
+            <h3 style="text-align: center; font-size: 24px; font-weight: 900; margin-bottom: 5px; color: #ffd700;">
+                🎉 ผลการสุ่มการ์ด (Summon Result)
+            </h3>
+            <div id="revealGrid" class="reveal-grid"></div>
+            <button class="btn-auth-primary" onclick="closeRevealModal()">
+                ตกลง (รับเข้าคลัง)
+            </button>
+        </div>
+    </div>
+
+    <!-- Rates Info Modal -->
+    <div id="ratesModal" class="modal-backdrop">
+        <div class="modal-box">
+            <button class="modal-close-btn" onclick="closeRatesModal()">✕</button>
+            <h3 style="font-size: 20px; font-weight: 800; margin-bottom: 15px; color: #00d2d3;">
+                📊 อัตราการออกการ์ด (Drop Rates)
+            </h3>
+            <div style="font-size: 14px; line-height: 2;">
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed var(--border-color); padding: 6px 0;">
+                    <span style="font-weight: 800; color: #ff007f;">UR (Ultra Rare)</span>
+                    <span style="font-weight: 900;">1.0%</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed var(--border-color); padding: 6px 0;">
+                    <span style="font-weight: 800; color: #ffa502;">SSR (Super Special Rare)</span>
+                    <span style="font-weight: 900;">9.0%</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed var(--border-color); padding: 6px 0;">
+                    <span style="font-weight: 800; color: #a55eea;">SR (Super Rare)</span>
+                    <span style="font-weight: 900;">30.0%</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed var(--border-color); padding: 6px 0;">
+                    <span style="font-weight: 800; color: #3498db;">R (Rare)</span>
+                    <span style="font-weight: 900;">60.0%</span>
+                </div>
+            </div>
+            <p style="font-size: 12px; color: var(--text-muted); margin-top: 15px;">
+                *สุ่มแบบ 10 ครั้ง: การันตีการ์ดใบที่ 10 จะได้ระดับ SR ขึ้นไปอย่างแน่นอน
+            </p>
+        </div>
+    </div>
+
+    <!-- Firebase SDK & Application Logic -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { 
+            getFirestore, collection, doc, getDoc, setDoc, addDoc, updateDoc, 
+            deleteDoc, onSnapshot, query, where, runTransaction 
+        } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { 
+            getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, 
+            onAuthStateChanged, signOut 
+        } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+        // ------------------ Firebase Setup ------------------
+        const firebaseConfig = {
+            apiKey: "AIzaSyDmnL92Tlf0-omdZEUXFg1xb5W_c_0NQYE",
+            authDomain: "awang-promax.firebaseapp.com",
+            databaseURL: "https://awang-promax-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "awang-promax",
+            storageBucket: "awang-promax.firebasestorage.app",
+            messagingSenderId: "938318378311",
+            appId: "1:938318378311:web:1cf64e8521a22631844862",
+            measurementId: "G-SBZG2HR1MQ"
+        };
+
+        const FAKE_DOMAIN = "@awang.game";
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        // ------------------ 50 Characters Master Data ------------------
+        const masterCharacters = [{"id": "c001", "name": "Monkey D. Luffy", "series": "One Piece", "rarity": "UR", "element": "Fire", "role": "Attacker", "stats": {"hp": 2500, "atk": 520, "def": 380, "spd": 115, "sp": 100}, "skill": {"name": "Gomu Gomu no Red Hawk", "spCost": 50, "desc": "หมัดเพลิงยางยืดสร้างความเสียหาย Fire 240% แก่เป้าหมายเดี่ยว"}, "image": "assets/anime/cards/c001.webp"}, {"id": "c002", "name": "Roronoa Zoro", "series": "One Piece", "rarity": "SSR", "element": "Wind", "role": "Attacker", "stats": {"hp": 2400, "atk": 540, "def": 360, "spd": 110, "sp": 100}, "skill": {"name": "Santoryu Ogi: Sanzen Sekai", "spCost": 50, "desc": "ฟาดฟันคมดาบวายุ 3 เล่ม สร้างความเสียหาย Wind 250%"}, "image": "assets/anime/cards/c002.webp"}, {"id": "c003", "name": "Sanji", "series": "One Piece", "rarity": "SSR", "element": "Fire", "role": "Assassin", "stats": {"hp": 2200, "atk": 490, "def": 330, "spd": 135, "sp": 100}, "skill": {"name": "Diable Jambe: Flambage Shot", "spCost": 45, "desc": "ลูกเตะเพลิงอัคคี โจมตีเป้าหมายอย่างรวดเร็ว สร้างความเสียหาย Fire 220%"}, "image": "assets/anime/cards/c003.webp"}, {"id": "c004", "name": "Nami", "series": "One Piece", "rarity": "SR", "element": "Lightning", "role": "Spell", "stats": {"hp": 1800, "atk": 380, "def": 290, "spd": 105, "sp": 100}, "skill": {"name": "Thunderbolt Tempo", "spCost": 40, "desc": "ผ่าสายฟ้าฟาด สร้างความเสียหาย Lightning 170% พร้อมลด SPD ศัตรู 15%"}, "image": "assets/anime/cards/c004.webp"}, {"id": "c005", "name": "Tony Tony Chopper", "series": "One Piece", "rarity": "R", "element": "Earth", "role": "Healer", "stats": {"hp": 2100, "atk": 310, "def": 340, "spd": 95, "sp": 100}, "skill": {"name": "Monster Point Medic", "spCost": 40, "desc": "ฟื้นฟู HP 25% ให้เพื่อนร่วมทีมที่มี HP ต่ำที่สุด"}, "image": "assets/anime/cards/c005.webp"}, {"id": "c006", "name": "Nico Robin", "series": "One Piece", "rarity": "SR", "element": "Dark", "role": "Spell", "stats": {"hp": 2000, "atk": 410, "def": 310, "spd": 100, "sp": 100}, "skill": {"name": "Cien Fleurs: Clutch", "spCost": 45, "desc": "ล็อกตรึงร่างศัตรู สร้างความเสียหาย Dark 180% และลด DEF ศัตรู 20%"}, "image": "assets/anime/cards/c006.webp"}, {"id": "c007", "name": "Trafalgar Law", "series": "One Piece", "rarity": "SSR", "element": "Water", "role": "Tactician", "stats": {"hp": 2300, "atk": 460, "def": 350, "spd": 118, "sp": 100}, "skill": {"name": "ROOM: Shambles & Gamma Knife", "spCost": 55, "desc": "กางอาณาเขตทำลายอวัยวะภายใน เจาะเกราะ DEF ศัตรู 40%"}, "image": "assets/anime/cards/c007.webp"}, {"id": "c008", "name": "Red-Haired Shanks", "series": "One Piece", "rarity": "UR", "element": "Light", "role": "Attacker", "stats": {"hp": 2600, "atk": 560, "def": 400, "spd": 125, "sp": 100}, "skill": {"name": "Divine Departure (Kamusari)", "spCost": 60, "desc": "ฮาคิราชันย์ปล่อยคลื่นดาบ สร้างความเสียหาย Light 280%"}, "image": "assets/anime/cards/c008.webp"}, {"id": "c009", "name": "Yuji Itadori", "series": "Jujutsu Kaisen", "rarity": "SSR", "element": "Earth", "role": "Attacker", "stats": {"hp": 2550, "atk": 510, "def": 410, "spd": 115, "sp": 100}, "skill": {"name": "Divergent Fist & Black Flash", "spCost": 50, "desc": "หมัดประกายทมิฬ สร้างความเสียหาย Earth 240% อัตราคริติคอล +30%"}, "image": "assets/anime/cards/c009.webp"}, {"id": "c010", "name": "Megumi Fushiguro", "series": "Jujutsu Kaisen", "rarity": "SR", "element": "Dark", "role": "Spell", "stats": {"hp": 2150, "atk": 430, "def": 340, "spd": 112, "sp": 100}, "skill": {"name": "Ten Shadows: Divine Dog", "spCost": 45, "desc": "เรียกหมาป่าเงาจู่โจม สร้างความเสียหาย Dark 190% พร้อมเพิ่ม ATK ทีม 10%"}, "image": "assets/anime/cards/c010.webp"}, {"id": "c011", "name": "Nobara Kugisaki", "series": "Jujutsu Kaisen", "rarity": "SR", "element": "Wind", "role": "Spell", "stats": {"hp": 2050, "atk": 470, "def": 310, "spd": 108, "sp": 100}, "skill": {"name": "Straw Doll Technique: Resonance", "spCost": 45, "desc": "ตอกตะปูสะท้อนวิญญาณ สร้างความเสียหาย Wind 210% ไม่สนระยะ"}, "image": "assets/anime/cards/c011.webp"}, {"id": "c012", "name": "Satoru Gojo", "series": "Jujutsu Kaisen", "rarity": "UR", "element": "Light", "role": "Tank", "stats": {"hp": 2800, "atk": 520, "def": 480, "spd": 122, "sp": 100}, "skill": {"name": "Infinity & Hollow Purple", "spCost": 60, "desc": "ไร้ขอบเขตลดทอนดาเมจที่ได้รับ 30% และยิงคลื่นแสงสีม่วงล้างผลาญ 260%"}, "image": "assets/anime/cards/c012.webp"}, {"id": "c013", "name": "Ryomen Sukuna", "series": "Jujutsu Kaisen", "rarity": "UR", "element": "Dark", "role": "Attacker", "stats": {"hp": 2700, "atk": 580, "def": 390, "spd": 120, "sp": 100}, "skill": {"name": "Malevolent Shrine (Cleave & Dismantle)", "spCost": 60, "desc": "ฟันตัดทำลายล้างทุกสิ่ง สร้างความเสียหาย Dark 280%"}, "image": "assets/anime/cards/c013.webp"}, {"id": "c014", "name": "Kento Nanami", "series": "Jujutsu Kaisen", "rarity": "SSR", "element": "Earth", "role": "Attacker", "stats": {"hp": 2350, "atk": 500, "def": 370, "spd": 106, "sp": 100}, "skill": {"name": "Ratio Technique 7:3", "spCost": 45, "desc": "โจมตีจุดตายแบ่งส่วน 7:3 สร้างความเสียหาย Earth 230% แบบการันตีคริติคอล"}, "image": "assets/anime/cards/c014.webp"}, {"id": "c015", "name": "Toji Fushiguro", "series": "Jujutsu Kaisen", "rarity": "SSR", "element": "Water", "role": "Assassin", "stats": {"hp": 2250, "atk": 530, "def": 350, "spd": 140, "sp": 100}, "skill": {"name": "Heavenly Restriction Inverted Spear", "spCost": 50, "desc": "ความเร็วเหนือมนุษย์ แทงหอกตัดไสยเวท ดาเมจ 230% ยกเลิกบัฟศัตรู"}, "image": "assets/anime/cards/c015.webp"}, {"id": "c016", "name": "Tanjiro Kamado", "series": "Demon Slayer", "rarity": "SSR", "element": "Water", "role": "Attacker", "stats": {"hp": 2400, "atk": 500, "def": 370, "spd": 114, "sp": 100}, "skill": {"name": "Hinokami Kagura: Clear Blue Sky", "spCost": 50, "desc": "ร่ายระบำเพลิงสุริยัน สร้างความเสียหาย Water/Fire 230%"}, "image": "assets/anime/cards/c016.webp"}, {"id": "c017", "name": "Nezuko Kamado", "series": "Demon Slayer", "rarity": "SR", "element": "Fire", "role": "Tank", "stats": {"hp": 2600, "atk": 420, "def": 430, "spd": 108, "sp": 100}, "skill": {"name": "Blood Demon Art: Exploding Blood", "spCost": 45, "desc": "มนต์อสูรโลหิตเพลิงระเบิด ดาเมจ Fire 190% พร้อมล้างสถานะผิดปกติให้ทีม"}, "image": "assets/anime/cards/c017.webp"}, {"id": "c018", "name": "Zenitsu Agatsuma", "series": "Demon Slayer", "rarity": "SSR", "element": "Lightning", "role": "Assassin", "stats": {"hp": 2000, "atk": 520, "def": 310, "spd": 145, "sp": 100}, "skill": {"name": "Thunder Breathing: Thunderclap and Flash", "spCost": 50, "desc": "พุ่งฟันสายฟ้าฟาดชั่วพริบตา สร้างความเสียหาย Lightning 250%"}, "image": "assets/anime/cards/c018.webp"}, {"id": "c019", "name": "Inosuke Hashibira", "series": "Demon Slayer", "rarity": "SR", "element": "Wind", "role": "Attacker", "stats": {"hp": 2300, "atk": 480, "def": 360, "spd": 116, "sp": 100}, "skill": {"name": "Beast Breathing: Rip and Tear", "spCost": 45, "desc": "คมดาบคู่เขี้ยวดั่งสัตว์ป่า จู่โจมกระหน่ำ สร้างความเสียหาย Wind 210%"}, "image": "assets/anime/cards/c019.webp"}, {"id": "c020", "name": "Kyojuro Rengoku", "series": "Demon Slayer", "rarity": "SSR", "element": "Fire", "role": "Attacker", "stats": {"hp": 2450, "atk": 540, "def": 380, "spd": 118, "sp": 100}, "skill": {"name": "Flame Breathing: Ninth Form Rengoku", "spCost": 55, "desc": "ปลดปล่อยจิตวิญญาณแห่งเพลิง พุ่งชนดั่งมังกรเพลิง ดาเมจ Fire 260%"}, "image": "assets/anime/cards/c020.webp"}, {"id": "c021", "name": "Akaza", "series": "Demon Slayer", "rarity": "SSR", "element": "Dark", "role": "Attacker", "stats": {"hp": 2500, "atk": 530, "def": 380, "spd": 125, "sp": 100}, "skill": {"name": "Destructive Death: Compass Needle", "spCost": 50, "desc": "กางเข็มทิศสัมผัสไอต่อสู้ ต่อยหมัดสูญญากาศ ดาเมจ Dark 240%"}, "image": "assets/anime/cards/c021.webp"}, {"id": "c022", "name": "Muzan Kibutsuji", "series": "Demon Slayer", "rarity": "UR", "element": "Dark", "role": "Spell", "stats": {"hp": 2750, "atk": 570, "def": 410, "spd": 120, "sp": 100}, "skill": {"name": "Demon Progenitor Whip Strike", "spCost": 60, "desc": "กวัดแกว่งแส้หนามเนื้ออสูร สร้างความเสียหาย Dark 270% พร้อมดูด HP 20%"}, "image": "assets/anime/cards/c022.webp"}, {"id": "c023", "name": "Naruto Uzumaki", "series": "Naruto", "rarity": "UR", "element": "Wind", "role": "Attacker", "stats": {"hp": 2650, "atk": 540, "def": 390, "spd": 118, "sp": 100}, "skill": {"name": "Sage Art: Wind Style Rasenshuriken", "spCost": 55, "desc": "ดาวกระจายวงจักรวายุ สร้างความเสียหาย Wind 270% แก่เป้าหมาย"}, "image": "assets/anime/cards/c023.webp"}, {"id": "c024", "name": "Sasuke Uchiha", "series": "Naruto", "rarity": "SSR", "element": "Lightning", "role": "Assassin", "stats": {"hp": 2400, "atk": 550, "def": 360, "spd": 124, "sp": 100}, "skill": {"name": "Kirin & Chidori", "spCost": 55, "desc": "อัญเชิญมังกรอัสนีบาต สร้างความเสียหาย Lightning 260%"}, "image": "assets/anime/cards/c024.webp"}, {"id": "c025", "name": "Sakura Haruno", "series": "Naruto", "rarity": "SR", "element": "Earth", "role": "Healer", "stats": {"hp": 2200, "atk": 410, "def": 360, "spd": 104, "sp": 100}, "skill": {"name": "Mitotic Regeneration & Cherry Blossom Impact", "spCost": 45, "desc": "ฟื้นฟู HP ทีม 20% และต่อยพื้นดินแตกร้าว ดาเมจ Earth 160%"}, "image": "assets/anime/cards/c025.webp"}, {"id": "c026", "name": "Kakashi Hatake", "series": "Naruto", "rarity": "SSR", "element": "Lightning", "role": "Tactician", "stats": {"hp": 2250, "atk": 490, "def": 350, "spd": 130, "sp": 100}, "skill": {"name": "Raikiri & Kamui", "spCost": 50, "desc": "ตัดสายฟ้าผสานคามุย สร้างความเสียหาย Lightning 230% หลบหลีกเทิร์นถัดไป"}, "image": "assets/anime/cards/c026.webp"}, {"id": "c027", "name": "Gaara", "series": "Naruto", "rarity": "SSR", "element": "Earth", "role": "Tank", "stats": {"hp": 2700, "atk": 440, "def": 470, "spd": 98, "sp": 100}, "skill": {"name": "Sand Tsunami & Sand Burial", "spCost": 50, "desc": "คลื่นทรายกลืนกินและบดขยี้ สร้างความเสียหาย Earth 200% เพิ่ม DEF ตนเอง 25%"}, "image": "assets/anime/cards/c027.webp"}, {"id": "c028", "name": "Itachi Uchiha", "series": "Naruto", "rarity": "UR", "element": "Fire", "role": "Spell", "stats": {"hp": 2350, "atk": 560, "def": 370, "spd": 122, "sp": 100}, "skill": {"name": "Tsukuyomi & Amaterasu", "spCost": 55, "desc": "เนตรวงแหวนกระจกเงาหมื่นบุปผา เพลิงดำอมตะเผาผลาญ ดาเมจ Fire 265%"}, "image": "assets/anime/cards/c028.webp"}, {"id": "c029", "name": "Jiraiya", "series": "Naruto", "rarity": "SR", "element": "Fire", "role": "Tactician", "stats": {"hp": 2450, "atk": 460, "def": 380, "spd": 105, "sp": 100}, "skill": {"name": "Toad Oil Fireball", "spCost": 45, "desc": "พ่นน้ำมันกบผสานเพลิง สร้างความเสียหาย Fire 190% พร้อมบัฟ ATK ทีม 15%"}, "image": "assets/anime/cards/c029.webp"}, {"id": "c030", "name": "Pain (Tendō)", "series": "Naruto", "rarity": "SSR", "element": "Dark", "role": "Tank", "stats": {"hp": 2650, "atk": 480, "def": 450, "spd": 100, "sp": 100}, "skill": {"name": "Shinra Tensei (Almighty Push)", "spCost": 55, "desc": "ข่ายเทพพิชิตฟ้า ผลักทำลายทุกสิ่งรอบตัว ดาเมจ Dark 220%"}, "image": "assets/anime/cards/c030.webp"}, {"id": "c031", "name": "Gon Freecss", "series": "Hunter x Hunter", "rarity": "SSR", "element": "Fire", "role": "Attacker", "stats": {"hp": 2450, "atk": 530, "def": 370, "spd": 112, "sp": 100}, "skill": {"name": "Jajanken: Rock", "spCost": 50, "desc": "เป่ายิ้งฉุบค้อนระเบิดพลังออร่าสายเสริมพลัง สร้างความเสียหาย Fire 250%"}, "image": "assets/anime/cards/c031.webp"}, {"id": "c032", "name": "Killua Zoldyck", "series": "Hunter x Hunter", "rarity": "SSR", "element": "Lightning", "role": "Assassin", "stats": {"hp": 2100, "atk": 520, "def": 330, "spd": 148, "sp": 100}, "skill": {"name": "Godspeed (Kanmuru)", "spCost": 50, "desc": "วิชาความเร็วเทพเจ้า เคลื่อนไหวตอบสนองฉับพลัน ดาเมจ Lightning 240%"}, "image": "assets/anime/cards/c032.webp"}, {"id": "c033", "name": "Kurapika", "series": "Hunter x Hunter", "rarity": "SSR", "element": "Light", "role": "Tactician", "stats": {"hp": 2300, "atk": 470, "def": 360, "spd": 115, "sp": 100}, "skill": {"name": "Emperor Time & Chain Jail", "spCost": 55, "desc": "ห้วงเวลาจักรพรรดิ พันธนาการศัตรู ดาเมจ Light 210% และลด DEF 25%"}, "image": "assets/anime/cards/c033.webp"}, {"id": "c034", "name": "Leorio Paradinight", "series": "Hunter x Hunter", "rarity": "R", "element": "Water", "role": "Healer", "stats": {"hp": 2150, "atk": 350, "def": 330, "spd": 96, "sp": 100}, "skill": {"name": "Remote Punch Medical Aid", "spCost": 40, "desc": "หมัดทะลุมิติสร้างความเสียหาย 150% พร้อมรักษาฟื้นฟู HP ทีม 15%"}, "image": "assets/anime/cards/c034.webp"}, {"id": "c035", "name": "Hisoka Morow", "series": "Hunter x Hunter", "rarity": "SSR", "element": "Wind", "role": "Assassin", "stats": {"hp": 2350, "atk": 520, "def": 360, "spd": 122, "sp": 100}, "skill": {"name": "Bungee Gum & Texture Surprise", "spCost": 45, "desc": "บันจี้กัมมีความเหนียวและยืดหยุ่น ดีดไพ่สังหาร ดาเมจ Wind 230%"}, "image": "assets/anime/cards/c035.webp"}, {"id": "c036", "name": "Chrollo Lucilfer", "series": "Hunter x Hunter", "rarity": "UR", "element": "Dark", "role": "Spell", "stats": {"hp": 2400, "atk": 490, "def": 370, "spd": 120, "sp": 100}, "skill": {"name": "Skill Hunter (Bandit's Secret)", "spCost": 55, "desc": "ขโมยทักษะเน็น สุ่มปล่อยท่าโจมตีรุนแรง ดาเมจ Dark 230% และสุ่มดีบัฟ"}, "image": "assets/anime/cards/c036.webp"}, {"id": "c037", "name": "Ichigo Kurosaki", "series": "Bleach", "rarity": "UR", "element": "Dark", "role": "Attacker", "stats": {"hp": 2600, "atk": 560, "def": 380, "spd": 126, "sp": 100}, "skill": {"name": "Bankai: Getsuga Tenshou", "spCost": 55, "desc": "ปลดปล่อยบังไค คลื่นจันทร์เสี้ยวสลายวิญญาณ ดาเมจ Dark 270%"}, "image": "assets/anime/cards/c037.webp"}, {"id": "c038", "name": "Rukia Kuchiki", "series": "Bleach", "rarity": "SR", "element": "Water", "role": "Spell", "stats": {"hp": 2050, "atk": 420, "def": 340, "spd": 110, "sp": 100}, "skill": {"name": "Sode no Shirayuki: Tsugi no mai, Hakuren", "spCost": 45, "desc": "ระบำคลื่นน้ำแข็งสีขาว แช่แข็งลด SPD ศัตรู 25% ดาเมจ Water 180%"}, "image": "assets/anime/cards/c038.webp"}, {"id": "c039", "name": "Uryu Ishida", "series": "Bleach", "rarity": "SR", "element": "Light", "role": "Spell", "stats": {"hp": 2100, "atk": 480, "def": 320, "spd": 136, "sp": 100}, "skill": {"name": "Licht Regen", "spCost": 45, "desc": "ศรแสงควินซี่กระหน่ำยิงนับพัน สร้างความเสียหาย Light 210%"}, "image": "assets/anime/cards/c039.webp"}, {"id": "c040", "name": "Renji Abarai", "series": "Bleach", "rarity": "SR", "element": "Fire", "role": "Attacker", "stats": {"hp": 2350, "atk": 490, "def": 360, "spd": 108, "sp": 100}, "skill": {"name": "Hihio Zabimaru: Hikotsu Taiho", "spCost": 50, "desc": "ปืนใหญ่กระดูกพญางู ยิงคลื่นเพลิงวิญญาณ ดาเมจ Fire 220%"}, "image": "assets/anime/cards/c040.webp"}, {"id": "c041", "name": "Sosuke Aizen", "series": "Bleach", "rarity": "UR", "element": "Dark", "role": "Spell", "stats": {"hp": 2750, "atk": 540, "def": 460, "spd": 118, "sp": 100}, "skill": {"name": "Kyoka Suigetsu: Complete Hypnosis", "spCost": 60, "desc": "สะกดสมบูรณ์แบบ กระจกเงากลางน้ำ ดาเมจ Dark 250% ศัตรูตีพลาด 30%"}, "image": "assets/anime/cards/c041.webp"}, {"id": "c042", "name": "All Might", "series": "My Hero Academia", "rarity": "UR", "element": "Light", "role": "Tank", "stats": {"hp": 2850, "atk": 550, "def": 460, "spd": 118, "sp": 100}, "skill": {"name": "United States of Smash", "spCost": 60, "desc": "หมัดแห่งสัญลักษณ์สันติภาพ ทุ่มพลังสุดชีวิต ดาเมจ Light 280% เพิ่ม DEF ทีม 20%"}, "image": "assets/anime/cards/c042.webp"}, {"id": "c043", "name": "Izuku Midoriya (Deku)", "series": "My Hero Academia", "rarity": "UR", "element": "Wind", "role": "Attacker", "stats": {"hp": 2550, "atk": 550, "def": 380, "spd": 122, "sp": 100}, "skill": {"name": "One For All: Delaware Detroit Smash", "spCost": 55, "desc": "รวมพลังดีดนิ้วสร้างคลื่นลมกระแทกแรงดันสูง สร้างความเสียหาย Wind 270%"}, "image": "assets/anime/cards/c043.webp"}, {"id": "c044", "name": "Katsuki Bakugo", "series": "My Hero Academia", "rarity": "SSR", "element": "Fire", "role": "Attacker", "stats": {"hp": 2400, "atk": 560, "def": 360, "spd": 120, "sp": 100}, "skill": {"name": "Howitzer Impact", "spCost": 50, "desc": "หมุนตัวจุดระเบิดดินปืนรุนแรงดั่งพายุเพลิง สร้างความเสียหาย Fire 255%"}, "image": "assets/anime/cards/c044.webp"}, {"id": "c045", "name": "Shoto Todoroki", "series": "My Hero Academia", "rarity": "SSR", "element": "Water", "role": "Spell", "stats": {"hp": 2350, "atk": 510, "def": 360, "spd": 114, "sp": 100}, "skill": {"name": "Half-Cold Half-Hot: Flashfreeze Heatwave", "spCost": 50, "desc": "แช่แข็งแล้วระเบิดความร้อนคลื่นยักษ์ ดาเมจ Water 240% ลด SPD ศัตรู 20%"}, "image": "assets/anime/cards/c045.webp"}, {"id": "c046", "name": "Tomura Shigaraki", "series": "My Hero Academia", "rarity": "SSR", "element": "Dark", "role": "Assassin", "stats": {"hp": 2300, "atk": 540, "def": 340, "spd": 136, "sp": 100}, "skill": {"name": "Decay Touch (การสลาย)", "spCost": 50, "desc": "สัมผัส 5 นิ้วทำให้ร่างศัตรูค่อยๆ ผุกร่อน ดาเมจ Dark 235% เจาะ DEF 30%"}, "image": "assets/anime/cards/c046.webp"}, {"id": "c047", "name": "Eren Yeager", "series": "Attack on Titan", "rarity": "SSR", "element": "Fire", "role": "Attacker", "stats": {"hp": 2600, "atk": 530, "def": 420, "spd": 105, "sp": 100}, "skill": {"name": "Attack Titan Hardening Punch", "spCost": 50, "desc": "กลายร่างไททันจู่โจมพร้อมเกราะแข็ง ดาเมจ Fire 240% เพิ่ม DEF 20%"}, "image": "assets/anime/cards/c047.webp"}, {"id": "c048", "name": "Mikasa Ackerman", "series": "Attack on Titan", "rarity": "SSR", "element": "Wind", "role": "Assassin", "stats": {"hp": 2250, "atk": 520, "def": 340, "spd": 142, "sp": 100}, "skill": {"name": "Thunder Spears & Blade Slash", "spCost": 45, "desc": "พุ่งฟันด้วยเครื่องเคลื่อนย้าย 3 มิติ และหอกสายฟ้า ดาเมจ Wind 230%"}, "image": "assets/anime/cards/c048.webp"}, {"id": "c049", "name": "Levi Ackerman", "series": "Attack on Titan", "rarity": "UR", "element": "Wind", "role": "Assassin", "stats": {"hp": 2300, "atk": 570, "def": 350, "spd": 150, "sp": 100}, "skill": {"name": "Spinning Blade Storm", "spCost": 55, "desc": "หมุนตัวฟาดฟันดั่งพายุวายุ ตัดท้ายทอยอย่างไร้ปรานี ดาเมจ Wind 280%"}, "image": "assets/anime/cards/c049.webp"}, {"id": "c050", "name": "Armin Arlert", "series": "Attack on Titan", "rarity": "SR", "element": "Water", "role": "Tactician", "stats": {"hp": 2100, "atk": 390, "def": 330, "spd": 108, "sp": 100}, "skill": {"name": "Tactical Command & Steam Blast", "spCost": 45, "desc": "วางแผนกลยุทธ์ เพิ่ม ATK และ DEF ให้เพื่อนร่วมทีมทุกคน 15%"}, "image": "assets/anime/cards/c050.webp"}];
+        const charMap = {};
+        masterCharacters.forEach(c => { charMap[c.id] = c; });
+
+        // ------------------ Global States ------------------
+        let currentUser = null;
+        let userGems = 0;
+        let lastDailyTime = 0;
+        let myInventoryDocs = [];
+        let allMarketListings = [];
+        let cardToSell = null;
+
+        // Populate Series filter
+        const uniqueSeries = Array.from(new Set(masterCharacters.map(c => c.series))).sort();
+        const seriesSelect = document.getElementById('invFilterSeries');
+        uniqueSeries.forEach(s => {
+            let opt = document.createElement('option');
+            opt.value = s;
+            opt.innerText = s;
+            seriesSelect.appendChild(opt);
+        });
+
+        // Render UR Showcase in Gacha tab
+        function renderURShowcase() {
+            const urGrid = document.getElementById('urShowcaseGrid');
+            const urList = masterCharacters.filter(c => c.rarity === 'UR');
+            urGrid.innerHTML = urList.map(c => renderCardTemplate(c, null, 'showcase')).join('');
+        }
+        renderURShowcase();
+
+        // ------------------ Auth Listener ------------------
+        onAuthStateChanged(auth, async (user) => {
+            currentUser = user;
+            if (user) {
+                document.getElementById('authSection').style.display = 'none';
+                document.getElementById('appSection').style.display = 'block';
+                document.getElementById('userHud').style.display = 'flex';
+
+                const uid = user.uid;
+                const userDocRef = doc(db, "animeUsers", uid);
+
+                // Init user profile if not exists
+                const snap = await getDoc(userDocRef);
+                if (!snap.exists()) {
+                    const username = user.email.split('@')[0];
+                    await setDoc(userDocRef, {
+                        username: username,
+                        email: user.email,
+                        gems: 1000,
+                        lastDaily: 0,
+                        createdAt: Date.now()
+                    });
+                }
+
+                // Listen to User Data
+                onSnapshot(userDocRef, (docSnap) => {
+                    if (docSnap.exists()) {
+                        const data = docSnap.data();
+                        userGems = data.gems || 0;
+                        lastDailyTime = data.lastDaily || 0;
+                        document.getElementById('userGemsDisplay').innerText = userGems.toLocaleString();
+                        updateDailyButtonState();
+                    }
+                });
+
+                // Listen to User Inventory
+                const invQuery = query(collection(db, "animeInventory"), where("uid", "==", uid));
+                onSnapshot(invQuery, (querySnap) => {
+                    myInventoryDocs = [];
+                    querySnap.forEach(d => {
+                        myInventoryDocs.push({ id: d.id, ...d.data() });
+                    });
+                    document.getElementById('invCountBadge').innerText = myInventoryDocs.length;
+                    renderInventoryUI();
+                    renderCodexUI();
+                    validateAndRenderTeamSlots();
+
+                // Load User Team
+                const teamDocSnap = await getDoc(doc(db, "animeTeams", uid));
+                if (teamDocSnap.exists()) {
+                    const tdata = teamDocSnap.data();
+                    if (tdata.teamCardDocIds) {
+                        myTeamDocIds = tdata.teamCardDocIds;
+                    }
+                }
+                renderTeamFormationUI();
+
+                });
+
+            } else {
+                document.getElementById('authSection').style.display = 'block';
+                document.getElementById('appSection').style.display = 'none';
+                document.getElementById('userHud').style.display = 'none';
+            }
+        });
+
+        
+        // Listen to Global Teams for PvP
+        onSnapshot(collection(db, "animeTeams"), (snapshot) => {
+            allTeamsList = [];
+            snapshot.forEach(d => {
+                if (currentUser && d.id !== currentUser.uid) {
+                    allTeamsList.push({ id: d.id, ...d.data() });
+                }
+            });
+            renderPvPChallengers();
+        });
+
+        // Listen to Global Marketplace
+        onSnapshot(collection(db, "animeMarket"), (snapshot) => {
+            allMarketListings = [];
+            snapshot.forEach(d => {
+                const data = d.data();
+                if (data.status === 'active') {
+                    allMarketListings.push({ id: d.id, ...data });
+                }
+            });
+            document.getElementById('marketCountBadge').innerText = allMarketListings.length;
+            renderMarketUI();
+        });
+
+        // ------------------ Auth Actions ------------------
+        document.getElementById('loginBtn').onclick = () => {
+            let username = document.getElementById('usernameInput').value.trim();
+            let password = document.getElementById('passwordInput').value;
+            if (!username) return alert("⚠️ กรุณากรอกชื่อผู้ใช้");
+            if (!username.includes('@')) username += FAKE_DOMAIN;
+            signInWithEmailAndPassword(auth, username, password)
+                .catch(err => alert("❌ เข้าสู่ระบบไม่สำเร็จ: " + err.message));
+        };
+
+        document.getElementById('registerBtn').onclick = () => {
+            let username = document.getElementById('usernameInput').value.trim();
+            let password = document.getElementById('passwordInput').value;
+            if (!username || !password) return alert("⚠️ กรุณากรอกข้อมูลให้ครบ");
+            if (password.length < 6) return alert("⚠️ รหัสผ่านต้องอย่างน้อย 6 ตัวอักษร");
+            if (!username.includes('@')) username += FAKE_DOMAIN;
+            createUserWithEmailAndPassword(auth, username, password)
+                .then(() => alert("🎉 สมัครสมาชิกสำเร็จ! ได้รับของขวัญเริ่มต้น 1,000 Gems!"))
+                .catch(err => alert("❌ สมัครไม่สำเร็จ: " + err.message));
+        };
+
+        window.handleLogout = () => signOut(auth);
+
+        // ------------------ Daily Reward ------------------
+        function updateDailyButtonState() {
+            const btn = document.getElementById('dailyRewardBtn');
+            const now = Date.now();
+            const oneDay = 24 * 60 * 60 * 1000;
+            if (now - lastDailyTime < oneDay) {
+                btn.disabled = true;
+                btn.innerText = "⏳ รับแล้ววันนี้";
+            } else {
+                btn.disabled = false;
+                btn.innerText = "🎁 รับฟรี 100 Gems";
+            }
+        }
+
+        window.claimDailyReward = async () => {
+            if (!currentUser) return;
+            const now = Date.now();
+            const oneDay = 24 * 60 * 60 * 1000;
+            if (now - lastDailyTime < oneDay) {
+                return alert("⏳ คุณได้รับรางวัลประจำวันไปแล้ว รอวันพรุ่งนี้นะครับ!");
+            }
+
+            try {
+                const userDocRef = doc(db, "animeUsers", currentUser.uid);
+                await updateDoc(userDocRef, {
+                    gems: userGems + 100,
+                    lastDaily: now
+                });
+                alert("🎉 รับฟรี 100 Gems เรียบร้อยแล้ว!");
+            } catch (err) {
+                alert("เกิดข้อผิดพลาด: " + err.message);
+            }
+        };
+
+        // ------------------ Gacha System ------------------
+        const RARITY_WEIGHTS = [
+            { rarity: 'UR', rate: 0.01 },
+            { rarity: 'SSR', rate: 0.09 },
+            { rarity: 'SR', rate: 0.30 },
+            { rarity: 'R', rate: 0.60 }
+        ];
+
+        function getRandomRarity(guaranteeSR = false) {
+            let rand = Math.random();
+            if (guaranteeSR) {
+                // Rates among SR, SSR, UR only
+                // UR: 0.01/0.4 = 2.5%, SSR: 0.09/0.4 = 22.5%, SR: 75%
+                if (rand < 0.025) return 'UR';
+                if (rand < 0.25) return 'SSR';
+                return 'SR';
+            }
+            if (rand < 0.01) return 'UR';
+            if (rand < 0.10) return 'SSR';
+            if (rand < 0.40) return 'SR';
+            return 'R';
+        }
+
+        function pickCardByRarity(targetRarity) {
+            const pool = masterCharacters.filter(c => c.rarity === targetRarity);
+            const chosen = pool[Math.floor(Math.random() * pool.length)];
+            return chosen;
+        }
+
+        window.pullGacha = async (pullCount) => {
+            if (!currentUser) return alert("⚠️ กรุณาเข้าสู่ระบบก่อนครับ");
+            const cost = pullCount === 1 ? 100 : 900;
+            if (userGems < cost) return alert(`❌ Gems ไม่พอครับ (ต้องใช้ 💎 ${cost} Gems แต่มีอยู่ 💎 ${userGems} Gems)`);
+            if (!confirm(`ยืนยันการสุ่ม ${pullCount} ครั้ง ด้วย ${cost} Gems?`)) return;
+
+            try {
+                const results = [];
+                for (let i = 0; i < pullCount; i++) {
+                    const is10thGuarantee = (pullCount === 10 && i === 9);
+                    const rarity = getRandomRarity(is10thGuarantee);
+                    const card = pickCardByRarity(rarity);
+                    results.push(card);
+                }
+
+                // Save to Firestore
+                const userDocRef = doc(db, "animeUsers", currentUser.uid);
+                await updateDoc(userDocRef, { gems: userGems - cost });
+
+                for (let card of results) {
+                    await addDoc(collection(db, "animeInventory"), {
+                        uid: currentUser.uid,
+                        username: currentUser.email.split('@')[0],
+                        cardId: card.id,
+                        obtainedAt: Date.now(),
+                        isListed: false
+                    });
+                }
+
+                openRevealModal(results);
+
+            } catch (err) {
+                alert("เกิดข้อผิดพลาดในการสุ่ม: " + err.message);
+            }
+        };
+
+        
+        // ------------------ Arena & 5v5 Tactical Engine ------------------
+        let allTeamsList = [];
+        let currentPickingSlot = null;
+        let myTeamDocIds = [null, null, null, null, null];
+
+        const pveStages = [
+            {
+                id: 1,
+                name: "ด่าน 1: กลุ่มโจรสลัด & นินจาฝึกหัด (Rookie Trial)",
+                desc: "ทดสอบคอมโบเบื้องต้นกับกลุ่มนักรบรุ่นเยาว์",
+                cards: ['c005', 'c004', 'c025', 'c019', 'c011'],
+                reward: 200
+            },
+            {
+                id: 2,
+                name: "ด่าน 2: เหล่านักล่า & นักล่าอสูร (Hunters & Slayers)",
+                desc: "ระวังการประสานงานของความเร็วและสายฟ้า",
+                cards: ['c017', 'c016', 'c018', 'c032', 'c031'],
+                reward: 300
+            },
+            {
+                id: 3,
+                name: "ด่าน 3: เสาหลัก & ฮีโร่รุ่นใหม่ (Hashira & Heroes)",
+                desc: "พลังทำลายล้างสูงและการโจมตีเจาะเกราะ",
+                cards: ['c045', 'c020', 'c014', 'c026', 'c044'],
+                reward: 400
+            },
+            {
+                id: 4,
+                name: "ด่าน 4: แสงอุษา & อสูรข้างขึ้น (Akatsuki & Moons)",
+                desc: "มีทั้งตัวแทงก์ถึกทนและดีบัฟสถานะมืดมิด",
+                cards: ['c030', 'c027', 'c021', 'c028', 'c046'],
+                reward: 500
+            },
+            {
+                id: 5,
+                name: "ด่าน 5: ทวยเทพแห่งมัลติเวิร์ส (Multiverse Legends)",
+                desc: "ด่านบอสสุดท้าย รวมตัวละครระดับตำนาน UR ครบทุกตำแหน่ง",
+                cards: ['c012', 'c042', 'c013', 'c008', 'c049'],
+                reward: 1000
+            }
+        ];
+
+        function validateAndRenderTeamSlots() {
+            const ownedDocIds = new Set(myInventoryDocs.map(d => d.id));
+            myTeamDocIds = myTeamDocIds.map(docId => (docId && ownedDocIds.has(docId)) ? docId : null);
+            renderTeamFormationUI();
+        }
+
+        window.renderTeamFormationUI = () => {
+            for (let i = 0; i < 5; i++) {
+                const slotEl = document.getElementById(`slot-${i}`);
+                if (!slotEl) continue;
+                const docId = myTeamDocIds[i];
+                if (docId) {
+                    const inv = myInventoryDocs.find(d => d.id === docId);
+                    if (inv) {
+                        const c = charMap[inv.cardId];
+                        slotEl.className = "team-slot filled";
+                        slotEl.innerHTML = `
+                            <span class="slot-badge">ตำแหน่ง ${i+1} (${i < 2 ? 'หน้า' : 'หลัง'})</span>
+                            <button class="slot-remove-btn" onclick="event.stopPropagation(); removeSlotCard(${i})">✕</button>
+                            <div style="font-size:26px; margin-top:10px;">${getElementIcon(c.element)}</div>
+                            <div style="font-weight:800; font-size:13px; color:#fff; margin-top:4px;">${c.name}</div>
+                            <div style="font-size:10px; color:var(--text-muted);">${c.series}</div>
+                            <div style="margin-top:6px; font-size:11px; font-weight:700; color:${getRarityColor(c.rarity)};">
+                                ${c.rarity} • ${c.role}
+                            </div>
+                            <div style="font-size:10px; color:#00d2d3; margin-top:6px;">
+                                HP:${c.stats.hp} ATK:${c.stats.atk}
+                            </div>
+                        `;
+                    }
+                } else {
+                    slotEl.className = "team-slot";
+                    slotEl.innerHTML = `
+                        <span class="slot-badge">ตำแหน่ง ${i+1} (${i < 2 ? 'หน้า' : 'หลัง'})</span>
+                        <div class="slot-content">➕ เลือกการ์ด</div>
+                    `;
+                }
+            }
+            renderSynergies();
+            renderPvEStages();
+        };
+
+        window.openSlotPicker = (slotIndex) => {
+            currentPickingSlot = slotIndex;
+            const modal = document.getElementById('slotPickerModal');
+            const grid = document.getElementById('slotPickerGrid');
+
+            const currentSelectedDocIds = new Set(myTeamDocIds.filter((id, idx) => id && idx !== slotIndex));
+            const availableCards = myInventoryDocs.filter(inv => !currentSelectedDocIds.has(inv.id) && !inv.isListed);
+
+            if (availableCards.length === 0) {
+                grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><h3>ไม่มีการ์ดว่างในคลัง</h3><p>ลองเปิดกาชาเพื่อหาการ์ดเพิ่ม หรือยกเลิกการ์ดที่วางขายอยู่</p></div>`;
+            } else {
+                grid.innerHTML = availableCards.map(inv => {
+                    const c = charMap[inv.cardId];
+                    return `
+                        <div class="tcg-card rarity-${c.rarity}" style="cursor:pointer;" onclick="selectCardForSlot('${inv.id}')">
+                            <div class="card-top-bar">
+                                <span class="element-tag el-${c.element}">${getElementIcon(c.element)} ${c.element}</span>
+                                <span class="rarity-tag tag-${c.rarity}">${c.rarity}</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="card-name">${c.name}</div>
+                                <div class="card-series">${c.series} • ${c.role}</div>
+                                <div class="stats-mini-row">
+                                    <div><span class="stat-label">HP</span>${hpVal}</div>
+                                    <div><span class="stat-label">ATK</span>${atkVal}</div>
+                                    <div><span class="stat-label">SPD</span>${c.stats.spd}</div>
+                                </div>
+                                <button class="btn-card-action" style="background:var(--secondary); color:#fff; width:100%;">เลือกใส่ทีม</button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+            modal.style.display = 'flex';
+        };
+
+        window.closeSlotPicker = () => {
+            document.getElementById('slotPickerModal').style.display = 'none';
+            currentPickingSlot = null;
+        };
+
+        window.selectCardForSlot = (invDocId) => {
+            if (currentPickingSlot !== null) {
+                myTeamDocIds[currentPickingSlot] = invDocId;
+                closeSlotPicker();
+                renderTeamFormationUI();
+            }
+        };
+
+        window.removeSlotCard = (slotIndex) => {
+            myTeamDocIds[slotIndex] = null;
+            renderTeamFormationUI();
+        };
+
+        function calculateActiveSynergies(teamCards) {
+            const synergies = [];
+            if (!teamCards || teamCards.length === 0) return synergies;
+
+            const seriesCounts = {};
+            teamCards.forEach(c => {
+                seriesCounts[c.series] = (seriesCounts[c.series] || 0) + 1;
+            });
+
+            if (seriesCounts['One Piece'] >= 3) synergies.push({ name: "🏴‍☠️ Pirate Alliance", desc: "เพิ่มคริติคอล +20% & ต้านทานสถานะ" });
+            if (seriesCounts['Demon Slayer'] >= 3) synergies.push({ name: "🌀 Breathing Mastery", desc: "เพิ่ม SPD ทั้งทีม +15%" });
+            if (seriesCounts['Naruto'] >= 3) synergies.push({ name: "🥷 Shinobi Bond", desc: "มีโอกาสโจมตีประสาน Dual Strike" });
+            if (seriesCounts['Jujutsu Kaisen'] >= 3) synergies.push({ name: "👁️ Cursed Synergy", desc: "เมื่อมีเพื่อนตาย ตัวที่เหลือได้ ATK +25%" });
+            if (seriesCounts['My Hero Academia'] >= 3) synergies.push({ name: "🦸 Plus Ultra", desc: "เมื่อ HP < 30% ดาเมจเพิ่มขึ้น 30%" });
+            if (seriesCounts['Hunter x Hunter'] >= 3) synergies.push({ name: "🏹 Hunter Resolve", desc: "สะสมเกจ SP เร็วขึ้น 25%" });
+            if (seriesCounts['Bleach'] >= 3) synergies.push({ name: "⚔️ Soul Resonance", desc: "เจาะเกราะ DEF ศัตรู 20%" });
+            if (seriesCounts['Attack on Titan'] >= 3) synergies.push({ name: "🛡️ Wings of Freedom", desc: "แถวหน้าได้เกราะ Shield +400" });
+
+            const distinctElements = new Set(teamCards.map(c => c.element));
+            if (distinctElements.size >= 5) {
+                synergies.push({ name: "🌈 Rainbow Resonance", desc: "ลดดาเมจที่ทั้งทีมได้รับลง 15%" });
+            }
+
+            return synergies;
+        }
+
+        function renderSynergies() {
+            const currentCards = myTeamDocIds
+                .map(id => myInventoryDocs.find(d => d.id === id))
+                .filter(Boolean)
+                .map(inv => charMap[inv.cardId]);
+
+            const synergies = calculateActiveSynergies(currentCards);
+            const container = document.getElementById('synergyChipsContainer');
+            if (!container) return;
+            if (synergies.length === 0) {
+                container.innerHTML = `<span style="font-size:12px; color:var(--text-muted);">จัดทีมจากการ์ดเรื่องเดียวกัน $\ge 3$ ใบ หรือครบ 5 ธาตุเพื่อรับบัฟ</span>`;
+            } else {
+                container.innerHTML = synergies.map(s => `
+                    <span class="synergy-chip" title="${s.desc}">${s.name}</span>
+                `).join('');
+            }
+        }
+
+        window.saveTeamToCloud = async () => {
+            if (!currentUser) return alert("⚠️ เข้าสู่ระบบก่อนครับ");
+            const validCount = myTeamDocIds.filter(Boolean).length;
+            if (validCount < 5) {
+                return alert(`⚠️ กรุณาใส่การ์ดในทีมให้ครบ 5 ใบก่อนบันทึกครับ (ตอนนี้มี ${validCount}/5)`);
+            }
+
+            try {
+                const teamCards = myTeamDocIds.map(id => {
+                    const inv = myInventoryDocs.find(d => d.id === id);
+                    return inv ? inv.cardId : null;
+                });
+
+                const currentCards = teamCards.map(cid => charMap[cid]);
+                const totalHp = currentCards.reduce((acc, c) => acc + c.stats.hp, 0);
+                const totalAtk = currentCards.reduce((acc, c) => acc + c.stats.atk, 0);
+                const totalDef = currentCards.reduce((acc, c) => acc + c.stats.def, 0);
+                const cp = Math.round(totalHp / 5 + totalAtk * 1.5 + totalDef);
+
+                await setDoc(doc(db, "animeTeams", currentUser.uid), {
+                    uid: currentUser.uid,
+                    username: currentUser.email.split('@')[0],
+                    teamCardDocIds: myTeamDocIds,
+                    teamCardIds: teamCards,
+                    cp: cp,
+                    updatedAt: Date.now()
+                });
+
+                alert("✅ บันทึกทีม 5 ใบและอัปเดตทีมป้องกันสำเร็จ!");
+            } catch (err) {
+                alert("เกิดข้อผิดพลาด: " + err.message);
+            }
+        };
+
+        function renderPvEStages() {
+            const grid = document.getElementById('stageGrid');
+            if (!grid) return;
+            grid.innerHTML = pveStages.map(st => `
+                <div class="stage-card">
+                    <div>
+                        <div style="font-size:11px; font-weight:800; color:var(--gold);">PVE CAMPAIGN</div>
+                        <h4 style="font-size:15px; font-weight:800; margin:4px 0; color:#fff;">${st.name}</h4>
+                        <p style="font-size:12px; color:var(--text-muted); margin-bottom:10px;">${st.desc}</p>
+                        
+                        <div style="display:flex; gap:6px; margin-bottom:12px; overflow-x:auto;">
+                            ${st.cards.map(cid => {
+                                const c = charMap[cid];
+                                return `<span style="font-size:10px; background:#1e263d; padding:2px 6px; border-radius:4px; white-space:nowrap;">${getElementIcon(c.element)} ${c.name.split(' ')[0]}</span>`;
+                            }).join('')}
+                        </div>
+                    </div>
+                    
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <span style="font-size:13px; font-weight:800; color:var(--gem-color);">รางวัล: 💎 ${st.reward}</span>
+                        <button class="btn-card-action" style="background:var(--secondary); color:#fff; padding:6px 14px; flex:none;" onclick="startBattlePvE(${st.id})">
+                            ⚔️ ท้าดวล
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderPvPChallengers() {
+            const grid = document.getElementById('pvpChallengersGrid');
+            if (!grid) return;
+            const displayList = [...allTeamsList];
+            if (displayList.length === 0) {
+                displayList.push({
+                    id: 'bot_alpha',
+                    username: 'Akatsuki_Lord',
+                    cp: 5400,
+                    teamCardIds: ['c030', 'c027', 'c021', 'c028', 'c046']
+                });
+                displayList.push({
+                    id: 'bot_beta',
+                    username: 'StrawHat_Crew',
+                    cp: 5250,
+                    teamCardIds: ['c001', 'c002', 'c003', 'c007', 'c008']
+                });
+            }
+
+            grid.innerHTML = displayList.map(t => `
+                <div class="stage-card">
+                    <div>
+                        <div style="font-size:11px; font-weight:800; color:#a55eea;">PVP ARENA</div>
+                        <h4 style="font-size:15px; font-weight:800; margin:4px 0; color:#fff;">ผู้เล่น: ${t.username}</h4>
+                        <div style="font-size:12px; color:var(--gold); font-weight:800; margin-bottom:10px;">
+                            Combat Power: ${t.cp || 5000} CP
+                        </div>
+                        <div style="display:flex; gap:6px; margin-bottom:12px; overflow-x:auto;">
+                            ${(t.teamCardIds || []).map(cid => {
+                                const c = charMap[cid];
+                                return c ? `<span style="font-size:10px; background:#1e263d; padding:2px 6px; border-radius:4px; white-space:nowrap;">${getElementIcon(c.element)} ${c.name.split(' ')[0]}</span>` : '';
+                            }).join('')}
+                        </div>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <span style="font-size:12px; color:var(--text-muted);">Async Rank Match</span>
+                        <button class="btn-card-action" style="background:#ff4757; color:#fff; padding:6px 14px; flex:none;" onclick="startBattlePvP('${t.id}')">
+                            ⚔️ ประลอง
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // =========================================================
+        //               TACTICAL BATTLE ENGINE (5v5)
+        // =========================================================
+        let battleState = null;
+
+        function buildCombatant(c, isPlayer, index, stars = 0) {
+            const starBonus = 1 + (stars * 0.05);
+            const hp = Math.round(c.stats.hp * starBonus);
+            const atk = Math.round(c.stats.atk * starBonus);
+            return {
+                slotIndex: index,
+                isPlayer: isPlayer,
+                id: c.id,
+                name: c.name + (stars > 0 ? ` [${stars}★]` : ''),
+                stars: stars,
+                series: c.series,
+                rarity: c.rarity,
+                element: c.element,
+                role: c.role,
+                maxHp: hp,
+                currentHp: hp,
+                atk: atk,
+                def: c.stats.def,
+                spd: c.stats.spd,
+                shield: 0,
+                sp: 30,
+                maxSp: 100,
+                atb: Math.random() * 25,
+                isDead: false,
+                isGuarding: false,
+                elementMark: null,
+                statuses: []
+            };
+        }
+
+        window.startBattlePvE = (stageId) => {
+            const validCount = myTeamDocIds.filter(Boolean).length;
+            if (validCount < 5) return alert(`⚠️ กรุณาจัดทีมให้ครบ 5 ใบก่อนเริ่มประลองครับ (ตอนนี้มี ${validCount}/5)`);
+
+            const stage = pveStages.find(s => s.id === stageId);
+            if (!stage) return;
+
+            const playerCombatants = myTeamDocIds.map((docId, idx) => {
+                const inv = myInventoryDocs.find(d => d.id === docId);
+                return buildCombatant(charMap[inv.cardId], true, idx, inv.stars || 0);
+            });
+
+            const enemyCombatants = stage.cards.map((cid, idx) => {
+                return buildCombatant(charMap[cid], false, idx);
+            });
+
+            initBattle(playerCombatants, enemyCombatants, stage.name, 'pve', stage.reward);
+        };
+
+        window.startBattlePvP = (teamId) => {
+            const validCount = myTeamDocIds.filter(Boolean).length;
+            if (validCount < 5) return alert(`⚠️ กรุณาจัดทีมให้ครบ 5 ใบก่อนเริ่มประลองครับ (ตอนนี้มี ${validCount}/5)`);
+
+            let oppTeam = allTeamsList.find(t => t.id === teamId);
+            if (!oppTeam) {
+                oppTeam = {
+                    username: 'Akatsuki_Lord',
+                    teamCardIds: ['c030', 'c027', 'c021', 'c028', 'c046']
+                };
+            }
+
+            const playerCombatants = myTeamDocIds.map((docId, idx) => {
+                const inv = myInventoryDocs.find(d => d.id === docId);
+                return buildCombatant(charMap[inv.cardId], true, idx, inv.stars || 0);
+            });
+
+            const enemyCombatants = oppTeam.teamCardIds.map((cid, idx) => {
+                return buildCombatant(charMap[cid], false, idx);
+            });
+
+            initBattle(playerCombatants, enemyCombatants, `ผู้เล่น: ${oppTeam.username}`, 'pvp', 150);
+        };
+
+        function initBattle(players, enemies, oppName, mode, reward) {
+            battleState = {
+                mode: mode,
+                rewardGems: reward,
+                round: 1,
+                teamAp: 5,
+                players: players,
+                enemies: enemies,
+                currentTargetIndex: 0,
+                activeCombatant: null,
+                isBusy: false
+            };
+
+            document.getElementById('arenaLobbyView').style.display = 'none';
+            document.getElementById('arenaBattleView').style.display = 'block';
+            document.getElementById('battleOpponentName').innerText = `⚔️ กำลังต่อสู้: ${oppName}`;
+            document.getElementById('battleRoundCounter').innerText = '1';
+
+            const firstAlive = enemies.findIndex(e => !e.isDead);
+            battleState.currentTargetIndex = firstAlive !== -1 ? firstAlive : 0;
+
+            const box = document.getElementById('combatLogBox');
+            box.innerHTML = '';
+            logCombat(`🔔 การต่อสู้เริ่มต้นขึ้น! สัมผัสความมันส์ระดับยุทธวิธี 5v5`);
+            renderBattlefield();
+            runATBLoop();
+        }
+
+        function logCombat(text, cls = '') {
+            const box = document.getElementById('combatLogBox');
+            if (!box) return;
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${cls}`;
+            entry.innerHTML = text;
+            box.appendChild(entry);
+            box.scrollTop = box.scrollHeight;
+        }
+
+        function renderBattlefield() {
+            if (!battleState) return;
+
+            const enemyRow = document.getElementById('enemyCombatantsRow');
+            if (enemyRow) {
+                enemyRow.innerHTML = battleState.enemies.map((c, idx) => {
+                    const isSelected = (idx === battleState.currentTargetIndex);
+                    const isActive = (battleState.activeCombatant === c);
+                    return renderCombatantSlot(c, isSelected, isActive);
+                }).join('');
+            }
+
+            const playerRow = document.getElementById('playerCombatantsRow');
+            if (playerRow) {
+                playerRow.innerHTML = battleState.players.map((c, idx) => {
+                    const isActive = (battleState.activeCombatant === c);
+                    return renderCombatantSlot(c, false, isActive);
+                }).join('');
+            }
+
+            const orbs = document.getElementById('apOrbsContainer')?.children;
+            if (orbs) {
+                for (let i = 0; i < 5; i++) {
+                    orbs[i].className = i < battleState.teamAp ? 'ap-orb' : 'ap-orb spent';
+                }
+            }
+            const apNum = document.getElementById('apNumberLabel');
+            if (apNum) apNum.innerText = `(${battleState.teamAp}/5)`;
+
+            const curTarget = battleState.enemies[battleState.currentTargetIndex];
+            if (curTarget) {
+                const targetLbl = document.getElementById('enemyTargetLabel');
+                if (targetLbl) targetLbl.innerText = `เป้าหมาย: [${curTarget.name}] (${curTarget.element})`;
+                updateTargetAdvantageText(curTarget);
+            }
+
+            const activeHero = battleState.activeCombatant;
+            const heroLbl = document.getElementById('playerActiveHeroLabel');
+            if (activeHero && activeHero.isPlayer && heroLbl) {
+                heroLbl.innerText = `ถึงคิว: ${activeHero.name} (${activeHero.role})`;
+                updateActionButtonsState(activeHero);
+            } else if (activeHero && heroLbl) {
+                heroLbl.innerText = `ศัตรูกำลังออกท่า: ${activeHero.name}`;
+                disableActionButtons();
+            }
+        }
+
+        function renderCombatantSlot(c, isTarget, isActive) {
+            const hpPct = Math.max(0, Math.min(100, Math.round((c.currentHp / c.maxHp) * 100)));
+            const spPct = Math.max(0, Math.min(100, Math.round((c.sp / c.maxSp) * 100)));
+            const shieldPct = c.shield > 0 ? Math.min(100, Math.round((c.shield / c.maxHp) * 100)) : 0;
+
+            const targetClass = isTarget ? 'selected-target' : '';
+            const activeClass = isActive ? 'active-turn' : '';
+            const deadClass = c.isDead ? 'dead' : '';
+
+            const markIcon = c.elementMark ? `<span class="status-icon" style="background:#0f1c2d; color:#00d2d3; border:1px solid #00d2d3;">Mark: ${getElementIcon(c.elementMark)}</span>` : '';
+            const guardIcon = c.isGuarding ? `<span class="status-icon" style="color:#2ed573;">🛡️ Guard</span>` : '';
+            const statusIcons = c.statuses.map(st => `<span class="status-icon" style="color:#ff6b81;">${st}</span>`).join('');
+
+            return `
+                <div class="combatant-card ${targetClass} ${activeClass} ${deadClass}" 
+                     onclick="${!c.isPlayer ? `selectEnemyTarget(${c.slotIndex})` : ''}">
+                    <div style="font-size:10px; font-weight:800; display:flex; justify-content:space-between;">
+                        <span>${getElementIcon(c.element)} ${c.element}</span>
+                        <span style="color:${getRarityColor(c.rarity)};">${c.rarity}</span>
+                    </div>
+
+                    <div style="font-size:12px; font-weight:800; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin:4px 0;">
+                        ${c.name}
+                    </div>
+
+                    <div class="bar-wrap">
+                        <div class="hp-fill" style="width: ${hpPct}%;"></div>
+                        ${c.shield > 0 ? `<div class="shield-fill" style="width: ${shieldPct}%;"></div>` : ''}
+                    </div>
+                    <div style="font-size:10px; color:var(--text-muted); display:flex; justify-content:space-between;">
+                        <span>HP</span>
+                        <span>${Math.max(0, c.currentHp)}/${c.maxHp}</span>
+                    </div>
+
+                    <div class="bar-wrap" style="height:4px; margin-top:2px;">
+                        <div class="sp-fill" style="width: ${spPct}%;"></div>
+                    </div>
+
+                    <div class="status-tray">
+                        ${markIcon}
+                        ${guardIcon}
+                        ${statusIcons}
+                    </div>
+                </div>
+            `;
+        }
+
+        window.selectEnemyTarget = (idx) => {
+            if (!battleState) return;
+            const target = battleState.enemies[idx];
+            if (target && !target.isDead) {
+                battleState.currentTargetIndex = idx;
+                renderBattlefield();
+            }
+        };
+
+        function updateTargetAdvantageText(target) {
+            const actor = battleState.activeCombatant;
+            const label = document.getElementById('targetAdvantageHint');
+            if (!label) return;
+            if (!actor || !actor.isPlayer) {
+                label.innerText = `เล็ง: ${target.name}`;
+                return;
+            }
+
+            const mult = calculateElementalMultiplier(actor.element, target.element);
+            let text = `การปะทะ: `;
+            if (mult > 1.2) text += `🔥 ได้เปรียบธาตุ (+25% ดาเมจ)`;
+            else if (mult < 0.9) text += `💧 เสียเปรียบธาตุ (-20% ดาเมจ)`;
+            else text += `⚪ ดาเมจปกติ (100%)`;
+
+            if (target.elementMark && canReact(target.elementMark, actor.element)) {
+                text += ` • 💥 คอมโบธาตุพร้อมจุดระเบิด!`;
+            }
+            label.innerText = text;
+        }
+
+        function updateActionButtonsState(actor) {
+            const ap = battleState.teamAp;
+            document.getElementById('btnActionAttack').disabled = (ap < 1 || battleState.isBusy);
+            document.getElementById('btnActionGuard').disabled = (ap < 1 || battleState.isBusy);
+            document.getElementById('btnActionSkill').disabled = (ap < 2 || battleState.isBusy);
+            
+            const ultiBtn = document.getElementById('btnActionUlti');
+            const canUlti = (ap >= 3 && actor.sp >= 100 && !battleState.isBusy);
+            ultiBtn.disabled = !canUlti;
+            ultiBtn.className = canUlti ? 'btn-command btn-cmd-ulti ready' : 'btn-command btn-cmd-ulti';
+
+            const roleLabels = {
+                Attacker: '⚔️ Heavy Smash (2 AP)',
+                Tank: '🛡️ Iron Taunt (2 AP)',
+                Assassin: '🗡️ Shadow Pierce (2 AP)',
+                Spell: '📜 Elemental Surge (2 AP)',
+                Healer: '💖 Miracle Recovery (2 AP)',
+                Tactician: '🧠 Strategic Buff (2 AP)'
+            };
+            document.getElementById('roleSkillLabel').innerText = roleLabels[actor.role] || '✨ Tactical Skill';
+        }
+
+        function disableActionButtons() {
+            document.getElementById('btnActionAttack').disabled = true;
+            document.getElementById('btnActionGuard').disabled = true;
+            document.getElementById('btnActionSkill').disabled = true;
+            document.getElementById('btnActionUlti').disabled = true;
+        }
+
+        function calculateElementalMultiplier(atkEl, defEl) {
+            const cycle = {
+                Fire: 'Wind',
+                Wind: 'Earth',
+                Earth: 'Lightning',
+                Lightning: 'Water',
+                Water: 'Fire'
+            };
+
+            if (cycle[atkEl] === defEl) return 1.25;
+            if (cycle[defEl] === atkEl) return 0.80;
+
+            if ((atkEl === 'Light' && defEl === 'Dark') || (atkEl === 'Dark' && defEl === 'Light')) {
+                return 1.30;
+            }
+
+            return 1.0;
+        }
+
+        function canReact(existingMark, newElement) {
+            if (!existingMark || existingMark === newElement) return false;
+            const pairs = [
+                ['Water', 'Lightning'], ['Lightning', 'Water'],
+                ['Fire', 'Wind'], ['Wind', 'Fire'],
+                ['Earth', 'Water'], ['Water', 'Earth'],
+                ['Water', 'Wind'], ['Wind', 'Water'],
+                ['Light', 'Dark'], ['Dark', 'Light']
+            ];
+            return pairs.some(p => p[0] === existingMark && p[1] === newElement);
+        }
+
+        function triggerReaction(existingMark, newElement, target, enemyTeam) {
+            let logMsg = "";
+            const pairKey = [existingMark, newElement].sort().join('+');
+
+            if (pairKey === 'Lightning+Water') {
+                const aoeDmg = 250;
+                enemyTeam.forEach(e => {
+                    if (!e.isDead && e !== target) e.currentHp -= aoeDmg;
+                });
+                logMsg = `<span class="log-reaction">⚡ REACTION [Conductive]! ช็อตกระแสไฟกระจายดาเมจ ${aoeDmg} ใส่ศัตรูทั้งแถว!</span>`;
+            } else if (pairKey === 'Fire+Wind') {
+                target.statuses.push('Burn');
+                target.currentHp -= 300;
+                logMsg = `<span class="log-reaction">🔥 REACTION [Firestorm]! ระเบิดเพลิง 300 ดาเมจ และติดสถานะ Burn เผาไหม้!</span>`;
+            } else if (pairKey === 'Earth+Water') {
+                target.spd = Math.round(target.spd * 0.6);
+                logMsg = `<span class="log-reaction">🪨 REACTION [Quicksand]! ดูดทรายทำให้ SPD ของ ${target.name} ลดลง 40%!</span>`;
+            } else if (pairKey === 'Water+Wind') {
+                target.statuses.push('Freeze');
+                logMsg = `<span class="log-reaction">❄️ REACTION [Freeze]! ${target.name} โดนแช่แข็ง ข้ามเทิร์น 1 ครั้ง!</span>`;
+            } else if (pairKey === 'Dark+Light') {
+                target.sp = Math.max(0, target.sp - 50);
+                target.shield = 0;
+                logMsg = `<span class="log-reaction">🌑 REACTION [Eclipse]! สลายเกราะและสูบ SP ของ ${target.name} หายไป 50 แต้ม!</span>`;
+            }
+
+            target.elementMark = null;
+            return logMsg;
+        }
+
+        function runATBLoop() {
+            if (!battleState) return;
+
+            const allEnemiesDead = battleState.enemies.every(e => e.isDead);
+            const allPlayersDead = battleState.players.every(p => p.isDead);
+
+            if (allEnemiesDead) return finishBattle(true);
+            if (allPlayersDead) return finishBattle(false);
+
+            if (battleState.teamAp <= 0) {
+                battleState.teamAp = 5;
+                battleState.round++;
+                document.getElementById('battleRoundCounter').innerText = battleState.round;
+                logCombat(`🔄 เริ่มรอบใหม่ที่ ${battleState.round}! แต้ม Team AP ได้รับการฟื้นฟูเต็ม 5 แต้ม!`);
+            }
+
+            const allLiving = [...battleState.players, ...battleState.enemies].filter(c => !c.isDead);
+
+            let ready = allLiving.find(c => c.atb >= 100);
+            while (!ready) {
+                allLiving.forEach(c => {
+                    c.atb += c.spd * 0.15;
+                });
+                ready = allLiving.find(c => c.atb >= 100);
+            }
+
+            const queueList = [...allLiving].sort((a, b) => b.atb - a.atb).slice(0, 7);
+            const track = document.getElementById('atbQueueTrack');
+            if (track) {
+                track.innerHTML = queueList.map((c, i) => `
+                    <div class="atb-avatar ${i === 0 ? 'current' : ''}" style="border-color:${c.isPlayer ? '#00d2d3' : '#ff4757'};">
+                        ${c.name.substring(0, 2)}
+                    </div>
+                `).join('');
+            }
+
+            ready.atb = 0;
+            battleState.activeCombatant = ready;
+
+            if (ready.statuses.includes('Burn')) {
+                const burnDmg = Math.round(ready.maxHp * 0.08);
+                ready.currentHp -= burnDmg;
+                logCombat(`🔥 [Burn] ${ready.name} เสีย HP ${burnDmg} แต้มจากไฟเผา`, 'log-crit');
+                if (ready.currentHp <= 0) {
+                    ready.isDead = true;
+                    logCombat(`💀 ${ready.name} ทนพิษบาดแผลไม่ไหวและพ่ายแพ้ไป!`);
+                    renderBattlefield();
+                    return setTimeout(runATBLoop, 400);
+                }
+            }
+
+            if (ready.statuses.includes('Freeze') || ready.statuses.includes('Stun')) {
+                ready.statuses = ready.statuses.filter(s => s !== 'Freeze' && s !== 'Stun');
+                logCombat(`❄️ ${ready.name} ติดสถานะแช่แข็ง/ชะงัก ข้ามเทิร์นนี้!`);
+                renderBattlefield();
+                return setTimeout(runATBLoop, 600);
+            }
+
+            ready.isGuarding = false;
+            renderBattlefield();
+
+            if (ready.isPlayer) {
+                logCombat(`👉 ถึงคิวคุณสั่งการ: <b>${ready.name}</b> (เลือกเป้าหมายและคำสั่งได้เลย)`);
+            } else {
+                battleState.isBusy = true;
+                setTimeout(() => executeEnemyAITurn(ready), 700);
+            }
+        }
+
+                window.executePlayerAction = (actionType) => {
+            if (!battleState || battleState.isBusy) return;
+            if (battleState.isRealtime) {
+                return executeRealtimeAction(actionType);
+            }
+
+            const actor = battleState.activeCombatant;
+            if (!actor || !actor.isPlayer) return;
+
+            let target = battleState.enemies[battleState.currentTargetIndex];
+            if (!target || target.isDead) {
+                const newIdx = battleState.enemies.findIndex(e => !e.isDead);
+                if (newIdx === -1) return;
+                battleState.currentTargetIndex = newIdx;
+                target = battleState.enemies[newIdx];
+            }
+
+            const taunter = battleState.enemies.find(e => !e.isDead && e.statuses.includes('Taunt'));
+            if (taunter && taunter !== target && (actionType === 'attack' || actionType === 'ultimate')) {
+                target = taunter;
+                logCombat(`🛡️ [Taunt] ${taunter.name} ยั่วยุ บังคับให้คุณต้องโจมตีใส่เขา!`);
+            }
+
+            if (actionType === 'attack') {
+                if (battleState.teamAp < 1) return alert("AP ไม่พอ");
+                battleState.teamAp -= 1;
+                actor.sp = Math.min(100, actor.sp + 20);
+
+                const mult = calculateElementalMultiplier(actor.element, target.element);
+                const isCrit = (actor.role === 'Assassin' && Math.random() < 0.4) || Math.random() < 0.15;
+                const critMult = isCrit ? 1.5 : 1.0;
+                const guardMult = target.isGuarding ? 0.5 : 1.0;
+
+                let dmg = Math.round((actor.atk * 1.0 - target.def * 0.35) * mult * critMult * guardMult);
+                dmg = Math.max(60, dmg);
+
+                applyDamage(target, dmg);
+                logCombat(`⚔️ <b>${actor.name}</b> โจมตีใส่ ${target.name} สร้างดาเมจ <span class="${isCrit ? 'log-crit' : ''}">${dmg}</span>! ${isCrit ? '💥 CRITICAL!' : ''}`);
+
+                if (target.elementMark && canReact(target.elementMark, actor.element)) {
+                    const rMsg = triggerReaction(target.elementMark, actor.element, target, battleState.enemies);
+                    logCombat(rMsg);
+                } else {
+                    target.elementMark = actor.element;
+                }
+
+            } else if (actionType === 'guard') {
+                if (battleState.teamAp < 1) return alert("AP ไม่พอ");
+                battleState.teamAp -= 1;
+                actor.isGuarding = true;
+                actor.sp = Math.min(100, actor.sp + 15);
+                actor.atb += 20;
+                logCombat(`🛡️ <b>${actor.name}</b> เข้าสู่สภาวะตั้งรับ (Guard) ลดดาเมจลง 50%`);
+
+            } else if (actionType === 'skill') {
+                if (battleState.teamAp < 2) return alert("AP ไม่พอ (ต้องใช้ 2 AP)");
+                battleState.teamAp -= 2;
+                actor.sp = Math.min(100, actor.sp + 25);
+
+                executeRoleSkill(actor, target, battleState.players, battleState.enemies);
+
+            } else if (actionType === 'ultimate') {
+                if (battleState.teamAp < 3) return alert("AP ไม่พอ (ต้องใช้ 3 AP)");
+                if (actor.sp < 100) return alert("เกจ SP ยังไม่เต็ม 100");
+                battleState.teamAp -= 3;
+                actor.sp = 0;
+
+                const cData = charMap[actor.id];
+                const skillName = cData.skill.name;
+                const mult = calculateElementalMultiplier(actor.element, target.element);
+                let ultiDmg = Math.round((actor.atk * 2.4 - target.def * 0.25) * mult);
+                applyDamage(target, ultiDmg);
+
+                logCombat(`💥💥 <b>${actor.name}</b> ปลดปล่อยท่าไม้ตายสุดยอด <b>[${skillName}]</b> ใส่ ${target.name} ทำดาเมจถล่มทลาย <span class="log-crit">${ultiDmg}</span> แต้ม!`);
+            }
+
+            checkDeath(target);
+            renderBattlefield();
+
+            battleState.isBusy = true;
+            setTimeout(() => {
+                battleState.isBusy = false;
+                runATBLoop();
+            }, 500);
+        };
+
+        function executeRoleSkill(actor, target, myTeam, foeTeam) {
+            if (actor.role === 'Attacker') {
+                let dmg = Math.round((actor.atk * 1.6 - target.def * 0.3));
+                applyDamage(target, dmg);
+                logCombat(`💥 [Heavy Smash] ${actor.name} โจมตีกระหน่ำใส่ ${target.name} ดาเมจ ${dmg}!`);
+            } else if (actor.role === 'Tank') {
+                actor.shield += 450;
+                actor.statuses.push('Taunt');
+                logCombat(`🛡️ [Iron Taunt] ${actor.name} กางเกราะ Shield +450 และยั่วยุ Taunt ศัตรู 2 เทิร์น!`);
+            } else if (actor.role === 'Assassin') {
+                let dmg = Math.round(actor.atk * 1.5);
+                applyDamage(target, dmg);
+                logCombat(`🗡️ [Shadow Pierce] ${actor.name} ลอบแทงจุดตายทะลวงเกราะ DEF ทำดาเมจ ${dmg}!`);
+            } else if (actor.role === 'Spell') {
+                foeTeam.forEach(e => {
+                    if (!e.isDead) {
+                        applyDamage(e, Math.round(actor.atk * 0.9));
+                        e.elementMark = actor.element;
+                    }
+                });
+                logCombat(`📜 [Elemental Surge] ${actor.name} ระเบิดคลื่นเวทหมู่ใส่ศัตรูทั้ง 5 ตัว พร้อมกระจายมาร์กธาตุ!`);
+            } else if (actor.role === 'Healer') {
+                const lowestAlly = [...myTeam].filter(a => !a.isDead).sort((a, b) => (a.currentHp/a.maxHp) - (b.currentHp/b.maxHp))[0];
+                if (lowestAlly) {
+                    const healAmt = 550 + Math.round(lowestAlly.maxHp * 0.2);
+                    lowestAlly.currentHp = Math.min(lowestAlly.maxHp, lowestAlly.currentHp + healAmt);
+                    logCombat(`💖 [Miracle Recovery] ${actor.name} ฟื้นฟูพลังชีวิตให้ ${lowestAlly.name} +${healAmt} HP!`, 'log-heal');
+                }
+            } else if (actor.role === 'Tactician') {
+                myTeam.forEach(a => {
+                    if (!a.isDead) {
+                        a.atk = Math.round(a.atk * 1.2);
+                        a.sp = Math.min(100, a.sp + 20);
+                    }
+                });
+                logCombat(`🧠 [Strategic Buff] ${actor.name} บัญชาการรบ เพิ่ม ATK ทั้งทีม 20% และเร่งเกจ SP +20 แต้ม!`);
+            }
+        }
+
+        function applyDamage(target, dmg) {
+            if (target.shield > 0) {
+                if (target.shield >= dmg) {
+                    target.shield -= dmg;
+                    dmg = 0;
+                } else {
+                    dmg -= target.shield;
+                    target.shield = 0;
+                }
+            }
+            target.currentHp -= dmg;
+        }
+
+        function checkDeath(target) {
+            if (target.currentHp <= 0) {
+                target.currentHp = 0;
+                target.isDead = true;
+                logCombat(`💀 ${target.name} หมดสภาพการต่อสู้!`);
+            }
+        }
+
+        function executeEnemyAITurn(enemy) {
+            if (!battleState || enemy.isDead) return;
+
+            const livingPlayers = battleState.players.filter(p => !p.isDead);
+            if (livingPlayers.length === 0) return finishBattle(false);
+
+            let chosenTarget = livingPlayers.find(p => p.statuses.includes('Taunt'));
+            if (!chosenTarget) {
+                chosenTarget = livingPlayers.sort((a, b) => {
+                    const multA = calculateElementalMultiplier(enemy.element, a.element);
+                    const multB = calculateElementalMultiplier(enemy.element, b.element);
+                    return multB - multA;
+                })[0];
+            }
+
+            if (enemy.sp >= 100) {
+                enemy.sp = 0;
+                const cData = charMap[enemy.id];
+                let ultiDmg = Math.round((enemy.atk * 2.1 - chosenTarget.def * 0.25));
+                if (chosenTarget.isGuarding) ultiDmg = Math.round(ultiDmg * 0.5);
+                applyDamage(chosenTarget, ultiDmg);
+                logCombat(`💥 <b>${enemy.name}</b> ปล่อยท่าไม้ตาย <b>[${cData.skill.name}]</b> ใส่ ${chosenTarget.name} โดนไป <span class="log-crit">${ultiDmg}</span> แต้ม!`);
+            } else if (enemy.role === 'Healer') {
+                const lowestFoe = [...battleState.enemies].filter(e => !e.isDead).sort((a, b) => (a.currentHp/a.maxHp) - (b.currentHp/b.maxHp))[0];
+                if (lowestFoe && (lowestFoe.currentHp / lowestFoe.maxHp) < 0.6) {
+                    const heal = 450;
+                    lowestFoe.currentHp = Math.min(lowestFoe.maxHp, lowestFoe.currentHp + heal);
+                    logCombat(`💖 ${enemy.name} ร่ายคาถาฟื้นฟูให้ ${lowestFoe.name} +${heal} HP!`, 'log-heal');
+                } else {
+                    aiNormalHit(enemy, chosenTarget);
+                }
+            } else if (enemy.role === 'Tank' && !enemy.statuses.includes('Taunt')) {
+                enemy.statuses.push('Taunt');
+                enemy.shield += 350;
+                logCombat(`🛡️ ${enemy.name} ตั้งท่ารับ Taunt และกางเกราะ Shield!`);
+            } else {
+                aiNormalHit(enemy, chosenTarget);
+            }
+
+            checkDeath(chosenTarget);
+            renderBattlefield();
+
+            setTimeout(() => {
+                battleState.isBusy = false;
+                runATBLoop();
+            }, 600);
+        }
+
+        function aiNormalHit(enemy, target) {
+            enemy.sp = Math.min(100, enemy.sp + 20);
+            const mult = calculateElementalMultiplier(enemy.element, target.element);
+            const guardMult = target.isGuarding ? 0.5 : 1.0;
+            let dmg = Math.round((enemy.atk * 0.95 - target.def * 0.3) * mult * guardMult);
+            dmg = Math.max(40, dmg);
+            applyDamage(target, dmg);
+            logCombat(`⚔️ <b>${enemy.name}</b> เข้าโจมตีใส่ ${target.name} ทำดาเมจ ${dmg} แต้ม!`);
+
+            if (target.elementMark && canReact(target.elementMark, enemy.element)) {
+                const rMsg = triggerReaction(target.elementMark, enemy.element, target, battleState.players);
+                logCombat(rMsg);
+            } else {
+                target.elementMark = enemy.element;
+            }
+        }
+
+        async function finishBattle(isVictory) {
+            const modal = document.getElementById('battleResultModal');
+            const title = document.getElementById('battleResultTitle');
+            const desc = document.getElementById('battleResultDesc');
+            const rewardBox = document.getElementById('battleRewardDisplay');
+
+            if (isVictory) {
+                title.innerText = "🏆 VICTORY (ชัยชนะ!)";
+                title.style.color = "var(--gold)";
+                desc.innerText = "คุณวางกลยุทธ์และจัดทีมได้อย่างยอดเยี่ยม เอาชนะคู่ต่อสู้ลงได้อย่างเด็ดขาด!";
+                rewardBox.innerText = `+${battleState.rewardGems} Gems ได้รับเข้ากระเป๋าแล้ว!`;
+
+                if (currentUser) {
+                    try {
+                        const userRef = doc(db, "animeUsers", currentUser.uid);
+                        await updateDoc(userRef, {
+                            gems: userGems + battleState.rewardGems
+                        });
+                    } catch (err) {
+                        console.error(err);
+                    }
+                }
+            } else {
+                title.innerText = "💀 DEFEAT (พ่ายแพ้)";
+                title.style.color = "#ff4757";
+                desc.innerText = "ทีมของคุณพ่ายแพ้ในศึกนี้ ลองปรับแถวหน้าเป็นสาย Tank และใช้ปฏิกิริยาธาตุตัดจังหวะศัตรูดูสิ!";
+                rewardBox.innerText = "";
+            }
+
+            modal.style.display = 'flex';
+        }
+
+        window.closeBattleResultModal = () => {
+            document.getElementById('battleResultModal').style.display = 'none';
+            document.getElementById('arenaBattleView').style.display = 'none';
+            document.getElementById('arenaLobbyView').style.display = 'block';
+            battleState = null;
+        };
+
+        window.surrenderBattle = () => {
+            if (confirm("ต้องการยอมแพ้และออกจากสนามประลองหรือไม่?")) {
+                if (battleState && battleState.isRealtime) {
+                    exitRealtimeBattle();
+                } else {
+                    document.getElementById('arenaBattleView').style.display = 'none';
+                    document.getElementById('arenaLobbyView').style.display = 'block';
+                    battleState = null;
+                }
+            }
+        };
+
+        function getElementIcon(el) {
+            return {
+                Fire: '🔥', Wind: '🌪️', Earth: '🪨', Lightning: '⚡', Water: '💧', Light: '☀️', Dark: '🌑'
+            }[el] || '✨';
+        }
+
+        function getRarityColor(r) {
+            return {
+                UR: '#ff007f', SSR: '#ffa502', SR: '#a55eea', R: '#3498db'
+            }[r] || '#fff';
+        }
+
+        // ------------------ Inventory UI ------------------
+        window.renderInventoryUI = () => {
+            const grid = document.getElementById('inventoryGrid');
+            const search = document.getElementById('invSearch').value.trim().toLowerCase();
+            const series = document.getElementById('invFilterSeries').value;
+            const rarity = document.getElementById('invFilterRarity').value;
+            const element = document.getElementById('invFilterElement').value;
+            const role = document.getElementById('invFilterRole').value;
+
+            const filtered = myInventoryDocs.filter(inv => {
+                const c = charMap[inv.cardId];
+                if (!c) return false;
+                if (search && !c.name.toLowerCase().includes(search)) return false;
+                if (series !== 'all' && c.series !== series) return false;
+                if (rarity !== 'all' && c.rarity !== rarity) return false;
+                if (element !== 'all' && c.element !== element) return false;
+                if (role !== 'all' && c.role !== role) return false;
+                return true;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1/-1;">
+                        <h3>ไม่มีการ์ดตามเงื่อนไขที่เลือก</h3>
+                        <p>ลองเปิดตู้สุ่มกาชาเพื่อรับการ์ดใหม่ๆ ดูสิ!</p>
+                    </div>`;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(inv => {
+                const c = charMap[inv.cardId];
+                return renderCardTemplate(c, inv, 'inventory');
+            }).join('');
+        };
+
+        // ------------------ Marketplace UI & Actions ------------------
+        window.renderMarketUI = () => {
+            const grid = document.getElementById('marketGrid');
+            const search = document.getElementById('marketSearch').value.trim().toLowerCase();
+            const rarity = document.getElementById('marketFilterRarity').value;
+            const sort = document.getElementById('marketSort').value;
+
+            let filtered = allMarketListings.filter(m => {
+                const c = charMap[m.cardId];
+                if (!c) return false;
+                if (search && !c.name.toLowerCase().includes(search) && !c.series.toLowerCase().includes(search)) return false;
+                if (rarity !== 'all' && c.rarity !== rarity) return false;
+                return true;
+            });
+
+            if (sort === 'price_asc') filtered.sort((a, b) => a.price - b.price);
+            else if (sort === 'price_desc') filtered.sort((a, b) => b.price - a.price);
+            else filtered.sort((a, b) => b.createdAt - a.createdAt);
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1/-1;">
+                        <h3>ยังไม่มีการ์ดวางขายในตลาดขณะนี้</h3>
+                        <p>คุณสามารถเป็นคนแรกที่นำการ์ดซ้ำหรือการ์ดสะสมมาตั้งขายได้!</p>
+                    </div>`;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(m => {
+                const c = charMap[m.cardId];
+                return renderCardTemplate(c, m, 'market');
+            }).join('');
+        };
+
+        window.openSellModal = (inventoryDocId) => {
+            const inv = myInventoryDocs.find(i => i.id === inventoryDocId);
+            if (!inv) return;
+            if (inv.isListed) return alert("⚠️ การ์ดใบนี้กำลังวางขายอยู่ในตลาดแล้ว");
+
+            cardToSell = inv;
+            const c = charMap[inv.cardId];
+            document.getElementById('sellCardPreview').innerHTML = `
+                <div style="background:#111728; padding:12px; border-radius:12px; display:flex; align-items:center; gap:12px;">
+                    <div style="font-size:24px;">🎴</div>
+                    <div>
+                        <div style="font-weight:800; color:#fff;">${c.name} (${c.rarity})</div>
+                        <div style="font-size:12px; color:var(--text-muted);">${c.series} • ${c.element} • ${c.role}</div>
+                    </div>
+                </div>`;
+            document.getElementById('sellPriceInput').value = '';
+            document.getElementById('sellModal').style.display = 'flex';
+        };
+
+        window.closeSellModal = () => {
+            document.getElementById('sellModal').style.display = 'none';
+            cardToSell = null;
+        };
+
+        window.confirmListCard = async () => {
+            if (!cardToSell || !currentUser) return;
+            const price = parseInt(document.getElementById('sellPriceInput').value);
+            if (isNaN(price) || price < 10) return alert("⚠️ กรุณากำหนดราคาขั้นต่ำ 10 Gems ครับ");
+
+            try {
+                const invRef = doc(db, "animeInventory", cardToSell.id);
+                await updateDoc(invRef, { isListed: true });
+
+                await addDoc(collection(db, "animeMarket"), {
+                    sellerUid: currentUser.uid,
+                    sellerUsername: currentUser.email.split('@')[0],
+                    inventoryDocId: cardToSell.id,
+                    cardId: cardToSell.cardId,
+                    price: price,
+                    status: 'active',
+                    createdAt: Date.now()
+                });
+
+                alert("✅ นำการ์ดขึ้นตลาดเรียบร้อยแล้ว!");
+                closeSellModal();
+            } catch (err) {
+                alert("เกิดข้อผิดพลาด: " + err.message);
+            }
+        };
+
+        window.cancelListing = async (listingId, inventoryDocId) => {
+            if (!confirm("ต้องการยกเลิกการขายการ์ดใบนี้และนำกลับเข้าคลังหรือไม่?")) return;
+            try {
+                await updateDoc(doc(db, "animeMarket", listingId), { status: 'cancelled' });
+                await updateDoc(doc(db, "animeInventory", inventoryDocId), { isListed: false });
+                alert("✅ ยกเลิกการขายเรียบร้อยแล้ว การ์ดกลับเข้าคลังของคุณแล้ว");
+            } catch (err) {
+                alert("เกิดข้อผิดพลาด: " + err.message);
+            }
+        };
+
+        window.buyMarketCard = async (listingId) => {
+            if (!currentUser) return alert("⚠️ กรุณาเข้าสู่ระบบก่อนครับ");
+            const listing = allMarketListings.find(m => m.id === listingId);
+            if (!listing) return alert("❌ ไม่พบรายการนี้");
+            if (listing.sellerUid === currentUser.uid) return alert("⚠️ นี่คือการ์ดที่คุณตั้งขายเอง");
+            if (userGems < listing.price) return alert(`❌ Gems ไม่พอซื้อ (ต้องการ 💎 ${listing.price} Gems แต่คุณมี 💎 ${userGems} Gems)`);
+
+            const c = charMap[listing.cardId];
+            if (!confirm(`ยืนยันซื้อ ${c.name} (${c.rarity}) ในราคา 💎 ${listing.price} Gems?`)) return;
+
+            try {
+                await runTransaction(db, async (t) => {
+                    const marketRef = doc(db, "animeMarket", listingId);
+                    const marketSnap = await t.get(marketRef);
+                    if (!marketSnap.exists() || marketSnap.data().status !== 'active') {
+                        throw new Error("ขออภัย การ์ดใบนี้ถูกซื้อหรือยกเลิกไปแล้ว");
+                    }
+
+                    const buyerUserRef = doc(db, "animeUsers", currentUser.uid);
+                    const buyerSnap = await t.get(buyerUserRef);
+                    const currentBuyerGems = buyerSnap.data().gems || 0;
+                    if (currentBuyerGems < listing.price) throw new Error("Gems ไม่เพียงพอ");
+
+                    const sellerUserRef = doc(db, "animeUsers", listing.sellerUid);
+                    const sellerSnap = await t.get(sellerUserRef);
+                    const currentSellerGems = sellerSnap.exists() ? (sellerSnap.data().gems || 0) : 0;
+
+                    const invRef = doc(db, "animeInventory", listing.inventoryDocId);
+
+                    // Execute atomic transfers
+                    t.update(buyerUserRef, { gems: currentBuyerGems - listing.price });
+                    t.update(sellerUserRef, { gems: currentSellerGems + listing.price });
+                    t.update(invRef, {
+                        uid: currentUser.uid,
+                        username: currentUser.email.split('@')[0],
+                        isListed: false,
+                        transferredAt: Date.now()
+                    });
+                    t.update(marketRef, {
+                        status: 'sold',
+                        buyerUid: currentUser.uid,
+                        soldAt: Date.now()
+                    });
+                });
+
+                alert(`🎉 ยินดีด้วย! คุณได้รับ ${c.name} เข้าคลังเรียบร้อยแล้ว!`);
+            } catch (err) {
+                alert("❌ ทำรายการไม่สำเร็จ: " + err.message);
+            }
+        };
+
+        
+        // ------------------ Realtime PvP Engine & Lobby ------------------
+        let currentRealtimeRoomId = null;
+        let realtimeRoomUnsub = null;
+        let realtimeTimerInterval = null;
+        let lastProcessedActionTimestamp = 0;
+
+        // Listen to active public rooms
+        onSnapshot(collection(db, "animePvPRooms"), (snapshot) => {
+            const container = document.getElementById('publicRoomsListContainer');
+            const badge = document.getElementById('publicRoomsCountBadge');
+            if (!container) return;
+
+            const waitingRooms = [];
+            snapshot.forEach(docSnap => {
+                const data = docSnap.data();
+                if (data.status === 'waiting') {
+                    waitingRooms.push({ id: docSnap.id, ...data });
+                }
+            });
+
+            if (badge) badge.innerText = `${waitingRooms.length} ห้อง`;
+
+            if (waitingRooms.length === 0) {
+                container.innerHTML = `<p style="font-size: 13px; color: var(--text-muted); text-align: center; padding: 25px 0;">ยังไม่มีห้องสาธารณะเปิดรอในขณะนี้</p>`;
+            } else {
+                container.innerHTML = waitingRooms.map(r => `
+                    <div style="background:#151c2e; border:1px solid var(--border-color); padding:10px 14px; border-radius:10px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <div style="font-weight:800; color:#fff; font-size:14px;">ห้อง #${r.roomId} (${r.hostUsername})</div>
+                            <div style="font-size:11px; color:var(--text-muted);">โหมด 1v1 Realtime • 30 วิ/เทิร์น</div>
+                        </div>
+                        <button class="btn-card-action" style="background:#00d2d3; color:#000; font-weight:800; padding:6px 14px; flex:none;" onclick="joinRealtimeRoom('${r.roomId}')">
+                            ⚔️ เข้าประลอง
+                        </button>
+                    </div>
+                `).join('');
+            }
+        });
+
+        window.createRealtimeRoom = async () => {
+            if (!currentUser) return alert("⚠️ กรุณาเข้าสู่ระบบก่อนครับ");
+            const validCount = myTeamDocIds.filter(Boolean).length;
+            if (validCount < 5) return alert(`⚠️ กรุณาจัดทีมให้ครบ 5 ใบก่อนสร้างห้องครับ (ตอนนี้มี ${validCount}/5)`);
+
+            const roomCode = Math.floor(1000 + Math.random() * 9000).toString();
+            currentRealtimeRoomId = roomCode;
+
+            const hostCombatants = myTeamDocIds.map((docId, idx) => {
+                const inv = myInventoryDocs.find(d => d.id === docId);
+                return buildCombatant(charMap[inv.cardId], true, idx, inv.stars || 0);
+            });
+
+            const roomData = {
+                roomId: roomCode,
+                hostUid: currentUser.uid,
+                hostUsername: currentUser.email.split('@')[0],
+                hostTeam: hostCombatants,
+                guestUid: null,
+                guestUsername: null,
+                guestTeam: null,
+                status: 'waiting',
+                isPublic: true,
+                activeUid: currentUser.uid,
+                activeSlotIndex: 0,
+                turnDeadline: Date.now() + 30000,
+                round: 1,
+                teamAp: 5,
+                lastAction: null,
+                winnerUid: null,
+                createdAt: Date.now()
+            };
+
+            try {
+                await setDoc(doc(db, "animePvPRooms", roomCode), roomData);
+                
+                const box = document.getElementById('myWaitingRoomBox');
+                box.style.display = 'block';
+                box.innerHTML = `
+                    <div style="background:#19233c; border:2px solid #00d2d3; border-radius:12px; padding:12px; text-align:center;">
+                        <div style="font-size:12px; color:var(--text-muted);">รหัสห้องของคุณ:</div>
+                        <div style="font-size:26px; font-weight:900; color:#00d2d3; letter-spacing:4px; margin:4px 0;">#${roomCode}</div>
+                        <div style="font-size:12px; color:var(--gold); margin-bottom:10px;">⏳ กำลังรอผู้ท้าชิงเข้าร่วมห้อง...</div>
+                        <button class="btn-card-action" style="background:#ff4757; color:#fff; width:100%; padding:6px;" onclick="cancelWaitingRoom('${roomCode}')">
+                            ยกเลิกห้อง
+                        </button>
+                    </div>
+                `;
+
+                listenToRealtimeRoom(roomCode);
+            } catch (err) {
+                alert("สร้างห้องไม่สำเร็จ: " + err.message);
+            }
+        };
+
+        window.cancelWaitingRoom = async (code) => {
+            try {
+                await deleteDoc(doc(db, "animePvPRooms", code));
+                if (realtimeRoomUnsub) realtimeRoomUnsub();
+                document.getElementById('myWaitingRoomBox').style.display = 'none';
+                currentRealtimeRoomId = null;
+            } catch (err) {
+                console.error(err);
+            }
+        };
+
+        window.joinRealtimeRoomByCode = () => {
+            const code = document.getElementById('roomCodeInput').value.trim();
+            if (!code || code.length !== 4) return alert("⚠️ กรุณากรอกรหัสห้อง 4 หลัก");
+            joinRealtimeRoom(code);
+        };
+
+        window.joinRealtimeRoom = async (code) => {
+            if (!currentUser) return alert("⚠️ กรุณาเข้าสู่ระบบก่อนครับ");
+            const validCount = myTeamDocIds.filter(Boolean).length;
+            if (validCount < 5) return alert(`⚠️ กรุณาจัดทีมให้ครบ 5 ใบก่อนเข้าร่วมครับ (ตอนนี้มี ${validCount}/5)`);
+
+            try {
+                const roomRef = doc(db, "animePvPRooms", code);
+                const roomSnap = await getDoc(roomRef);
+                if (!roomSnap.exists()) return alert("❌ ไม่พบรหัสห้องนี้");
+                const data = roomSnap.data();
+                if (data.status !== 'waiting') return alert("⚠️ ห้องนี้เริ่มการประลองไปแล้ว หรือถูกยกเลิกแล้ว");
+                if (data.hostUid === currentUser.uid) return alert("⚠️ คุณเป็นเจ้าของห้องนี้อยู่แล้ว");
+
+                const guestCombatants = myTeamDocIds.map((docId, idx) => {
+                    const inv = myInventoryDocs.find(d => d.id === docId);
+                    return buildCombatant(charMap[inv.cardId], true, idx, inv.stars || 0);
+                });
+
+                await updateDoc(roomRef, {
+                    guestUid: currentUser.uid,
+                    guestUsername: currentUser.email.split('@')[0],
+                    guestTeam: guestCombatants,
+                    status: 'in_battle',
+                    activeUid: data.hostUid,
+                    turnDeadline: Date.now() + 30000
+                });
+
+                currentRealtimeRoomId = code;
+                listenToRealtimeRoom(code);
+            } catch (err) {
+                alert("เข้าร่วมห้องไม่สำเร็จ: " + err.message);
+            }
+        };
+
+        function listenToRealtimeRoom(code) {
+            if (realtimeRoomUnsub) realtimeRoomUnsub();
+
+            realtimeRoomUnsub = onSnapshot(doc(db, "animePvPRooms", code), (docSnap) => {
+                if (!docSnap.exists()) {
+                    if (battleState && battleState.isRealtime) {
+                        alert("ห้องประลองถูกปิดแล้ว");
+                        exitRealtimeBattle();
+                    }
+                    return;
+                }
+
+                const room = docSnap.data();
+
+                if (room.status === 'in_battle') {
+                    document.getElementById('myWaitingRoomBox').style.display = 'none';
+                    const isHost = (currentUser.uid === room.hostUid);
+                    const myTeam = isHost ? room.hostTeam : room.guestTeam;
+                    const oppTeam = isHost ? room.guestTeam : room.hostTeam;
+                    const oppName = isHost ? room.guestUsername : room.hostUsername;
+
+                    if (!battleState || !battleState.isRealtime) {
+                        // Init Realtime Battle UI
+                        battleState = {
+                            isRealtime: true,
+                            roomId: code,
+                            isHost: isHost,
+                            round: room.round || 1,
+                            teamAp: room.teamAp || 5,
+                            players: myTeam,
+                            enemies: oppTeam,
+                            activeUid: room.activeUid,
+                            activeSlotIndex: room.activeSlotIndex,
+                            turnDeadline: room.turnDeadline,
+                            currentTargetIndex: 0,
+                            isBusy: false
+                        };
+
+                        document.getElementById('arenaLobbyView').style.display = 'none';
+                        document.getElementById('arenaBattleView').style.display = 'block';
+                        document.getElementById('realtimeTimerBox').style.display = 'flex';
+                        document.getElementById('battleOpponentName').innerText = `🌐 Realtime PvP vs ${oppName}`;
+                        document.getElementById('battleRoundCounter').innerText = room.round || '1';
+
+                        const box = document.getElementById('combatLogBox');
+                        box.innerHTML = '';
+                        logCombat(`🔔 การประลอง Realtime 1v1 เริ่มขึ้นแล้ว! (เวลา 30 วิ/เทิร์น)`);
+                    } else {
+                        // Sync state
+                        battleState.players = myTeam;
+                        battleState.enemies = oppTeam;
+                        battleState.activeUid = room.activeUid;
+                        battleState.activeSlotIndex = room.activeSlotIndex;
+                        battleState.turnDeadline = room.turnDeadline;
+                        battleState.teamAp = room.teamAp;
+                        battleState.round = room.round;
+                        document.getElementById('battleRoundCounter').innerText = room.round;
+                    }
+
+                    // Process incoming lastAction log if new
+                    if (room.lastAction && room.lastAction.timestamp > lastProcessedActionTimestamp) {
+                        lastProcessedActionTimestamp = room.lastAction.timestamp;
+                        logCombat(room.lastAction.logText, room.lastAction.logCls || '');
+                    }
+
+                    // Active hero label & Advantage update
+                    const isMyTurn = (room.activeUid === currentUser.uid);
+                    const heroLbl = document.getElementById('playerActiveHeroLabel');
+                    if (isMyTurn) {
+                        const myActiveHero = myTeam[room.activeSlotIndex] || myTeam.find(p => !p.isDead);
+                        battleState.activeCombatant = myActiveHero;
+                        if (heroLbl) heroLbl.innerText = `🟢 เทิร์นของคุณ: ${myActiveHero ? myActiveHero.name : 'ฮีโร่'}`;
+                        if (myActiveHero) updateActionButtonsState(myActiveHero);
+                    } else {
+                        const oppActiveHero = oppTeam[room.activeSlotIndex] || oppTeam.find(e => !e.isDead);
+                        battleState.activeCombatant = oppActiveHero;
+                        if (heroLbl) heroLbl.innerText = `⏳ กำลังรอฝ่ายตรงข้าม (${oppName}) ตัดสินใจ...`;
+                        disableActionButtons();
+                    }
+
+                    // Start/Update turn timer
+                    startRealtimeTurnTimer(room.turnDeadline);
+                    renderBattlefield();
+
+                } else if (room.status === 'finished') {
+                    const isWinner = (room.winnerUid === currentUser.uid);
+                    finishRealtimeBattle(isWinner, room.roomId);
+                }
+            });
+        }
+
+        function startRealtimeTurnTimer(deadline) {
+            if (realtimeTimerInterval) clearInterval(realtimeTimerInterval);
+
+            const timerText = document.getElementById('turnTimerText');
+            function tick() {
+                const now = Date.now();
+                const remainSec = Math.max(0, Math.ceil((deadline - now) / 1000));
+                if (timerText) timerText.innerText = `${remainSec}s`;
+
+                if (remainSec <= 0) {
+                    clearInterval(realtimeTimerInterval);
+                    // If it was MY turn and time expired, trigger Auto Guard!
+                    if (battleState && battleState.isRealtime && battleState.activeUid === currentUser.uid) {
+                        logCombat(`⏱️ [Timeout] หมดเวลา 30 วินาที! ระบบสั่ง Guard (ตั้งรับ) ให้อัตโนมัติ`);
+                        executeRealtimeAction('guard');
+                    }
+                }
+            }
+            tick();
+            realtimeTimerInterval = setInterval(tick, 1000);
+        }
+
+        async function executeRealtimeAction(actionType) {
+            if (!battleState || !battleState.isRealtime) return;
+            if (battleState.activeUid !== currentUser.uid) return;
+
+            const actor = battleState.activeCombatant;
+            if (!actor || actor.isDead) return;
+
+            let target = battleState.enemies[battleState.currentTargetIndex];
+            if (!target || target.isDead) {
+                target = battleState.enemies.find(e => !e.isDead);
+                if (!target) return;
+            }
+
+            let logText = "";
+            let logCls = "";
+
+            if (actionType === 'attack') {
+                actor.sp = Math.min(100, actor.sp + 20);
+                const mult = calculateElementalMultiplier(actor.element, target.element);
+                const isCrit = (actor.role === 'Assassin' && Math.random() < 0.4) || Math.random() < 0.15;
+                const guardMult = target.isGuarding ? 0.5 : 1.0;
+                let dmg = Math.round((actor.atk * 1.0 - target.def * 0.35) * mult * (isCrit ? 1.5 : 1.0) * guardMult);
+                dmg = Math.max(60, dmg);
+
+                applyDamage(target, dmg);
+                logText = `⚔️ <b>${actor.name}</b> โจมตีใส่ ${target.name} สร้างดาเมจ <span class="${isCrit ? 'log-crit' : ''}">${dmg}</span>! ${isCrit ? '💥 CRITICAL!' : ''}`;
+
+                if (target.elementMark && canReact(target.elementMark, actor.element)) {
+                    const rMsg = triggerReaction(target.elementMark, actor.element, target, battleState.enemies);
+                    logText += "<br>" + rMsg;
+                } else {
+                    target.elementMark = actor.element;
+                }
+
+            } else if (actionType === 'guard') {
+                actor.isGuarding = true;
+                actor.sp = Math.min(100, actor.sp + 15);
+                logText = `🛡️ <b>${actor.name}</b> เข้าสู่สภาวะตั้งรับ (Guard) ลดดาเมจลง 50%`;
+
+            } else if (actionType === 'skill') {
+                actor.sp = Math.min(100, actor.sp + 25);
+                executeRoleSkill(actor, target, battleState.players, battleState.enemies);
+                logText = `✨ <b>${actor.name}</b> ปลดปล่อยสกิลประจำบทบาท (${actor.role})!`;
+
+            } else if (actionType === 'ultimate') {
+                actor.sp = 0;
+                const cData = charMap[actor.id];
+                const mult = calculateElementalMultiplier(actor.element, target.element);
+                let ultiDmg = Math.round((actor.atk * 2.4 - target.def * 0.25) * mult);
+                applyDamage(target, ultiDmg);
+                logText = `💥💥 <b>${actor.name}</b> ปลดปล่อยท่าไม้ตายสุดยอด <b>[${cData.skill.name}]</b> ทำดาเมจ <span class="log-crit">${ultiDmg}</span> แต้ม!`;
+            }
+
+            checkDeath(target);
+
+            // Check if victory
+            const allEnemiesDead = battleState.enemies.every(e => e.isDead);
+            const allPlayersDead = battleState.players.every(p => p.isDead);
+
+            let winner = null;
+            let status = 'in_battle';
+
+            if (allEnemiesDead) {
+                winner = currentUser.uid;
+                status = 'finished';
+            } else if (allPlayersDead) {
+                winner = (battleState.isHost ? battleState.enemies[0]?.uid : battleState.players[0]?.uid) || 'opponent';
+                status = 'finished';
+            }
+
+            // Sync to Firestore
+            try {
+                const roomRef = doc(db, "animePvPRooms", battleState.roomId);
+                const nextActiveUid = battleState.isHost ? 
+                    (await getDoc(roomRef)).data().guestUid : 
+                    (await getDoc(roomRef)).data().hostUid;
+
+                const nextSlot = (battleState.activeSlotIndex + 1) % 5;
+
+                await updateDoc(roomRef, {
+                    hostTeam: battleState.isHost ? battleState.players : battleState.enemies,
+                    guestTeam: battleState.isHost ? battleState.enemies : battleState.players,
+                    activeUid: nextActiveUid,
+                    activeSlotIndex: nextSlot,
+                    turnDeadline: Date.now() + 30000,
+                    lastAction: {
+                        actorUid: currentUser.uid,
+                        logText: logText,
+                        logCls: logCls,
+                        timestamp: Date.now()
+                    },
+                    status: status,
+                    winnerUid: winner
+                });
+            } catch (err) {
+                console.error("Firestore sync error:", err);
+            }
+        }
+
+        async function finishRealtimeBattle(isVictory, roomId) {
+            if (realtimeTimerInterval) clearInterval(realtimeTimerInterval);
+
+            const modal = document.getElementById('battleResultModal');
+            const title = document.getElementById('battleResultTitle');
+            const desc = document.getElementById('battleResultDesc');
+            const rewardBox = document.getElementById('battleRewardDisplay');
+
+            const rankPts = isVictory ? 50 : 15;
+            title.innerText = isVictory ? "🏆 VICTORY (ชัยชนะสด!)" : "💀 DEFEAT (พ่ายแพ้)";
+            title.style.color = isVictory ? "var(--gold)" : "#ff4757";
+            desc.innerText = isVictory ? 
+                "คุณคว้าชัยในการดวลสด Realtime PvP กับเพื่อนได้อย่างสมศักดิ์ศรี!" : 
+                "คุณสู้ได้อย่างเต็มที่แล้วในแมตช์นี้ พัฒนาการ์ดและกลับมาท้าดวลใหม่นะ!";
+            rewardBox.innerText = `+${rankPts} PvP Rank Points ได้รับแล้ว!`;
+
+            if (currentUser) {
+                try {
+                    const uRef = doc(db, "animeUsers", currentUser.uid);
+                    const uSnap = await getDoc(uRef);
+                    const curPts = (uSnap.exists() && uSnap.data().pvpRankPoints) ? uSnap.data().pvpRankPoints : 0;
+                    await updateDoc(uRef, {
+                        pvpRankPoints: curPts + rankPts
+                    });
+                } catch (err) {
+                    console.error(err);
+                }
+            }
+
+            modal.style.display = 'flex';
+        }
+
+        function exitRealtimeBattle() {
+            if (realtimeTimerInterval) clearInterval(realtimeTimerInterval);
+            if (realtimeRoomUnsub) realtimeRoomUnsub();
+            document.getElementById('arenaBattleView').style.display = 'none';
+            document.getElementById('realtimeTimerBox').style.display = 'none';
+            document.getElementById('arenaLobbyView').style.display = 'block';
+            battleState = null;
+            currentRealtimeRoomId = null;
+        }
+
+        
+        // ------------------ PvP Leaderboard Logic ------------------
+        onSnapshot(collection(db, "animeUsers"), (snapshot) => {
+            const tbody = document.getElementById('pvpLeaderboardBody');
+            if (!tbody) return;
+
+            let usersList = [];
+            snapshot.forEach(d => {
+                const u = d.data();
+                usersList.push({
+                    uid: d.id,
+                    username: u.username || u.email?.split('@')[0] || 'Player',
+                    pvpPoints: u.pvpRankPoints || 0
+                });
+            });
+
+            // If few users, add simulated top contenders for excitement
+            if (usersList.length < 3) {
+                usersList.push({ uid: 'bot_1', username: 'KingOfPirates', pvpPoints: 420 });
+                usersList.push({ uid: 'bot_2', username: 'HokageMaster', pvpPoints: 310 });
+                usersList.push({ uid: 'bot_3', username: 'GojoSensei', pvpPoints: 240 });
+            }
+
+            usersList.sort((a, b) => b.pvpPoints - a.pvpPoints);
+
+            tbody.innerHTML = usersList.map((user, idx) => {
+                const rank = idx + 1;
+                const medal = rank === 1 ? '🥇 1' : rank === 2 ? '🥈 2' : rank === 3 ? '🥉 3' : `${rank}`;
+                const isMe = (currentUser && user.uid === currentUser.uid);
+                const bgStyle = isMe ? 'background: rgba(0, 210, 211, 0.1); font-weight: 800;' : '';
+
+                return `
+                    <tr style="border-bottom: 1px dashed var(--border-color); ${bgStyle}">
+                        <td style="padding: 10px 14px; text-align: center; font-size: 16px; font-weight: 900;">${medal}</td>
+                        <td style="padding: 10px 14px; color: #fff;">
+                            ${user.username} ${isMe ? '<span style="font-size:10px; background:#00d2d3; color:#000; padding:1px 5px; border-radius:4px; margin-left:4px;">คุณ</span>' : ''}
+                        </td>
+                        <td style="padding: 10px 14px; text-align: center; color: var(--text-muted);">
+                            ${isMe ? myInventoryDocs.length : '15+'} ใบ
+                        </td>
+                        <td style="padding: 10px 14px; text-align: right; color: var(--gold); font-weight: 900; font-size: 16px;">
+                            ${user.pvpPoints.toLocaleString()} PTS
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        });
+
+        // ------------------ Card Fusion / Limit Break Logic ------------------
+        let currentFusionBaseInv = null;
+        let currentFusionFodderInv = null;
+
+        window.openFusionModal = (baseInvId) => {
+            const baseInv = myInventoryDocs.find(i => i.id === baseInvId);
+            if (!baseInv) return;
+            if (baseInv.isListed) return alert("⚠️ ไม่สามารถหลอมการ์ดที่กำลังตั้งขายในตลาดได้");
+
+            const currentStars = baseInv.stars || 0;
+            if (currentStars >= 5) return alert("⭐ การ์ดใบนี้ปลดล็อกดาวเต็ม 5 ดาว (MAX) แล้วครับ!");
+
+            // Find duplicate unlisted card of same cardId
+            const duplicate = myInventoryDocs.find(i => i.cardId === baseInv.cardId && i.id !== baseInv.id && !i.isListed);
+            if (!duplicate) {
+                return alert("⚠️ คุณต้องมีการ์ดซ้ำตัวเดียวกันอย่างน้อย 2 ใบในคลัง จึงจะสามารถหลอมการ์ดได้ครับ");
+            }
+
+            currentFusionBaseInv = baseInv;
+            currentFusionFodderInv = duplicate;
+
+            const c = charMap[baseInv.cardId];
+            const nextStars = currentStars + 1;
+            const curBonus = currentStars * 5;
+            const nextBonus = nextStars * 5;
+
+            const preview = document.getElementById('fusionPreviewContainer');
+            preview.innerHTML = `
+                <div style="background:#0e1322; border:1px solid var(--border-color); border-radius:12px; padding:14px; text-align:left;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                        <span style="font-weight:800; font-size:16px; color:#fff;">${c.name}</span>
+                        <span style="color:${getRarityColor(c.rarity)}; font-weight:900;">${c.rarity}</span>
+                    </div>
+                    <div style="font-size:14px; color:#ffd700; margin-bottom:10px;">
+                        ระดับดาว: ${'★'.repeat(currentStars)}${'☆'.repeat(5 - currentStars)} ➔ <b style="color:#2ed573;">${'★'.repeat(nextStars)}${'☆'.repeat(5 - nextStars)}</b>
+                    </div>
+                    <div style="font-size:13px; color:var(--text-muted); line-height:1.8;">
+                        • โบนัสสเตตัสปัจจุบัน: +${curBonus}% HP/ATK<br>
+                        • <b style="color:#00d2d3;">หลังหลอมสำเร็จ: +${nextBonus}% HP/ATK (+5% เพิ่มขึ้น)</b><br>
+                        • การ์ดวัตถุดิบที่จะใช้: 1 ใบ (จะถูกเผาผลาญเข้าสู่การ์ดหลัก)
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('btnConfirmFusion').onclick = confirmFusion;
+            document.getElementById('fusionModal').style.display = 'flex';
+        };
+
+        window.closeFusionModal = () => {
+            document.getElementById('fusionModal').style.display = 'none';
+            currentFusionBaseInv = null;
+            currentFusionFodderInv = null;
+        };
+
+        async function confirmFusion() {
+            if (!currentFusionBaseInv || !currentFusionFodderInv || !currentUser) return;
+
+            const baseRef = doc(db, "animeInventory", currentFusionBaseInv.id);
+            const fodderRef = doc(db, "animeInventory", currentFusionFodderInv.id);
+            const nextStars = (currentFusionBaseInv.stars || 0) + 1;
+            const c = charMap[currentFusionBaseInv.cardId];
+
+            try {
+                // Delete fodder card and update base card stars
+                await deleteDoc(fodderRef);
+                await updateDoc(baseRef, {
+                    stars: nextStars,
+                    updatedAt: Date.now()
+                });
+
+                alert(`🎉 หลอมการ์ดสำเร็จ! ${c.name} อัปเกรดเป็น ${nextStars}★ (+${nextStars * 5}% สเตตัส) เรียบร้อยแล้ว!`);
+                closeFusionModal();
+            } catch (err) {
+                alert("เกิดข้อผิดพลาดในการหลอมการ์ด: " + err.message);
+            }
+        }
+
+        // ------------------ Codex UI ------------------
+        window.renderCodexUI = () => {
+            const grid = document.getElementById('codexGrid');
+            const ownedCardIds = new Set(myInventoryDocs.map(i => i.cardId));
+            document.getElementById('codexProgress').innerText = `ปลดล็อก: ${ownedCardIds.size} / 50 ใบ (${Math.round((ownedCardIds.size/50)*100)}%)`;
+
+            grid.innerHTML = masterCharacters.map(c => {
+                const isOwned = ownedCardIds.has(c.id);
+                return renderCardTemplate(c, null, 'codex', isOwned);
+            }).join('');
+        };
+
+        // ------------------ Card Template Generator ------------------
+        function renderCardTemplate(c, extraData, mode, isOwned = true) {
+            const elIcon = {
+                Fire: '🔥', Wind: '🌪️', Earth: '🪨', Lightning: '⚡', Water: '💧', Light: '☀️', Dark: '🌑'
+            }[c.element] || '✨';
+
+            const roleIcon = {
+                Attacker: '⚔️', Tank: '🛡️', Assassin: '🗡️', Spell: '📜', Healer: '💖', Tactician: '🧠'
+            }[c.role] || '⭐';
+
+            const initials = c.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+            const fallbackBg = {
+                UR: 'linear-gradient(135deg, #ff007f, #7928ca)',
+                SSR: 'linear-gradient(135deg, #f39c12, #e67e22)',
+                SR: 'linear-gradient(135deg, #8e44ad, #3498db)',
+                R: 'linear-gradient(135deg, #2980b9, #27ae60)'
+            }[c.rarity] || '#333';
+
+            let actionButtonsHtml = '';
+            const starsCount = (extraData && extraData.stars) ? extraData.stars : 0;
+            const starsBadge = starsCount > 0 ? `<span style="color:#ffd700; font-size:11px; margin-left:4px;">${'★'.repeat(starsCount)}</span>` : '';
+
+            if (mode === 'inventory') {
+                const isListed = extraData && extraData.isListed;
+                const canFuse = myInventoryDocs.filter(i => i.cardId === c.id && !i.isListed).length >= 2 && (starsCount < 5);
+
+                actionButtonsHtml = `
+                    <div class="card-actions">
+                        <button class="btn-card-action btn-view-card" onclick="openCardDetail('${c.id}', '${extraData.id}')">สเตตัส</button>
+                        ${canFuse && !isListed ? `<button class="btn-card-action" style="background:#ffa502; color:#000; font-weight:800;" onclick="openFusionModal('${extraData.id}')">⭐ หลอม</button>` : ''}
+                        ${isListed ? 
+                            '<button class="btn-card-action" style="background:#57606f; color:#fff;" disabled>วางขายอยู่</button>' : 
+                            `<button class="btn-card-action btn-sell-card" onclick="openSellModal('${extraData.id}')">ตั้งขาย</button>`
+                        }
+                    </div>`;
+            } else if (mode === 'market') {
+                const isMyListing = currentUser && extraData.sellerUid === currentUser.uid;
+                actionButtonsHtml = `
+                    <div style="margin-top: 8px;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; font-size:12px;">
+                            <span style="color:var(--text-muted);">ผู้ขาย: <b>${extraData.sellerUsername}</b></span>
+                            <span style="color:var(--gem-color); font-weight:900; font-size:14px;">💎 ${extraData.price}</span>
+                        </div>
+                        ${isMyListing ? 
+                            `<button class="btn-card-action" style="width:100%; background:#e74c3c; color:#fff;" onclick="cancelListing('${extraData.id}', '${extraData.inventoryDocId}')">ยกเลิกขาย</button>` :
+                            `<button class="btn-card-action btn-buy-card" onclick="buyMarketCard('${extraData.id}')">ซื้อการ์ด 💎 ${extraData.price}</button>`
+                        }
+                    </div>`;
+            } else if (mode === 'codex') {
+                actionButtonsHtml = `
+                    <div class="card-actions">
+                        <button class="btn-card-action btn-view-card" onclick="openCardDetail('${c.id}')">ดูสเตตัส</button>
+                    </div>`;
+            }
+
+            const filterStyle = (mode === 'codex' && !isOwned) ? 'filter: grayscale(1); opacity: 0.55;' : '';
+
+            return `
+                <div class="tcg-card rarity-${c.rarity}" style="${filterStyle}">
+                    <div class="card-top-bar">
+                        <span class="element-tag el-${c.element}">${elIcon} ${c.element}</span>
+                        <span class="rarity-tag tag-${c.rarity}">${c.rarity}</span>
+                    </div>
+
+                    <div class="card-img-wrap">
+                        <div class="card-avatar-fallback" style="background: ${fallbackBg};">
+                            ${initials}
+                        </div>
+                        <img src="${c.image}" alt="${c.name}" onerror="this.style.display='none'">
+                    </div>
+
+                    <div class="card-body">
+                        <div>
+                            <div class="card-name" title="${c.name}">${c.name}${starsBadge}</div>
+                            <div class="card-series">${c.series}</div>
+                            <div class="card-role-badge">${roleIcon} ${c.role}</div>
+                        </div>
+
+                        <div>
+                            <div class="stats-mini-row">
+                                <div><span class="stat-label">HP</span>${hpVal}</div>
+                                <div><span class="stat-label">ATK</span>${atkVal}</div>
+                                <div><span class="stat-label">SPD</span>${c.stats.spd}</div>
+                            </div>
+                            ${actionButtonsHtml}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ------------------ Modals Management ------------------
+        window.openCardDetail = (cardId, invId = null) => {
+            const c = charMap[cardId];
+            if (!c) return;
+            const content = document.getElementById('cardDetailContent');
+
+            const inv = invId ? myInventoryDocs.find(i => i.id === invId) : null;
+            const stars = inv?.stars || 0;
+            const starBonus = stars * 5;
+            const hpVal = Math.round(c.stats.hp * (1 + starBonus / 100));
+            const atkVal = Math.round(c.stats.atk * (1 + starBonus / 100));
+
+            const canFuse = inv && !inv.isListed && myInventoryDocs.filter(i => i.cardId === c.id && !i.isListed).length >= 2 && stars < 5;
+            content.innerHTML = `
+                <div style="text-align: center; margin-bottom: 15px;">
+                    <span class="rarity-tag tag-${c.rarity}" style="font-size: 13px; padding: 4px 12px;">${c.rarity}</span>
+                    <h2 style="font-size: 24px; font-weight: 900; margin-top: 8px;">
+                        ${c.name} ${stars > 0 ? `<span style="color:#ffd700; font-size:16px;">(${stars}★)</span>` : ''}
+                    </h2>
+                    ${stars > 0 ? `<div style="font-size:12px; color:#2ed573; font-weight:bold;">⚡ Limit Break: +${starBonus}% HP & ATK</div>` : ''}
+                    <p style="color: var(--text-muted); font-size: 14px;">${c.series} • ${c.element} • ${c.role}</p>
+                </div>
+
+                <div style="background: #111728; border-radius: 14px; padding: 15px; margin-bottom: 15px; border: 1px solid var(--border-color);">
+                    <h4 style="font-size: 14px; color: var(--gold); margin-bottom: 10px; text-transform: uppercase;">📊 ข้อมูลสเตตัสการต่อสู้</h4>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; text-align: center; font-weight: 800;">
+                        <div style="background:#182035; padding:8px; border-radius:8px;"><span class="stat-label">HP</span>${hpVal}</div>
+                        <div style="background:#182035; padding:8px; border-radius:8px;"><span class="stat-label">ATK</span>${atkVal}</div>
+                        <div style="background:#182035; padding:8px; border-radius:8px;"><span class="stat-label">DEF</span>${c.stats.def}</div>
+                        <div style="background:#182035; padding:8px; border-radius:8px;"><span class="stat-label">SPD</span>${c.stats.spd}</div>
+                        <div style="background:#182035; padding:8px; border-radius:8px;"><span class="stat-label">SP</span>${c.stats.sp}</div>
+                        <div style="background:#182035; padding:8px; border-radius:8px;"><span class="stat-label">ROLE</span>${c.role}</div>
+                    </div>
+                </div>
+
+                <div style="background: #111728; border-radius: 14px; padding: 15px; border: 1px solid var(--border-color);">
+                    <h4 style="font-size: 14px; color: #ff4757; margin-bottom: 6px;">💥 ท่าไม้ตาย: ${c.skill.name}</h4>
+                    <p style="font-size: 13px; color: #ced6e0; line-height: 1.6;">${c.skill.desc}</p>
+                    <div style="font-size: 12px; color: var(--gem-color); margin-top: 8px; font-weight: 700;">
+                        ใช้ SP: ${c.skill.spCost} แต้ม
+                    </div>
+                </div>
+                ${canFuse ? `
+                    <button class="btn-auth-primary" style="background:linear-gradient(135deg, #ffa502, #ff4757); width:100%; margin-top:10px;" onclick="closeCardDetail(); openFusionModal('${inv.id}')">
+                        ⭐ หลอมการ์ดซ้ำ (เพิ่มเป็น ${stars + 1}★)
+                    </button>
+                ` : ''}
+            `;
+            document.getElementById('cardDetailModal').style.display = 'flex';
+        };
+
+        window.closeCardDetail = () => {
+            document.getElementById('cardDetailModal').style.display = 'none';
+        };
+        window.closeCardModal = window.closeCardDetail;
+
+        window.openRevealModal = (cards) => {
+            const grid = document.getElementById('revealGrid');
+            grid.innerHTML = cards.map(c => `
+                <div class="reveal-item rarity-${c.rarity}">
+                    <span class="rarity-tag tag-${c.rarity}">${c.rarity}</span>
+                    <div style="font-weight: 800; font-size: 13px; margin: 8px 0 4px; color:#fff;">${c.name}</div>
+                    <div style="font-size: 11px; color: var(--text-muted);">${c.series}</div>
+                    <div style="font-size: 11px; color: var(--gold); margin-top:4px;">${c.element} • ${c.role}</div>
+                </div>
+            `).join('');
+            document.getElementById('revealModal').style.display = 'flex';
+        };
+
+        window.closeRevealModal = () => {
+            document.getElementById('revealModal').style.display = 'none';
+        };
+
+        window.openRatesModal = () => document.getElementById('ratesModal').style.display = 'flex';
+        window.closeRatesModal = () => document.getElementById('ratesModal').style.display = 'none';
+
+        // ------------------ Tab Switcher ------------------
+        window.switchTab = (tabName) => {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active'));
+
+            const targetBtn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.getAttribute('onclick').includes(tabName));
+            if (targetBtn) targetBtn.classList.add('active');
+
+            const targetSection = document.getElementById(`tab-${tabName}`);
+            if (targetSection) targetSection.classList.add('active');
+
+            if (tabName === 'arena') renderTeamFormationUI();
+            if (tabName === 'inventory') renderInventoryUI();
+            if (tabName === 'market') renderMarketUI();
+            if (tabName === 'codex') renderCodexUI();
+        };
+    </script>
+</body>
+</html>

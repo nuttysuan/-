@@ -1,0 +1,1052 @@
+[
+  {
+    "id": "c001",
+    "name": "Monkey D. Luffy",
+    "series": "One Piece",
+    "rarity": "UR",
+    "element": "Fire",
+    "role": "Attacker",
+    "stats": {
+      "hp": 2500,
+      "atk": 520,
+      "def": 380,
+      "spd": 115,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Gomu Gomu no Red Hawk",
+      "spCost": 50,
+      "desc": "หมัดเพลิงยางยืดสร้างความเสียหาย Fire 240% แก่เป้าหมายเดี่ยว"
+    },
+    "image": "assets/anime/cards/c001.webp"
+  },
+  {
+    "id": "c002",
+    "name": "Roronoa Zoro",
+    "series": "One Piece",
+    "rarity": "SSR",
+    "element": "Wind",
+    "role": "Attacker",
+    "stats": {
+      "hp": 2400,
+      "atk": 540,
+      "def": 360,
+      "spd": 110,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Santoryu Ogi: Sanzen Sekai",
+      "spCost": 50,
+      "desc": "ฟาดฟันคมดาบวายุ 3 เล่ม สร้างความเสียหาย Wind 250%"
+    },
+    "image": "assets/anime/cards/c002.webp"
+  },
+  {
+    "id": "c003",
+    "name": "Sanji",
+    "series": "One Piece",
+    "rarity": "SSR",
+    "element": "Fire",
+    "role": "Assassin",
+    "stats": {
+      "hp": 2200,
+      "atk": 490,
+      "def": 330,
+      "spd": 135,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Diable Jambe: Flambage Shot",
+      "spCost": 45,
+      "desc": "ลูกเตะเพลิงอัคคี โจมตีเป้าหมายอย่างรวดเร็ว สร้างความเสียหาย Fire 220%"
+    },
+    "image": "assets/anime/cards/c003.webp"
+  },
+  {
+    "id": "c004",
+    "name": "Nami",
+    "series": "One Piece",
+    "rarity": "SR",
+    "element": "Lightning",
+    "role": "Spell",
+    "stats": {
+      "hp": 1800,
+      "atk": 380,
+      "def": 290,
+      "spd": 105,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Thunderbolt Tempo",
+      "spCost": 40,
+      "desc": "ผ่าสายฟ้าฟาด สร้างความเสียหาย Lightning 170% พร้อมลด SPD ศัตรู 15%"
+    },
+    "image": "assets/anime/cards/c004.webp"
+  },
+  {
+    "id": "c005",
+    "name": "Tony Tony Chopper",
+    "series": "One Piece",
+    "rarity": "R",
+    "element": "Earth",
+    "role": "Healer",
+    "stats": {
+      "hp": 2100,
+      "atk": 310,
+      "def": 340,
+      "spd": 95,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Monster Point Medic",
+      "spCost": 40,
+      "desc": "ฟื้นฟู HP 25% ให้เพื่อนร่วมทีมที่มี HP ต่ำที่สุด"
+    },
+    "image": "assets/anime/cards/c005.webp"
+  },
+  {
+    "id": "c006",
+    "name": "Nico Robin",
+    "series": "One Piece",
+    "rarity": "SR",
+    "element": "Dark",
+    "role": "Spell",
+    "stats": {
+      "hp": 2000,
+      "atk": 410,
+      "def": 310,
+      "spd": 100,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Cien Fleurs: Clutch",
+      "spCost": 45,
+      "desc": "ล็อกตรึงร่างศัตรู สร้างความเสียหาย Dark 180% และลด DEF ศัตรู 20%"
+    },
+    "image": "assets/anime/cards/c006.webp"
+  },
+  {
+    "id": "c007",
+    "name": "Trafalgar Law",
+    "series": "One Piece",
+    "rarity": "SSR",
+    "element": "Water",
+    "role": "Tactician",
+    "stats": {
+      "hp": 2300,
+      "atk": 460,
+      "def": 350,
+      "spd": 118,
+      "sp": 100
+    },
+    "skill": {
+      "name": "ROOM: Shambles & Gamma Knife",
+      "spCost": 55,
+      "desc": "กางอาณาเขตทำลายอวัยวะภายใน เจาะเกราะ DEF ศัตรู 40%"
+    },
+    "image": "assets/anime/cards/c007.webp"
+  },
+  {
+    "id": "c008",
+    "name": "Red-Haired Shanks",
+    "series": "One Piece",
+    "rarity": "UR",
+    "element": "Light",
+    "role": "Attacker",
+    "stats": {
+      "hp": 2600,
+      "atk": 560,
+      "def": 400,
+      "spd": 125,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Divine Departure (Kamusari)",
+      "spCost": 60,
+      "desc": "ฮาคิราชันย์ปล่อยคลื่นดาบ สร้างความเสียหาย Light 280%"
+    },
+    "image": "assets/anime/cards/c008.webp"
+  },
+  {
+    "id": "c009",
+    "name": "Yuji Itadori",
+    "series": "Jujutsu Kaisen",
+    "rarity": "SSR",
+    "element": "Earth",
+    "role": "Attacker",
+    "stats": {
+      "hp": 2550,
+      "atk": 510,
+      "def": 410,
+      "spd": 115,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Divergent Fist & Black Flash",
+      "spCost": 50,
+      "desc": "หมัดประกายทมิฬ สร้างความเสียหาย Earth 240% อัตราคริติคอล +30%"
+    },
+    "image": "assets/anime/cards/c009.webp"
+  },
+  {
+    "id": "c010",
+    "name": "Megumi Fushiguro",
+    "series": "Jujutsu Kaisen",
+    "rarity": "SR",
+    "element": "Dark",
+    "role": "Spell",
+    "stats": {
+      "hp": 2150,
+      "atk": 430,
+      "def": 340,
+      "spd": 112,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Ten Shadows: Divine Dog",
+      "spCost": 45,
+      "desc": "เรียกหมาป่าเงาจู่โจม สร้างความเสียหาย Dark 190% พร้อมเพิ่ม ATK ทีม 10%"
+    },
+    "image": "assets/anime/cards/c010.webp"
+  },
+  {
+    "id": "c011",
+    "name": "Nobara Kugisaki",
+    "series": "Jujutsu Kaisen",
+    "rarity": "SR",
+    "element": "Wind",
+    "role": "Spell",
+    "stats": {
+      "hp": 2050,
+      "atk": 470,
+      "def": 310,
+      "spd": 108,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Straw Doll Technique: Resonance",
+      "spCost": 45,
+      "desc": "ตอกตะปูสะท้อนวิญญาณ สร้างความเสียหาย Wind 210% ไม่สนระยะ"
+    },
+    "image": "assets/anime/cards/c011.webp"
+  },
+  {
+    "id": "c012",
+    "name": "Satoru Gojo",
+    "series": "Jujutsu Kaisen",
+    "rarity": "UR",
+    "element": "Light",
+    "role": "Tank",
+    "stats": {
+      "hp": 2800,
+      "atk": 520,
+      "def": 480,
+      "spd": 122,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Infinity & Hollow Purple",
+      "spCost": 60,
+      "desc": "ไร้ขอบเขตลดทอนดาเมจที่ได้รับ 30% และยิงคลื่นแสงสีม่วงล้างผลาญ 260%"
+    },
+    "image": "assets/anime/cards/c012.webp"
+  },
+  {
+    "id": "c013",
+    "name": "Ryomen Sukuna",
+    "series": "Jujutsu Kaisen",
+    "rarity": "UR",
+    "element": "Dark",
+    "role": "Attacker",
+    "stats": {
+      "hp": 2700,
+      "atk": 580,
+      "def": 390,
+      "spd": 120,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Malevolent Shrine (Cleave & Dismantle)",
+      "spCost": 60,
+      "desc": "ฟันตัดทำลายล้างทุกสิ่ง สร้างความเสียหาย Dark 280%"
+    },
+    "image": "assets/anime/cards/c013.webp"
+  },
+  {
+    "id": "c014",
+    "name": "Kento Nanami",
+    "series": "Jujutsu Kaisen",
+    "rarity": "SSR",
+    "element": "Earth",
+    "role": "Attacker",
+    "stats": {
+      "hp": 2350,
+      "atk": 500,
+      "def": 370,
+      "spd": 106,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Ratio Technique 7:3",
+      "spCost": 45,
+      "desc": "โจมตีจุดตายแบ่งส่วน 7:3 สร้างความเสียหาย Earth 230% แบบการันตีคริติคอล"
+    },
+    "image": "assets/anime/cards/c014.webp"
+  },
+  {
+    "id": "c015",
+    "name": "Toji Fushiguro",
+    "series": "Jujutsu Kaisen",
+    "rarity": "SSR",
+    "element": "Water",
+    "role": "Assassin",
+    "stats": {
+      "hp": 2250,
+      "atk": 530,
+      "def": 350,
+      "spd": 140,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Heavenly Restriction Inverted Spear",
+      "spCost": 50,
+      "desc": "ความเร็วเหนือมนุษย์ แทงหอกตัดไสยเวท ดาเมจ 230% ยกเลิกบัฟศัตรู"
+    },
+    "image": "assets/anime/cards/c015.webp"
+  },
+  {
+    "id": "c016",
+    "name": "Tanjiro Kamado",
+    "series": "Demon Slayer",
+    "rarity": "SSR",
+    "element": "Water",
+    "role": "Attacker",
+    "stats": {
+      "hp": 2400,
+      "atk": 500,
+      "def": 370,
+      "spd": 114,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Hinokami Kagura: Clear Blue Sky",
+      "spCost": 50,
+      "desc": "ร่ายระบำเพลิงสุริยัน สร้างความเสียหาย Water/Fire 230%"
+    },
+    "image": "assets/anime/cards/c016.webp"
+  },
+  {
+    "id": "c017",
+    "name": "Nezuko Kamado",
+    "series": "Demon Slayer",
+    "rarity": "SR",
+    "element": "Fire",
+    "role": "Tank",
+    "stats": {
+      "hp": 2600,
+      "atk": 420,
+      "def": 430,
+      "spd": 108,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Blood Demon Art: Exploding Blood",
+      "spCost": 45,
+      "desc": "มนต์อสูรโลหิตเพลิงระเบิด ดาเมจ Fire 190% พร้อมล้างสถานะผิดปกติให้ทีม"
+    },
+    "image": "assets/anime/cards/c017.webp"
+  },
+  {
+    "id": "c018",
+    "name": "Zenitsu Agatsuma",
+    "series": "Demon Slayer",
+    "rarity": "SSR",
+    "element": "Lightning",
+    "role": "Assassin",
+    "stats": {
+      "hp": 2000,
+      "atk": 520,
+      "def": 310,
+      "spd": 145,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Thunder Breathing: Thunderclap and Flash",
+      "spCost": 50,
+      "desc": "พุ่งฟันสายฟ้าฟาดชั่วพริบตา สร้างความเสียหาย Lightning 250%"
+    },
+    "image": "assets/anime/cards/c018.webp"
+  },
+  {
+    "id": "c019",
+    "name": "Inosuke Hashibira",
+    "series": "Demon Slayer",
+    "rarity": "SR",
+    "element": "Wind",
+    "role": "Attacker",
+    "stats": {
+      "hp": 2300,
+      "atk": 480,
+      "def": 360,
+      "spd": 116,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Beast Breathing: Rip and Tear",
+      "spCost": 45,
+      "desc": "คมดาบคู่เขี้ยวดั่งสัตว์ป่า จู่โจมกระหน่ำ สร้างความเสียหาย Wind 210%"
+    },
+    "image": "assets/anime/cards/c019.webp"
+  },
+  {
+    "id": "c020",
+    "name": "Kyojuro Rengoku",
+    "series": "Demon Slayer",
+    "rarity": "SSR",
+    "element": "Fire",
+    "role": "Attacker",
+    "stats": {
+      "hp": 2450,
+      "atk": 540,
+      "def": 380,
+      "spd": 118,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Flame Breathing: Ninth Form Rengoku",
+      "spCost": 55,
+      "desc": "ปลดปล่อยจิตวิญญาณแห่งเพลิง พุ่งชนดั่งมังกรเพลิง ดาเมจ Fire 260%"
+    },
+    "image": "assets/anime/cards/c020.webp"
+  },
+  {
+    "id": "c021",
+    "name": "Akaza",
+    "series": "Demon Slayer",
+    "rarity": "SSR",
+    "element": "Dark",
+    "role": "Attacker",
+    "stats": {
+      "hp": 2500,
+      "atk": 530,
+      "def": 380,
+      "spd": 125,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Destructive Death: Compass Needle",
+      "spCost": 50,
+      "desc": "กางเข็มทิศสัมผัสไอต่อสู้ ต่อยหมัดสูญญากาศ ดาเมจ Dark 240%"
+    },
+    "image": "assets/anime/cards/c021.webp"
+  },
+  {
+    "id": "c022",
+    "name": "Muzan Kibutsuji",
+    "series": "Demon Slayer",
+    "rarity": "UR",
+    "element": "Dark",
+    "role": "Spell",
+    "stats": {
+      "hp": 2750,
+      "atk": 570,
+      "def": 410,
+      "spd": 120,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Demon Progenitor Whip Strike",
+      "spCost": 60,
+      "desc": "กวัดแกว่งแส้หนามเนื้ออสูร สร้างความเสียหาย Dark 270% พร้อมดูด HP 20%"
+    },
+    "image": "assets/anime/cards/c022.webp"
+  },
+  {
+    "id": "c023",
+    "name": "Naruto Uzumaki",
+    "series": "Naruto",
+    "rarity": "UR",
+    "element": "Wind",
+    "role": "Attacker",
+    "stats": {
+      "hp": 2650,
+      "atk": 540,
+      "def": 390,
+      "spd": 118,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Sage Art: Wind Style Rasenshuriken",
+      "spCost": 55,
+      "desc": "ดาวกระจายวงจักรวายุ สร้างความเสียหาย Wind 270% แก่เป้าหมาย"
+    },
+    "image": "assets/anime/cards/c023.webp"
+  },
+  {
+    "id": "c024",
+    "name": "Sasuke Uchiha",
+    "series": "Naruto",
+    "rarity": "SSR",
+    "element": "Lightning",
+    "role": "Assassin",
+    "stats": {
+      "hp": 2400,
+      "atk": 550,
+      "def": 360,
+      "spd": 124,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Kirin & Chidori",
+      "spCost": 55,
+      "desc": "อัญเชิญมังกรอัสนีบาต สร้างความเสียหาย Lightning 260%"
+    },
+    "image": "assets/anime/cards/c024.webp"
+  },
+  {
+    "id": "c025",
+    "name": "Sakura Haruno",
+    "series": "Naruto",
+    "rarity": "SR",
+    "element": "Earth",
+    "role": "Healer",
+    "stats": {
+      "hp": 2200,
+      "atk": 410,
+      "def": 360,
+      "spd": 104,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Mitotic Regeneration & Cherry Blossom Impact",
+      "spCost": 45,
+      "desc": "ฟื้นฟู HP ทีม 20% และต่อยพื้นดินแตกร้าว ดาเมจ Earth 160%"
+    },
+    "image": "assets/anime/cards/c025.webp"
+  },
+  {
+    "id": "c026",
+    "name": "Kakashi Hatake",
+    "series": "Naruto",
+    "rarity": "SSR",
+    "element": "Lightning",
+    "role": "Tactician",
+    "stats": {
+      "hp": 2250,
+      "atk": 490,
+      "def": 350,
+      "spd": 130,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Raikiri & Kamui",
+      "spCost": 50,
+      "desc": "ตัดสายฟ้าผสานคามุย สร้างความเสียหาย Lightning 230% หลบหลีกเทิร์นถัดไป"
+    },
+    "image": "assets/anime/cards/c026.webp"
+  },
+  {
+    "id": "c027",
+    "name": "Gaara",
+    "series": "Naruto",
+    "rarity": "SSR",
+    "element": "Earth",
+    "role": "Tank",
+    "stats": {
+      "hp": 2700,
+      "atk": 440,
+      "def": 470,
+      "spd": 98,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Sand Tsunami & Sand Burial",
+      "spCost": 50,
+      "desc": "คลื่นทรายกลืนกินและบดขยี้ สร้างความเสียหาย Earth 200% เพิ่ม DEF ตนเอง 25%"
+    },
+    "image": "assets/anime/cards/c027.webp"
+  },
+  {
+    "id": "c028",
+    "name": "Itachi Uchiha",
+    "series": "Naruto",
+    "rarity": "UR",
+    "element": "Fire",
+    "role": "Spell",
+    "stats": {
+      "hp": 2350,
+      "atk": 560,
+      "def": 370,
+      "spd": 122,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Tsukuyomi & Amaterasu",
+      "spCost": 55,
+      "desc": "เนตรวงแหวนกระจกเงาหมื่นบุปผา เพลิงดำอมตะเผาผลาญ ดาเมจ Fire 265%"
+    },
+    "image": "assets/anime/cards/c028.webp"
+  },
+  {
+    "id": "c029",
+    "name": "Jiraiya",
+    "series": "Naruto",
+    "rarity": "SR",
+    "element": "Fire",
+    "role": "Tactician",
+    "stats": {
+      "hp": 2450,
+      "atk": 460,
+      "def": 380,
+      "spd": 105,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Toad Oil Fireball",
+      "spCost": 45,
+      "desc": "พ่นน้ำมันกบผสานเพลิง สร้างความเสียหาย Fire 190% พร้อมบัฟ ATK ทีม 15%"
+    },
+    "image": "assets/anime/cards/c029.webp"
+  },
+  {
+    "id": "c030",
+    "name": "Pain (Tendō)",
+    "series": "Naruto",
+    "rarity": "SSR",
+    "element": "Dark",
+    "role": "Tank",
+    "stats": {
+      "hp": 2650,
+      "atk": 480,
+      "def": 450,
+      "spd": 100,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Shinra Tensei (Almighty Push)",
+      "spCost": 55,
+      "desc": "ข่ายเทพพิชิตฟ้า ผลักทำลายทุกสิ่งรอบตัว ดาเมจ Dark 220%"
+    },
+    "image": "assets/anime/cards/c030.webp"
+  },
+  {
+    "id": "c031",
+    "name": "Gon Freecss",
+    "series": "Hunter x Hunter",
+    "rarity": "SSR",
+    "element": "Fire",
+    "role": "Attacker",
+    "stats": {
+      "hp": 2450,
+      "atk": 530,
+      "def": 370,
+      "spd": 112,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Jajanken: Rock",
+      "spCost": 50,
+      "desc": "เป่ายิ้งฉุบค้อนระเบิดพลังออร่าสายเสริมพลัง สร้างความเสียหาย Fire 250%"
+    },
+    "image": "assets/anime/cards/c031.webp"
+  },
+  {
+    "id": "c032",
+    "name": "Killua Zoldyck",
+    "series": "Hunter x Hunter",
+    "rarity": "SSR",
+    "element": "Lightning",
+    "role": "Assassin",
+    "stats": {
+      "hp": 2100,
+      "atk": 520,
+      "def": 330,
+      "spd": 148,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Godspeed (Kanmuru)",
+      "spCost": 50,
+      "desc": "วิชาความเร็วเทพเจ้า เคลื่อนไหวตอบสนองฉับพลัน ดาเมจ Lightning 240%"
+    },
+    "image": "assets/anime/cards/c032.webp"
+  },
+  {
+    "id": "c033",
+    "name": "Kurapika",
+    "series": "Hunter x Hunter",
+    "rarity": "SSR",
+    "element": "Light",
+    "role": "Tactician",
+    "stats": {
+      "hp": 2300,
+      "atk": 470,
+      "def": 360,
+      "spd": 115,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Emperor Time & Chain Jail",
+      "spCost": 55,
+      "desc": "ห้วงเวลาจักรพรรดิ พันธนาการศัตรู ดาเมจ Light 210% และลด DEF 25%"
+    },
+    "image": "assets/anime/cards/c033.webp"
+  },
+  {
+    "id": "c034",
+    "name": "Leorio Paradinight",
+    "series": "Hunter x Hunter",
+    "rarity": "R",
+    "element": "Water",
+    "role": "Healer",
+    "stats": {
+      "hp": 2150,
+      "atk": 350,
+      "def": 330,
+      "spd": 96,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Remote Punch Medical Aid",
+      "spCost": 40,
+      "desc": "หมัดทะลุมิติสร้างความเสียหาย 150% พร้อมรักษาฟื้นฟู HP ทีม 15%"
+    },
+    "image": "assets/anime/cards/c034.webp"
+  },
+  {
+    "id": "c035",
+    "name": "Hisoka Morow",
+    "series": "Hunter x Hunter",
+    "rarity": "SSR",
+    "element": "Wind",
+    "role": "Assassin",
+    "stats": {
+      "hp": 2350,
+      "atk": 520,
+      "def": 360,
+      "spd": 122,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Bungee Gum & Texture Surprise",
+      "spCost": 45,
+      "desc": "บันจี้กัมมีความเหนียวและยืดหยุ่น ดีดไพ่สังหาร ดาเมจ Wind 230%"
+    },
+    "image": "assets/anime/cards/c035.webp"
+  },
+  {
+    "id": "c036",
+    "name": "Chrollo Lucilfer",
+    "series": "Hunter x Hunter",
+    "rarity": "UR",
+    "element": "Dark",
+    "role": "Spell",
+    "stats": {
+      "hp": 2400,
+      "atk": 490,
+      "def": 370,
+      "spd": 120,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Skill Hunter (Bandit's Secret)",
+      "spCost": 55,
+      "desc": "ขโมยทักษะเน็น สุ่มปล่อยท่าโจมตีรุนแรง ดาเมจ Dark 230% และสุ่มดีบัฟ"
+    },
+    "image": "assets/anime/cards/c036.webp"
+  },
+  {
+    "id": "c037",
+    "name": "Ichigo Kurosaki",
+    "series": "Bleach",
+    "rarity": "UR",
+    "element": "Dark",
+    "role": "Attacker",
+    "stats": {
+      "hp": 2600,
+      "atk": 560,
+      "def": 380,
+      "spd": 126,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Bankai: Getsuga Tenshou",
+      "spCost": 55,
+      "desc": "ปลดปล่อยบังไค คลื่นจันทร์เสี้ยวสลายวิญญาณ ดาเมจ Dark 270%"
+    },
+    "image": "assets/anime/cards/c037.webp"
+  },
+  {
+    "id": "c038",
+    "name": "Rukia Kuchiki",
+    "series": "Bleach",
+    "rarity": "SR",
+    "element": "Water",
+    "role": "Spell",
+    "stats": {
+      "hp": 2050,
+      "atk": 420,
+      "def": 340,
+      "spd": 110,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Sode no Shirayuki: Tsugi no mai, Hakuren",
+      "spCost": 45,
+      "desc": "ระบำคลื่นน้ำแข็งสีขาว แช่แข็งลด SPD ศัตรู 25% ดาเมจ Water 180%"
+    },
+    "image": "assets/anime/cards/c038.webp"
+  },
+  {
+    "id": "c039",
+    "name": "Uryu Ishida",
+    "series": "Bleach",
+    "rarity": "SR",
+    "element": "Light",
+    "role": "Spell",
+    "stats": {
+      "hp": 2100,
+      "atk": 480,
+      "def": 320,
+      "spd": 136,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Licht Regen",
+      "spCost": 45,
+      "desc": "ศรแสงควินซี่กระหน่ำยิงนับพัน สร้างความเสียหาย Light 210%"
+    },
+    "image": "assets/anime/cards/c039.webp"
+  },
+  {
+    "id": "c040",
+    "name": "Renji Abarai",
+    "series": "Bleach",
+    "rarity": "SR",
+    "element": "Fire",
+    "role": "Attacker",
+    "stats": {
+      "hp": 2350,
+      "atk": 490,
+      "def": 360,
+      "spd": 108,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Hihio Zabimaru: Hikotsu Taiho",
+      "spCost": 50,
+      "desc": "ปืนใหญ่กระดูกพญางู ยิงคลื่นเพลิงวิญญาณ ดาเมจ Fire 220%"
+    },
+    "image": "assets/anime/cards/c040.webp"
+  },
+  {
+    "id": "c041",
+    "name": "Sosuke Aizen",
+    "series": "Bleach",
+    "rarity": "UR",
+    "element": "Dark",
+    "role": "Spell",
+    "stats": {
+      "hp": 2750,
+      "atk": 540,
+      "def": 460,
+      "spd": 118,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Kyoka Suigetsu: Complete Hypnosis",
+      "spCost": 60,
+      "desc": "สะกดสมบูรณ์แบบ กระจกเงากลางน้ำ ดาเมจ Dark 250% ศัตรูตีพลาด 30%"
+    },
+    "image": "assets/anime/cards/c041.webp"
+  },
+  {
+    "id": "c042",
+    "name": "All Might",
+    "series": "My Hero Academia",
+    "rarity": "UR",
+    "element": "Light",
+    "role": "Tank",
+    "stats": {
+      "hp": 2850,
+      "atk": 550,
+      "def": 460,
+      "spd": 118,
+      "sp": 100
+    },
+    "skill": {
+      "name": "United States of Smash",
+      "spCost": 60,
+      "desc": "หมัดแห่งสัญลักษณ์สันติภาพ ทุ่มพลังสุดชีวิต ดาเมจ Light 280% เพิ่ม DEF ทีม 20%"
+    },
+    "image": "assets/anime/cards/c042.webp"
+  },
+  {
+    "id": "c043",
+    "name": "Izuku Midoriya (Deku)",
+    "series": "My Hero Academia",
+    "rarity": "UR",
+    "element": "Wind",
+    "role": "Attacker",
+    "stats": {
+      "hp": 2550,
+      "atk": 550,
+      "def": 380,
+      "spd": 122,
+      "sp": 100
+    },
+    "skill": {
+      "name": "One For All: Delaware Detroit Smash",
+      "spCost": 55,
+      "desc": "รวมพลังดีดนิ้วสร้างคลื่นลมกระแทกแรงดันสูง สร้างความเสียหาย Wind 270%"
+    },
+    "image": "assets/anime/cards/c043.webp"
+  },
+  {
+    "id": "c044",
+    "name": "Katsuki Bakugo",
+    "series": "My Hero Academia",
+    "rarity": "SSR",
+    "element": "Fire",
+    "role": "Attacker",
+    "stats": {
+      "hp": 2400,
+      "atk": 560,
+      "def": 360,
+      "spd": 120,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Howitzer Impact",
+      "spCost": 50,
+      "desc": "หมุนตัวจุดระเบิดดินปืนรุนแรงดั่งพายุเพลิง สร้างความเสียหาย Fire 255%"
+    },
+    "image": "assets/anime/cards/c044.webp"
+  },
+  {
+    "id": "c045",
+    "name": "Shoto Todoroki",
+    "series": "My Hero Academia",
+    "rarity": "SSR",
+    "element": "Water",
+    "role": "Spell",
+    "stats": {
+      "hp": 2350,
+      "atk": 510,
+      "def": 360,
+      "spd": 114,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Half-Cold Half-Hot: Flashfreeze Heatwave",
+      "spCost": 50,
+      "desc": "แช่แข็งแล้วระเบิดความร้อนคลื่นยักษ์ ดาเมจ Water 240% ลด SPD ศัตรู 20%"
+    },
+    "image": "assets/anime/cards/c045.webp"
+  },
+  {
+    "id": "c046",
+    "name": "Tomura Shigaraki",
+    "series": "My Hero Academia",
+    "rarity": "SSR",
+    "element": "Dark",
+    "role": "Assassin",
+    "stats": {
+      "hp": 2300,
+      "atk": 540,
+      "def": 340,
+      "spd": 136,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Decay Touch (การสลาย)",
+      "spCost": 50,
+      "desc": "สัมผัส 5 นิ้วทำให้ร่างศัตรูค่อยๆ ผุกร่อน ดาเมจ Dark 235% เจาะ DEF 30%"
+    },
+    "image": "assets/anime/cards/c046.webp"
+  },
+  {
+    "id": "c047",
+    "name": "Eren Yeager",
+    "series": "Attack on Titan",
+    "rarity": "SSR",
+    "element": "Fire",
+    "role": "Attacker",
+    "stats": {
+      "hp": 2600,
+      "atk": 530,
+      "def": 420,
+      "spd": 105,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Attack Titan Hardening Punch",
+      "spCost": 50,
+      "desc": "กลายร่างไททันจู่โจมพร้อมเกราะแข็ง ดาเมจ Fire 240% เพิ่ม DEF 20%"
+    },
+    "image": "assets/anime/cards/c047.webp"
+  },
+  {
+    "id": "c048",
+    "name": "Mikasa Ackerman",
+    "series": "Attack on Titan",
+    "rarity": "SSR",
+    "element": "Wind",
+    "role": "Assassin",
+    "stats": {
+      "hp": 2250,
+      "atk": 520,
+      "def": 340,
+      "spd": 142,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Thunder Spears & Blade Slash",
+      "spCost": 45,
+      "desc": "พุ่งฟันด้วยเครื่องเคลื่อนย้าย 3 มิติ และหอกสายฟ้า ดาเมจ Wind 230%"
+    },
+    "image": "assets/anime/cards/c048.webp"
+  },
+  {
+    "id": "c049",
+    "name": "Levi Ackerman",
+    "series": "Attack on Titan",
+    "rarity": "UR",
+    "element": "Wind",
+    "role": "Assassin",
+    "stats": {
+      "hp": 2300,
+      "atk": 570,
+      "def": 350,
+      "spd": 150,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Spinning Blade Storm",
+      "spCost": 55,
+      "desc": "หมุนตัวฟาดฟันดั่งพายุวายุ ตัดท้ายทอยอย่างไร้ปรานี ดาเมจ Wind 280%"
+    },
+    "image": "assets/anime/cards/c049.webp"
+  },
+  {
+    "id": "c050",
+    "name": "Armin Arlert",
+    "series": "Attack on Titan",
+    "rarity": "SR",
+    "element": "Water",
+    "role": "Tactician",
+    "stats": {
+      "hp": 2100,
+      "atk": 390,
+      "def": 330,
+      "spd": 108,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Tactical Command & Steam Blast",
+      "spCost": 45,
+      "desc": "วางแผนกลยุทธ์ เพิ่ม ATK และ DEF ให้เพื่อนร่วมทีมทุกคน 15%"
+    },
+    "image": "assets/anime/cards/c050.webp"
+  }
+]
