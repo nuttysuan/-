@@ -1853,7 +1853,7 @@
 
                 // Listen to User Inventory
                 const invQuery = query(collection(db, "animeInventory"), where("uid", "==", uid));
-                onSnapshot(invQuery, (querySnap) => {
+                onSnapshot(invQuery, async (querySnap) => {
                     myInventoryDocs = [];
                     querySnap.forEach(d => {
                         myInventoryDocs.push({ id: d.id, ...d.data() });
@@ -2128,6 +2128,9 @@
             } else {
                 grid.innerHTML = availableCards.map(inv => {
                     const c = charMap[inv.cardId];
+                    const stars = inv.stars || 0;
+                    const hpVal = Math.round(c.stats.hp * (1 + (stars * 0.05)));
+                    const atkVal = Math.round(c.stats.atk * (1 + (stars * 0.05)));
                     return `
                         <div class="tcg-card rarity-${c.rarity}" style="cursor:pointer;" onclick="selectCardForSlot('${inv.id}')">
                             <div class="card-top-bar">
@@ -3720,6 +3723,11 @@
                 Attacker: '⚔️', Tank: '🛡️', Assassin: '🗡️', Spell: '📜', Healer: '💖', Tactician: '🧠'
             }[c.role] || '⭐';
 
+            const starsCount = (extraData && extraData.stars) ? extraData.stars : 0;
+            const hpVal = Math.round(c.stats.hp * (1 + (starsCount * 0.05)));
+            const atkVal = Math.round(c.stats.atk * (1 + (starsCount * 0.05)));
+            const starsBadge = starsCount > 0 ? `<span style="color:#ffd700; font-size:11px; margin-left:4px;">${'★'.repeat(starsCount)}</span>` : '';
+
             const initials = c.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
             const fallbackBg = {
                 UR: 'linear-gradient(135deg, #ff007f, #7928ca)',
@@ -3729,8 +3737,6 @@
             }[c.rarity] || '#333';
 
             let actionButtonsHtml = '';
-            const starsCount = (extraData && extraData.stars) ? extraData.stars : 0;
-            const starsBadge = starsCount > 0 ? `<span style="color:#ffd700; font-size:11px; margin-left:4px;">${'★'.repeat(starsCount)}</span>` : '';
 
             if (mode === 'inventory') {
                 const isListed = extraData && extraData.isListed;
