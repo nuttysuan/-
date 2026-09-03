@@ -1245,6 +1245,80 @@
             flex-wrap: wrap;
         }
 
+    
+        /* Image Viewer Lightbox Modal */
+        #imageViewerModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(8px);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+        }
+        #imageViewerModal img {
+            max-width: 90vw;
+            max-height: 80vh;
+            border: 4px solid var(--gem-color);
+            box-shadow: 0 0 35px rgba(0, 210, 211, 0.5);
+            border-radius: 16px;
+            object-fit: contain;
+            animation: popIn 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .image-viewer-close {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 36px;
+            font-weight: 900;
+            color: #fff;
+            cursor: pointer;
+            text-shadow: 0 2px 10px #000;
+            background: rgba(255, 71, 87, 0.8);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            border: 2px solid #fff;
+        }
+        .image-viewer-close:hover {
+            background: #ff4757;
+            transform: scale(1.15) rotate(90deg);
+        }
+        .zoom-glass-icon {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            color: #fff;
+            transition: all 0.2s;
+            z-index: 5;
+            pointer-events: none;
+        }
+        .card-img-wrap:hover .zoom-glass-icon {
+            transform: scale(1.2);
+            background: var(--secondary);
+            border-color: #fff;
+            box-shadow: 0 0 10px var(--secondary);
+        }
+
     </style>
 </head>
 <body>
@@ -1817,6 +1891,16 @@
 
     <!-- Modals -->
 
+    <!-- Image Viewer Lightbox Modal (Full Card View) -->
+    <div id="imageViewerModal" onclick="this.style.display='none'">
+        <span class="image-viewer-close" onclick="document.getElementById('imageViewerModal').style.display='none'">&times;</span>
+        <div style="text-align: center; max-width: 90vw; max-height: 90vh;" onclick="event.stopPropagation()">
+            <img id="imageViewerSrc" src="" alt="Full Card Artwork">
+            <div id="imageViewerTitle" style="color: #fff; font-size: 16px; font-weight: 900; margin-top: 12px; text-shadow: 0 2px 10px #000;"></div>
+        </div>
+    </div>
+
+
     <!-- Custom Comic Confirm Modal -->
     <div id="customConfirmModal" class="modal-backdrop">
         <div class="modal-box" style="max-width: 420px; text-align: center;">
@@ -2017,8 +2101,12 @@
         // Render UR Showcase in Gacha tab
         function renderURShowcase() {
             const urGrid = document.getElementById('urShowcaseGrid');
+            if (!urGrid) return;
             const urList = masterCharacters.filter(c => c.rarity === 'UR');
-            urGrid.innerHTML = urList.map(c => renderCardTemplate(c, null, 'showcase')).join('');
+            urGrid.innerHTML = urList.map(c => {
+                const isOwned = myInventoryDocs && myInventoryDocs.some(i => i.cardId === c.id);
+                return renderCardTemplate(c, null, 'showcase', isOwned);
+            }).join('');
         }
         renderURShowcase();
 
@@ -2067,6 +2155,7 @@
                     document.getElementById('invCountBadge').innerText = myInventoryDocs.length;
                     renderInventoryUI();
                     renderCodexUI();
+                    renderURShowcase();
                     validateAndRenderTeamSlots();
 
                 // Load User Team
@@ -3928,6 +4017,25 @@
         }
 
         
+        
+        // ------------------ Full Card Lightbox Viewer ------------------
+        window.viewImage = (imgSrc, title = '', cardId = null) => {
+            if (cardId) {
+                const isOwned = myInventoryDocs && myInventoryDocs.some(i => i.cardId === cardId);
+                if (!isOwned) {
+                    return showToast("🔒 คุณยังไม่ได้เป็นเจ้าของการ์ดใบนี้ ไม่สามารถเปิดดูการ์ดเต็มใบได้ครับ", "error");
+                }
+            }
+            const modal = document.getElementById('imageViewerModal');
+            const imgEl = document.getElementById('imageViewerSrc');
+            const titleEl = document.getElementById('imageViewerTitle');
+            if (imgSrc && imgSrc !== '') {
+                imgEl.src = imgSrc;
+                if (titleEl) titleEl.innerText = title;
+                modal.style.display = 'flex';
+            }
+        };
+
         // ------------------ In-Game Custom Notifications & Modals ------------------
         window.showToast = (msg, type = 'success') => {
             const container = document.getElementById('toast-container');
@@ -4255,6 +4363,10 @@
 
         // ------------------ Card Template Generator ------------------
         function renderCardTemplate(c, extraData, mode, isOwned = true) {
+            // Determine if the current user personally owns this character
+            const isUserOwner = myInventoryDocs && myInventoryDocs.some(i => i.cardId === c.id);
+            const reallyOwned = (mode === 'inventory') ? true : isUserOwner;
+
             const elIcon = {
                 Fire: '🔥', Wind: '🌪️', Earth: '🪨', Lightning: '⚡', Water: '💧', Light: '☀️', Dark: '🌑'
             }[c.element] || '✨';
@@ -4321,12 +4433,22 @@
                         <span class="rarity-tag tag-${c.rarity}">${c.rarity}</span>
                     </div>
 
-                    <div class="card-img-wrap">
+                    ${reallyOwned ? `
+                    <div class="card-img-wrap" style="cursor: zoom-in;" onclick="viewImage('${c.image}', '${c.name} (${c.rarity})', '${c.id}')" title="คลิกเพื่อดูการ์ดเต็มใบ (คุณเป็นเจ้าของ)">
+                        <div class="zoom-glass-icon">🔍</div>
                         <div class="card-avatar-fallback" style="background: ${fallbackBg};">
                             ${initials}
                         </div>
                         <img src="${c.image}" alt="${c.name}" onerror="this.style.display='none'">
-                    </div>
+                    </div>` : `
+                    <div class="card-img-wrap" style="cursor: not-allowed;" onclick="showToast('🔒 เฉพาะเจ้าของการ์ดเท่านั้นที่สามารถเปิดดูการ์ดเต็มใบได้ครับ (ต้องสุ่มหรือซื้อการ์ดก่อน)', 'error')" title="🔒 ยังไม่ได้เป็นเจ้าของการ์ดใบนี้">
+                        <div class="zoom-glass-icon" style="background: rgba(0,0,0,0.8); border-color: #ff4757; color: #ff6b81;">🔒</div>
+                        <div class="card-avatar-fallback" style="background: ${fallbackBg};">
+                            ${initials}
+                        </div>
+                        <img src="${c.image}" alt="${c.name}" onerror="this.style.display='none'">
+                    </div>`
+                    }
 
                     <div class="card-body">
                         <div>
