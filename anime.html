@@ -2718,6 +2718,7 @@
             document.getElementById('arenaBattleView').style.display = 'block';
             document.getElementById('battleOpponentName').innerText = `⚔️ กำลังต่อสู้: ${oppName}`;
             document.getElementById('battleRoundCounter').innerText = '1';
+            document.getElementById('realtimeTimerBox').style.display = 'flex';
 
             const firstAlive = enemies.findIndex(e => !e.isDead);
             battleState.currentTargetIndex = firstAlive !== -1 ? firstAlive : 0;
@@ -2803,7 +2804,7 @@
             const onClickHandler = `inspectCombatant(battleState.${c.isPlayer ? 'players' : 'enemies'}[${c.slotIndex}]); ${!c.isPlayer ? `selectEnemyTarget(${c.slotIndex});` : ''}`;
 
             return `
-                <div class="combatant-card ${targetClass} ${activeClass} ${deadClass} ${auraClass}" onclick="${onClickHandler}">
+                <div class="combatant-card ${targetClass} ${activeClass} ${deadClass} ${auraClass}" onclick="handleCombatantClick(${c.slotIndex}, ${c.isPlayer})">
                     <div class="combatant-mini-header">
                         <span>${getElementIcon(c.element)} ${c.element}</span>
                         <span style="color:${getRarityColor(c.rarity)};">${c.rarity}</span>
@@ -3023,14 +3024,22 @@
             renderBattlefield();
 
             if (ready.isPlayer) {
-                logCombat(`👉 ถึงคิวคุณสั่งการ: <b>${ready.name}</b> (เลือกเป้าหมายและคำสั่งได้เลย)`);
+                logCombat(`👉 ถึงคิวคุณสั่งการ: <b>${ready.name}</b> (เหลือเวลา 30 วินาที)`);
+                startTurnTimer(30);
             } else {
+                stopTurnTimer();
+                const timerText = document.getElementById('turnTimerText');
+                if (timerText) {
+                    timerText.innerText = 'ศัตรูกำลังคิด...';
+                    timerText.style.color = '#ffa502';
+                }
                 battleState.isBusy = true;
-                setTimeout(() => executeEnemyAITurn(ready), 700);
+                setTimeout(() => executeEnemyAITurn(ready), 800);
             }
         }
 
                 window.executePlayerAction = (actionType) => {
+            stopTurnTimer();
             if (!battleState || battleState.isBusy) return;
             if (battleState.isRealtime) {
                 return executeRealtimeAction(actionType);
@@ -3182,6 +3191,7 @@
 
         function executeEnemyAITurn(enemy) {
             if (!battleState || enemy.isDead) return;
+            try {
 
             const livingPlayers = battleState.players.filter(p => !p.isDead);
             if (livingPlayers.length === 0) return finishBattle(false);
@@ -3221,22 +3231,27 @@
 
             checkDeath(chosenTarget);
             renderBattlefield();
+            } catch (err) {
+                console.error("AI Error:", err);
+                logCombat(`⚠️ บอทคำนวณผ่านเทิร์น`);
+            }
 
             setTimeout(() => {
-                battleState.isBusy = false;
+                if (battleState) battleState.isBusy = false;
                 runATBLoop();
-            }, 600);
+            }, 750);
         }
 
         function aiNormalHit(enemy, target) {
             enemy.sp = Math.min(100, enemy.sp + 20);
             const mult = calculateElementalMultiplier(enemy.element, target.element);
+            const isCrit = Math.random() < 0.12;
             const guardMult = target.isGuarding ? 0.5 : 1.0;
-            let dmg = Math.round((enemy.atk * 0.95 - target.def * 0.3) * mult * guardMult);
+            let dmg = Math.round((enemy.atk * 0.95 - target.def * 0.3) * mult * (isCrit ? 1.5 : 1.0) * guardMult);
             dmg = Math.max(40, dmg);
             applyDamage(target, dmg);
-                showCombatFloater(target.slotIndex, target.isPlayer, `-${dmg}`, isCrit ? '#ff4757' : '#ffd700');
-            logCombat(`⚔️ <b>${enemy.name}</b> เข้าโจมตีใส่ ${target.name} ทำดาเมจ ${dmg} แต้ม!`);
+            showCombatFloater(target.slotIndex, target.isPlayer, `-${dmg}`, isCrit ? '#ff4757' : '#ffd700');
+            logCombat(`⚔️ <b>${enemy.name}</b> เข้าโจมตีใส่ ${target.name} ทำดาเมจ <span class="${isCrit ? 'log-crit' : ''}">${dmg}</span> แต้ม! ${isCrit ? '💥 CRITICAL!' : ''}`);
 
             if (target.elementMark && canReact(target.elementMark, enemy.element)) {
                 const rMsg = triggerReaction(target.elementMark, enemy.element, target, battleState.players);
@@ -3247,6 +3262,7 @@
         }
 
         async function finishBattle(isVictory) {
+            stopTurnTimer();
             const modal = document.getElementById('battleResultModal');
             const title = document.getElementById('battleResultTitle');
             const desc = document.getElementById('battleResultDesc');
@@ -3285,15 +3301,23 @@
             battleState = null;
         };
 
-        window.surrenderBattle = () => {
-            if (confirm("ต้องการยอมแพ้และออกจากสนามประลองหรือไม่?")) {
-                if (battleState && battleState.isRealtime) {
-                    exitRealtimeBattle();
-                } else {
-                    document.getElementById('arenaBattleView').style.display = 'none';
-                    document.getElementById('arenaLobbyView').style.display = 'block';
-                    battleState = null;
-                }
+        window.surrenderBattle = async () => {
+            const confirmed = await showConfirmModal({
+                title: "🏳️ ยืนยันการยอมแพ้",
+                message: "คุณต้องการยอมแพ้และออกจากสนามประลองหรือไม่?",
+                icon: "🏳️",
+                okText: "ยอมแพ้",
+                okColor: "#ff4757"
+            });
+            if (!confirmed) return;
+
+            stopTurnTimer();
+            if (battleState && battleState.isRealtime) {
+                exitRealtimeBattle();
+            } else {
+                document.getElementById('arenaBattleView').style.display = 'none';
+                document.getElementById('arenaLobbyView').style.display = 'block';
+                battleState = null;
             }
         };
 
@@ -3429,13 +3453,20 @@
         };
 
         window.cancelListing = async (listingId, inventoryDocId) => {
-            if (!confirm("ต้องการยกเลิกการขายการ์ดใบนี้และนำกลับเข้าคลังหรือไม่?")) return;
+            const confirmed = await showConfirmModal({
+                title: "📦 ยกเลิกการขาย",
+                message: "ต้องการยกเลิกการขายการ์ดใบนี้และดึงกลับเข้าคลังของคุณหรือไม่?",
+                icon: "📦",
+                okText: "ยืนยันยกเลิก"
+            });
+            if (!confirmed) return;
+
             try {
                 await updateDoc(doc(db, "animeMarket", listingId), { status: 'cancelled' });
                 await updateDoc(doc(db, "animeInventory", inventoryDocId), { isListed: false });
-                alert("✅ ยกเลิกการขายเรียบร้อยแล้ว การ์ดกลับเข้าคลังของคุณแล้ว");
+                showToast("✅ ยกเลิกการขายเรียบร้อยแล้ว การ์ดกลับเข้าคลังของคุณแล้ว", "success");
             } catch (err) {
-                alert("เกิดข้อผิดพลาด: " + err.message);
+                showToast("เกิดข้อผิดพลาด: " + err.message, "error");
             }
         };
 
@@ -4037,6 +4068,13 @@
         };
 
         // ------------------ In-Game Custom Notifications & Modals ------------------
+                // Globally override window.alert to always use in-game Toast
+        window.alert = (msg) => {
+            if (!msg) return;
+            const isErr = msg.includes('❌') || msg.includes('⚠️') || msg.includes('ไม่') || msg.includes('ผิดพลาด');
+            window.showToast(msg, isErr ? 'error' : 'success');
+        };
+
         window.showToast = (msg, type = 'success') => {
             const container = document.getElementById('toast-container');
             if (!container) return;
@@ -4271,6 +4309,24 @@
                 showToast("ย่อยสลายไม่สำเร็จ: " + err.message, 'error');
             }
         }
+
+        
+        // Safe global combatant click handler (Inspect + Target selection)
+        window.handleCombatantClick = (slotIndex, isPlayer) => {
+            if (!battleState) return;
+            const team = isPlayer ? battleState.players : battleState.enemies;
+            const c = team[slotIndex];
+            if (!c) return;
+
+            // Inspect card details
+            window.inspectCombatant(c);
+
+            // If it's an enemy card and alive, select as target
+            if (!isPlayer && !c.isDead) {
+                battleState.currentTargetIndex = slotIndex;
+                renderBattlefield();
+            }
+        };
 
         // ------------------ Tactical Inspector & Floating Text ------------------
         window.inspectCombatant = (c) => {
