@@ -2842,14 +2842,15 @@
             `;
         }
 
-        window.selectEnemyTarget = (idx) => {
+        function selectEnemyTarget(idx) {
             if (!battleState) return;
             const target = battleState.enemies[idx];
             if (target && !target.isDead) {
                 battleState.currentTargetIndex = idx;
                 renderBattlefield();
             }
-        };
+        }
+        window.selectEnemyTarget = selectEnemyTarget;
 
         function updateTargetAdvantageText(target) {
             const actor = battleState.activeCombatant;
@@ -2962,6 +2963,44 @@
             return logMsg;
         }
 
+                // ------------------ Universal Turn Countdown Timer ------------------
+        let globalTurnTimer = null;
+
+        function startTurnTimer(seconds = 30) {
+            stopTurnTimer();
+
+            const timerBox = document.getElementById('realtimeTimerBox');
+            const timerText = document.getElementById('turnTimerText');
+            if (!timerBox || !timerText) return;
+
+            timerBox.style.display = 'flex';
+            let remain = seconds;
+            timerText.innerText = `${remain}s`;
+            timerText.style.color = '#00d2d3';
+
+            globalTurnTimer = setInterval(() => {
+                remain--;
+                if (remain <= 10) timerText.style.color = '#ff4757';
+                timerText.innerText = `${remain}s`;
+
+                if (remain <= 0) {
+                    stopTurnTimer();
+                    if (battleState && battleState.activeCombatant && battleState.activeCombatant.isPlayer) {
+                        logCombat(`⏱️ [หมดเวลา 30 วิ] ระบบสั่ง <b>Guard (ตั้งรับ)</b> ให้อัตโนมัติ!`);
+                        if (window.showToast) showToast("⏱️ หมดเวลาคิดรอบนี้! ระบบสั่งตั้งรับให้อัตโนมัติ", "info");
+                        executePlayerAction('guard');
+                    }
+                }
+            }, 1000);
+        }
+
+        function stopTurnTimer() {
+            if (globalTurnTimer) {
+                clearInterval(globalTurnTimer);
+                globalTurnTimer = null;
+            }
+        }
+
         function runATBLoop() {
             if (!battleState) return;
 
@@ -3038,7 +3077,7 @@
             }
         }
 
-                window.executePlayerAction = (actionType) => {
+                function executePlayerAction(actionType) {
             stopTurnTimer();
             if (!battleState || battleState.isBusy) return;
             if (battleState.isRealtime) {
@@ -3124,7 +3163,8 @@
                 battleState.isBusy = false;
                 runATBLoop();
             }, 500);
-        };
+        }
+        window.executePlayerAction = executePlayerAction;
 
         function executeRoleSkill(actor, target, myTeam, foeTeam) {
             if (actor.role === 'Attacker') {
@@ -4075,7 +4115,7 @@
             window.showToast(msg, isErr ? 'error' : 'success');
         };
 
-        window.showToast = (msg, type = 'success') => {
+        function showToast(msg, type = 'success') {
             const container = document.getElementById('toast-container');
             if (!container) return;
             const toast = document.createElement('div');
@@ -4085,12 +4125,13 @@
             container.appendChild(toast);
             setTimeout(() => {
                 toast.style.animation = 'slideInToast 0.3s reverse forwards';
-                setTimeout(() => toast.remove(), 300);
+                setTimeout(() => { if (toast.parentElement) toast.parentElement.removeChild(toast); }, 300);
             }, 3500);
-        };
+        }
+        window.showToast = showToast;
 
         let confirmModalResolver = null;
-        window.showConfirmModal = ({ title, message, icon = '❓', okText = 'ยืนยัน', okColor = 'linear-gradient(135deg, #ff4757, #ffa502)' }) => {
+        function showConfirmModal({ title, message, icon = '❓', okText = 'ยืนยัน', okColor = 'linear-gradient(135deg, #ff4757, #ffa502)' }) {
             return new Promise((resolve) => {
                 confirmModalResolver = resolve;
                 document.getElementById('confirmModalTitle').innerText = title;
@@ -4101,7 +4142,8 @@
                 okBtn.style.background = okColor;
                 document.getElementById('customConfirmModal').style.display = 'flex';
             });
-        };
+        }
+        window.showConfirmModal = showConfirmModal;
 
         window.resolveCustomConfirm = (boolVal) => {
             document.getElementById('customConfirmModal').style.display = 'none';
@@ -4312,7 +4354,7 @@
 
         
         // Safe global combatant click handler (Inspect + Target selection)
-        window.handleCombatantClick = (slotIndex, isPlayer) => {
+        function handleCombatantClick(slotIndex, isPlayer) {
             if (!battleState) return;
             const team = isPlayer ? battleState.players : battleState.enemies;
             const c = team[slotIndex];
@@ -4329,7 +4371,7 @@
         };
 
         // ------------------ Tactical Inspector & Floating Text ------------------
-        window.inspectCombatant = (c) => {
+        function inspectCombatant(c) {
             const box = document.getElementById('tacticalInspectorBox');
             if (!box) return;
             box.style.display = 'flex';
@@ -4362,7 +4404,8 @@
             let statusesHtml = c.statuses.length > 0 ? `สถานะ: ${c.statuses.join(', ')}` : 'สภาวะปกติ';
             if (c.elementMark) statusesHtml += ` • ติดมาร์ก ${getElementIcon(c.elementMark)}`;
             document.getElementById('inspectorStatusText').innerText = statusesHtml;
-        };
+        }
+        window.inspectCombatant = inspectCombatant;
 
         function showCombatFloater(slotIndex, isPlayer, text, color = '#ffd700') {
             const containerId = isPlayer ? 'playerCombatantsRow' : 'enemyCombatantsRow';
@@ -4370,6 +4413,7 @@
             if (!row || !row.children[slotIndex]) return;
 
             const targetCard = row.children[slotIndex];
+            if (!targetCard || typeof targetCard.appendChild !== 'function') return;
             const floater = document.createElement('div');
             floater.className = 'floating-combat-text';
             floater.style.color = color;
