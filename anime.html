@@ -947,15 +947,48 @@
 
         .combatants-row {
             display: grid;
-            grid-template-columns: repeat(5, minmax(0, 1fr));
+            grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
             gap: 8px;
-            width: 100%;
+            width: 100% !important;
+            box-sizing: border-box;
         }
-        @media (max-width: 768px) {
-            .combatants-row {
-                grid-template-columns: repeat(5, minmax(0, 1fr));
-                gap: 5px;
-            }
+        .combatant-card {
+            background: #12182b;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 6px 4px;
+            position: relative;
+            cursor: pointer;
+            text-align: center;
+            overflow: hidden;
+            user-select: none;
+            transition: border-color 0.15s, box-shadow 0.15s;
+            box-sizing: border-box;
+        }
+        .combatant-card.selected-target { border-color: #ff4757 !important; box-shadow: 0 0 16px rgba(255, 71, 87, 0.8) !important; }
+        .combatant-card.active-turn {
+            border-color: var(--gold) !important;
+            box-shadow: 0 0 16px rgba(255, 165, 2, 0.8) !important;
+            animation: pulseGlow 1.5s infinite;
+        }
+        .combatant-thumb-wrap {
+            width: 100%;
+            height: 55px;
+            background: #1e263d;
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+        .combatant-thumb-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            pointer-events: none;
         }
 
         .combatant-card {
@@ -968,11 +1001,7 @@
             transition: all 0.2s;
             text-align: center;
         }
-        .combatant-card.selected-target {
-            border-color: #ff4757 !important;
-            box-shadow: 0 0 15px rgba(255, 71, 87, 0.6) !important;
-            transform: scale(1.03);
-        }
+        .combatant-card.selected-target { border-color: #ff4757 !important; box-shadow: 0 0 16px rgba(255, 71, 87, 0.8) !important; }
         .combatant-card.active-turn {
             border-color: var(--gold) !important;
             box-shadow: 0 0 15px rgba(255, 165, 2, 0.6) !important;
@@ -3243,6 +3272,16 @@
                 logCombat(`🔄 เริ่มรอบใหม่ที่ ${battleState.round}! แต้ม Team AP ได้รับการฟื้นฟูเต็ม 5 แต้ม!`);
             }
 
+            // Sync AP HUD immediately
+            const orbs = document.getElementById('apOrbsContainer')?.children;
+            if (orbs) {
+                for (let i = 0; i < 5; i++) {
+                    orbs[i].className = i < battleState.teamAp ? 'ap-orb' : 'ap-orb spent';
+                }
+            }
+            const apNum = document.getElementById('apNumberLabel');
+            if (apNum) apNum.innerText = `(${battleState.teamAp}/5)`;
+
             const ap = battleState.teamAp;
             const cData = charMap[actor.id] || {};
             const skillName = cData.skill?.name || 'ไม้ตาย';
@@ -3457,6 +3496,11 @@
             battleState.activeCombatant = ready;
             battleState.isBusy = false;
 
+            // When a player hero turn arrives, if AP is below 1, give 1 emergency AP
+            if (ready.isPlayer && battleState.teamAp < 1) {
+                battleState.teamAp = 1;
+            }
+
             if (ready.statuses.includes('Burn')) {
                 const burnDmg = Math.round(ready.maxHp * 0.08);
                 ready.currentHp -= burnDmg;
@@ -3501,12 +3545,17 @@
                 function executePlayerAction(actionType) {
             stopTurnTimer();
             if (!battleState || battleState.isBusy) return;
+            battleState.isBusy = true; // Lock immediately to prevent double-click / race conditions!
+
             if (battleState.isRealtime) {
                 return executeRealtimeAction(actionType);
             }
 
             const actor = battleState.activeCombatant;
-            if (!actor || !actor.isPlayer) return;
+            if (!actor || !actor.isPlayer) {
+                battleState.isBusy = false;
+                return;
+            }
 
             let target = battleState.enemies[battleState.currentTargetIndex];
             if (!target || target.isDead) {
@@ -3523,8 +3572,10 @@
             }
 
             if (actionType === 'attack') {
-                if (battleState.teamAp < 1) return alert("AP ไม่พอ");
-                battleState.teamAp -= 1;
+                // Attack uses 1 AP if available, but is always usable (anti-lock)
+                if (battleState.teamAp >= 1) {
+                    battleState.teamAp -= 1;
+                }
                 actor.sp = Math.min(100, actor.sp + 20);
 
                 const mult = calculateElementalMultiplier(actor.element, target.element);
@@ -3547,30 +3598,45 @@
                 }
 
             } else if (actionType === 'guard') {
-                // Guard is completely FREE (0 AP) to prevent deadlock!
+                // Guard is 0 AP and restores +1 AP to team
+                battleState.teamAp = Math.min(5, battleState.teamAp + 1);
                 actor.isGuarding = true;
                 actor.sp = Math.min(100, actor.sp + 15);
                 actor.atb += 20;
-                logCombat(`🛡️ <b>${actor.name}</b> เข้าสู่สภาวะตั้งรับ (Guard) ลดดาเมจลง 50%`);
+                logCombat(`🛡️ <b>${actor.name}</b> เข้าสู่สภาวะตั้งรับ (Guard) ลดดาเมจ 50% และฟื้นฟู +1 AP ให้ทีม!`);
 
             } else if (actionType === 'skill') {
-                if (battleState.teamAp < 2) return alert("AP ไม่พอ (ต้องใช้ 2 AP)");
+                if (battleState.teamAp < 2) {
+                    battleState.isBusy = false;
+                    return showToast("AP ไม่พอ (ต้องใช้ 2 AP) — ลองใช้การ์ดอื่นหรือโจมตีปกติเพื่อรอจังหวะ", "error");
+                }
                 battleState.teamAp -= 2;
                 actor.sp = Math.min(100, actor.sp + 25);
 
                 executeRoleSkill(actor, target, battleState.players, battleState.enemies);
 
             } else if (actionType === 'ultimate') {
-                if (battleState.teamAp < 3) return alert("AP ไม่พอ (ต้องใช้ 3 AP)");
-                if (actor.sp < 100) return alert("เกจ SP ยังไม่เต็ม 100");
+                const cData = charMap[actor.id] || {};
+                const spNeeded = Math.max(15, (cData.skill?.spCost || 50) - (actor.stars >= 4 ? 10 : (actor.stars >= 1 ? 5 : 0)));
+                
+                if (actor.sp < spNeeded) {
+                    battleState.isBusy = false;
+                    return showToast(`เกจ SP ยังไม่เต็ม (ต้องการ ${spNeeded} SP แต่มี ${actor.sp} SP)`, "error");
+                }
+                if (battleState.teamAp < 3) {
+                    battleState.isBusy = false;
+                    return showToast("AP ไม่พอสำหรับท่าไม้ตาย (ต้องใช้ 3 AP)", "error");
+                }
+                
                 battleState.teamAp -= 3;
                 actor.sp = 0;
 
-                const cData = charMap[actor.id];
-                const skillName = cData.skill.name;
+                const skillName = cData.skill?.name || 'ไม้ตาย';
                 const mult = calculateElementalMultiplier(actor.element, target.element);
-                let ultiDmg = Math.round((actor.atk * 2.4 - target.def * 0.25) * mult);
+                const ultiBonus = actor.stars >= 3 ? 1.2 : 1.0;
+                let ultiDmg = Math.round((actor.atk * 2.4 - target.def * 0.25) * mult * ultiBonus);
                 applyDamage(target, ultiDmg);
+                showCombatFloater(target.slotIndex, target.isPlayer, `-${ultiDmg}`, '#ff007f');
 
                 logCombat(`💥💥 <b>${actor.name}</b> ปลดปล่อยท่าไม้ตายสุดยอด <b>[${skillName}]</b> ใส่ ${target.name} ทำดาเมจถล่มทลาย <span class="log-crit">${ultiDmg}</span> แต้ม!`);
             }
