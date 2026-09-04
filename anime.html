@@ -2748,7 +2748,7 @@
                 enemyRow.innerHTML = battleState.enemies.map((c, idx) => {
                     const isSelected = (idx === battleState.currentTargetIndex);
                     const isActive = (battleState.activeCombatant === c);
-                    return renderCombatantSlot(c, isSelected, isActive);
+                    return renderCombatantSlot(c, isSelected, isActive, false, idx);
                 }).join('');
             }
 
@@ -2756,7 +2756,7 @@
             if (playerRow) {
                 playerRow.innerHTML = battleState.players.map((c, idx) => {
                     const isActive = (battleState.activeCombatant === c);
-                    return renderCombatantSlot(c, false, isActive);
+                    return renderCombatantSlot(c, false, isActive, true, idx);
                 }).join('');
             }
 
@@ -2787,7 +2787,7 @@
             }
         }
 
-        function renderCombatantSlot(c, isTarget, isActive) {
+        function renderCombatantSlot(c, isTarget, isActive, isPlayerCard = false, slotIdx = 0) {
             const hpPct = Math.max(0, Math.min(100, Math.round((c.currentHp / c.maxHp) * 100)));
             const spPct = Math.max(0, Math.min(100, Math.round((c.sp / c.maxSp) * 100)));
             const shieldPct = c.shield > 0 ? Math.min(100, Math.round((c.shield / c.maxHp) * 100)) : 0;
@@ -2803,8 +2803,13 @@
 
             const onClickHandler = `inspectCombatant(battleState.${c.isPlayer ? 'players' : 'enemies'}[${c.slotIndex}]); ${!c.isPlayer ? `selectEnemyTarget(${c.slotIndex});` : ''}`;
 
+            const clickCall = isPlayerCard ? `inspectPlayerHero(${slotIdx})` : `selectTargetEnemy(${slotIdx})`;
+            const targetBadge = (!isPlayerCard && isTarget && !c.isDead) ? 
+                `<div style="background:#ff4757; color:#fff; font-size:10px; font-weight:900; padding:2px 6px; border-radius:4px; margin-top:2px; box-shadow:0 0 8px #ff4757; animation:pulseGlow 1s infinite;">🎯 เป้าหมายหลัก</div>` : 
+                ((!isPlayerCard && !c.isDead) ? `<div style="font-size:9px; color:var(--text-muted); margin-top:2px;">(คลิกเพื่อเล็ง)</div>` : '');
+
             return `
-                <div class="combatant-card ${targetClass} ${activeClass} ${deadClass} ${auraClass}" onclick="handleCombatantClick(${c.slotIndex}, ${c.isPlayer})">
+                <div class="combatant-card ${targetClass} ${activeClass} ${deadClass} ${auraClass}" onclick="${clickCall}">
                     <div class="combatant-mini-header">
                         <span>${getElementIcon(c.element)} ${c.element}</span>
                         <span style="color:${getRarityColor(c.rarity)};">${c.rarity}</span>
@@ -2819,6 +2824,7 @@
                     <div style="font-size:11px; font-weight:800; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-bottom:3px;">
                         ${c.name}
                     </div>
+                    ${targetBadge}
 
                     <div class="bar-wrap">
                         <div class="hp-fill" style="width: ${hpPct}%;"></div>
@@ -3039,6 +3045,7 @@
 
             ready.atb = 0;
             battleState.activeCombatant = ready;
+            battleState.isBusy = false;
 
             if (ready.statuses.includes('Burn')) {
                 const burnDmg = Math.round(ready.maxHp * 0.08);
@@ -3060,6 +3067,10 @@
             }
 
             ready.isGuarding = false;
+                        if (ready.statuses.includes('Taunt')) {
+                ready.statuses = ready.statuses.filter(s => s !== 'Taunt');
+                logCombat(`🛡️ สภาวะยั่วยุ (Taunt) ของ ${ready.name} สิ้นสุดลงแล้ว`);
+            }
             renderBattlefield();
 
             if (ready.isPlayer) {
@@ -4353,6 +4364,42 @@
         }
 
         
+        
+        // ------------------ Clear, Robust Targeting & Inspect System ------------------
+        window.selectTargetEnemy = (slotIndex) => {
+            if (!battleState) return;
+            const target = battleState.enemies[slotIndex];
+            if (!target) return;
+
+            // Inspect card details
+            inspectCombatant(target);
+
+            if (target.isDead) {
+                showToast(`💀 ${target.name} หมดสภาพการต่อสู้แล้ว กรุณาเล็งเป้าหมายอื่นครับ`, "info");
+                return;
+            }
+
+            // Check if another enemy has active Taunt
+            const taunter = battleState.enemies.find(e => !e.isDead && e.statuses.includes('Taunt'));
+            if (taunter && taunter !== target) {
+                showToast(`🛡️ ${taunter.name} ติดสถานะ Taunt (ยั่วยุ) คุณต้องโจมตีใส่ตัวแทงก์ก่อน!`, "error");
+                battleState.currentTargetIndex = taunter.slotIndex;
+                renderBattlefield();
+                return;
+            }
+
+            // Set as current target
+            battleState.currentTargetIndex = slotIndex;
+            renderBattlefield();
+            showToast(`🎯 ล็อกเป้าหมาย: ${target.name} (${target.element})`, "info");
+        };
+
+        window.inspectPlayerHero = (slotIndex) => {
+            if (!battleState) return;
+            const hero = battleState.players[slotIndex];
+            if (hero) inspectCombatant(hero);
+        };
+
         // Safe global combatant click handler (Inspect + Target selection)
         function handleCombatantClick(slotIndex, isPlayer) {
             if (!battleState) return;
