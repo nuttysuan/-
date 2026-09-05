@@ -4229,10 +4229,40 @@
             }
         }
 
-                function executePlayerAction(actionType) {
+                
+        // =========================================================================
+        // แพตช์แก้ไข: ระบบแอนิเมชันพุ่งโจมตีและคืนตำแหน่ง (Smooth Motion Patch)
+        // =========================================================================
+
+        function updateDirectUnitBars(unit) {
+            if (!unit) return;
+            const isEnemy = !unit.isPlayer;
+            const box = document.getElementById(`isoUnitBox_${isEnemy ? 'e' : 'p'}_${unit.slotIndex}`);
+            if (!box) return;
+
+            const hpBar = box.querySelector('.iso-overhead-hp');
+            if (hpBar) {
+                const hpPct = Math.max(0, Math.min(100, Math.round((unit.currentHp / unit.maxHp) * 100)));
+                hpBar.style.width = `${hpPct}%`;
+            }
+        }
+
+        function updateDirectApDisplay() {
+            if (!battleState) return;
+            const orbs = document.getElementById('apOrbsContainer')?.children;
+            if (orbs) {
+                for (let i = 0; i < 5; i++) {
+                    orbs[i].className = i < battleState.teamAp ? 'ap-orb' : 'ap-orb spent';
+                }
+            }
+            const apNum = document.getElementById('apNumberLabel');
+            if (apNum) apNum.innerText = `(${battleState.teamAp}/5)`;
+        }
+
+        function executePlayerAction(actionType) {
             stopTurnTimer();
             if (!battleState || battleState.isBusy) return;
-            battleState.isBusy = true; // Lock immediately to prevent double-click / race conditions!
+            battleState.isBusy = true; // ล็อกปุ่มกดป้องกันคลิกซ้ำ
 
             if (battleState.isRealtime) {
                 return executeRealtimeAction(actionType);
@@ -4247,7 +4277,10 @@
             let target = battleState.enemies[battleState.currentTargetIndex];
             if (!target || target.isDead) {
                 const newIdx = battleState.enemies.findIndex(e => !e.isDead);
-                if (newIdx === -1) return;
+                if (newIdx === -1) {
+                    battleState.isBusy = false;
+                    return;
+                }
                 battleState.currentTargetIndex = newIdx;
                 target = battleState.enemies[newIdx];
             }
@@ -4258,11 +4291,10 @@
                 logCombat(`🛡️ [Taunt] ${taunter.name} ยั่วยุ บังคับให้คุณต้องโจมตีใส่เขา!`);
             }
 
+            let animDuration = 650; // เวลาสำหรับรอแอนิเมชันวิ่งไปฟันและถอยกลับ (ms)
+
             if (actionType === 'attack') {
-                // Attack uses 1 AP if available, but is always usable (anti-lock)
-                if (battleState.teamAp >= 1) {
-                    battleState.teamAp -= 1;
-                }
+                if (battleState.teamAp >= 1) battleState.teamAp -= 1;
                 actor.sp = Math.min(100, actor.sp + 20);
 
                 const mult = calculateElementalMultiplier(actor.element, target.element);
@@ -4275,7 +4307,11 @@
 
                 applyDamage(target, dmg);
                 showCombatFloater(target.slotIndex, target.isPlayer, `-${dmg}`, isCrit ? '#ff4757' : '#ffd700');
+                
+                // สั่งเล่นแอนิเมชันพุ่งตัว
                 playIsoCombatMotion(actor, target, false, isCrit);
+                animDuration = (actor.role === 'Assassin') ? 750 : 900;
+
                 logCombat(`⚔️ <b>${actor.name}</b> โจมตีใส่ ${target.name} สร้างดาเมจ <span class="${isCrit ? 'log-crit' : ''}">${dmg}</span>! ${isCrit ? '💥 CRITICAL!' : ''}`);
 
                 if (target.elementMark && canReact(target.elementMark, actor.element)) {
@@ -4286,23 +4322,24 @@
                 }
 
             } else if (actionType === 'guard') {
-                // Guard is 0 AP and restores +1 AP to team
                 battleState.teamAp = Math.min(5, battleState.teamAp + 1);
                 actor.isGuarding = true;
                 actor.sp = Math.min(100, actor.sp + 15);
                 actor.atb += 20;
                 logCombat(`🛡️ <b>${actor.name}</b> เข้าสู่สภาวะตั้งรับ (Guard) ลดดาเมจ 50% และฟื้นฟู +1 AP ให้ทีม!`);
+                animDuration = 350;
 
             } else if (actionType === 'skill') {
                 if (battleState.teamAp < 2) {
                     battleState.isBusy = false;
-                    return showToast("AP ไม่พอ (ต้องใช้ 2 AP) — ลองใช้การ์ดอื่นหรือโจมตีปกติเพื่อรอจังหวะ", "error");
+                    return showToast("AP ไม่พอ (ต้องใช้ 2 AP)", "error");
                 }
                 battleState.teamAp -= 2;
                 actor.sp = Math.min(100, actor.sp + 25);
 
                 playIsoCombatMotion(actor, target, false, true);
                 executeRoleSkill(actor, target, battleState.players, battleState.enemies);
+                animDuration = (actor.role === 'Assassin') ? 750 : 900;
 
             } else if (actionType === 'ultimate') {
                 const cData = charMap[actor.id] || {};
@@ -4310,7 +4347,7 @@
                 
                 if (actor.sp < spNeeded) {
                     battleState.isBusy = false;
-                    return showToast(`เกจ SP ยังไม่เต็ม (ต้องการ ${spNeeded} SP แต่มี ${actor.sp} SP)`, "error");
+                    return showToast(`เกจ SP ยังไม่เต็ม (ต้องการ ${spNeeded} SP)`, "error");
                 }
                 if (battleState.teamAp < 3) {
                     battleState.isBusy = false;
@@ -4326,21 +4363,28 @@
                 let ultiDmg = Math.round((actor.atk * 2.4 - target.def * 0.25) * mult * ultiBonus);
                 applyDamage(target, ultiDmg);
                 showCombatFloater(target.slotIndex, target.isPlayer, `-${ultiDmg}`, '#ff007f');
+                
                 playIsoCombatMotion(actor, target, true, true);
+                animDuration = 1000;
 
-                logCombat(`💥💥 <b>${actor.name}</b> ปลดปล่อยท่าไม้ตายสุดยอด <b>[${skillName}]</b> ใส่ ${target.name} ทำดาเมจถล่มทลาย <span class="log-crit">${ultiDmg}</span> แต้ม!`);
+                logCombat(`💥💥 <b>${actor.name}</b> ปลดปล่อยท่าไม้ตายสุดยอด <b>[${skillName}]</b> ใส่ ${target.name} ดาเมจ <span class="log-crit">${ultiDmg}</span> แต้ม!`);
             }
 
             checkDeath(target);
-            renderBattlefield();
 
-            battleState.isBusy = true;
+            // อัปเดตหลอดเลือดและ AP แบบเรียลไทม์ โดยไม่ต้องล้างกระดาน
+            updateDirectUnitBars(target);
+            updateDirectApDisplay();
+
+            // *** กุญแจสำคัญ: รอให้แอนิเมชันวิ่งไปฟันและกลับมาถึงที่เดิมก่อน ค่อยเรียก renderBattlefield() ***
             setTimeout(() => {
+                renderBattlefield();
                 battleState.isBusy = false;
                 runATBLoop();
-            }, 500);
+            }, animDuration);
         }
         window.executePlayerAction = executePlayerAction;
+
 
         function executeRoleSkill(actor, target, myTeam, foeTeam) {
             try {
@@ -4452,16 +4496,19 @@
             }
 
             checkDeath(chosenTarget);
-            renderBattlefield();
+            updateDirectUnitBars(chosenTarget);
+            updateDirectApDisplay();
             } catch (err) {
                 console.error("AI Error:", err);
                 logCombat(`⚠️ บอทคำนวณผ่านเทิร์น`);
             }
 
+            // Wait for enemy dash animation to complete before re-rendering
             setTimeout(() => {
+                renderBattlefield();
                 if (battleState) battleState.isBusy = false;
                 runATBLoop();
-            }, 750);
+            }, 900);
         }
 
         function aiNormalHit(enemy, target) {
