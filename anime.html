@@ -1489,6 +1489,190 @@
             background: #0c1c16;
         }
 
+    
+        /* Pixel Battle View & 8-Bit Layout */
+        #pixelBattlefieldView {
+            background: linear-gradient(to bottom, #060913 0%, #0f172a 65%, #18223d 65%, #0b1122 100%);
+            border: 3px solid var(--border-color);
+            border-radius: 18px;
+            padding: 15px 25px;
+            position: relative;
+            min-height: 380px;
+            margin-bottom: 16px;
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.85), 0 10px 30px rgba(0,0,0,0.6);
+            overflow: hidden;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Retro CRT Scanline Overlay */
+        #pixelBattlefieldView::before {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%);
+            background-size: 100% 4px;
+            z-index: 2;
+            pointer-events: none;
+            opacity: 0.55;
+        }
+
+        .pixel-team-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            position: relative;
+            z-index: 5;
+            height: 330px;
+        }
+
+        .pixel-formation-col {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            height: 100%;
+            gap: 10px;
+        }
+
+        .pixel-unit-box {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+            user-select: none;
+        }
+        .pixel-unit-box:hover {
+            filter: brightness(1.25);
+        }
+        .pixel-unit-box.active-turn {
+            animation: bounceReady 0.8s infinite alternate;
+        }
+        .pixel-unit-box.selected-target {
+            filter: drop-shadow(0 0 12px #ff4757);
+        }
+        .pixel-unit-box.dead {
+            opacity: 0.25;
+            filter: grayscale(1);
+            pointer-events: none;
+        }
+
+        @keyframes bounceReady {
+            from { transform: translateY(0); }
+            to { transform: translateY(-8px); }
+        }
+
+        /* 4-Frame Horizontal Spritesheet Engine */
+        .pixel-sprite-canvas {
+            width: 72px;
+            height: 72px;
+            background-repeat: no-repeat;
+            background-size: 400% 100%;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+            position: relative;
+            transition: transform 0.2s;
+        }
+        .pixel-sprite-canvas.flipped {
+            transform: scaleX(-1);
+        }
+
+        /* Standee Fallback for characters without Spritesheet */
+        .pixel-standee-fallback {
+            width: 58px;
+            height: 68px;
+            border-radius: 8px;
+            border: 2px solid var(--border-color);
+            background: #18223d;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+        }
+        .pixel-standee-fallback img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            image-rendering: pixelated;
+        }
+
+        /* Sprite Stances (0% = Idle, 33.3% = Ready, 66.6% = Attack, 100% = Hurt) */
+        .sprite-stance-idle { background-position: 0% 0%; }
+        .sprite-stance-ready { background-position: 33.333% 0%; }
+        .sprite-stance-attack { background-position: 66.666% 0%; }
+        .sprite-stance-hurt { background-position: 100% 0%; filter: drop-shadow(0 0 10px #ff4757) brightness(1.5); }
+
+        /* Attack Dash Animations */
+        .dash-strike-right {
+            animation: dashRightAnim 0.5s ease-in-out;
+        }
+        .dash-strike-left {
+            animation: dashLeftAnim 0.5s ease-in-out;
+        }
+        @keyframes dashRightAnim {
+            0% { transform: translateX(0); }
+            50% { transform: translateX(110px) scale(1.15); }
+            100% { transform: translateX(0); }
+        }
+        @keyframes dashLeftAnim {
+            0% { transform: scaleX(-1) translateX(0); }
+            50% { transform: scaleX(-1) translateX(110px) scale(1.15); }
+            100% { transform: scaleX(-1) translateX(0); }
+        }
+
+        /* Ground Shadow */
+        .pixel-shadow {
+            width: 44px;
+            height: 10px;
+            background: rgba(0, 0, 0, 0.45);
+            border-radius: 50%;
+            margin-top: -5px;
+            z-index: 1;
+        }
+
+        /* Pixel HP & SP Bars */
+        .pixel-bars-container {
+            width: 68px;
+            background: #000;
+            border: 1px solid #2a3556;
+            border-radius: 4px;
+            padding: 1px;
+            margin-top: 4px;
+            z-index: 5;
+        }
+        .pixel-hp-fill {
+            height: 5px;
+            background: #2ed573;
+            border-radius: 2px;
+            transition: width 0.25s;
+        }
+        .pixel-sp-fill {
+            height: 3px;
+            background: #ffa502;
+            border-radius: 2px;
+            margin-top: 1px;
+            transition: width 0.25s;
+        }
+
+        /* Over-head Indicators */
+        .pixel-overhead-indicator {
+            position: absolute;
+            top: -20px;
+            font-size: 15px;
+            z-index: 10;
+            animation: overheadBob 0.6s infinite alternate;
+        }
+        @keyframes overheadBob {
+            from { transform: translateY(0); }
+            to { transform: translateY(-5px); }
+        }
+
     </style>
 </head>
 <body>
@@ -1744,9 +1928,14 @@
                                 <div class="atb-track" id="atbQueueTrack"></div>
                             </div>
 
-                            <button class="btn-card-action" style="background:#2a3556; color:#fff; padding:6px 12px; flex:none;" onclick="surrenderBattle()">
-                                🏳️ ยอมแพ้
-                            </button>
+                            <div style="display: flex; gap: 8px; align-items: center;">
+                                <button id="btnToggleBattleMode" class="btn-card-action" style="background: linear-gradient(135deg, #00d2d3, #5352ed); color: #fff; padding: 6px 14px; font-size: 13px; font-weight: 800; border: 2px solid #fff; box-shadow: 0 0 10px rgba(0, 210, 211, 0.4);" onclick="toggleBattleViewMode()">
+                                    👾 โหมดพิกเซล 8-Bit
+                                </button>
+                                <button class="btn-card-action" style="background:#2a3556; color:#fff; padding:6px 12px; flex:none;" onclick="surrenderBattle()">
+                                    🏳️ ยอมแพ้
+                                </button>
+                            </div>
                         </div>
 
                         <!-- Enemy Team (Top) -->
@@ -1764,21 +1953,50 @@
                             </div>
                             <div id="inspectorStatusText" style="font-size: 12px; color: var(--gem-color); font-weight: 700;">-</div>
                         </div>
-                        <div class="battle-side-box">
-                            <div class="side-label">
-                                <span>🔴 ทีมศัตรู (คลิกการ์ดเพื่อล็อกเป้าหมาย)</span>
-                                <span id="enemyTargetLabel" style="color: #ff6b81; font-weight: 800;">เป้าหมาย: -</span>
+                        <!-- 8-Bit Pixel Battlefield View (Side-by-Side: Player Left vs Enemy Right) -->
+                        <div id="pixelBattlefieldView" style="display: flex;">
+                            <!-- Player Team (Left Side - Facing Right) -->
+                            <div>
+                                <div style="font-size: 13px; font-weight: 800; color: #00d2d3; margin-bottom: 6px;">
+                                    🔵 ทีมของคุณ (หันขวา)
+                                </div>
+                                <div class="pixel-team-wrapper" id="pixelPlayerTeamContainer"></div>
                             </div>
-                            <div class="combatants-row" id="enemyCombatantsRow"></div>
+
+                            <!-- Center Clash & Notification Zone -->
+                            <div style="text-align: center; z-index: 5;">
+                                <div style="font-size: 24px; font-weight: 900; color: var(--gold); text-shadow: 0 0 10px #000;">VS</div>
+                                <div id="pixelClashNotice" style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">คลิกศัตรูเพื่อเล็งเป้า</div>
+                            </div>
+
+                            <!-- Enemy Team (Right Side - Facing Left) -->
+                            <div style="text-align: right;">
+                                <div style="font-size: 13px; font-weight: 800; color: #ff6b81; margin-bottom: 6px;">
+                                    🔴 ทีมศัตรู (คลิกเพื่อเล็งเป้า)
+                                </div>
+                                <div class="pixel-team-wrapper" id="pixelEnemyTeamContainer" style="justify-content: flex-end;"></div>
+                            </div>
                         </div>
 
-                        <!-- Player Team (Bottom) -->
-                        <div class="battle-side-box" style="margin-top: 15px;">
-                            <div class="side-label">
-                                <span>🔵 ทีมของคุณ</span>
-                                <span id="playerActiveHeroLabel" style="color: #00d2d3; font-weight: 800;">ถึงคิว: -</span>
+                        <!-- Card Battlefield View (Original 2-Row Layout) -->
+                        <div id="cardBattlefieldView" style="display: none;">
+                            <!-- Enemy Team (Top) -->
+                            <div class="battle-side-box">
+                                <div class="side-label">
+                                    <span>🔴 ทีมศัตรู (คลิกการ์ดเพื่อล็อกเป้าหมาย)</span>
+                                    <span id="enemyTargetLabel" style="color: #ff6b81; font-weight: 800;">เป้าหมาย: -</span>
+                                </div>
+                                <div class="combatants-row" id="enemyCombatantsRow"></div>
                             </div>
-                            <div class="combatants-row" id="playerCombatantsRow"></div>
+
+                            <!-- Player Team (Bottom) -->
+                            <div class="battle-side-box" style="margin-top: 15px;">
+                                <div class="side-label">
+                                    <span>🔵 ทีมของคุณ</span>
+                                    <span id="playerActiveHeroLabel" style="color: #00d2d3; font-weight: 800;">ถึงคิว: -</span>
+                                </div>
+                                <div class="combatants-row" id="playerCombatantsRow"></div>
+                            </div>
                         </div>
 
                         <!-- Tactical Command Panel -->
@@ -3106,6 +3324,7 @@
 
             const box = document.getElementById('combatLogBox');
             box.innerHTML = '';
+            applyBattleViewMode();
             logCombat(`🔔 การต่อสู้เริ่มต้นขึ้น! สัมผัสความมันส์ระดับยุทธวิธี 5v5`);
             renderBattlefield();
             runATBLoop();
@@ -3123,6 +3342,7 @@
 
         function renderBattlefield() {
             if (!battleState) return;
+            renderPixelBattlefield();
 
             const enemyRow = document.getElementById('enemyCombatantsRow');
             if (enemyRow) {
@@ -3777,6 +3997,7 @@
             dmg = Math.max(40, dmg);
             applyDamage(target, dmg);
             showCombatFloater(target.slotIndex, target.isPlayer, `-${dmg}`, isCrit ? '#ff4757' : '#ffd700');
+            playSpriteAttackAnim(actor, target);
             logCombat(`⚔️ <b>${enemy.name}</b> เข้าโจมตีใส่ ${target.name} ทำดาเมจ <span class="${isCrit ? 'log-crit' : ''}">${dmg}</span> แต้ม! ${isCrit ? '💥 CRITICAL!' : ''}`);
 
             if (target.elementMark && canReact(target.elementMark, enemy.element)) {
@@ -4844,6 +5065,159 @@
 
         
         
+        
+        // =========================================================================
+        //         PIXEL 8-BIT BATTLE ENGINE & SPRITESHEET SYSTEM
+        // =========================================================================
+        let battleViewMode = localStorage.getItem('animeBattleViewMode') || 'pixel';
+
+        // Known characters with 4-frame animated spritesheet in assets/anime/sprites/{id}.png
+        // (Tony Tony Chopper is c005!)
+        const KNOWN_SPRITE_IDS = new Set(['c004', 'c005', 'c019', 'c034', 'c040']);
+
+        window.toggleBattleViewMode = () => {
+            battleViewMode = (battleViewMode === 'pixel') ? 'card' : 'pixel';
+            localStorage.setItem('animeBattleViewMode', battleViewMode);
+            applyBattleViewMode();
+            renderBattlefield();
+            showToast(`🎮 สลับเป็น ${battleViewMode === 'pixel' ? 'โหมดพิกเซล 8-Bit (JRPG Side-View)' : 'โหมดการ์ด TCG'} เรียบร้อย!`, "info");
+        };
+
+        function applyBattleViewMode() {
+            const btn = document.getElementById('btnToggleBattleMode');
+            const cardView = document.getElementById('cardBattlefieldView');
+            const pixelView = document.getElementById('pixelBattlefieldView');
+
+            if (btn) {
+                btn.innerHTML = (battleViewMode === 'pixel') ? '🎴 โหมดการ์ด TCG' : '👾 โหมดพิกเซล 8-Bit';
+            }
+            if (cardView) cardView.style.display = (battleViewMode === 'card') ? 'block' : 'none';
+            if (pixelView) pixelView.style.display = (battleViewMode === 'pixel') ? 'flex' : 'none';
+        }
+
+        // Render Pixel Battlefield (Side-by-Side Left vs Right by Formation)
+        function renderPixelBattlefield() {
+            const playerContainer = document.getElementById('pixelPlayerTeamContainer');
+            const enemyContainer = document.getElementById('pixelEnemyTeamContainer');
+            if (!playerContainer || !enemyContainer || !battleState) return;
+
+            const preset = myFormationPreset || '2-3';
+            let frontCount = 2;
+            let backCount = 3;
+            if (preset === '3-2') { frontCount = 3; backCount = 2; }
+            else if (preset === '1-4') { frontCount = 1; backCount = 4; }
+
+            // PLAYER TEAM (LEFT): Backline is on far-left, Frontline is closer to center
+            const playerBackCols = battleState.players.slice(frontCount, 5);
+            const playerFrontCols = battleState.players.slice(0, frontCount);
+
+            playerContainer.innerHTML = `
+                <div class="pixel-formation-col">
+                    ${playerBackCols.map((c, i) => renderPixelUnit(c, false, frontCount + i)).join('')}
+                </div>
+                <div class="pixel-formation-col">
+                    ${playerFrontCols.map((c, i) => renderPixelUnit(c, false, i)).join('')}
+                </div>
+            `;
+
+            // ENEMY TEAM (RIGHT): Frontline is closer to center, Backline is on far-right
+            const enemyFrontCols = battleState.enemies.slice(0, frontCount);
+            const enemyBackCols = battleState.enemies.slice(frontCount, 5);
+
+            enemyContainer.innerHTML = `
+                <div class="pixel-formation-col">
+                    ${enemyFrontCols.map((c, i) => renderPixelUnit(c, true, i)).join('')}
+                </div>
+                <div class="pixel-formation-col">
+                    ${enemyBackCols.map((c, i) => renderPixelUnit(c, true, frontCount + i)).join('')}
+                </div>
+            `;
+        }
+
+        function renderPixelUnit(c, isEnemy, slotIndex) {
+            if (!c) return '';
+            const isTarget = (!isEnemy ? false : (slotIndex === battleState.currentTargetIndex));
+            const isActive = (battleState.activeCombatant === c);
+
+            let boxCls = 'pixel-unit-box';
+            if (c.isDead) boxCls += ' dead';
+            if (isActive) boxCls += ' active-turn';
+            if (isTarget) boxCls += ' selected-target';
+
+            // Determine Stance: 0=idle, 1=ready, 2=attack, 3=hurt
+            let stanceCls = 'sprite-stance-idle';
+            if (isActive) stanceCls = 'sprite-stance-ready';
+            if (c.statuses.includes('Burn') || c.statuses.includes('Freeze')) stanceCls = 'sprite-stance-hurt';
+
+            // Check if Sprite exists (e.g. c005 or in registry)
+            const hasSprite = KNOWN_SPRITE_IDS.has(c.id);
+            const flipCls = isEnemy ? 'flipped' : '';
+
+            let spriteHtml = '';
+            if (hasSprite) {
+                spriteHtml = `
+                    <div class="pixel-sprite-canvas ${flipCls} ${stanceCls}" 
+                         id="spriteUnit_${isEnemy ? 'e' : 'p'}_${slotIndex}"
+                         style="background-image: url('assets/anime/sprites/${c.id}.png');">
+                    </div>
+                `;
+            } else {
+                // Hybrid Fallback: Pixel Standee with Card Art
+                spriteHtml = `
+                    <div class="pixel-standee-fallback" id="spriteUnit_${isEnemy ? 'e' : 'p'}_${slotIndex}">
+                        <img src="${c.image}" alt="${c.name}" onerror="this.style.display='none'">
+                    </div>
+                `;
+            }
+
+            const hpPct = Math.max(0, Math.min(100, Math.round((c.currentHp / c.maxHp) * 100)));
+            const spPct = Math.max(0, Math.min(100, Math.round((c.sp / c.maxSp) * 100)));
+
+            const clickCall = isEnemy ? `selectTargetEnemy(${slotIndex})` : `inspectPlayerHero(${slotIndex})`;
+            const overhead = isTarget ? '<div class="pixel-overhead-indicator">🔻</div>' : (isActive ? '<div class="pixel-overhead-indicator">⭐</div>' : '');
+
+            return `
+                <div class="${boxCls}" onclick="${clickCall}" title="${c.name} (${c.element} • ${c.role})">
+                    ${overhead}
+                    ${spriteHtml}
+                    <div class="pixel-shadow"></div>
+                    
+                    <div class="pixel-bars-container">
+                        <div class="pixel-hp-fill" style="width:${hpPct}%;"></div>
+                        <div class="pixel-sp-fill" style="width:${spPct}%;"></div>
+                    </div>
+
+                    <div style="font-size:10px; font-weight:800; color:#fff; white-space:nowrap; margin-top:2px;">
+                        ${c.name.split(' ')[0]} ${c.stars > 0 ? `<span style="color:#ffd700;">★${c.stars}</span>` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Trigger Sprite Dash Attack Animation
+        function playSpriteAttackAnim(actor, target) {
+            const isEnemy = !actor.isPlayer;
+            const spriteEl = document.getElementById(`spriteUnit_${isEnemy ? 'e' : 'p'}_${actor.slotIndex}`);
+            if (spriteEl) {
+                spriteEl.classList.remove('sprite-stance-idle', 'sprite-stance-ready');
+                spriteEl.classList.add('sprite-stance-attack', isEnemy ? 'dash-strike-left' : 'dash-strike-right');
+                
+                setTimeout(() => {
+                    spriteEl.classList.remove('sprite-stance-attack', 'dash-strike-left', 'dash-strike-right');
+                    spriteEl.classList.add(actor === battleState.activeCombatant ? 'sprite-stance-ready' : 'sprite-stance-idle');
+                }, 500);
+            }
+
+            // Target hurt flash
+            const targetSprite = document.getElementById(`spriteUnit_${target.isPlayer ? 'p' : 'e'}_${target.slotIndex}`);
+            if (targetSprite) {
+                targetSprite.classList.add('sprite-stance-hurt');
+                setTimeout(() => {
+                    targetSprite.classList.remove('sprite-stance-hurt');
+                }, 400);
+            }
+        }
+
         // ------------------ Clear, Robust Targeting & Inspect System ------------------
         window.selectTargetEnemy = (slotIndex) => {
             if (!battleState) return;
