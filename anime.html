@@ -1993,7 +1993,7 @@
             justify-content: flex-end;
             pointer-events: auto;
             cursor: pointer;
-            transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.2s;
+            transition: left 0.3s cubic-bezier(0.25, 1, 0.5, 1), top 0.3s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.2s;
             user-select: none;
         }
         .iso-unit.dead {
@@ -2005,14 +2005,23 @@
             filter: drop-shadow(0 0 14px #ff4757);
         }
 
-        /* Active Hop Animation */
-        @keyframes isoTileHop {
+        /* Active Hop Bounce (Applied to inner sprite only, leaving .iso-unit free to move!) */
+        @keyframes innerSpriteBounce {
             0% { transform: translateY(0); }
-            50% { transform: translateY(-16px) scale(1.08); }
-            100% { transform: translateY(-4px); }
+            100% { transform: translateY(-8px); }
+        }
+        .iso-unit.active-turn .pixel-sprite-canvas:not(.flipped),
+        .iso-unit.active-turn .pixel-standee-fallback {
+            animation: innerSpriteBounce 0.7s ease-in-out infinite alternate !important;
+        }
+        .iso-unit.active-turn .pixel-sprite-canvas.flipped {
+            animation: innerSpriteBounceFlipped 0.7s ease-in-out infinite alternate !important;
+        }
+        @keyframes innerSpriteBounceFlipped {
+            0% { transform: scaleX(-1) translateY(0); }
+            100% { transform: scaleX(-1) translateY(-8px); }
         }
         .iso-unit.active-turn {
-            animation: isoTileHop 0.8s ease-in-out infinite alternate;
             filter: drop-shadow(0 0 16px var(--gold)) !important;
         }
 
@@ -4334,21 +4343,23 @@
         window.executePlayerAction = executePlayerAction;
 
         function executeRoleSkill(actor, target, myTeam, foeTeam) {
-            if (actor.role === 'Attacker') {
-                let dmg = Math.round((actor.atk * 1.6 - target.def * 0.3));
-                applyDamage(target, dmg);
-                showCombatFloater(target.slotIndex, target.isPlayer, `-${dmg}`, isCrit ? '#ff4757' : '#ffd700');
-                logCombat(`💥 [Heavy Smash] ${actor.name} โจมตีกระหน่ำใส่ ${target.name} ดาเมจ ${dmg}!`);
-            } else if (actor.role === 'Tank') {
-                actor.shield += 450;
-                actor.statuses.push('Taunt');
-                logCombat(`🛡️ [Iron Taunt] ${actor.name} กางเกราะ Shield +450 และยั่วยุ Taunt ศัตรู 2 เทิร์น!`);
-            } else if (actor.role === 'Assassin') {
-                let dmg = Math.round(actor.atk * 1.5);
-                applyDamage(target, dmg);
-                showCombatFloater(target.slotIndex, target.isPlayer, `-${dmg}`, isCrit ? '#ff4757' : '#ffd700');
-                logCombat(`🗡️ [Shadow Pierce] ${actor.name} ลอบแทงจุดตายทะลวงเกราะ DEF ทำดาเมจ ${dmg}!`);
-            } else if (actor.role === 'Spell') {
+            try {
+                const isCrit = (actor.role === 'Assassin' && Math.random() < 0.4) || (Math.random() < 0.2);
+                if (actor.role === 'Attacker') {
+                    let dmg = Math.round((actor.atk * 1.6 - target.def * 0.3));
+                    applyDamage(target, dmg);
+                    showCombatFloater(target.slotIndex, target.isPlayer, `-${dmg}`, isCrit ? '#ff4757' : '#ffd700');
+                    logCombat(`💥 [Heavy Smash] ${actor.name} โจมตีกระหน่ำใส่ ${target.name} ดาเมจ ${dmg}! ${isCrit ? '💥 CRITICAL!' : ''}`);
+                } else if (actor.role === 'Tank') {
+                    actor.shield += 450;
+                    actor.statuses.push('Taunt');
+                    logCombat(`🛡️ [Iron Taunt] ${actor.name} กางเกราะ Shield +450 และยั่วยุ Taunt ศัตรู 2 เทิร์น!`);
+                } else if (actor.role === 'Assassin') {
+                    let dmg = Math.round(actor.atk * 1.5);
+                    applyDamage(target, dmg);
+                    showCombatFloater(target.slotIndex, target.isPlayer, `-${dmg}`, '#ff007f');
+                    logCombat(`🗡️ [Shadow Pierce] ${actor.name} ลอบแทงจุดตายทะลวงเกราะ DEF ทำดาเมจ ${dmg}!`);
+                } else if (actor.role === 'Spell') {
                 foeTeam.forEach(e => {
                     if (!e.isDead) {
                         applyDamage(e, Math.round(actor.atk * 0.9));
@@ -4372,6 +4383,9 @@
                     }
                 });
                 logCombat(`🧠 [Strategic Buff] ${actor.name} บัญชาการรบ เพิ่ม ATK ทั้งทีม 20% และเร่งเกจ SP +20 แต้ม!`);
+            }
+            } catch (err) {
+                console.error("Role Skill Error:", err);
             }
         }
 
@@ -5785,7 +5799,7 @@
             }
         };
 
-        // ------------------ Isometric Dynamic Travel Movement Engine ------------------
+        // ------------------ Isometric Dynamic Travel Movement Engine (Left/Top Coordinate Based) ------------------
         function playIsoCombatMotion(actor, target, isUlti = false, isCrit = false) {
             const isEnemy = !actor.isPlayer;
             const actorUnit = document.getElementById(`isoUnitBox_${isEnemy ? 'e' : 'p'}_${actor.slotIndex}`);
@@ -5793,17 +5807,19 @@
             const actorSprite = document.getElementById(`isoSprite_${isEnemy ? 'e' : 'p'}_${actor.slotIndex}`);
             const targetSprite = document.getElementById(`isoSprite_${target.isPlayer ? 'p' : 'e'}_${target.slotIndex}`);
 
-            if (!actorUnit || !targetUnit) return;
+            if (!actorUnit || !targetUnit || !battleState) return;
 
-            const actorRect = actorUnit.getBoundingClientRect();
-            const targetRect = targetUnit.getBoundingClientRect();
-            const dx = targetRect.left - actorRect.left;
-            const dy = targetRect.top - actorRect.top;
+            const preset = myFormationPreset || '2-3';
+            const actorGrid = getFormationSlotPos(actor.slotIndex, isEnemy, preset);
+            const targetGrid = getFormationSlotPos(target.slotIndex, !isEnemy, preset);
+
+            const homePos = getIsoScreenPos(actorGrid.col, actorGrid.row);
+            const targetPos = getIsoScreenPos(targetGrid.col, targetGrid.row);
 
             const role = actor.role || 'Attacker';
 
             // -------------------------------------------------------------
-            // 1. ASSASSIN: Flank / Backstab Tile Warp
+            // 1. ASSASSIN: Warp to tile BEHIND target, backstab, warp home
             // -------------------------------------------------------------
             if (role === 'Assassin') {
                 spawnIsoSmoke(actorUnit);
@@ -5811,25 +5827,26 @@
                 actorUnit.style.opacity = '0';
 
                 setTimeout(() => {
-                    // Warp to tile BEHIND target
-                    const behindX = isEnemy ? (dx - 55) : (dx + 55);
-                    const behindY = dy - 10;
-                    actorUnit.style.transform = `translate(${behindX}px, ${behindY}px)`;
+                    // Tile behind target: Col + 1 for enemy attacking left, or Col - 1 for player attacking right
+                    const behindCol = Math.max(0, Math.min(7, isEnemy ? (targetGrid.col - 1) : (targetGrid.col + 1)));
+                    const behindPos = getIsoScreenPos(behindCol, targetGrid.row);
+
+                    actorUnit.style.left = `${behindPos.x}px`;
+                    actorUnit.style.top = `${behindPos.y}px`;
                     actorUnit.style.opacity = '1';
                     spawnIsoSmoke(actorUnit);
                     if (actorSprite) actorSprite.classList.add('sprite-stance-attack');
 
-                    // Strike
                     setTimeout(() => {
                         triggerIsoImpact(targetUnit, targetSprite, isUlti, isCrit);
                     }, 100);
 
-                    // Warp back
                     setTimeout(() => {
                         spawnIsoSmoke(actorUnit);
                         actorUnit.style.opacity = '0';
                         setTimeout(() => {
-                            actorUnit.style.transform = '';
+                            actorUnit.style.left = `${homePos.x}px`;
+                            actorUnit.style.top = `${homePos.y}px`;
                             actorUnit.style.opacity = '1';
                             if (actorSprite) {
                                 actorSprite.classList.remove('sprite-stance-attack');
@@ -5840,13 +5857,20 @@
                 }, 140);
 
             // -------------------------------------------------------------
-            // 2. SPELL / HEALER: Mid-Arena Tile Cast & Traveling Projectile
+            // 2. SPELL / HEALER / TACTICIAN: Advance to Mid-Arena & Shoot Projectile
             // -------------------------------------------------------------
             } else if (role === 'Spell' || role === 'Healer' || role === 'Tactician') {
-                // Advance 1 tile to mid-arena
-                actorUnit.style.transition = 'transform 0.22s cubic-bezier(0.25, 1, 0.5, 1)';
-                actorUnit.style.transform = isEnemy ? 'translate(-40px, 12px)' : 'translate(40px, -12px)';
+                // Advance to Col 3 (Allies) or Col 4 (Enemies)
+                const midCol = isEnemy ? 4 : 3;
+                const midPos = getIsoScreenPos(midCol, actorGrid.row);
+
+                actorUnit.style.transition = 'left 0.22s ease-out, top 0.22s ease-out';
+                actorUnit.style.left = `${midPos.x}px`;
+                actorUnit.style.top = `${midPos.y}px`;
                 if (actorSprite) actorSprite.classList.add('sprite-stance-attack');
+
+                const actorRect = actorUnit.getBoundingClientRect();
+                const targetRect = targetUnit.getBoundingClientRect();
 
                 setTimeout(() => {
                     launchPixelProjectile(actorRect, targetRect, actor.element, () => {
@@ -5855,7 +5879,8 @@
                 }, 160);
 
                 setTimeout(() => {
-                    actorUnit.style.transform = '';
+                    actorUnit.style.left = `${homePos.x}px`;
+                    actorUnit.style.top = `${homePos.y}px`;
                     if (actorSprite) {
                         actorSprite.classList.remove('sprite-stance-attack');
                         actorSprite.classList.add(actor === battleState.activeCombatant ? 'sprite-stance-ready' : 'sprite-stance-idle');
@@ -5863,37 +5888,40 @@
                 }, 620);
 
             // -------------------------------------------------------------
-            // 3. MELEE (Attacker / Tank): Full Coordinate Tile Leap!
+            // 3. MELEE (Attacker / Tank): GLIDE ACROSS TILES TO FRONT OF TARGET!
             // -------------------------------------------------------------
             } else {
                 spawnIsoDust(actorUnit);
 
-                // Stop right in front of target tile (offset ~50px)
-                const offsetStopX = isEnemy ? 52 : -52;
-                const leapX = dx + offsetStopX;
-                const leapY = dy;
+                // Melee destination: tile directly in front of target
+                // If Player attacking Enemy: target is at targetGrid.col, so stop at targetGrid.col - 1
+                // If Enemy attacking Player: target is at targetGrid.col, so stop at targetGrid.col + 1
+                const meleeCol = Math.max(0, Math.min(7, isEnemy ? (targetGrid.col + 1) : (targetGrid.col - 1)));
+                const meleePos = getIsoScreenPos(meleeCol, targetGrid.row);
 
-                actorUnit.style.zIndex = '120';
-                actorUnit.style.transition = 'transform 0.3s cubic-bezier(0.25, 1, 0.5, 1)';
-                actorUnit.style.transform = `translate(${leapX}px, ${leapY}px)`;
+                actorUnit.style.zIndex = '150';
+                actorUnit.style.transition = 'left 0.28s cubic-bezier(0.2, 0.9, 0.4, 1.1), top 0.28s cubic-bezier(0.2, 0.9, 0.4, 1.1)';
+                actorUnit.style.left = `${meleePos.x}px`;
+                actorUnit.style.top = `${meleePos.y}px`;
                 if (actorSprite) actorSprite.classList.add('sprite-stance-attack');
 
-                // Moment of impact at 290ms
+                // Impact at 280ms
                 setTimeout(() => {
                     triggerIsoImpact(targetUnit, targetSprite, isUlti, isCrit);
-                }, 290);
+                }, 280);
 
-                // Leap back to home formation tile
+                // Spring back home at 540ms
                 setTimeout(() => {
-                    actorUnit.style.transition = 'transform 0.34s cubic-bezier(0.4, 0, 0.2, 1)';
-                    actorUnit.style.transform = '';
+                    actorUnit.style.transition = 'left 0.32s cubic-bezier(0.4, 0, 0.2, 1), top 0.32s cubic-bezier(0.4, 0, 0.2, 1)';
+                    actorUnit.style.left = `${homePos.x}px`;
+                    actorUnit.style.top = `${homePos.y}px`;
                     setTimeout(() => {
                         actorUnit.style.zIndex = '';
                         if (actorSprite) {
                             actorSprite.classList.remove('sprite-stance-attack');
                             actorSprite.classList.add(actor === battleState.activeCombatant ? 'sprite-stance-ready' : 'sprite-stance-idle');
                         }
-                    }, 340);
+                    }, 320);
                 }, 540);
             }
         }
