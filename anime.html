@@ -1793,6 +1793,77 @@
             to { transform: translateY(-7px) scale(1.2); opacity: 1; }
         }
 
+    
+        /* --- Dynamic Coordinate Combat & 2.5D Arena --- */
+        
+        /* 2.5D Perspective Arena Floor Grid */
+        .pixel-arena-floor {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 45%;
+            background: linear-gradient(to top, #131a2e 0%, #0c1220 100%);
+            border-top: 2px solid #23304c;
+            z-index: 1;
+            background-image: 
+                linear-gradient(to right, rgba(0, 210, 211, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 210, 211, 0.05) 1px, transparent 1px);
+            background-size: 36px 18px;
+            transform: perspective(350px) rotateX(28deg);
+            transform-origin: bottom center;
+            pointer-events: none;
+        }
+
+        /* Step Forward on Active Turn */
+        #pixelPlayerTeamContainer .pixel-unit-box.active-turn {
+            transform: translateX(35px) translateY(-5px) !important;
+            z-index: 25 !important;
+            filter: drop-shadow(0 0 10px rgba(0, 210, 211, 0.8)) !important;
+        }
+        #pixelEnemyTeamContainer .pixel-unit-box.active-turn {
+            transform: translateX(-35px) translateY(-5px) !important;
+            z-index: 25 !important;
+            filter: drop-shadow(0 0 10px rgba(255, 165, 2, 0.8)) !important;
+        }
+
+        /* Projectile Traveling across screen */
+        .pixel-flying-projectile {
+            position: fixed;
+            font-size: 28px;
+            z-index: 100;
+            pointer-events: none;
+            transition: all 0.32s cubic-bezier(0.25, 1, 0.5, 1);
+            filter: drop-shadow(0 0 12px #fff);
+        }
+
+        /* Warp / Teleport Smoke */
+        .warp-smoke-fx {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 26px;
+            pointer-events: none;
+            z-index: 30;
+            animation: warpPuff 0.35s ease-out forwards;
+        }
+        @keyframes warpPuff {
+            0% { transform: translate(-50%, -50%) scale(0.3); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1.6); opacity: 0; }
+        }
+
+        /* Depth Scaling for 2.5D Formation */
+        .pixel-formation-col.col-front {
+            z-index: 8;
+            transform: scale(1.04);
+        }
+        .pixel-formation-col.col-back {
+            z-index: 5;
+            transform: scale(0.96);
+            filter: brightness(0.92);
+        }
+
     </style>
 </head>
 <body>
@@ -2075,6 +2146,7 @@
                         </div>
                         <!-- 8-Bit Pixel Battlefield View (Side-by-Side: Player Left vs Enemy Right) -->
                         <div id="pixelBattlefieldView" style="display: flex;">
+                            <div class="pixel-arena-floor"></div>
                             <!-- Player Team (Left Side - Facing Right) -->
                             <div>
                                 <div style="font-size: 13px; font-weight: 800; color: #00d2d3; margin-bottom: 6px;">
@@ -5193,7 +5265,7 @@
 
         // Known characters with 4-frame animated spritesheet in assets/anime/sprites/{id}.png
         // (Tony Tony Chopper is c005!)
-        const KNOWN_SPRITE_IDS = new Set(['c004', 'c005', 'c019', 'c034', 'c040']);
+         const KNOWN_SPRITE_IDS = new Set(['c004', 'c005', 'c019', 'c034', 'c040']);
 
         window.toggleBattleViewMode = () => {
             battleViewMode = (battleViewMode === 'pixel') ? 'card' : 'pixel';
@@ -5232,10 +5304,10 @@
             const playerFrontCols = battleState.players.slice(0, frontCount);
 
             playerContainer.innerHTML = `
-                <div class="pixel-formation-col">
+                <div class="pixel-formation-col col-back">
                     ${playerBackCols.map((c, i) => renderPixelUnit(c, false, frontCount + i)).join('')}
                 </div>
-                <div class="pixel-formation-col">
+                <div class="pixel-formation-col col-front">
                     ${playerFrontCols.map((c, i) => renderPixelUnit(c, false, i)).join('')}
                 </div>
             `;
@@ -5245,10 +5317,10 @@
             const enemyBackCols = battleState.enemies.slice(frontCount, 5);
 
             enemyContainer.innerHTML = `
-                <div class="pixel-formation-col">
+                <div class="pixel-formation-col col-front">
                     ${enemyFrontCols.map((c, i) => renderPixelUnit(c, true, i)).join('')}
                 </div>
-                <div class="pixel-formation-col">
+                <div class="pixel-formation-col col-back">
                     ${enemyBackCols.map((c, i) => renderPixelUnit(c, true, frontCount + i)).join('')}
                 </div>
             `;
@@ -5332,63 +5404,189 @@
             `;
         }
 
-        // Trigger Sprite Dash Attack Animation with Full Quick-Wins Dynamics
+                // Trigger Dynamic Combat Movement: Melee Dash, Assassin Warp, Ranged Projectiles
         function playSpriteAttackAnim(actor, target, isUlti = false, isCrit = false) {
             const isEnemy = !actor.isPlayer;
-            const actorBox = document.getElementById(`spriteUnit_${isEnemy ? 'e' : 'p'}_${actor.slotIndex}`)?.parentElement;
-            const spriteEl = document.getElementById(`spriteUnit_${isEnemy ? 'e' : 'p'}_${actor.slotIndex}`);
+            const actorUnitId = `spriteUnit_${isEnemy ? 'e' : 'p'}_${actor.slotIndex}`;
+            const targetUnitId = `spriteUnit_${target.isPlayer ? 'p' : 'e'}_${target.slotIndex}`;
 
-            // 1. Dust cloud at feet on dash launch
-            if (actorBox) {
+            const actorSprite = document.getElementById(actorUnitId);
+            const targetSprite = document.getElementById(targetUnitId);
+            const actorBox = actorSprite?.parentElement;
+            const targetBox = targetSprite?.parentElement;
+
+            if (!actorBox || !targetBox) return;
+
+            const actorRect = actorBox.getBoundingClientRect();
+            const targetRect = targetBox.getBoundingClientRect();
+            const dx = targetRect.left - actorRect.left;
+            const dy = targetRect.top - actorRect.top;
+
+            const role = actor.role || 'Attacker';
+
+            // -------------------------------------------------------------
+            // A. ASSASSIN: Warp behind target, strike, warp back
+            // -------------------------------------------------------------
+            if (role === 'Assassin') {
+                // Smoke at original spot
+                spawnSmoke(actorBox);
+                actorBox.style.transition = 'opacity 0.14s, transform 0.14s';
+                actorBox.style.opacity = '0';
+
+                // Appear behind target at 140ms
+                setTimeout(() => {
+                    const behindDistX = isEnemy ? (dx - 60) : (dx + 60);
+                    actorBox.style.transform = `translate(${behindDistX}px, ${dy}px)`;
+                    actorBox.style.opacity = '1';
+                    spawnSmoke(actorBox);
+                    if (actorSprite) actorSprite.classList.add('sprite-stance-attack');
+
+                    // Strike impact at 220ms
+                    setTimeout(() => {
+                        triggerImpactAndRecoil(targetBox, targetSprite, isUlti, isCrit);
+                    }, 80);
+
+                    // Warp back home at 520ms
+                    setTimeout(() => {
+                        spawnSmoke(actorBox);
+                        actorBox.style.opacity = '0';
+                        setTimeout(() => {
+                            actorBox.style.transform = '';
+                            actorBox.style.opacity = '1';
+                            if (actorSprite) {
+                                actorSprite.classList.remove('sprite-stance-attack');
+                                actorSprite.classList.add(actor === battleState.activeCombatant ? 'sprite-stance-ready' : 'sprite-stance-idle');
+                            }
+                        }, 140);
+                    }, 500);
+                }, 140);
+
+            // -------------------------------------------------------------
+            // B. SPELL / RANGED / HEALER: Launch Traveling Projectile
+            // -------------------------------------------------------------
+            } else if (role === 'Spell' || role === 'Healer' || role === 'Tactician') {
+                // Step out slightly
+                actorBox.style.transition = 'transform 0.2s ease-out';
+                actorBox.style.transform = isEnemy ? 'translateX(-35px)' : 'translateX(35px)';
+                if (actorSprite) actorSprite.classList.add('sprite-stance-attack');
+
+                // Launch projectile
+                setTimeout(() => {
+                    launchPixelProjectile(actorRect, targetRect, actor.element, () => {
+                        triggerImpactAndRecoil(targetBox, targetSprite, isUlti, isCrit);
+                    });
+                }, 150);
+
+                // Step back
+                setTimeout(() => {
+                    actorBox.style.transform = '';
+                    if (actorSprite) {
+                        actorSprite.classList.remove('sprite-stance-attack');
+                        actorSprite.classList.add(actor === battleState.activeCombatant ? 'sprite-stance-ready' : 'sprite-stance-idle');
+                    }
+                }, 600);
+
+            // -------------------------------------------------------------
+            // C. MELEE (Attacker / Tank): Full Dynamic Dash across screen!
+            // -------------------------------------------------------------
+            } else {
+                // Dust cloud on launch
                 const dust = document.createElement('div');
                 dust.className = 'pixel-dust-cloud';
                 dust.innerText = '💨';
                 actorBox.appendChild(dust);
                 setTimeout(() => dust.remove(), 400);
-            }
 
-            // 2. Dash Attack Animation
-            if (spriteEl) {
-                spriteEl.classList.remove('sprite-stance-idle', 'sprite-stance-ready');
-                spriteEl.classList.add('sprite-stance-attack', isEnemy ? 'dash-strike-left' : 'dash-strike-right');
-                
+                // Calculate dash destination right in front of target
+                const stopOffset = isEnemy ? 68 : -68;
+                const dashX = dx + stopOffset;
+                const dashY = dy;
+
+                actorBox.style.zIndex = '50';
+                actorBox.style.transition = 'transform 0.28s cubic-bezier(0.25, 1, 0.5, 1)';
+                actorBox.style.transform = `translate(${dashX}px, ${dashY}px)`;
+                if (actorSprite) actorSprite.classList.add('sprite-stance-attack');
+
+                // Impact moment at 280ms
                 setTimeout(() => {
-                    spriteEl.classList.remove('sprite-stance-attack', 'dash-strike-left', 'dash-strike-right');
-                    spriteEl.classList.add(actor === battleState.activeCombatant ? 'sprite-stance-ready' : 'sprite-stance-idle');
+                    triggerImpactAndRecoil(targetBox, targetSprite, isUlti, isCrit);
+                }, 280);
+
+                // Spring back home at 520ms
+                setTimeout(() => {
+                    actorBox.style.transition = 'transform 0.32s cubic-bezier(0.4, 0, 0.2, 1)';
+                    actorBox.style.transform = '';
+                    setTimeout(() => {
+                        actorBox.style.zIndex = '';
+                        if (actorSprite) {
+                            actorSprite.classList.remove('sprite-stance-attack');
+                            actorSprite.classList.add(actor === battleState.activeCombatant ? 'sprite-stance-ready' : 'sprite-stance-idle');
+                        }
+                    }, 320);
                 }, 520);
             }
+        }
 
-            // 3. Impact FX & Recoil on Target (delayed 220ms at moment of strike)
+        // Helper: Spawn smoke puff for Assassin warp
+        function spawnSmoke(parentEl) {
+            if (!parentEl) return;
+            const smoke = document.createElement('div');
+            smoke.className = 'warp-smoke-fx';
+            smoke.innerText = '💨';
+            parentEl.appendChild(smoke);
+            setTimeout(() => smoke.remove(), 350);
+        }
+
+        // Helper: Trigger Impact FX, Recoil, and Screen Shake
+        function triggerImpactAndRecoil(targetBox, targetSprite, isUlti, isCrit) {
+            if (targetBox) {
+                const impact = document.createElement('div');
+                impact.className = 'pixel-impact-fx';
+                impact.innerText = isUlti ? '💥' : (isCrit ? '⚡' : '⚔️');
+                targetBox.appendChild(impact);
+                setTimeout(() => impact.remove(), 450);
+            }
+
+            if (targetSprite) {
+                const isTargetPlayer = targetSprite.id.includes('_p_');
+                targetSprite.classList.add('sprite-stance-hurt', isTargetPlayer ? 'recoil-left' : 'recoil-right');
+                setTimeout(() => {
+                    targetSprite.classList.remove('sprite-stance-hurt', 'recoil-left', 'recoil-right');
+                }, 380);
+            }
+
+            if (isUlti || isCrit) {
+                const arenaView = document.getElementById('pixelBattlefieldView');
+                if (arenaView) {
+                    arenaView.classList.add('screen-shake-effect');
+                    setTimeout(() => arenaView.classList.remove('screen-shake-effect'), 260);
+                }
+            }
+        }
+
+        // Helper: Launch traveling pixel projectile across screen
+        function launchPixelProjectile(startRect, endRect, element, onHitCallback) {
+            const elIcon = {
+                Fire: '🔥', Wind: '🌪️', Earth: '🪨', Lightning: '⚡', Water: '💧', Light: '☀️', Dark: '🌑'
+            }[element] || '✨';
+
+            const proj = document.createElement('div');
+            proj.className = 'pixel-flying-projectile';
+            proj.innerText = elIcon;
+            proj.style.left = `${startRect.left + startRect.width / 2}px`;
+            proj.style.top = `${startRect.top + startRect.height / 2}px`;
+            document.body.appendChild(proj);
+
+            // Animate flight to target
+            requestAnimationFrame(() => {
+                proj.style.left = `${endRect.left + endRect.width / 2 - 14}px`;
+                proj.style.top = `${endRect.top + endRect.height / 2 - 14}px`;
+            });
+
             setTimeout(() => {
-                const targetBox = document.getElementById(`spriteUnit_${target.isPlayer ? 'p' : 'e'}_${target.slotIndex}`)?.parentElement;
-                const targetSprite = document.getElementById(`spriteUnit_${target.isPlayer ? 'p' : 'e'}_${target.slotIndex}`);
-
-                // Spawn Impact Slash / Burst FX
-                if (targetBox) {
-                    const impact = document.createElement('div');
-                    impact.className = 'pixel-impact-fx';
-                    impact.innerText = isUlti ? '💥' : (isCrit ? '⚡' : '⚔️');
-                    targetBox.appendChild(impact);
-                    setTimeout(() => impact.remove(), 450);
-                }
-
-                // Target Knockback Recoil & Hurt flash
-                if (targetSprite) {
-                    targetSprite.classList.add('sprite-stance-hurt', target.isPlayer ? 'recoil-left' : 'recoil-right');
-                    setTimeout(() => {
-                        targetSprite.classList.remove('sprite-stance-hurt', 'recoil-left', 'recoil-right');
-                    }, 400);
-                }
-
-                // 4. Screen Shake on Critical or Ultimate
-                if (isUlti || isCrit) {
-                    const arenaView = document.getElementById('pixelBattlefieldView');
-                    if (arenaView) {
-                        arenaView.classList.add('screen-shake-effect');
-                        setTimeout(() => arenaView.classList.remove('screen-shake-effect'), 260);
-                    }
-                }
-            }, 220);
+                proj.remove();
+                if (onHitCallback) onHitCallback();
+            }, 320);
         }
 
         // ------------------ Clear, Robust Targeting & Inspect System ------------------
