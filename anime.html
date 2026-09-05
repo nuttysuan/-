@@ -1673,6 +1673,126 @@
             to { transform: translateY(-5px); }
         }
 
+    
+        /* --- Quick Wins: Pixel Battlefield Dynamic Animations --- */
+
+        /* 1. Idle Breathing / Bobbing */
+        @keyframes pixelBreathe {
+            0% { transform: translateY(0) scaleY(1); }
+            50% { transform: translateY(-3px) scaleY(1.02); }
+            100% { transform: translateY(0) scaleY(1); }
+        }
+        @keyframes pixelBreatheFlipped {
+            0% { transform: scaleX(-1) translateY(0) scaleY(1); }
+            50% { transform: scaleX(-1) translateY(-3px) scaleY(1.02); }
+            100% { transform: scaleX(-1) translateY(0) scaleY(1); }
+        }
+        @keyframes shadowBreathe {
+            0% { transform: scale(1); opacity: 0.45; }
+            50% { transform: scale(0.85); opacity: 0.3; }
+            100% { transform: scale(1); opacity: 0.45; }
+        }
+        .pixel-unit-box:not(.active-turn) .pixel-sprite-canvas:not(.flipped),
+        .pixel-unit-box:not(.active-turn) .pixel-standee-fallback {
+            animation: pixelBreathe 2.4s ease-in-out infinite;
+        }
+        .pixel-unit-box:not(.active-turn) .pixel-sprite-canvas.flipped {
+            animation: pixelBreatheFlipped 2.4s ease-in-out infinite;
+        }
+        .pixel-shadow {
+            animation: shadowBreathe 2.4s ease-in-out infinite;
+        }
+
+        /* 2. Target Recoil & Knockback */
+        .recoil-left {
+            animation: recoilLeftAnim 0.4s ease-out !important;
+        }
+        .recoil-right {
+            animation: recoilRightAnim 0.4s ease-out !important;
+        }
+        @keyframes recoilLeftAnim {
+            0% { transform: translateX(0); }
+            30% { transform: translateX(-22px) scale(0.95); filter: brightness(1.8) drop-shadow(0 0 12px #ff4757); }
+            60% { transform: translateX(-6px); }
+            100% { transform: translateX(0); }
+        }
+        @keyframes recoilRightAnim {
+            0% { transform: scaleX(-1) translateX(0); }
+            30% { transform: scaleX(-1) translateX(-22px) scale(0.95); filter: brightness(1.8) drop-shadow(0 0 12px #ff4757); }
+            60% { transform: scaleX(-1) translateX(-6px); }
+            100% { transform: scaleX(-1) translateX(0); }
+        }
+
+        /* 3. Screen Shake on Heavy Hits */
+        .screen-shake-effect {
+            animation: screenShakeAnim 0.25s cubic-bezier(.36,.07,.19,.97) both;
+        }
+        @keyframes screenShakeAnim {
+            10%, 90% { transform: translate3d(-3px, 0, 0); }
+            20%, 80% { transform: translate3d(4px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-5px, 0, 0); }
+            40%, 60% { transform: translate3d(5px, 0, 0); }
+        }
+
+        /* 4. Pixel Impact / Slash Burst Overlay */
+        .pixel-impact-fx {
+            position: absolute;
+            top: 25%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 34px;
+            pointer-events: none;
+            z-index: 30;
+            animation: impactPop 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        @keyframes impactPop {
+            0% { transform: translate(-50%, -50%) scale(0.3) rotate(-25deg); opacity: 0; }
+            45% { transform: translate(-50%, -50%) scale(1.4) rotate(15deg); opacity: 1; filter: drop-shadow(0 0 12px #fff); }
+            100% { transform: translate(-50%, -50%) scale(1.1) rotate(0deg); opacity: 0; }
+        }
+
+        /* 5. Dust Cloud under feet on dash */
+        .pixel-dust-cloud {
+            position: absolute;
+            bottom: 4px;
+            font-size: 15px;
+            pointer-events: none;
+            z-index: 3;
+            animation: dustPuff 0.4s ease-out forwards;
+        }
+        @keyframes dustPuff {
+            0% { transform: scale(0.4); opacity: 0.9; }
+            100% { transform: scale(1.6) translateY(-10px); opacity: 0; }
+        }
+
+        /* 6. Low HP Crisis (Hurt/Panting Stance) */
+        .pixel-unit-box.low-hp-crisis .pixel-sprite-canvas:not(.flipped),
+        .pixel-unit-box.low-hp-crisis .pixel-standee-fallback {
+            transform: rotate(-5deg) translateY(4px) !important;
+            filter: drop-shadow(0 0 6px rgba(255, 71, 87, 0.75));
+        }
+        .pixel-unit-box.low-hp-crisis .pixel-sprite-canvas.flipped {
+            transform: scaleX(-1) rotate(-5deg) translateY(4px) !important;
+            filter: drop-shadow(0 0 6px rgba(255, 71, 87, 0.75));
+        }
+
+        /* 7. Full SP Golden Aura */
+        .pixel-unit-box.sp-ready-aura .pixel-sprite-canvas,
+        .pixel-unit-box.sp-ready-aura .pixel-standee-fallback {
+            filter: drop-shadow(0 0 12px #ffd700) !important;
+        }
+        .sp-aura-sparks {
+            position: absolute;
+            top: -14px;
+            font-size: 13px;
+            animation: sparkRise 0.8s infinite alternate;
+            z-index: 10;
+        }
+        @keyframes sparkRise {
+            from { transform: translateY(0) scale(0.85); opacity: 0.6; }
+            to { transform: translateY(-7px) scale(1.2); opacity: 1; }
+        }
+
     </style>
 </head>
 <body>
@@ -3997,7 +4117,7 @@
             dmg = Math.max(40, dmg);
             applyDamage(target, dmg);
             showCombatFloater(target.slotIndex, target.isPlayer, `-${dmg}`, isCrit ? '#ff4757' : '#ffd700');
-            playSpriteAttackAnim(actor, target);
+            playSpriteAttackAnim(actor, target, false, isCrit);
             logCombat(`⚔️ <b>${enemy.name}</b> เข้าโจมตีใส่ ${target.name} ทำดาเมจ <span class="${isCrit ? 'log-crit' : ''}">${dmg}</span> แต้ม! ${isCrit ? '💥 CRITICAL!' : ''}`);
 
             if (target.elementMark && canReact(target.elementMark, enemy.element)) {
@@ -5073,7 +5193,7 @@
 
         // Known characters with 4-frame animated spritesheet in assets/anime/sprites/{id}.png
         // (Tony Tony Chopper is c005!)
-        const KNOWN_SPRITE_IDS = new Set(['c004', 'c005', 'c019', 'c034', 'c040']);
+        const KNOWN_SPRITE_IDS = new Set(['c005']);
 
         window.toggleBattleViewMode = () => {
             battleViewMode = (battleViewMode === 'pixel') ? 'card' : 'pixel';
@@ -5139,14 +5259,23 @@
             const isTarget = (!isEnemy ? false : (slotIndex === battleState.currentTargetIndex));
             const isActive = (battleState.activeCombatant === c);
 
+            const hpRatio = c.currentHp / c.maxHp;
+            const isLowHp = hpRatio <= 0.25 && !c.isDead;
+            const cData = charMap[c.id] || {};
+            const spNeeded = Math.max(15, (cData.skill?.spCost || 50) - (c.stars >= 4 ? 10 : (c.stars >= 1 ? 5 : 0)));
+            const isSpReady = (c.sp >= spNeeded && !c.isDead);
+
             let boxCls = 'pixel-unit-box';
             if (c.isDead) boxCls += ' dead';
             if (isActive) boxCls += ' active-turn';
             if (isTarget) boxCls += ' selected-target';
+            if (isLowHp) boxCls += ' low-hp-crisis';
+            if (isSpReady) boxCls += ' sp-ready-aura';
 
             // Determine Stance: 0=idle, 1=ready, 2=attack, 3=hurt
             let stanceCls = 'sprite-stance-idle';
             if (isActive) stanceCls = 'sprite-stance-ready';
+            if (isLowHp) stanceCls = 'sprite-stance-hurt';
             if (c.statuses.includes('Burn') || c.statuses.includes('Freeze')) stanceCls = 'sprite-stance-hurt';
 
             // Check if Sprite exists (e.g. c005 or in registry)
@@ -5174,7 +5303,16 @@
             const spPct = Math.max(0, Math.min(100, Math.round((c.sp / c.maxSp) * 100)));
 
             const clickCall = isEnemy ? `selectTargetEnemy(${slotIndex})` : `inspectPlayerHero(${slotIndex})`;
-            const overhead = isTarget ? '<div class="pixel-overhead-indicator">🔻</div>' : (isActive ? '<div class="pixel-overhead-indicator">⭐</div>' : '');
+            let overhead = '';
+            if (isTarget) {
+                overhead = '<div class="pixel-overhead-indicator" style="color:#ff4757;">🔻 TARGET</div>';
+            } else if (isActive) {
+                overhead = '<div class="pixel-overhead-indicator" style="color:var(--gold);">⭐ ถึงคิว</div>';
+            } else if (isLowHp) {
+                overhead = '<div class="pixel-overhead-indicator" style="font-size:12px;">💧</div>';
+            } else if (isSpReady) {
+                overhead = '<div class="sp-aura-sparks">✨ อัลติพร้อม!</div>';
+            }
 
             return `
                 <div class="${boxCls}" onclick="${clickCall}" title="${c.name} (${c.element} • ${c.role})">
@@ -5194,10 +5332,22 @@
             `;
         }
 
-        // Trigger Sprite Dash Attack Animation
-        function playSpriteAttackAnim(actor, target) {
+        // Trigger Sprite Dash Attack Animation with Full Quick-Wins Dynamics
+        function playSpriteAttackAnim(actor, target, isUlti = false, isCrit = false) {
             const isEnemy = !actor.isPlayer;
+            const actorBox = document.getElementById(`spriteUnit_${isEnemy ? 'e' : 'p'}_${actor.slotIndex}`)?.parentElement;
             const spriteEl = document.getElementById(`spriteUnit_${isEnemy ? 'e' : 'p'}_${actor.slotIndex}`);
+
+            // 1. Dust cloud at feet on dash launch
+            if (actorBox) {
+                const dust = document.createElement('div');
+                dust.className = 'pixel-dust-cloud';
+                dust.innerText = '💨';
+                actorBox.appendChild(dust);
+                setTimeout(() => dust.remove(), 400);
+            }
+
+            // 2. Dash Attack Animation
             if (spriteEl) {
                 spriteEl.classList.remove('sprite-stance-idle', 'sprite-stance-ready');
                 spriteEl.classList.add('sprite-stance-attack', isEnemy ? 'dash-strike-left' : 'dash-strike-right');
@@ -5205,17 +5355,40 @@
                 setTimeout(() => {
                     spriteEl.classList.remove('sprite-stance-attack', 'dash-strike-left', 'dash-strike-right');
                     spriteEl.classList.add(actor === battleState.activeCombatant ? 'sprite-stance-ready' : 'sprite-stance-idle');
-                }, 500);
+                }, 520);
             }
 
-            // Target hurt flash
-            const targetSprite = document.getElementById(`spriteUnit_${target.isPlayer ? 'p' : 'e'}_${target.slotIndex}`);
-            if (targetSprite) {
-                targetSprite.classList.add('sprite-stance-hurt');
-                setTimeout(() => {
-                    targetSprite.classList.remove('sprite-stance-hurt');
-                }, 400);
-            }
+            // 3. Impact FX & Recoil on Target (delayed 220ms at moment of strike)
+            setTimeout(() => {
+                const targetBox = document.getElementById(`spriteUnit_${target.isPlayer ? 'p' : 'e'}_${target.slotIndex}`)?.parentElement;
+                const targetSprite = document.getElementById(`spriteUnit_${target.isPlayer ? 'p' : 'e'}_${target.slotIndex}`);
+
+                // Spawn Impact Slash / Burst FX
+                if (targetBox) {
+                    const impact = document.createElement('div');
+                    impact.className = 'pixel-impact-fx';
+                    impact.innerText = isUlti ? '💥' : (isCrit ? '⚡' : '⚔️');
+                    targetBox.appendChild(impact);
+                    setTimeout(() => impact.remove(), 450);
+                }
+
+                // Target Knockback Recoil & Hurt flash
+                if (targetSprite) {
+                    targetSprite.classList.add('sprite-stance-hurt', target.isPlayer ? 'recoil-left' : 'recoil-right');
+                    setTimeout(() => {
+                        targetSprite.classList.remove('sprite-stance-hurt', 'recoil-left', 'recoil-right');
+                    }, 400);
+                }
+
+                // 4. Screen Shake on Critical or Ultimate
+                if (isUlti || isCrit) {
+                    const arenaView = document.getElementById('pixelBattlefieldView');
+                    if (arenaView) {
+                        arenaView.classList.add('screen-shake-effect');
+                        setTimeout(() => arenaView.classList.remove('screen-shake-effect'), 260);
+                    }
+                }
+            }, 220);
         }
 
         // ------------------ Clear, Robust Targeting & Inspect System ------------------
