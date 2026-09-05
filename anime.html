@@ -1870,6 +1870,213 @@
             filter: brightness(0.92);
         }
 
+    
+        /* ========================================================= */
+        /*        8 x 4 ISOMETRIC TACTICAL ARENA ENGINE              */
+        /* ========================================================= */
+
+        #pixelBattlefieldView {
+            background: radial-gradient(circle at 50% 40%, #151f38 0%, #080c16 70%, #03050a 100%);
+            border: 3px solid var(--border-color);
+            border-radius: 20px;
+            padding: 10px;
+            position: relative;
+            min-height: 460px;
+            height: 480px;
+            margin-bottom: 16px;
+            box-shadow: inset 0 0 60px rgba(0,0,0,0.9), 0 12px 36px rgba(0,0,0,0.7);
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 8x4 Isometric Board Container */
+        .iso-board-container {
+            position: relative;
+            width: 820px;
+            height: 380px;
+            margin: 0 auto;
+            transform-style: preserve-3d;
+        }
+
+        /* Isometric Diamond Tile */
+        .iso-tile {
+            position: absolute;
+            width: 76px;
+            height: 38px;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+            user-select: none;
+        }
+        .iso-tile-svg {
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+        .iso-tile-polygon {
+            fill: #10172b;
+            stroke: #1f2d4d;
+            stroke-width: 1.5;
+            transition: all 0.2s;
+        }
+        .iso-tile:hover .iso-tile-polygon {
+            fill: #192647;
+            stroke: var(--secondary-hover);
+            filter: drop-shadow(0 0 6px var(--secondary));
+        }
+
+        /* Zone Coloring */
+        .iso-tile.tile-ally .iso-tile-polygon {
+            fill: #0c182b;
+            stroke: #173860;
+        }
+        .iso-tile.tile-ally:hover .iso-tile-polygon {
+            stroke: #00d2d3;
+            filter: drop-shadow(0 0 8px #00d2d3);
+        }
+        .iso-tile.tile-neutral .iso-tile-polygon {
+            fill: #131722;
+            stroke: #252e42;
+        }
+        .iso-tile.tile-enemy .iso-tile-polygon {
+            fill: #22121e;
+            stroke: #4d1e2e;
+        }
+        .iso-tile.tile-enemy:hover .iso-tile-polygon {
+            stroke: #ff4757;
+            filter: drop-shadow(0 0 8px #ff4757);
+        }
+
+        /* Special Tiles (Power & Scorched) */
+        .iso-tile.tile-power .iso-tile-polygon {
+            fill: #2a2210;
+            stroke: #ffa502;
+            filter: drop-shadow(0 0 10px rgba(255, 165, 2, 0.6));
+            animation: powerPulse 1.5s infinite alternate;
+        }
+        @keyframes powerPulse {
+            from { stroke-width: 1.5; fill: #201a0c; }
+            to { stroke-width: 2.5; fill: #33260c; filter: drop-shadow(0 0 14px #ffa502); }
+        }
+
+        .iso-tile.tile-target-reticle .iso-tile-polygon {
+            stroke: #ff4757 !important;
+            stroke-width: 2.5 !important;
+            fill: #3a101b !important;
+            filter: drop-shadow(0 0 15px #ff4757) !important;
+            animation: targetReticlePulse 0.8s infinite alternate;
+        }
+        @keyframes targetReticlePulse {
+            from { stroke-width: 2; }
+            to { stroke-width: 3.5; }
+        }
+
+        .iso-tile.tile-active-reticle .iso-tile-polygon {
+            stroke: var(--gold) !important;
+            stroke-width: 2.5 !important;
+            fill: #2f2210 !important;
+            filter: drop-shadow(0 0 15px var(--gold)) !important;
+        }
+
+        /* Character Unit standing on an Isometric Tile */
+        .iso-unit {
+            position: absolute;
+            width: 76px;
+            height: 80px;
+            margin-top: -55px; /* Pull up so feet anchor to center of diamond */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            pointer-events: auto;
+            cursor: pointer;
+            transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.2s;
+            user-select: none;
+        }
+        .iso-unit.dead {
+            opacity: 0.25;
+            filter: grayscale(1);
+            pointer-events: none;
+        }
+        .iso-unit.selected-target {
+            filter: drop-shadow(0 0 12px #ff4757);
+        }
+
+        /* Parabolic Tile Hop on Active Turn */
+        @keyframes isoTileHop {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-16px) scale(1.08); }
+            100% { transform: translateY(-4px); }
+        }
+        .iso-unit.active-turn {
+            animation: isoTileHop 0.8s ease-in-out infinite alternate;
+            filter: drop-shadow(0 0 14px var(--gold)) !important;
+        }
+
+        /* Isometric Shadow under character feet */
+        .iso-unit-shadow {
+            width: 46px;
+            height: 14px;
+            background: radial-gradient(ellipse at center, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0) 70%);
+            border-radius: 50%;
+            margin-top: -7px;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Floating Name and Bars for Isometric Units */
+        .iso-unit-hud {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 72px;
+            margin-top: 2px;
+            z-index: 15;
+            pointer-events: none;
+        }
+        .iso-unit-name {
+            font-size: 10px;
+            font-weight: 800;
+            color: #fff;
+            text-shadow: 0 1px 4px #000, 0 0 2px #000;
+            white-space: nowrap;
+        }
+        .iso-bar-box {
+            width: 58px;
+            height: 5px;
+            background: #000;
+            border-radius: 3px;
+            border: 1px solid rgba(255,255,255,0.2);
+            overflow: hidden;
+            margin-top: 1px;
+        }
+        .iso-hp-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff4757, #2ed573);
+            transition: width 0.3s;
+        }
+        .iso-sp-fill {
+            height: 2px;
+            background: #ffa502;
+            transition: width 0.3s;
+            margin-top: 1px;
+        }
+
+        /* Wall Slam Impact FX */
+        .wall-slam-fx {
+            position: absolute;
+            font-size: 28px;
+            z-index: 90;
+            pointer-events: none;
+            animation: slamExplode 0.4s ease-out forwards;
+        }
+        @keyframes slamExplode {
+            0% { transform: scale(0.3) rotate(-15deg); opacity: 0; }
+            50% { transform: scale(1.4) rotate(10deg); opacity: 1; filter: drop-shadow(0 0 15px #ff4757); }
+            100% { transform: scale(1.1) rotate(0); opacity: 0; }
+        }
+
     </style>
 </head>
 <body>
@@ -2150,29 +2357,24 @@
                             </div>
                             <div id="inspectorStatusText" style="font-size: 12px; color: var(--gem-color); font-weight: 700;">-</div>
                         </div>
-                        <!-- 8-Bit Pixel Battlefield View (Side-by-Side: Player Left vs Enemy Right) -->
-                        <div id="pixelBattlefieldView" style="display: flex;">
-                            <div class="pixel-arena-floor"></div>
-                            <!-- Player Team (Left Side - Facing Right) -->
-                            <div>
-                                <div style="font-size: 13px; font-weight: 800; color: #00d2d3; margin-bottom: 6px;">
-                                    🔵 ทีมของคุณ (หันขวา)
+                        <!-- 8 x 4 ISOMETRIC TACTICAL BATTLE ARENA -->
+                        <div id="pixelBattlefieldView" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                            <!-- Board Header Info -->
+                            <div style="position: absolute; top: 12px; left: 20px; right: 20px; display: flex; justify-content: space-between; align-items: center; z-index: 20; pointer-events: none;">
+                                <div style="font-size: 12px; font-weight: 800; color: #00d2d3; background: rgba(0,0,0,0.6); padding: 3px 10px; border-radius: 12px; border: 1px solid #173860;">
+                                    🔵 แดนพันธมิตร (Col 1-2)
                                 </div>
-                                <div class="pixel-team-wrapper" id="pixelPlayerTeamContainer"></div>
+                                <div id="isoClashZoneTitle" style="font-size: 12px; font-weight: 900; color: var(--gold); background: rgba(0,0,0,0.6); padding: 3px 14px; border-radius: 12px; border: 1px solid #33260c;">
+                                    ⚔️ ลานปะทะกลางสมรภูมิ 8 × 4 ISOMETRIC
+                                </div>
+                                <div style="font-size: 12px; font-weight: 800; color: #ff4757; background: rgba(0,0,0,0.6); padding: 3px 10px; border-radius: 12px; border: 1px solid #4d1e2e;">
+                                    🔴 แดนศัตรู (Col 7-8)
+                                </div>
                             </div>
 
-                            <!-- Center Clash & Notification Zone -->
-                            <div style="text-align: center; z-index: 5;">
-                                <div style="font-size: 24px; font-weight: 900; color: var(--gold); text-shadow: 0 0 10px #000;">VS</div>
-                                <div id="pixelClashNotice" style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">คลิกศัตรูเพื่อเล็งเป้า</div>
-                            </div>
-
-                            <!-- Enemy Team (Right Side - Facing Left) -->
-                            <div style="text-align: right;">
-                                <div style="font-size: 13px; font-weight: 800; color: #ff6b81; margin-bottom: 6px;">
-                                    🔴 ทีมศัตรู (คลิกเพื่อเล็งเป้า)
-                                </div>
-                                <div class="pixel-team-wrapper" id="pixelEnemyTeamContainer" style="justify-content: flex-end;"></div>
+                            <!-- 8x4 Isometric Board Container -->
+                            <div class="iso-board-container" id="isoBoardContainer">
+                                <!-- Generated dynamically by renderIsometricBoard() -->
                             </div>
                         </div>
 
@@ -3540,7 +3742,7 @@
 
         function renderBattlefield() {
             if (!battleState) return;
-            renderPixelBattlefield();
+            renderIsometricBoard();
 
             const enemyRow = document.getElementById('enemyCombatantsRow');
             if (enemyRow) {
@@ -4006,7 +4208,7 @@
 
                 applyDamage(target, dmg);
                 showCombatFloater(target.slotIndex, target.isPlayer, `-${dmg}`, isCrit ? '#ff4757' : '#ffd700');
-                playSpriteAttackAnim(actor, target, false, isCrit);
+                playIsoCombatMotion(actor, target, false, isCrit);
                 logCombat(`⚔️ <b>${actor.name}</b> โจมตีใส่ ${target.name} สร้างดาเมจ <span class="${isCrit ? 'log-crit' : ''}">${dmg}</span>! ${isCrit ? '💥 CRITICAL!' : ''}`);
 
                 if (target.elementMark && canReact(target.elementMark, actor.element)) {
@@ -4032,7 +4234,7 @@
                 battleState.teamAp -= 2;
                 actor.sp = Math.min(100, actor.sp + 25);
 
-                playSpriteAttackAnim(actor, target, false, true);
+                playIsoCombatMotion(actor, target, false, true);
                 executeRoleSkill(actor, target, battleState.players, battleState.enemies);
 
             } else if (actionType === 'ultimate') {
@@ -4057,7 +4259,7 @@
                 let ultiDmg = Math.round((actor.atk * 2.4 - target.def * 0.25) * mult * ultiBonus);
                 applyDamage(target, ultiDmg);
                 showCombatFloater(target.slotIndex, target.isPlayer, `-${ultiDmg}`, '#ff007f');
-                playSpriteAttackAnim(actor, target, true, true);
+                playIsoCombatMotion(actor, target, true, true);
 
                 logCombat(`💥💥 <b>${actor.name}</b> ปลดปล่อยท่าไม้ตายสุดยอด <b>[${skillName}]</b> ใส่ ${target.name} ทำดาเมจถล่มทลาย <span class="log-crit">${ultiDmg}</span> แต้ม!`);
             }
@@ -4158,7 +4360,7 @@
                 let ultiDmg = Math.round((enemy.atk * 2.1 - chosenTarget.def * 0.25));
                 if (chosenTarget.isGuarding) ultiDmg = Math.round(ultiDmg * 0.5);
                 applyDamage(chosenTarget, ultiDmg);
-                playSpriteAttackAnim(enemy, chosenTarget, true, true);
+                playIsoCombatMotion(enemy, chosenTarget, true, true);
                 logCombat(`💥 <b>${enemy.name}</b> ปล่อยท่าไม้ตาย <b>[${cData.skill.name}]</b> ใส่ ${chosenTarget.name} โดนไป <span class="log-crit">${ultiDmg}</span> แต้ม!`);
             } else if (enemy.role === 'Healer') {
                 const lowestFoe = [...battleState.enemies].filter(e => !e.isDead).sort((a, b) => (a.currentHp/a.maxHp) - (b.currentHp/b.maxHp))[0];
@@ -4199,7 +4401,7 @@
             dmg = Math.max(40, dmg);
             applyDamage(target, dmg);
             showCombatFloater(target.slotIndex, target.isPlayer, `-${dmg}`, isCrit ? '#ff4757' : '#ffd700');
-            playSpriteAttackAnim(enemy, target, false, isCrit);
+            playIsoCombatMotion(enemy, target, false, isCrit);
             logCombat(`⚔️ <b>${enemy.name}</b> เข้าโจมตีใส่ ${target.name} ทำดาเมจ <span class="${isCrit ? 'log-crit' : ''}">${dmg}</span> แต้ม! ${isCrit ? '💥 CRITICAL!' : ''}`);
 
             if (target.elementMark && canReact(target.elementMark, enemy.element)) {
@@ -5268,21 +5470,21 @@
         
         
         
+        
         // =========================================================================
-        //         PIXEL 8-BIT BATTLE ENGINE & SPRITESHEET SYSTEM
+        //         8 x 4 ISOMETRIC MATHEMATICAL TACTICAL GRID ENGINE
         // =========================================================================
         let battleViewMode = localStorage.getItem('animeBattleViewMode') || 'pixel';
 
-        // Known characters with 4-frame animated spritesheet in assets/anime/sprites/{id}.png
-        // (Tony Tony Chopper is c005!)
-         const KNOWN_SPRITE_IDS = new Set(['c004', 'c005', 'c019', 'c034', 'c040']);
+        // 🎯 จุดลงทะเบียนรหัสตัวละครที่มี Spritesheets (ใน assets/anime/sprites/{id}.png)
+        const KNOWN_SPRITE_IDS = new Set(['c004', 'c005', 'c019', 'c034', 'c040']);
 
         window.toggleBattleViewMode = () => {
             battleViewMode = (battleViewMode === 'pixel') ? 'card' : 'pixel';
             localStorage.setItem('animeBattleViewMode', battleViewMode);
             applyBattleViewMode();
             renderBattlefield();
-            showToast(`🎮 สลับเป็น ${battleViewMode === 'pixel' ? 'โหมดพิกเซล 8-Bit (JRPG Side-View)' : 'โหมดการ์ด TCG'} เรียบร้อย!`, "info");
+            showToast(`🎮 สลับเป็น ${battleViewMode === 'pixel' ? 'โหมดพิกเซล 8-Bit (Isometric Grid)' : 'โหมดการ์ด TCG'} เรียบร้อย!`, "info");
         };
 
         function applyBattleViewMode() {
@@ -5297,47 +5499,138 @@
             if (pixelView) pixelView.style.display = (battleViewMode === 'pixel') ? 'flex' : 'none';
         }
 
-        // Render Pixel Battlefield (Side-by-Side Left vs Right by Formation)
-        function renderPixelBattlefield() {
-            const playerContainer = document.getElementById('pixelPlayerTeamContainer');
-            const enemyContainer = document.getElementById('pixelEnemyTeamContainer');
-            if (!playerContainer || !enemyContainer || !battleState) return;
+        const ISO_COLS = 8;
+        const ISO_ROWS = 4;
+        const TILE_W = 76;
+        const TILE_H = 38;
+        const BOARD_ORIGIN_X = 220;
+        const BOARD_ORIGIN_Y = 60;
 
-            const preset = myFormationPreset || '2-3';
-            let frontCount = 2;
-            let backCount = 3;
-            if (preset === '3-2') { frontCount = 3; backCount = 2; }
-            else if (preset === '1-4') { frontCount = 1; backCount = 4; }
-
-            // PLAYER TEAM (LEFT): Backline is on far-left, Frontline is closer to center
-            const playerBackCols = battleState.players.slice(frontCount, 5);
-            const playerFrontCols = battleState.players.slice(0, frontCount);
-
-            playerContainer.innerHTML = `
-                <div class="pixel-formation-col col-back">
-                    ${playerBackCols.map((c, i) => renderPixelUnit(c, false, frontCount + i)).join('')}
-                </div>
-                <div class="pixel-formation-col col-front">
-                    ${playerFrontCols.map((c, i) => renderPixelUnit(c, false, i)).join('')}
-                </div>
-            `;
-
-            // ENEMY TEAM (RIGHT): Frontline is closer to center, Backline is on far-right
-            const enemyFrontCols = battleState.enemies.slice(0, frontCount);
-            const enemyBackCols = battleState.enemies.slice(frontCount, 5);
-
-            enemyContainer.innerHTML = `
-                <div class="pixel-formation-col col-front">
-                    ${enemyFrontCols.map((c, i) => renderPixelUnit(c, true, i)).join('')}
-                </div>
-                <div class="pixel-formation-col col-back">
-                    ${enemyBackCols.map((c, i) => renderPixelUnit(c, true, frontCount + i)).join('')}
-                </div>
-            `;
+        // Convert Grid (col, row) to Screen Pixels (x, y)
+        function getIsoScreenPos(col, row) {
+            const x = BOARD_ORIGIN_X + col * (TILE_W * 0.62) - row * (TILE_W * 0.42);
+            const y = BOARD_ORIGIN_Y + col * (TILE_H * 0.42) + row * (TILE_H * 0.82);
+            const zIndex = col + (row * 3) + 2;
+            return { x: Math.round(x), y: Math.round(y), zIndex };
         }
 
-        function renderPixelUnit(c, isEnemy, slotIndex) {
+        // Formation Presets mapping to (col, row)
+        // Allies occupy Col 0 (Backline) and Col 1 (Frontline). Enemies occupy Col 6 (Frontline) and Col 7 (Backline).
+        function getFormationSlotPos(slotIndex, isEnemy, preset = '2-3') {
+            if (!isEnemy) {
+                // Player side (Cols 0-1)
+                if (preset === '2-3') {
+                    // Frontline (slots 0, 1) -> Col 1, Rows 1, 2
+                    if (slotIndex === 0) return { col: 1, row: 1 };
+                    if (slotIndex === 1) return { col: 1, row: 2 };
+                    // Backline (slots 2, 3, 4) -> Col 0, Rows 0, 1, 2
+                    if (slotIndex === 2) return { col: 0, row: 0 };
+                    if (slotIndex === 3) return { col: 0, row: 1 };
+                    if (slotIndex === 4) return { col: 0, row: 2 };
+                } else if (preset === '3-2') {
+                    // Frontline (slots 0, 1, 2) -> Col 1, Rows 0, 1, 2
+                    if (slotIndex === 0) return { col: 1, row: 0 };
+                    if (slotIndex === 1) return { col: 1, row: 1 };
+                    if (slotIndex === 2) return { col: 1, row: 2 };
+                    // Backline (slots 3, 4) -> Col 0, Rows 1, 2
+                    if (slotIndex === 3) return { col: 0, row: 1 };
+                    if (slotIndex === 4) return { col: 0, row: 2 };
+                } else {
+                    // 1-4: 1 Front, 4 Back
+                    if (slotIndex === 0) return { col: 1, row: 1 };
+                    if (slotIndex === 1) return { col: 0, row: 0 };
+                    if (slotIndex === 2) return { col: 0, row: 1 };
+                    if (slotIndex === 3) return { col: 0, row: 2 };
+                    if (slotIndex === 4) return { col: 0, row: 3 };
+                }
+            } else {
+                // Enemy side (Cols 6-7)
+                if (slotIndex === 0) return { col: 6, row: 1 };
+                if (slotIndex === 1) return { col: 6, row: 2 };
+                if (slotIndex === 2) return { col: 7, row: 0 };
+                if (slotIndex === 3) return { col: 7, row: 1 };
+                if (slotIndex === 4) return { col: 7, row: 2 };
+            }
+            return { col: isEnemy ? 6 : 1, row: slotIndex % 4 };
+        }
+
+        // Render the 32 Isometric Tiles & Units
+        function renderIsometricBoard() {
+            const board = document.getElementById('isoBoardContainer');
+            if (!board || !battleState) return;
+
+            const preset = myFormationPreset || '2-3';
+            let tilesHtml = '';
+
+            // 1. Draw 32 Tiles (8 cols x 4 rows)
+            for (let r = 0; r < ISO_ROWS; r++) {
+                for (let c = 0; c < ISO_COLS; c++) {
+                    const pos = getIsoScreenPos(c, r);
+                    
+                    // Determine Zone
+                    let zoneCls = 'tile-neutral';
+                    if (c <= 1) zoneCls = 'tile-ally';
+                    else if (c >= 6) zoneCls = 'tile-enemy';
+
+                    // Check for target highlight
+                    const targetEnemy = battleState.enemies[battleState.currentTargetIndex];
+                    let isTargetTile = false;
+                    if (targetEnemy && !targetEnemy.isDead) {
+                        const tPos = getFormationSlotPos(targetEnemy.slotIndex, true, preset);
+                        if (tPos.col === c && tPos.row === r) isTargetTile = true;
+                    }
+
+                    // Check for active hero tile
+                    const activeHero = battleState.activeCombatant;
+                    let isActiveTile = false;
+                    if (activeHero) {
+                        const aPos = getFormationSlotPos(activeHero.slotIndex, !activeHero.isPlayer, preset);
+                        if (aPos.col === c && aPos.row === r) isActiveTile = true;
+                    }
+
+                    // Special Power Tile at (3, 1) and (4, 2)
+                    let isPower = (c === 3 && r === 1) || (c === 4 && r === 2);
+
+                    let extraTileCls = '';
+                    if (isTargetTile) extraTileCls += ' tile-target-reticle';
+                    if (isActiveTile) extraTileCls += ' tile-active-reticle';
+                    if (isPower) extraTileCls += ' tile-power';
+
+                    // Diamond Polygon Points: 38,0 76,19 38,38 0,19
+                    tilesHtml += `
+                        <div class="iso-tile ${zoneCls} ${extraTileCls}" 
+                             id="isoTile_${c}_${r}"
+                             style="left: ${pos.x}px; top: ${pos.y}px; z-index: ${pos.zIndex};"
+                             onclick="handleIsoTileClick(${c}, ${r})">
+                            <svg class="iso-tile-svg" viewBox="0 0 76 38">
+                                <polygon class="iso-tile-polygon" points="38,1 75,19 38,37 1,19" />
+                            </svg>
+                        </div>
+                    `;
+                }
+            }
+
+            // 2. Draw 5 Player Units & 5 Enemy Units on their tiles
+            let unitsHtml = '';
+
+            // Player Units
+            battleState.players.forEach((p, idx) => {
+                unitsHtml += renderIsoCharacterUnit(p, false, idx, preset);
+            });
+
+            // Enemy Units
+            battleState.enemies.forEach((e, idx) => {
+                unitsHtml += renderIsoCharacterUnit(e, true, idx, preset);
+            });
+
+            board.innerHTML = tilesHtml + unitsHtml;
+        }
+
+        function renderIsoCharacterUnit(c, isEnemy, slotIndex, preset) {
             if (!c) return '';
+            const gridPos = getFormationSlotPos(slotIndex, isEnemy, preset);
+            const screenPos = getIsoScreenPos(gridPos.col, gridPos.row);
+
             const isTarget = (!isEnemy ? false : (slotIndex === battleState.currentTargetIndex));
             const isActive = (battleState.activeCombatant === c);
 
@@ -5347,35 +5640,28 @@
             const spNeeded = Math.max(15, (cData.skill?.spCost || 50) - (c.stars >= 4 ? 10 : (c.stars >= 1 ? 5 : 0)));
             const isSpReady = (c.sp >= spNeeded && !c.isDead);
 
-            let boxCls = 'pixel-unit-box';
-            if (c.isDead) boxCls += ' dead';
-            if (isActive) boxCls += ' active-turn';
-            if (isTarget) boxCls += ' selected-target';
-            if (isLowHp) boxCls += ' low-hp-crisis';
-            if (isSpReady) boxCls += ' sp-ready-aura';
+            let unitCls = 'iso-unit';
+            if (c.isDead) unitCls += ' dead';
+            if (isActive) unitCls += ' active-turn';
+            if (isTarget) unitCls += ' selected-target';
 
-            // Determine Stance: 0=idle, 1=ready, 2=attack, 3=hurt
-            let stanceCls = 'sprite-stance-idle';
-            if (isActive) stanceCls = 'sprite-stance-ready';
-            if (isLowHp) stanceCls = 'sprite-stance-hurt';
-            if (c.statuses.includes('Burn') || c.statuses.includes('Freeze')) stanceCls = 'sprite-stance-hurt';
-
-            // Check if Sprite exists (e.g. c005 or in registry)
+            // Check if Sprite exists (Chopper is c005!)
             const hasSprite = KNOWN_SPRITE_IDS.has(c.id);
             const flipCls = isEnemy ? 'flipped' : '';
+            let stanceCls = isActive ? 'sprite-stance-ready' : 'sprite-stance-idle';
+            if (isLowHp || c.statuses.includes('Burn')) stanceCls = 'sprite-stance-hurt';
 
-            let spriteHtml = '';
+            let bodyHtml = '';
             if (hasSprite) {
-                spriteHtml = `
-                    <div class="pixel-sprite-canvas ${flipCls} ${stanceCls}" 
-                         id="spriteUnit_${isEnemy ? 'e' : 'p'}_${slotIndex}"
+                bodyHtml = `
+                    <div class="pixel-sprite-canvas ${flipCls} ${stanceCls}"
+                         id="isoSprite_${isEnemy ? 'e' : 'p'}_${slotIndex}"
                          style="background-image: url('assets/anime/sprites/${c.id}.png');">
                     </div>
                 `;
             } else {
-                // Hybrid Fallback: Pixel Standee with Card Art
-                spriteHtml = `
-                    <div class="pixel-standee-fallback" id="spriteUnit_${isEnemy ? 'e' : 'p'}_${slotIndex}">
+                bodyHtml = `
+                    <div class="pixel-standee-fallback" id="isoSprite_${isEnemy ? 'e' : 'p'}_${slotIndex}">
                         <img src="${c.image}" alt="${c.name}" onerror="this.style.display='none'">
                     </div>
                 `;
@@ -5385,186 +5671,182 @@
             const spPct = Math.max(0, Math.min(100, Math.round((c.sp / c.maxSp) * 100)));
 
             const clickCall = isEnemy ? `selectTargetEnemy(${slotIndex})` : `inspectPlayerHero(${slotIndex})`;
-            let overhead = '';
-            if (isTarget) {
-                overhead = '<div class="pixel-overhead-indicator" style="color:#ff4757;">🔻 TARGET</div>';
-            } else if (isActive) {
-                overhead = '<div class="pixel-overhead-indicator" style="color:var(--gold);">⭐ ถึงคิว</div>';
-            } else if (isLowHp) {
-                overhead = '<div class="pixel-overhead-indicator" style="font-size:12px;">💧</div>';
-            } else if (isSpReady) {
-                overhead = '<div class="sp-aura-sparks">✨ อัลติพร้อม!</div>';
-            }
+            const indicator = isTarget ? '<div class="pixel-overhead-indicator" style="color:#ff4757; font-size:16px;">🔻</div>' : 
+                             (isActive ? '<div class="pixel-overhead-indicator" style="color:var(--gold); font-size:14px;">⭐</div>' : '');
+
+            // The unit's z-index is higher than the tile below it (+5)
+            const unitZ = screenPos.zIndex + 8;
 
             return `
-                <div class="${boxCls}" onclick="${clickCall}" title="${c.name} (${c.element} • ${c.role})">
-                    ${overhead}
-                    ${spriteHtml}
-                    <div class="pixel-shadow"></div>
-                    
-                    <div class="pixel-bars-container">
-                        <div class="pixel-hp-fill" style="width:${hpPct}%;"></div>
-                        <div class="pixel-sp-fill" style="width:${spPct}%;"></div>
-                    </div>
+                <div class="${unitCls}"
+                     id="isoUnitBox_${isEnemy ? 'e' : 'p'}_${slotIndex}"
+                     style="left: ${screenPos.x}px; top: ${screenPos.y}px; z-index: ${unitZ};"
+                     onclick="${clickCall}"
+                     title="${c.name} (${c.element} • ${c.role})">
+                    ${indicator}
+                    ${bodyHtml}
+                    <div class="iso-unit-shadow"></div>
 
-                    <div style="font-size:10px; font-weight:800; color:#fff; white-space:nowrap; margin-top:2px;">
-                        ${c.name.split(' ')[0]} ${c.stars > 0 ? `<span style="color:#ffd700;">★${c.stars}</span>` : ''}
+                    <div class="iso-unit-hud">
+                        <div class="iso-unit-name">${c.name.split(' ')[0]} ${c.stars > 0 ? `<span style="color:#ffd700;">★${c.stars}</span>` : ''}</div>
+                        <div class="iso-bar-box">
+                            <div class="iso-hp-fill" style="width: ${hpPct}%;"></div>
+                        </div>
+                        <div class="iso-bar-box" style="height:3px;">
+                            <div class="iso-sp-fill" style="width: ${spPct}%;"></div>
+                        </div>
                     </div>
                 </div>
             `;
         }
 
-                // Trigger Dynamic Combat Movement: Melee Dash, Assassin Warp, Ranged Projectiles
-        function playSpriteAttackAnim(actor, target, isUlti = false, isCrit = false) {
+        window.handleIsoTileClick = (col, row) => {
+            if (!battleState) return;
+            const preset = myFormationPreset || '2-3';
+            // If user clicks on an enemy's tile, target that enemy!
+            const clickedEnemy = battleState.enemies.find(e => {
+                if (e.isDead) return false;
+                const pos = getFormationSlotPos(e.slotIndex, true, preset);
+                return pos.col === col && pos.row === row;
+            });
+            if (clickedEnemy) {
+                selectTargetEnemy(clickedEnemy.slotIndex);
+            }
+        };
+
+        // ------------------ Isometric Dynamic Travel Movement Engine ------------------
+        function playIsoCombatMotion(actor, target, isUlti = false, isCrit = false) {
             const isEnemy = !actor.isPlayer;
-            const actorUnitId = `spriteUnit_${isEnemy ? 'e' : 'p'}_${actor.slotIndex}`;
-            const targetUnitId = `spriteUnit_${target.isPlayer ? 'p' : 'e'}_${target.slotIndex}`;
+            const actorUnit = document.getElementById(`isoUnitBox_${isEnemy ? 'e' : 'p'}_${actor.slotIndex}`);
+            const targetUnit = document.getElementById(`isoUnitBox_${target.isPlayer ? 'p' : 'e'}_${target.slotIndex}`);
+            const actorSprite = document.getElementById(`isoSprite_${isEnemy ? 'e' : 'p'}_${actor.slotIndex}`);
+            const targetSprite = document.getElementById(`isoSprite_${target.isPlayer ? 'p' : 'e'}_${target.slotIndex}`);
 
-            const actorSprite = document.getElementById(actorUnitId);
-            const targetSprite = document.getElementById(targetUnitId);
-            const actorBox = actorSprite?.parentElement;
-            const targetBox = targetSprite?.parentElement;
+            if (!actorUnit || !targetUnit) return;
 
-            if (!actorBox || !targetBox) return;
-
-            const actorRect = actorBox.getBoundingClientRect();
-            const targetRect = targetBox.getBoundingClientRect();
+            const actorRect = actorUnit.getBoundingClientRect();
+            const targetRect = targetUnit.getBoundingClientRect();
             const dx = targetRect.left - actorRect.left;
             const dy = targetRect.top - actorRect.top;
 
             const role = actor.role || 'Attacker';
 
             // -------------------------------------------------------------
-            // A. ASSASSIN: Warp behind target, strike, warp back
+            // 1. ASSASSIN: Flank / Backstab Tile Warp
             // -------------------------------------------------------------
             if (role === 'Assassin') {
-                // Smoke at original spot
-                spawnSmoke(actorBox);
-                actorBox.style.transition = 'opacity 0.14s, transform 0.14s';
-                actorBox.style.opacity = '0';
+                spawnIsoSmoke(actorUnit);
+                actorUnit.style.transition = 'opacity 0.14s';
+                actorUnit.style.opacity = '0';
 
-                // Appear behind target at 140ms
                 setTimeout(() => {
-                    const behindDistX = isEnemy ? (dx - 60) : (dx + 60);
-                    actorBox.style.transform = `translate(${behindDistX}px, ${dy}px)`;
-                    actorBox.style.opacity = '1';
-                    spawnSmoke(actorBox);
+                    // Warp to tile BEHIND target
+                    const behindX = isEnemy ? (dx - 55) : (dx + 55);
+                    const behindY = dy - 10;
+                    actorUnit.style.transform = `translate(${behindX}px, ${behindY}px)`;
+                    actorUnit.style.opacity = '1';
+                    spawnIsoSmoke(actorUnit);
                     if (actorSprite) actorSprite.classList.add('sprite-stance-attack');
 
-                    // Strike impact at 220ms
+                    // Strike
                     setTimeout(() => {
-                        triggerImpactAndRecoil(targetBox, targetSprite, isUlti, isCrit);
-                    }, 80);
+                        triggerIsoImpact(targetUnit, targetSprite, isUlti, isCrit);
+                    }, 100);
 
-                    // Warp back home at 520ms
+                    // Warp back
                     setTimeout(() => {
-                        spawnSmoke(actorBox);
-                        actorBox.style.opacity = '0';
+                        spawnIsoSmoke(actorUnit);
+                        actorUnit.style.opacity = '0';
                         setTimeout(() => {
-                            actorBox.style.transform = '';
-                            actorBox.style.opacity = '1';
+                            actorUnit.style.transform = '';
+                            actorUnit.style.opacity = '1';
                             if (actorSprite) {
                                 actorSprite.classList.remove('sprite-stance-attack');
                                 actorSprite.classList.add(actor === battleState.activeCombatant ? 'sprite-stance-ready' : 'sprite-stance-idle');
                             }
                         }, 140);
-                    }, 500);
+                    }, 520);
                 }, 140);
 
             // -------------------------------------------------------------
-            // B. SPELL / RANGED / HEALER: Launch Traveling Projectile
+            // 2. SPELL / HEALER: Mid-Arena Tile Cast & Traveling Projectile
             // -------------------------------------------------------------
             } else if (role === 'Spell' || role === 'Healer' || role === 'Tactician') {
-                // Step out slightly
-                actorBox.style.transition = 'transform 0.2s ease-out';
-                actorBox.style.transform = isEnemy ? 'translateX(-35px)' : 'translateX(35px)';
+                // Advance 1 tile to mid-arena
+                actorUnit.style.transition = 'transform 0.22s cubic-bezier(0.25, 1, 0.5, 1)';
+                actorUnit.style.transform = isEnemy ? 'translate(-40px, 12px)' : 'translate(40px, -12px)';
                 if (actorSprite) actorSprite.classList.add('sprite-stance-attack');
 
-                // Launch projectile
                 setTimeout(() => {
                     launchPixelProjectile(actorRect, targetRect, actor.element, () => {
-                        triggerImpactAndRecoil(targetBox, targetSprite, isUlti, isCrit);
+                        triggerIsoImpact(targetUnit, targetSprite, isUlti, isCrit);
                     });
-                }, 150);
+                }, 160);
 
-                // Step back
                 setTimeout(() => {
-                    actorBox.style.transform = '';
+                    actorUnit.style.transform = '';
                     if (actorSprite) {
                         actorSprite.classList.remove('sprite-stance-attack');
                         actorSprite.classList.add(actor === battleState.activeCombatant ? 'sprite-stance-ready' : 'sprite-stance-idle');
                     }
-                }, 600);
+                }, 620);
 
             // -------------------------------------------------------------
-            // C. MELEE (Attacker / Tank): Full Dynamic Dash across screen!
+            // 3. MELEE (Attacker / Tank): Full Coordinate Tile Leap!
             // -------------------------------------------------------------
             } else {
-                // Dust cloud on launch
-                const dust = document.createElement('div');
-                dust.className = 'pixel-dust-cloud';
-                dust.innerText = '💨';
-                actorBox.appendChild(dust);
-                setTimeout(() => dust.remove(), 400);
+                spawnIsoDust(actorUnit);
 
-                // Calculate dash destination right in front of target
-                const stopOffset = isEnemy ? 68 : -68;
-                const dashX = dx + stopOffset;
-                const dashY = dy;
+                // Stop right in front of target tile (offset ~50px)
+                const offsetStopX = isEnemy ? 52 : -52;
+                const leapX = dx + offsetStopX;
+                const leapY = dy;
 
-                actorBox.style.animation = 'none'; // Temporarily pause CSS bounce during dash
-                actorBox.style.zIndex = '100';
-                actorBox.style.transition = 'transform 0.32s cubic-bezier(0.25, 1, 0.5, 1)';
-                actorBox.style.transform = `translate(${dashX}px, ${dashY}px)`;
+                actorUnit.style.zIndex = '120';
+                actorUnit.style.transition = 'transform 0.3s cubic-bezier(0.25, 1, 0.5, 1)';
+                actorUnit.style.transform = `translate(${leapX}px, ${leapY}px)`;
                 if (actorSprite) actorSprite.classList.add('sprite-stance-attack');
 
-                // Impact moment at 280ms
+                // Moment of impact at 290ms
                 setTimeout(() => {
-                    triggerImpactAndRecoil(targetBox, targetSprite, isUlti, isCrit);
-                }, 280);
+                    triggerIsoImpact(targetUnit, targetSprite, isUlti, isCrit);
+                }, 290);
 
-                // Spring back home at 520ms
+                // Leap back to home formation tile
                 setTimeout(() => {
-                    actorBox.style.transition = 'transform 0.34s cubic-bezier(0.4, 0, 0.2, 1)';
-                    actorBox.style.transform = '';
+                    actorUnit.style.transition = 'transform 0.34s cubic-bezier(0.4, 0, 0.2, 1)';
+                    actorUnit.style.transform = '';
                     setTimeout(() => {
-                        actorBox.style.zIndex = '';
-                        actorBox.style.animation = ''; // Resume CSS bounce in formation
+                        actorUnit.style.zIndex = '';
                         if (actorSprite) {
                             actorSprite.classList.remove('sprite-stance-attack');
                             actorSprite.classList.add(actor === battleState.activeCombatant ? 'sprite-stance-ready' : 'sprite-stance-idle');
                         }
                     }, 340);
-                }, 520);
+                }, 540);
             }
         }
 
-        // Helper: Spawn smoke puff for Assassin warp
-        function spawnSmoke(parentEl) {
-            if (!parentEl) return;
-            const smoke = document.createElement('div');
-            smoke.className = 'warp-smoke-fx';
-            smoke.innerText = '💨';
-            parentEl.appendChild(smoke);
-            setTimeout(() => smoke.remove(), 350);
-        }
-
-        // Helper: Trigger Impact FX, Recoil, and Screen Shake
-        function triggerImpactAndRecoil(targetBox, targetSprite, isUlti, isCrit) {
-            if (targetBox) {
+        function triggerIsoImpact(targetUnit, targetSprite, isUlti, isCrit) {
+            if (targetUnit) {
                 const impact = document.createElement('div');
                 impact.className = 'pixel-impact-fx';
                 impact.innerText = isUlti ? '💥' : (isCrit ? '⚡' : '⚔️');
-                targetBox.appendChild(impact);
+                targetUnit.appendChild(impact);
                 setTimeout(() => impact.remove(), 450);
+
+                // Knockback slide on tile
+                const isTargetPlayer = targetUnit.id.includes('_p_');
+                targetUnit.style.transition = 'transform 0.15s ease-out';
+                targetUnit.style.transform = isTargetPlayer ? 'translateX(-16px)' : 'translateX(16px)';
+                setTimeout(() => {
+                    targetUnit.style.transform = '';
+                }, 280);
             }
 
             if (targetSprite) {
-                const isTargetPlayer = targetSprite.id.includes('_p_');
-                targetSprite.classList.add('sprite-stance-hurt', isTargetPlayer ? 'recoil-left' : 'recoil-right');
-                setTimeout(() => {
-                    targetSprite.classList.remove('sprite-stance-hurt', 'recoil-left', 'recoil-right');
-                }, 380);
+                targetSprite.classList.add('sprite-stance-hurt');
+                setTimeout(() => targetSprite.classList.remove('sprite-stance-hurt'), 400);
             }
 
             if (isUlti || isCrit) {
@@ -5576,31 +5858,22 @@
             }
         }
 
-        // Helper: Launch traveling pixel projectile across screen
-        function launchPixelProjectile(startRect, endRect, element, onHitCallback) {
-            const elIcon = {
-                Fire: '🔥', Wind: '🌪️', Earth: '🪨', Lightning: '⚡', Water: '💧', Light: '☀️', Dark: '🌑'
-            }[element] || '✨';
+        function spawnIsoDust(parentEl) {
+            if (!parentEl) return;
+            const dust = document.createElement('div');
+            dust.className = 'pixel-dust-cloud';
+            dust.innerText = '💨';
+            parentEl.appendChild(dust);
+            setTimeout(() => dust.remove(), 400);
+        }
 
-            const proj = document.createElement('div');
-            proj.className = 'pixel-flying-projectile';
-            proj.innerText = elIcon;
-            proj.style.left = `${startRect.left + startRect.width / 2}px`;
-            proj.style.top = `${startRect.top + startRect.height / 2}px`;
-            document.body.appendChild(proj);
-
-            // Force browser reflow to guarantee CSS transition fires
-            proj.getBoundingClientRect();
-
-            requestAnimationFrame(() => {
-                proj.style.left = `${endRect.left + endRect.width / 2 - 14}px`;
-                proj.style.top = `${endRect.top + endRect.height / 2 - 14}px`;
-            });
-
-            setTimeout(() => {
-                proj.remove();
-                if (onHitCallback) onHitCallback();
-            }, 320);
+        function spawnIsoSmoke(parentEl) {
+            if (!parentEl) return;
+            const smoke = document.createElement('div');
+            smoke.className = 'warp-smoke-fx';
+            smoke.innerText = '💨';
+            parentEl.appendChild(smoke);
+            setTimeout(() => smoke.remove(), 350);
         }
 
         // ------------------ Clear, Robust Targeting & Inspect System ------------------
