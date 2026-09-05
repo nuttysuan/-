@@ -1548,9 +1548,7 @@
         .pixel-unit-box:hover {
             filter: brightness(1.25);
         }
-        .pixel-unit-box.active-turn {
-            animation: bounceReady 0.8s infinite alternate;
-        }
+        /* active-turn animation handled by side-specific rules */
         .pixel-unit-box.selected-target {
             filter: drop-shadow(0 0 12px #ff4757);
         }
@@ -1815,16 +1813,24 @@
             pointer-events: none;
         }
 
-        /* Step Forward on Active Turn */
+        /* Step Forward on Active Turn (Bounces while remaining 35px stepped forward!) */
+        @keyframes bounceReadyPlayer {
+            0% { transform: translateX(35px) translateY(0); }
+            100% { transform: translateX(35px) translateY(-8px); }
+        }
+        @keyframes bounceReadyEnemy {
+            0% { transform: scaleX(-1) translateX(35px) translateY(0); }
+            100% { transform: scaleX(-1) translateX(35px) translateY(-8px); }
+        }
         #pixelPlayerTeamContainer .pixel-unit-box.active-turn {
-            transform: translateX(35px) translateY(-5px) !important;
-            z-index: 25 !important;
-            filter: drop-shadow(0 0 10px rgba(0, 210, 211, 0.8)) !important;
+            animation: bounceReadyPlayer 0.8s ease-in-out infinite alternate !important;
+            z-index: 30 !important;
+            filter: drop-shadow(0 0 12px rgba(0, 210, 211, 0.9)) !important;
         }
         #pixelEnemyTeamContainer .pixel-unit-box.active-turn {
-            transform: translateX(-35px) translateY(-5px) !important;
-            z-index: 25 !important;
-            filter: drop-shadow(0 0 10px rgba(255, 165, 2, 0.8)) !important;
+            animation: bounceReadyEnemy 0.8s ease-in-out infinite alternate !important;
+            z-index: 30 !important;
+            filter: drop-shadow(0 0 12px rgba(255, 165, 2, 0.9)) !important;
         }
 
         /* Projectile Traveling across screen */
@@ -4000,6 +4006,7 @@
 
                 applyDamage(target, dmg);
                 showCombatFloater(target.slotIndex, target.isPlayer, `-${dmg}`, isCrit ? '#ff4757' : '#ffd700');
+                playSpriteAttackAnim(actor, target, false, isCrit);
                 logCombat(`⚔️ <b>${actor.name}</b> โจมตีใส่ ${target.name} สร้างดาเมจ <span class="${isCrit ? 'log-crit' : ''}">${dmg}</span>! ${isCrit ? '💥 CRITICAL!' : ''}`);
 
                 if (target.elementMark && canReact(target.elementMark, actor.element)) {
@@ -4025,6 +4032,7 @@
                 battleState.teamAp -= 2;
                 actor.sp = Math.min(100, actor.sp + 25);
 
+                playSpriteAttackAnim(actor, target, false, true);
                 executeRoleSkill(actor, target, battleState.players, battleState.enemies);
 
             } else if (actionType === 'ultimate') {
@@ -4049,6 +4057,7 @@
                 let ultiDmg = Math.round((actor.atk * 2.4 - target.def * 0.25) * mult * ultiBonus);
                 applyDamage(target, ultiDmg);
                 showCombatFloater(target.slotIndex, target.isPlayer, `-${ultiDmg}`, '#ff007f');
+                playSpriteAttackAnim(actor, target, true, true);
 
                 logCombat(`💥💥 <b>${actor.name}</b> ปลดปล่อยท่าไม้ตายสุดยอด <b>[${skillName}]</b> ใส่ ${target.name} ทำดาเมจถล่มทลาย <span class="log-crit">${ultiDmg}</span> แต้ม!`);
             }
@@ -4149,6 +4158,7 @@
                 let ultiDmg = Math.round((enemy.atk * 2.1 - chosenTarget.def * 0.25));
                 if (chosenTarget.isGuarding) ultiDmg = Math.round(ultiDmg * 0.5);
                 applyDamage(chosenTarget, ultiDmg);
+                playSpriteAttackAnim(enemy, chosenTarget, true, true);
                 logCombat(`💥 <b>${enemy.name}</b> ปล่อยท่าไม้ตาย <b>[${cData.skill.name}]</b> ใส่ ${chosenTarget.name} โดนไป <span class="log-crit">${ultiDmg}</span> แต้ม!`);
             } else if (enemy.role === 'Healer') {
                 const lowestFoe = [...battleState.enemies].filter(e => !e.isDead).sort((a, b) => (a.currentHp/a.maxHp) - (b.currentHp/b.maxHp))[0];
@@ -4189,7 +4199,7 @@
             dmg = Math.max(40, dmg);
             applyDamage(target, dmg);
             showCombatFloater(target.slotIndex, target.isPlayer, `-${dmg}`, isCrit ? '#ff4757' : '#ffd700');
-            playSpriteAttackAnim(actor, target, false, isCrit);
+            playSpriteAttackAnim(enemy, target, false, isCrit);
             logCombat(`⚔️ <b>${enemy.name}</b> เข้าโจมตีใส่ ${target.name} ทำดาเมจ <span class="${isCrit ? 'log-crit' : ''}">${dmg}</span> แต้ม! ${isCrit ? '💥 CRITICAL!' : ''}`);
 
             if (target.elementMark && canReact(target.elementMark, enemy.element)) {
@@ -5502,8 +5512,9 @@
                 const dashX = dx + stopOffset;
                 const dashY = dy;
 
-                actorBox.style.zIndex = '50';
-                actorBox.style.transition = 'transform 0.28s cubic-bezier(0.25, 1, 0.5, 1)';
+                actorBox.style.animation = 'none'; // Temporarily pause CSS bounce during dash
+                actorBox.style.zIndex = '100';
+                actorBox.style.transition = 'transform 0.32s cubic-bezier(0.25, 1, 0.5, 1)';
                 actorBox.style.transform = `translate(${dashX}px, ${dashY}px)`;
                 if (actorSprite) actorSprite.classList.add('sprite-stance-attack');
 
@@ -5514,15 +5525,16 @@
 
                 // Spring back home at 520ms
                 setTimeout(() => {
-                    actorBox.style.transition = 'transform 0.32s cubic-bezier(0.4, 0, 0.2, 1)';
+                    actorBox.style.transition = 'transform 0.34s cubic-bezier(0.4, 0, 0.2, 1)';
                     actorBox.style.transform = '';
                     setTimeout(() => {
                         actorBox.style.zIndex = '';
+                        actorBox.style.animation = ''; // Resume CSS bounce in formation
                         if (actorSprite) {
                             actorSprite.classList.remove('sprite-stance-attack');
                             actorSprite.classList.add(actor === battleState.activeCombatant ? 'sprite-stance-ready' : 'sprite-stance-idle');
                         }
-                    }, 320);
+                    }, 340);
                 }, 520);
             }
         }
@@ -5577,7 +5589,9 @@
             proj.style.top = `${startRect.top + startRect.height / 2}px`;
             document.body.appendChild(proj);
 
-            // Animate flight to target
+            // Force browser reflow to guarantee CSS transition fires
+            proj.getBoundingClientRect();
+
             requestAnimationFrame(() => {
                 proj.style.left = `${endRect.left + endRect.width / 2 - 14}px`;
                 proj.style.top = `${endRect.top + endRect.height / 2 - 14}px`;
