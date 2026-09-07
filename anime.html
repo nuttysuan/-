@@ -2122,6 +2122,26 @@
             100% { transform: scale(1.1) rotate(0); opacity: 0; }
         }
 
+    
+        /* Dynamic Auras for Buffs and Debuffs */
+        .aura-buff-green {
+            filter: drop-shadow(0 0 12px #2ed573) drop-shadow(0 0 4px #00ff85) !important;
+            animation: auraPulseGreen 1.4s ease-in-out infinite alternate !important;
+        }
+        @keyframes auraPulseGreen {
+            0% { filter: drop-shadow(0 0 8px #2ed573); }
+            100% { filter: drop-shadow(0 0 18px #00ff85) drop-shadow(0 0 6px #fff); }
+        }
+
+        .aura-debuff-purple {
+            filter: drop-shadow(0 0 12px #a55eea) drop-shadow(0 0 4px #8854d0) !important;
+            animation: auraPulsePurple 1.4s ease-in-out infinite alternate !important;
+        }
+        @keyframes auraPulsePurple {
+            0% { filter: drop-shadow(0 0 8px #a55eea); }
+            100% { filter: drop-shadow(0 0 18px #d980fa) drop-shadow(0 0 6px #ff4757); }
+        }
+
     </style>
 </head>
 <body>
@@ -2335,7 +2355,7 @@
                                     <tr style="background: #0f1424; color: var(--text-muted); border-bottom: 2px solid var(--border-color);">
                                         <th style="padding: 10px 14px; width: 70px; text-align: center;">อันดับ</th>
                                         <th style="padding: 10px 14px;">ผู้เล่น (Player)</th>
-                                        <th style="padding: 10px 14px; text-align: center;">การ์ดสะสม</th>
+                                        <th style="padding: 10px 14px; text-align: center;">การ์ดสะสม (ความสมบูรณ์ 50 ตัว)</th>
                                         <th style="padding: 10px 14px; text-align: right; color: var(--gold);">PvP Points</th>
                                     </tr>
                                 </thead>
@@ -3203,6 +3223,15 @@
                     });
                     document.getElementById('invCountBadge').innerText = myInventoryDocs.length;
                     renderInventoryUI();
+
+                    // ซิงค์จำนวนการ์ดสะสม (ทั้งจำนวนใบและจำนวนตัวละครไม่ซ้ำ) ไปยัง Firestore
+                    try {
+                        const uniqueCount = new Set(myInventoryDocs.map(i => i.cardId)).size;
+                        updateDoc(doc(db, "animeUsers", currentUser.uid), {
+                            totalCards: myInventoryDocs.length,
+                            uniqueCards: uniqueCount
+                        }).catch(() => {});
+                    } catch(e) {}
                     renderCodexUI();
                     renderURShowcase();
                     validateAndRenderTeamSlots();
@@ -3860,6 +3889,10 @@
             const spPct = Math.max(0, Math.min(100, Math.round((c.sp / c.maxSp) * 100)));
             const shieldPct = c.shield > 0 ? Math.min(100, Math.round((c.shield / c.maxHp) * 100)) : 0;
 
+            const hasBuff = c.isGuarding || (c.shield > 0);
+            const hasDebuff = c.statuses.includes('Burn') || c.statuses.includes('Freeze') || c.statuses.includes('Stun') || c.statuses.includes('Taunt') || (c.elementMark != null);
+            const dynamicAuraClass = (hasBuff && !c.isDead) ? 'aura-buff-green' : ((hasDebuff && !c.isDead) ? 'aura-debuff-purple' : '');
+
             const targetClass = isTarget ? 'selected-target' : '';
             const activeClass = isActive ? 'active-turn' : '';
             const deadClass = c.isDead ? 'dead' : '';
@@ -3877,7 +3910,7 @@
                 ((!isPlayerCard && !c.isDead) ? `<div style="font-size:9px; color:var(--text-muted); margin-top:2px;">(คลิกเพื่อเล็ง)</div>` : '');
 
             return `
-                <div class="combatant-card ${targetClass} ${activeClass} ${deadClass} ${auraClass}" onclick="${clickCall}">
+                <div class="combatant-card ${targetClass} ${activeClass} ${deadClass} ${auraClass} ${dynamicAuraClass}" onclick="${clickCall}">
                     <div class="combatant-mini-header">
                         <span>${getElementIcon(c.element)} ${c.element}</span>
                         <span style="color:${getRarityColor(c.rarity)};">${c.rarity}</span>
@@ -4000,12 +4033,12 @@
                 Tactician: '🧠 Strategic Buff'
             };
             const roleSubLabels = {
-                Attacker: `ใช้ 2 AP • ฟันแรง x1.6 (~${Math.round(actor.atk * 1.6)}) • +25 SP`,
-                Tank: `ใช้ 2 AP • กางเกราะ Shield +450 & ยั่วยุ 2 เทิร์น`,
-                Assassin: `ใช้ 2 AP • แทงจุดตายเจาะเกราะ DEF (~${Math.round(actor.atk * 1.5)})`,
-                Spell: `ใช้ 2 AP • ระเบิดคลื่นเวทหมู่ใส่ศัตรูทั้ง 5 ตัว`,
-                Healer: `ใช้ 2 AP • ฟื้นฟู HP เพื่อนร่วมทีมที่วิกฤตที่สุด`,
-                Tactician: `ใช้ 2 AP • บัฟ ATK ทั้งทีม +20% & เติม +20 SP`
+                Attacker: `ใช้ 2 AP • ฟันรุนแรง 160% ATK • +25 SP (คริ +20%)`,
+                Tank: `ใช้ 2 AP • Shield +450 HP • Taunt ยั่วยุ 2 เทิร์น`,
+                Assassin: `ใช้ 2 AP • วาร์ปแทงหลัง เจาะเกราะ 100% (คริ 40%)`,
+                Spell: `ใช้ 2 AP • ระเบิดเวทหมู่ 5 ตัว (90% ATK) + มาร์กธาตุ`,
+                Healer: `ใช้ 2 AP • ฟื้นฟู HP 550 + 20% Max HP ให้ตัวที่วิกฤตสุด`,
+                Tactician: `ใช้ 2 AP • บัฟ ATK ทั้งทีม +20% • เร่งเกจ +20 SP`
             };
 
             const rLbl = document.getElementById('roleSkillLabel');
@@ -4388,46 +4421,61 @@
 
         function executeRoleSkill(actor, target, myTeam, foeTeam) {
             try {
-                const isCrit = (actor.role === 'Assassin' && Math.random() < 0.4) || (Math.random() < 0.2);
                 if (actor.role === 'Attacker') {
-                    let dmg = Math.round((actor.atk * 1.6 - target.def * 0.3));
+                    const isCrit = Math.random() < 0.20;
+                    const critMult = isCrit ? 1.5 : 1.0;
+                    let dmg = Math.round((actor.atk * 1.6 - target.def * 0.25) * critMult);
+                    dmg = Math.max(80, dmg);
                     applyDamage(target, dmg);
+                    actor.sp = Math.min(100, actor.sp + 25);
                     showCombatFloater(target.slotIndex, target.isPlayer, `-${dmg}`, isCrit ? '#ff4757' : '#ffd700');
-                    logCombat(`💥 [Heavy Smash] ${actor.name} โจมตีกระหน่ำใส่ ${target.name} ดาเมจ ${dmg}! ${isCrit ? '💥 CRITICAL!' : ''}`);
+                    logCombat(`💥 [Heavy Smash] <b>${actor.name}</b> ฟันรุนแรง 160% ATK (+25 SP) ใส่ ${target.name} ดาเมจ <span class="${isCrit ? 'log-crit' : ''}">${dmg}</span>! ${isCrit ? '💥 CRITICAL!' : ''}`);
+
                 } else if (actor.role === 'Tank') {
                     actor.shield += 450;
-                    actor.statuses.push('Taunt');
-                    logCombat(`🛡️ [Iron Taunt] ${actor.name} กางเกราะ Shield +450 และยั่วยุ Taunt ศัตรู 2 เทิร์น!`);
+                    if (!actor.statuses.includes('Taunt')) actor.statuses.push('Taunt');
+                    showCombatFloater(actor.slotIndex, actor.isPlayer, `+450 Shield`, '#2ed573');
+                    logCombat(`🛡️ [Iron Taunt] <b>${actor.name}</b> กางบาเรียเกราะ Shield +450 HP และยั่วยุบังคับศัตรูเล็งตีตนเอง 2 เทิร์น!`);
+
                 } else if (actor.role === 'Assassin') {
-                    let dmg = Math.round(actor.atk * 1.5);
+                    const isCrit = Math.random() < 0.40;
+                    const critMult = isCrit ? 1.5 : 1.0;
+                    let dmg = Math.round(actor.atk * 1.5 * critMult); // เจาะเกราะ DEF 100%
+                    dmg = Math.max(90, dmg);
                     applyDamage(target, dmg);
-                    showCombatFloater(target.slotIndex, target.isPlayer, `-${dmg}`, '#ff007f');
-                    logCombat(`🗡️ [Shadow Pierce] ${actor.name} ลอบแทงจุดตายทะลวงเกราะ DEF ทำดาเมจ ${dmg}!`);
+                    showCombatFloater(target.slotIndex, target.isPlayer, `-${dmg}`, isCrit ? '#ff007f' : '#ffd700');
+                    logCombat(`🗡️ [Shadow Pierce] <b>${actor.name}</b> วาร์ปแทงหลังทะลวงเกราะ DEF 100% ใส่ ${target.name} ดาเมจ <span class="${isCrit ? 'log-crit' : ''}">${dmg}</span>! ${isCrit ? '💥 CRITICAL!' : ''}`);
+
                 } else if (actor.role === 'Spell') {
-                foeTeam.forEach(e => {
-                    if (!e.isDead) {
-                        applyDamage(e, Math.round(actor.atk * 0.9));
-                        e.elementMark = actor.element;
+                    foeTeam.forEach(e => {
+                        if (!e.isDead) {
+                            let dmg = Math.round(actor.atk * 0.9);
+                            applyDamage(e, dmg);
+                            e.elementMark = actor.element;
+                            showCombatFloater(e.slotIndex, e.isPlayer, `-${dmg}`, '#a55eea');
+                        }
+                    });
+                    logCombat(`📜 [Elemental Surge] <b>${actor.name}</b> ระเบิดคลื่นเวทหมู่ใส่ศัตรูทั้ง 5 ตัว (90% ATK) พร้อมแปะมาร์กธาตุ [${actor.element}]!`);
+
+                } else if (actor.role === 'Healer') {
+                    const lowestAlly = [...myTeam].filter(p => !p.isDead).sort((a, b) => (a.currentHp / a.maxHp) - (b.currentHp / b.maxHp))[0];
+                    if (lowestAlly) {
+                        const healAmt = Math.round(550 + lowestAlly.maxHp * 0.20);
+                        lowestAlly.currentHp = Math.min(lowestAlly.maxHp, lowestAlly.currentHp + healAmt);
+                        showCombatFloater(lowestAlly.slotIndex, lowestAlly.isPlayer, `+${healAmt} HP`, '#2ed573');
+                        logCombat(`💖 [Miracle Recovery] <b>${actor.name}</b> ฟื้นฟู HP ให้ ${lowestAlly.name} ทันที 550 + 20% Max HP (+${healAmt} HP)!`);
                     }
-                });
-                logCombat(`📜 [Elemental Surge] ${actor.name} ระเบิดคลื่นเวทหมู่ใส่ศัตรูทั้ง 5 ตัว พร้อมกระจายมาร์กธาตุ!`);
-            } else if (actor.role === 'Healer') {
-                const lowestAlly = [...myTeam].filter(a => !a.isDead).sort((a, b) => (a.currentHp/a.maxHp) - (b.currentHp/b.maxHp))[0];
-                if (lowestAlly) {
-                    const healAmt = 550 + Math.round(lowestAlly.maxHp * 0.2);
-                    lowestAlly.currentHp = Math.min(lowestAlly.maxHp, lowestAlly.currentHp + healAmt);
-                showCombatFloater(lowestAlly.slotIndex, true, `+${healAmt} HP`, '#2ed573');
-                    logCombat(`💖 [Miracle Recovery] ${actor.name} ฟื้นฟูพลังชีวิตให้ ${lowestAlly.name} +${healAmt} HP!`, 'log-heal');
+
+                } else if (actor.role === 'Tactician') {
+                    myTeam.forEach(a => {
+                        if (!a.isDead) {
+                            a.atk = Math.round(a.atk * 1.2);
+                            a.sp = Math.min(100, a.sp + 20);
+                            showCombatFloater(a.slotIndex, a.isPlayer, `+20% ATK`, '#2ed573');
+                        }
+                    });
+                    logCombat(`🧠 [Strategic Buff] <b>${actor.name}</b> บัญชาการรบ เพิ่ม ATK ทั้งทีม +20% และเร่งเกจ SP ทันที +20 แต้ม!`);
                 }
-            } else if (actor.role === 'Tactician') {
-                myTeam.forEach(a => {
-                    if (!a.isDead) {
-                        a.atk = Math.round(a.atk * 1.2);
-                        a.sp = Math.min(100, a.sp + 20);
-                    }
-                });
-                logCombat(`🧠 [Strategic Buff] ${actor.name} บัญชาการรบ เพิ่ม ATK ทั้งทีม 20% และเร่งเกจ SP +20 แต้ม!`);
-            }
             } catch (err) {
                 console.error("Role Skill Error:", err);
             }
@@ -5008,12 +5056,31 @@
                     const isMyTurn = (room.activeUid === currentUser.uid);
                     const heroLbl = document.getElementById('playerActiveHeroLabel');
                     if (isMyTurn) {
-                        const myActiveHero = myTeam[room.activeSlotIndex] || myTeam.find(p => !p.isDead);
+                        // 1. ปลดล็อกปุ่มคำสั่งทันที (แก้บั๊ก Turn 2 Unresponsive)
+                        battleState.isBusy = false;
+                        
+                        // 2. คืนแต้มคำสั่ง teamAp = 5 แต้มเต็มทุกครั้งที่ขึ้นเทิร์นใหม่
+                        battleState.teamAp = 5;
+
+                        // 3. คำนวณตำแหน่ง activeSlotIndex ข้ามตัวละครที่ HP <= 0 (isDead)
+                        let activeSlot = room.activeSlotIndex ?? 0;
+                        if (!myTeam[activeSlot] || myTeam[activeSlot].isDead || myTeam[activeSlot].currentHp <= 0) {
+                            const aliveIdx = myTeam.findIndex(p => !p.isDead && p.currentHp > 0);
+                            if (aliveIdx !== -1) activeSlot = aliveIdx;
+                        }
+                        battleState.activeSlotIndex = activeSlot;
+
+                        const myActiveHero = myTeam[activeSlot];
                         battleState.activeCombatant = myActiveHero;
                         if (heroLbl) heroLbl.innerText = `🟢 เทิร์นของคุณ: ${myActiveHero ? myActiveHero.name : 'ฮีโร่'}`;
                         if (myActiveHero) updateActionButtonsState(myActiveHero);
                     } else {
-                        const oppActiveHero = oppTeam[room.activeSlotIndex] || oppTeam.find(e => !e.isDead);
+                        let oppActiveSlot = room.activeSlotIndex ?? 0;
+                        if (!oppTeam[oppActiveSlot] || oppTeam[oppActiveSlot].isDead || oppTeam[oppActiveSlot].currentHp <= 0) {
+                            const aliveOppIdx = oppTeam.findIndex(e => !e.isDead && e.currentHp > 0);
+                            if (aliveOppIdx !== -1) oppActiveSlot = aliveOppIdx;
+                        }
+                        const oppActiveHero = oppTeam[oppActiveSlot];
                         battleState.activeCombatant = oppActiveHero;
                         if (heroLbl) heroLbl.innerText = `⏳ กำลังรอฝ่ายตรงข้าม (${oppName}) ตัดสินใจ...`;
                         disableActionButtons();
@@ -5130,13 +5197,20 @@
                     (await getDoc(roomRef)).data().guestUid : 
                     (await getDoc(roomRef)).data().hostUid;
 
-                const nextSlot = (battleState.activeSlotIndex + 1) % 5;
+                // คำนวณ activeSlotIndex ถัดไปของฝ่ายตรงข้าม ข้ามตัวที่ตาย
+                const nextTeam = battleState.isHost ? battleState.enemies : battleState.players;
+                let nextSlot = (battleState.activeSlotIndex + 1) % 5;
+                if (!nextTeam[nextSlot] || nextTeam[nextSlot].isDead || nextTeam[nextSlot].currentHp <= 0) {
+                    const aliveNextIdx = nextTeam.findIndex(u => !u.isDead && u.currentHp > 0);
+                    if (aliveNextIdx !== -1) nextSlot = aliveNextIdx;
+                }
 
                 await updateDoc(roomRef, {
                     hostTeam: battleState.isHost ? battleState.players : battleState.enemies,
                     guestTeam: battleState.isHost ? battleState.enemies : battleState.players,
                     activeUid: nextActiveUid,
                     activeSlotIndex: nextSlot,
+                    teamAp: 5,
                     turnDeadline: Date.now() + 30000,
                     lastAction: {
                         actorUid: currentUser.uid,
@@ -5206,7 +5280,9 @@
                 usersList.push({
                     uid: d.id,
                     username: u.username || u.email?.split('@')[0] || 'Player',
-                    pvpPoints: u.pvpRankPoints || 0
+                    pvpPoints: u.pvpRankPoints || 0,
+                    uniqueCards: u.uniqueCards,
+                    totalCards: u.totalCards
                 });
             });
 
@@ -5225,14 +5301,42 @@
                 const isMe = (currentUser && user.uid === currentUser.uid);
                 const bgStyle = isMe ? 'background: rgba(0, 210, 211, 0.1); font-weight: 800;' : '';
 
+                const totalMasterCards = masterCharacters.length; // 50 ตัวละคร
+                const userUnique = isMe ? new Set(myInventoryDocs.map(i => i.cardId)).size : (user.uniqueCards || (user.totalCards ? Math.min(totalMasterCards, Math.round(user.totalCards * 0.85)) : 15));
+                const userTotal = isMe ? myInventoryDocs.length : (user.totalCards || userUnique);
+                const pct = Math.min(100, Math.round((userUnique / totalMasterCards) * 100));
+                const isComplete = (userUnique >= totalMasterCards);
+
+                const collectionHtml = isComplete ? `
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
+                        <span style="color: #ffd700; font-weight: 900; background: rgba(255, 215, 0, 0.18); padding: 3px 10px; border-radius: 12px; border: 1.5px solid #ffd700; font-size: 12px; box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);">
+                            🏆 ครบเซ็ต ${userUnique}/${totalMasterCards} ตัว
+                        </span>
+                        <span style="font-size: 10px; color: #2ed573; font-weight: 700; margin-top: 2px;">100% สมบูรณ์ (รวม ${userTotal} ใบ)</span>
+                    </div>
+                ` : `
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 3px;">
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <span style="color: #00d2d3; font-weight: 800; font-size: 13px;">${userUnique}/${totalMasterCards} ตัว</span>
+                            <span style="font-size: 11px; color: #ffd700; font-weight: 700;">(${pct}%)</span>
+                        </div>
+                        <div style="width: 86px; height: 6px; background: #0c1222; border-radius: 3px; overflow: hidden; border: 1px solid #1f2d4d;">
+                            <div style="width: ${pct}%; height: 100%; background: linear-gradient(90deg, #00d2d3, #2ed573); border-radius: 3px;"></div>
+                        </div>
+                        <span style="font-size: 10px; color: #ff6b81; font-weight: 600;">
+                            ขาดอีก ${totalMasterCards - userUnique} ตัว (รวม ${userTotal} ใบ)
+                        </span>
+                    </div>
+                `;
+
                 return `
                     <tr style="border-bottom: 1px dashed var(--border-color); ${bgStyle}">
                         <td style="padding: 10px 14px; text-align: center; font-size: 16px; font-weight: 900;">${medal}</td>
                         <td style="padding: 10px 14px; color: #fff;">
-                            ${user.username} ${isMe ? '<span style="font-size:10px; background:#00d2d3; color:#000; padding:1px 5px; border-radius:4px; margin-left:4px;">คุณ</span>' : ''}
+                            ${user.username} ${isMe ? '<span style="font-size:10px; background:#00d2d3; color:#000; padding:1px 5px; border-radius:4px; margin-left:4px; font-weight:900;">คุณ</span>' : ''}
                         </td>
-                        <td style="padding: 10px 14px; text-align: center; color: var(--text-muted);">
-                            ${isMe ? myInventoryDocs.length : '15+'} ใบ
+                        <td style="padding: 10px 14px; text-align: center;">
+                            ${collectionHtml}
                         </td>
                         <td style="padding: 10px 14px; text-align: right; color: var(--gold); font-weight: 900; font-size: 16px;">
                             ${user.pvpPoints.toLocaleString()} PTS
@@ -5247,21 +5351,35 @@
         let currentFusionFodderInv = null;
 
         window.openFusionModal = (baseInvId) => {
-            const baseInv = myInventoryDocs.find(i => i.id === baseInvId);
-            if (!baseInv) return;
-            if (baseInv.isListed) return alert("⚠️ ไม่สามารถหลอมการ์ดที่กำลังตั้งขายในตลาดได้");
+            const clickedInv = myInventoryDocs.find(i => i.id === baseInvId);
+            if (!clickedInv) return;
+            if (clickedInv.isListed) return showToast("⚠️ ไม่สามารถหลอมการ์ดที่กำลังตั้งขายในตลาดได้", "error");
 
-            const currentStars = baseInv.stars || 0;
-            if (currentStars >= 5) return alert("⭐ การ์ดใบนี้ปลดล็อกดาวเต็ม 5 ดาว (MAX) แล้วครับ!");
-
-            // Find duplicate unlisted card of same cardId
-            const duplicate = myInventoryDocs.find(i => i.cardId === baseInv.cardId && i.id !== baseInv.id && !i.isListed);
-            if (!duplicate) {
-                return alert("⚠️ คุณต้องมีการ์ดซ้ำตัวเดียวกันอย่างน้อย 2 ใบในคลัง จึงจะสามารถหลอมการ์ดได้ครับ");
+            // 1. ค้นหาสำเนาการ์ดตัวเดียวกันทั้งหมดในคลัง (allCopies)
+            const allCopies = myInventoryDocs.filter(i => i.cardId === clickedInv.cardId && !i.isListed);
+            if (allCopies.length < 2) {
+                return showToast("⚠️ คุณต้องมีการ์ดซ้ำตัวเดียวกันอย่างน้อย 2 ใบในคลัง จึงจะสามารถหลอมการ์ดได้ครับ", "error");
             }
 
-            currentFusionBaseInv = baseInv;
-            currentFusionFodderInv = duplicate;
+            // 2. ระบบหลอมรวมการ์ดซ้ำอัจฉริยะ (Smart Limit Break Protection):
+            // เรียงลำดับดาวจากมากไปน้อย (b.stars - a.stars)
+            allCopies.sort((a, b) => (b.stars || 0) - (a.stars || 0));
+
+            // บังคับเลือกการ์ดใบแรก (Index 0 ที่มีดาวสูงสุด) เป็น "Base Card" ที่จะได้รับการเพิ่มดาวเสมอ
+            const protectedBase = allCopies[0];
+            const currentStars = protectedBase.stars || 0;
+            if (currentStars >= 5) {
+                return showToast("⭐ การ์ดใบนี้ปลดล็อกดาวเต็ม 5 ดาว (MAX) แล้วครับ!", "info");
+            }
+
+            // บังคับเลือกการ์ดใบสุดท้าย (Index ท้ายสุดที่มีดาวต่ำสุด เช่น 0★) เป็น "Fodder Card" ที่จะถูกลบสลายทิ้งเสมอ
+            const protectedFodder = allCopies[allCopies.length - 1];
+            if (protectedBase.id === protectedFodder.id) {
+                return showToast("⚠️ ไม่พบการ์ดวัตถุดิบที่เหมาะสมสำหรับหลอม", "error");
+            }
+
+            currentFusionBaseInv = protectedBase;
+            currentFusionFodderInv = protectedFodder;
 
             const c = charMap[baseInv.cardId];
             const nextStars = currentStars + 1;
@@ -5596,8 +5714,7 @@
         let battleViewMode = localStorage.getItem('animeBattleViewMode') || 'pixel';
 
         // 🎯 จุดลงทะเบียนรหัสตัวละครที่มี Spritesheets (ใน assets/anime/sprites/{id}.png)
-        const KNOWN_SPRITE_IDS = new Set(['c004', 'c005', 'c017', 'c019','c023','c024','c025','c026','c027','c028','c029','c030',
-                                          'c031','c032','c033','c034','c035','c036','c040','c042','c043','c044','c045','c046']);
+        const KNOWN_SPRITE_IDS = new Set(['c004', 'c005', 'c019', 'c034', 'c040']);
 
         window.toggleBattleViewMode = () => {
             battleViewMode = (battleViewMode === 'pixel') ? 'card' : 'pixel';
@@ -5762,10 +5879,16 @@
             const spNeeded = Math.max(15, (cData.skill?.spCost || 50) - (c.stars >= 4 ? 10 : (c.stars >= 1 ? 5 : 0)));
             const isSpReady = (c.sp >= spNeeded && !c.isDead);
 
+            // Check Buffs and Debuffs for Dynamic Aura
+            const hasBuff = c.isGuarding || (c.shield > 0);
+            const hasDebuff = c.statuses.includes('Burn') || c.statuses.includes('Freeze') || c.statuses.includes('Stun') || c.statuses.includes('Taunt') || (c.elementMark != null);
+
             let unitCls = 'iso-unit';
             if (c.isDead) unitCls += ' dead';
             if (isActive) unitCls += ' active-turn';
             if (isTarget) unitCls += ' selected-target';
+            if (hasBuff && !c.isDead) unitCls += ' aura-buff-green';
+            else if (hasDebuff && !c.isDead) unitCls += ' aura-debuff-purple';
 
             // Check if Sprite exists
             const hasSprite = KNOWN_SPRITE_IDS.has(c.id);
