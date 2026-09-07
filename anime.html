@@ -4019,6 +4019,10 @@
             // Guard button is always enabled for defense (0 AP)
             const btnGrd = document.getElementById('btnActionGuard');
             if (btnGrd) btnGrd.disabled = battleState.isBusy;
+            const grdLbl = document.getElementById('guardSkillLabel');
+            const grdSub = document.getElementById('guardSkillSubLabel');
+            if (grdLbl) grdLbl.innerText = '🛡️ ตั้งรับ (Guard)';
+            if (grdSub) grdSub.innerText = 'ฟรี 0 AP • ลดดาเมจ 50% • +15 SP • ATB +20';
 
             // Tactical Role Skill
             const btnSkl = document.getElementById('btnActionSkill');
@@ -4065,8 +4069,29 @@
             const hName = document.getElementById('dashboardHeroName');
             if (hName) hName.innerHTML = `${actor.name} (${actor.rarity} • ${actor.element} • ${actor.role}) ${actor.stars > 0 ? `<span style="color:#ffd700;">(${actor.stars}★)</span>` : ''}`;
 
+            const roleSkillDescriptions = {
+                Attacker: '<b>[สกิล 2: Heavy Smash]</b> ฟันรุนแรง 160% ATK, เร่งเกจ +25 SP, อัตราคริติคอล +20% (ใช้ 2 AP)',
+                Tank: '<b>[สกิล 2: Iron Taunt]</b> กางบาเรียเกราะ Shield +450 HP และยั่วยุ Taunt ศัตรู 2 เทิร์น (ใช้ 2 AP)',
+                Assassin: '<b>[สกิล 2: Shadow Pierce]</b> ลอบแทงหลังเป้าหมาย เจาะเกราะ DEF 100% (ดาเมจ 150% ATK), คริติคอล 40% (ใช้ 2 AP)',
+                Spell: '<b>[สกิล 2: Elemental Surge]</b> คลื่นเวทระเบิดหมู่ศัตรูทั้ง 5 ตัว (90% ATK) พร้อมแปะมาร์กธาตุ (ใช้ 2 AP)',
+                Healer: '<b>[สกิล 2: Miracle Recovery]</b> ฟื้นฟู HP ให้เพื่อนร่วมทีมที่วิกฤตที่สุดทันที 550 + 20% Max HP (ใช้ 2 AP)',
+                Tactician: '<b>[สกิล 2: Strategic Buff]</b> บัญชาการรบ เพิ่ม ATK ทั้งทีม +20% และเร่งเกจ SP ทันที +20 แต้ม (ใช้ 2 AP)'
+            };
+
             const hDesc = document.getElementById('dashboardSkillDesc');
-            if (hDesc) hDesc.innerHTML = `💥 <b>${skillName}:</b> ${skillDesc} <span style="color:var(--gold); margin-left:8px;">[สเตตัส HP:${actor.currentHp}/${actor.maxHp} ATK:${actor.atk} DEF:${actor.def} SPD:${actor.spd}]</span>`;
+            if (hDesc) {
+                hDesc.innerHTML = `
+                    <div style="margin-bottom:3px; color:#00d2d3; font-weight:600;">
+                        ${roleSkillDescriptions[actor.role] || ''}
+                    </div>
+                    <div style="color:#ffa502; font-weight:600;">
+                        💥 <b>[ท่าไม้ตาย: ${skillName}] (ต้องใช้ ${spNeeded} SP • 3 AP):</b> ${skillDesc || 'ปลดปล่อยพลังทำลายล้างมหาศาล'}
+                    </div>
+                    <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">
+                        สเตตัสปัจจุบัน: HP ${actor.currentHp}/${actor.maxHp} • ATK ${actor.atk} • DEF ${actor.def} • SPD ${actor.spd}
+                    </div>
+                `;
+            }
         }
 
         function disableActionButtons() {
@@ -5381,7 +5406,7 @@
             currentFusionBaseInv = protectedBase;
             currentFusionFodderInv = protectedFodder;
 
-            const c = charMap[baseInv.cardId];
+            const c = charMap[protectedBase.cardId];
             const nextStars = currentStars + 1;
             const curBonus = currentStars * 5;
             const nextBonus = nextStars * 5;
@@ -5430,11 +5455,11 @@
                     updatedAt: Date.now()
                 });
 
-                alert(`🎉 หลอมการ์ดสำเร็จ! ${c.name} อัปเกรดเป็น ${nextStars}★ (+${nextStars * 5}% สเตตัส) เรียบร้อยแล้ว!`);
+                showToast(`🎉 หลอมการ์ดสำเร็จ! ${c.name} อัปเกรดเป็น ${nextStars}★ (+${nextStars * 5}% สเตตัส) เรียบร้อยแล้ว!`, "success");
                 closeFusionModal();
                 trackMissionProgress('fuseCount', 1);
             } catch (err) {
-                alert("เกิดข้อผิดพลาดในการหลอมการ์ด: " + err.message);
+                showToast("เกิดข้อผิดพลาดในการหลอมการ์ด: " + err.message, "error");
             }
         }
 
