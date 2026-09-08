@@ -1877,8 +1877,12 @@
         /* ========================================================= */
 
         #pixelBattlefieldView {
-            background: radial-gradient(circle at 50% 35%, #151f38 0%, #080c16 70%, #03050a 100%);
-            border: 3px solid var(--border-color);
+            /* Scrim CSS: ทาฟิลเตอร์มืดแบบไล่เฉด 45% - 75% เหนือภาพฉากหลัง */
+            background: 
+                linear-gradient(to bottom, rgba(8, 12, 22, 0.45) 0%, rgba(8, 12, 22, 0.75) 100%),
+                url('assets/anime/arenas/marineford.jpg') center/cover no-repeat,
+                radial-gradient(circle at 50% 35%, #151f38 0%, #080c16 70%, #03050a 100%);
+            border: 3px solid #00d2d3;
             border-radius: 20px;
             padding: 10px;
             position: relative;
@@ -3779,6 +3783,63 @@
             initBattle(playerCombatants, enemyCombatants, `ผู้เล่น: ${oppTeam.username}`, 'pvp', 150);
         };
 
+        
+        // =========================================================================
+        //          ARENA CONFIGS & SCRIM CSS DYNAMIC BACKGROUND SYSTEM
+        // =========================================================================
+        const ARENA_CONFIGS = {
+            marineford: {
+                name: "มารีนฟอร์ด (One Piece)",
+                scrimBg: "linear-gradient(to bottom, rgba(8, 12, 22, 0.45) 0%, rgba(8, 12, 22, 0.75) 100%), url('assets/anime/arenas/marineford.jpg') center/cover no-repeat, radial-gradient(circle at 50% 35%, #151f38 0%, #080c16 70%, #03050a 100%)",
+                borderColor: "#00d2d3"
+            },
+            valley_end: {
+                name: "หุบผาสิ้นสุด (Naruto)",
+                scrimBg: "linear-gradient(to bottom, rgba(20, 10, 5, 0.4) 0%, rgba(12, 16, 28, 0.75) 100%), url('assets/anime/arenas/valley_end.jpg') center/cover no-repeat, radial-gradient(circle at 50% 35%, #251205 0%, #080c16 70%, #03050a 100%)",
+                borderColor: "#ffa502"
+            },
+            soukyoku_hill: {
+                name: "ลานประหารโซลโซไซตี้ (Bleach)",
+                scrimBg: "linear-gradient(to bottom, rgba(6, 16, 30, 0.4) 0%, rgba(8, 12, 22, 0.75) 100%), url('assets/anime/arenas/soukyoku_hill.jpg') center/cover no-repeat, radial-gradient(circle at 50% 35%, #0d213a 0%, #080c16 70%, #03050a 100%)",
+                borderColor: "#38bdf8"
+            },
+            shibuya: {
+                name: "ทางแยกชิบูย่า (Jujutsu Kaisen)",
+                scrimBg: "linear-gradient(to bottom, rgba(15, 8, 25, 0.45) 0%, rgba(8, 12, 22, 0.75) 100%), url('assets/anime/arenas/shibuya.jpg') center/cover no-repeat, radial-gradient(circle at 50% 35%, #1d0f30 0%, #080c16 70%, #03050a 100%)",
+                borderColor: "#a855f7"
+            },
+            mugen_train: {
+                name: "รถไฟสู่นิรันดร์ (Demon Slayer)",
+                scrimBg: "linear-gradient(to bottom, rgba(25, 10, 10, 0.45) 0%, rgba(8, 12, 22, 0.75) 100%), url('assets/anime/arenas/mugen_train.jpg') center/cover no-repeat, radial-gradient(circle at 50% 35%, #280d0d 0%, #080c16 70%, #03050a 100%)",
+                borderColor: "#ef4444"
+            },
+            shiganshina: {
+                name: "เขตกักกันชิกันชินะ (Attack on Titan)",
+                scrimBg: "linear-gradient(to bottom, rgba(18, 14, 10, 0.4) 0%, rgba(8, 12, 22, 0.75) 100%), url('assets/anime/arenas/shiganshina.jpg') center/cover no-repeat, radial-gradient(circle at 50% 35%, #22180f 0%, #080c16 70%, #03050a 100%)",
+                borderColor: "#eab308"
+            }
+        };
+
+        function applyRandomArenaScrim() {
+            const arenaKeys = Object.keys(ARENA_CONFIGS);
+            const randomKey = arenaKeys[Math.floor(Math.random() * arenaKeys.length)];
+            const arena = ARENA_CONFIGS[randomKey];
+
+            const battlefieldView = document.getElementById('pixelBattlefieldView');
+            if (battlefieldView) {
+                battlefieldView.style.background = arena.scrimBg;
+                battlefieldView.style.borderColor = arena.borderColor;
+            }
+
+            const clashTitle = document.getElementById('isoTurnBanner');
+            if (clashTitle) {
+                clashTitle.innerText = `🏟️ สมรภูมิ: ${arena.name}`;
+            }
+
+            logCombat(`🏟️ เข้าสู่สมรภูมิ: <b>${arena.name}</b>`);
+            return arena;
+        }
+
         function initBattle(players, enemies, oppName, mode, reward) {
             battleState = {
                 mode: mode,
@@ -3794,6 +3855,9 @@
 
             document.getElementById('arenaLobbyView').style.display = 'none';
             document.getElementById('arenaBattleView').style.display = 'block';
+
+            // 🎲 สุ่มเลือกสมรภูมิและเคลือบ Scrim CSS
+            applyRandomArenaScrim();
             document.getElementById('battleOpponentName').innerText = `⚔️ กำลังต่อสู้: ${oppName}`;
             document.getElementById('battleRoundCounter').innerText = '1';
             document.getElementById('realtimeTimerBox').style.display = 'flex';
@@ -5053,6 +5117,9 @@
                         document.getElementById('arenaLobbyView').style.display = 'none';
                         document.getElementById('arenaBattleView').style.display = 'block';
                         document.getElementById('realtimeTimerBox').style.display = 'flex';
+
+                        // 🎲 สุ่มเลือกสมรภูมิและเคลือบ Scrim CSS สำหรับ Realtime PvP
+                        applyRandomArenaScrim();
                         document.getElementById('battleOpponentName').innerText = `🌐 Realtime PvP vs ${oppName}`;
                         document.getElementById('battleRoundCounter').innerText = room.round || '1';
 
