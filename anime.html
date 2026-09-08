@@ -3037,15 +3037,7 @@
                 </div>
 
                 <!-- Tactical Artifacts Panel -->
-                <div class="panel" style="border-color:#00d2d3;">
-                    <div class="panel-header">
-                        <div class="panel-title">⚔️ อุปกรณ์สวมใส่ประจำตัว (Tactical Artifacts)</div>
-                        <div style="font-size:13px; color:var(--gem-color); font-weight:700;">
-                            สวมใส่เพื่อเพิ่มสเตตัสเฉพาะตัว & สุ่มออปชันรองใหม่ได้
-                        </div>
-                    </div>
-                    <div class="stage-grid" id="artifactsGrid"></div>
-                </div>
+                
             </div>
 
             
@@ -3262,23 +3254,7 @@
         </div>
     </div>
 
-    <!-- Artifact Sub-stat Reroll Modal -->
-    <div id="artifactRerollModal" class="modal-backdrop">
-        <div class="modal-box" style="max-width: 480px; text-align:center;">
-            <button class="modal-close-btn" onclick="closeArtifactRerollModal()">✕</button>
-            <div style="font-size:48px; margin-bottom:8px;">🔮</div>
-            <h3 id="rerollModalTitle" style="font-size:20px; font-weight:900; color:#00d2d3; margin-bottom:6px;">
-                สุ่มออปชันรองใหม่ (Sub-stat Reroll)
-            </h3>
-            <p style="font-size:13px; color:var(--text-muted); margin-bottom:15px;">
-                ใช้ 💎 50 Gems เพื่อสุ่มออปชันรอง 2-3 แถวใหม่ทั้งหมด
-            </p>
-            <div id="rerollCurrentStatsBox" style="background:#0a0f1d; border:1px solid var(--border-color); border-radius:12px; padding:12px; margin-bottom:18px; text-align:left;"></div>
-            <button class="btn-auth-primary" style="background:linear-gradient(135deg, #00d2d3, #5352ed); margin-bottom:0;" onclick="confirmRerollArtifactSubstats()">
-                🔮 สุ่มออปชันใหม่ (💎 50 Gems)
-            </button>
-        </div>
-    </div>
+    
 
 
     <!-- Login Streak Modal -->
@@ -3489,7 +3465,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { 
             getFirestore, collection, doc, getDoc, setDoc, addDoc, updateDoc, 
-            deleteDoc, onSnapshot, query, where, runTransaction 
+            deleteDoc, onSnapshot, query, where, runTransaction, increment 
         } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
         import { 
             getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, 
@@ -3520,7 +3496,14 @@
 
         // ------------------ Global States ------------------
         let currentUser = null;
+        let userProfileData = {};
         let userGems = 0;
+
+        function updateGemsUI() {
+            const el = document.getElementById('userGemsDisplay');
+            if (el) el.innerText = (userGems || 0).toLocaleString();
+        }
+        window.updateGemsUI = updateGemsUI;
         let lastDailyTime = 0;
         let myInventoryDocs = [];
         let allMarketListings = [];
@@ -3573,10 +3556,14 @@
                     });
                 }
 
+                // โหลดข้อมูล Equipment และอัปเดต Badge คลังอุปกรณ์ทันทีเมื่อล็อกอิน
+                loadUserEquipmentState();
+
                 // Listen to User Data
                 onSnapshot(userDocRef, (docSnap) => {
                     if (docSnap.exists()) {
                         const data = docSnap.data();
+                        userProfileData = data;
                         userGems = data.gems || 0;
                         lastDailyTime = data.lastDaily || 0;
                         userLoginStreak = data.loginStreak || 1;
@@ -3587,10 +3574,22 @@
                         userClaimedFootballMatches = data.claimedFootballMatchIds || [];
                         userClaimedSeasonWeek = data.claimedSeasonWeek || '';
 
-                        document.getElementById('userGemsDisplay').innerText = userGems.toLocaleString();
+                        // ซิงค์ข้อมูล World Boss & Raid ข้ามเซสชัน
+                        const todayStr = new Date().toISOString().slice(0, 10);
+                        if (data.lastRaidDate === todayStr) {
+                            userRaidAttemptsToday = (data.raidAttemptsToday !== undefined) ? data.raidAttemptsToday : 2;
+                        } else {
+                            userRaidAttemptsToday = 2; // รีเซ็ตสิทธิ์ฟรีเมื่อข้ามวันใหม่
+                        }
+                        userRaidTotalDamage = data.raidTotalDamage || 0;
+                        userClaimedMilestones = data.claimedRaidMilestones || [];
+
+                        updateGemsUI();
                         renderStreakCalendar();
                         renderFootballBonusUI();
                         renderMissionsUI();
+                        if (typeof renderWorldBossUI === 'function') renderWorldBossUI();
+                        loadUserEquipmentState();
                     }
                 });
 
@@ -3689,6 +3688,7 @@
         // ------------------ Daily Reward ------------------
         function updateDailyButtonState() {
             const btn = document.getElementById('dailyRewardBtn');
+            if (!btn) return;
             const now = Date.now();
             const oneDay = 24 * 60 * 60 * 1000;
             if (now - lastDailyTime < oneDay) {
@@ -3842,80 +3842,7 @@
             renderTeamFormationUI();
         }
 
-        window.renderTeamFormationUI = () => {
-            for (let i = 0; i < 5; i++) {
-                const slotEl = document.getElementById(`slot-${i}`);
-                if (!slotEl) continue;
-                const docId = myTeamDocIds[i];
-                if (docId) {
-                    const inv = myInventoryDocs.find(d => d.id === docId);
-                    if (inv) {
-                        const c = charMap[inv.cardId];
-                        slotEl.className = "team-slot filled";
-                        slotEl.innerHTML = `
-                            <span class="slot-badge">ตำแหน่ง ${i+1} (${i < 2 ? 'หน้า' : 'หลัง'})</span>
-                            <button class="slot-remove-btn" onclick="event.stopPropagation(); removeSlotCard(${i})">✕</button>
-                            <div style="font-size:26px; margin-top:10px;">${getElementIcon(c.element)}</div>
-                            <div style="font-weight:800; font-size:13px; color:#fff; margin-top:4px;">${c.name}</div>
-                            <div style="font-size:10px; color:var(--text-muted);">${c.series}</div>
-                            <div style="margin-top:6px; font-size:11px; font-weight:700; color:${getRarityColor(c.rarity)};">
-                                ${c.rarity} • ${c.role}
-                            </div>
-                            <div style="font-size:10px; color:#00d2d3; margin-top:6px;">
-                                HP:${c.stats.hp} ATK:${c.stats.atk}
-                            </div>
-                        `;
-                    }
-                } else {
-                    slotEl.className = "team-slot";
-                    slotEl.innerHTML = `
-                        <span class="slot-badge">ตำแหน่ง ${i+1} (${i < 2 ? 'หน้า' : 'หลัง'})</span>
-                        <div class="slot-content">➕ เลือกการ์ด</div>
-                    `;
-                }
-            }
-            renderSynergies();
-            renderPvEStages();
-        };
 
-        window.openSlotPicker = (slotIndex) => {
-            currentPickingSlot = slotIndex;
-            const modal = document.getElementById('slotPickerModal');
-            const grid = document.getElementById('slotPickerGrid');
-
-            const currentSelectedDocIds = new Set(myTeamDocIds.filter((id, idx) => id && idx !== slotIndex));
-            const availableCards = myInventoryDocs.filter(inv => !currentSelectedDocIds.has(inv.id) && !inv.isListed);
-
-            if (availableCards.length === 0) {
-                grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><h3>ไม่มีการ์ดว่างในคลัง</h3><p>ลองเปิดกาชาเพื่อหาการ์ดเพิ่ม หรือยกเลิกการ์ดที่วางขายอยู่</p></div>`;
-            } else {
-                grid.innerHTML = availableCards.map(inv => {
-                    const c = charMap[inv.cardId];
-                    const stars = inv.stars || 0;
-                    const hpVal = Math.round(c.stats.hp * (1 + (stars * 0.05)));
-                    const atkVal = Math.round(c.stats.atk * (1 + (stars * 0.05)));
-                    return `
-                        <div class="tcg-card rarity-${c.rarity}" style="cursor:pointer;" onclick="selectCardForSlot('${inv.id}')">
-                            <div class="card-top-bar">
-                                <span class="element-tag el-${c.element}">${getElementIcon(c.element)} ${c.element}</span>
-                                <span class="rarity-tag tag-${c.rarity}">${c.rarity}</span>
-                            </div>
-                            <div class="card-body">
-                                <div class="card-name">${c.name}</div>
-                                <div class="card-series">${c.series} • ${c.role}</div>
-                                <div class="stats-mini-row">
-                                    <div><span class="stat-label">HP</span>${hpVal}</div>
-                                    <div><span class="stat-label">ATK</span>${atkVal}</div>
-                                    <div><span class="stat-label">SPD</span>${c.stats.spd}</div>
-                                </div>
-                                <button class="btn-card-action" style="background:var(--secondary); color:#fff; width:100%;">เลือกใส่ทีม</button>
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-            }
-            modal.style.display = 'flex';
-        };
 
         window.closeSlotPicker = () => {
             document.getElementById('slotPickerModal').style.display = 'none';
@@ -4164,13 +4091,13 @@
                 initialShield += eqShield;
                 critDmgBonus += eqCrit;
 
-                if (invData.equippedArtifact && MASTER_ARTIFACTS[invData.equippedArtifact.id]) {
-                    const art = MASTER_ARTIFACTS[invData.equippedArtifact.id];
-                    if (art.mainStat.hp) hp += art.mainStat.hp;
-                    if (art.mainStat.atk) atk += art.mainStat.atk;
-                    if (art.mainStat.def) def += art.mainStat.def;
-                    if (art.mainStat.spd) spd += art.mainStat.spd;
-                    if (art.mainStat.sp) initialSp += art.mainStat.sp;
+                if (invData.equippedArtifact && typeof MASTER_EQUIPMENT !== 'undefined' && MASTER_EQUIPMENT[invData.equippedArtifact.id]) {
+                    const art = MASTER_EQUIPMENT[invData.equippedArtifact.id];
+                    if (art.stats && art.stats.hp) hp += art.stats.hp;
+                    if (art.stats && art.stats.atk) atk += art.stats.atk;
+                    if (art.stats && art.stats.def) def += art.stats.def;
+                    if (art.stats && art.stats.spd) spd += art.stats.spd;
+                    if (art.stats && art.stats.sp) initialSp += art.stats.sp;
                 }
             }
 
@@ -4218,7 +4145,7 @@
             if (!stage) return;
 
             const playerUniqueCount = new Set(myInventoryDocs.map(i => i.cardId)).size;
-            const pvpPts = (userProfileData && userProfileData.pvpRankPoints) || 0;
+            const pvpPts = (userProfileData?.pvpRankPoints) || 0;
             const botScale = calculateBotScale(playerUniqueCount, pvpPts);
 
             const playerCombatants = myTeamDocIds.map((docId, idx) => {
@@ -4443,8 +4370,8 @@
             document.getElementById('arenaLobbyView').style.display = 'none';
             document.getElementById('arenaBattleView').style.display = 'block';
 
-            // 🎲 สุ่มเลือกสมรภูมิและเคลือบ Scrim CSS
-            applyRandomArenaScrim();
+            // 🎲 สุ่มเลือกสมรภูมิและเคลือบ Scrim CSS (ส่งทีมผู้เล่นและศัตรูเพื่อรับบัฟเจ้าถิ่น)
+            applyRandomArenaScrim(players, enemies);
             document.getElementById('battleOpponentName').innerText = `⚔️ กำลังต่อสู้: ${oppName}`;
             document.getElementById('battleRoundCounter').innerText = '1';
             document.getElementById('realtimeTimerBox').style.display = 'flex';
@@ -5289,68 +5216,32 @@
         window.claimRaidMilestone = async (targetDmg, gemsReward, artifactId) => {
             if (!currentUser) return;
             try {
-                userClaimedMilestones.push(targetDmg);
+                if (!userClaimedMilestones.includes(targetDmg)) {
+                    userClaimedMilestones.push(targetDmg);
+                }
+
+                // นำอุปกรณ์เข้าคลังจริง myOwnedEquipment และเซฟลง Firestore
+                if (artifactId && !myOwnedEquipment.includes(artifactId)) {
+                    myOwnedEquipment.push(artifactId);
+                    if (typeof saveUserEquipmentState === 'function') saveUserEquipmentState();
+                }
+
                 const userRef = doc(db, "animeUsers", currentUser.uid);
                 await updateDoc(userRef, {
-                    gems: userGems + gemsReward
+                    gems: userGems + gemsReward,
+                    claimedRaidMilestones: userClaimedMilestones
                 });
 
-                const art = MASTER_ARTIFACTS[artifactId];
-                showToast(`🎉 รับรางวัลขั้น ${targetDmg.toLocaleString()} DMG สำเร็จ! ได้รับ 💎 +${gemsReward} Gems & ${art ? art.name : 'อุปกรณ์'}!`, "success");
+                const art = (typeof MASTER_EQUIPMENT !== 'undefined' && MASTER_EQUIPMENT[artifactId]);
+                showToast(`🎉 รับรางวัลขั้น ${targetDmg.toLocaleString()} DMG สำเร็จ! ได้รับ 💎 +${gemsReward} Gems & [${art ? art.name : 'อุปกรณ์'}] เข้าคลัง!`, "success");
                 renderWorldBossUI();
+                if (typeof renderEquipmentUI === 'function') renderEquipmentUI();
             } catch (err) {
                 showToast("รับรางวัลไม่สำเร็จ: " + err.message, "error");
             }
         };
 
-        window.openArtifactRerollModal = (artifactId) => {
-            selectedArtifactToReroll = artifactId;
-            const art = MASTER_ARTIFACTS[artifactId];
-            if (!art) return;
-
-            document.getElementById('rerollModalTitle').innerText = `สุ่มออปชัน: ${art.name}`;
-            document.getElementById('rerollCurrentStatsBox').innerHTML = `
-                <div style="font-weight:800; color:#ffd700; margin-bottom:6px;">📊 ออปชันปัจจุบัน:</div>
-                <div class="artifact-substat-row"><span>คริติคอล (Crit Rate)</span><span>+8%</span></div>
-                <div class="artifact-substat-row"><span>เจาะเกราะ (Armor Pierce)</span><span>+6%</span></div>
-            `;
-            document.getElementById('artifactRerollModal').style.display = 'flex';
-        };
-
-        window.closeArtifactRerollModal = () => {
-            document.getElementById('artifactRerollModal').style.display = 'none';
-            selectedArtifactToReroll = null;
-        };
-
-        window.confirmRerollArtifactSubstats = async () => {
-            if (!currentUser) return;
-            if (userGems < 50) return showToast("❌ Gems ไม่พอ (ต้องการ 💎 50 Gems)", "error");
-
-            try {
-                const userRef = doc(db, "animeUsers", currentUser.uid);
-                await updateDoc(userRef, { gems: userGems - 50 });
-
-                const pool = [
-                    { name: "คริติคอล (Crit Rate)", val: `+${Math.floor(5 + Math.random() * 8)}%` },
-                    { name: "ความแรงคริ (Crit DMG)", val: `+${Math.floor(10 + Math.random() * 15)}%` },
-                    { name: "เจาะเกราะ (DEF Pierce)", val: `+${Math.floor(4 + Math.random() * 8)}%` },
-                    { name: "ดูดเลือด (Life Steal)", val: `+${Math.floor(3 + Math.random() * 6)}%` },
-                    { name: "ความเร็ว (SPD)", val: `+${Math.floor(5 + Math.random() * 10)}` },
-                    { name: "พลังโจมตี (ATK)", val: `+${Math.floor(30 + Math.random() * 40)}` }
-                ];
-                pool.sort(() => 0.5 - Math.random());
-                const newSubs = pool.slice(0, 2);
-
-                document.getElementById('rerollCurrentStatsBox').innerHTML = `
-                    <div style="font-weight:800; color:#2ed573; margin-bottom:6px;">✨ ออปชันใหม่ที่สุ่มได้สำเร็จ!</div>
-                    ${newSubs.map(s => `<div class="artifact-substat-row"><span>${s.name}</span><span>${s.val}</span></div>`).join('')}
-                `;
-
-                showToast("🔮 สุ่มออปชันรองใหม่สำเร็จ! ค่าพลังอัปเดตเรียบร้อยแล้ว", "success");
-            } catch (err) {
-                showToast("สุ่มออปชันไม่สำเร็จ: " + err.message, "error");
-            }
-        };
+        // (Old artifact reroll modal functions removed in favor of openArtifactInspectModal)
 
         // =========================================================================
         // แพตช์แก้ไข: ระบบแอนิเมชันพุ่งโจมตีและคืนตำแหน่ง (Smooth Motion Patch)
@@ -5827,9 +5718,48 @@
                                 gems: userGems + 150,
                                 raidTotalDamage: userRaidTotalDamage
                             });
+
                             const bossDocRef = doc(db, "animeWorldBoss", "currentBoss");
-                            await updateDoc(bossDocRef, { currentHp: increment(-dmgDealt) });
-                        } catch(e) {}
+                            await runTransaction(db, async (t) => {
+                                const bSnap = await t.get(bossDocRef);
+                                if (!bSnap.exists()) return;
+                                const bData = bSnap.data();
+                                const nextHp = Math.max(0, (bData.currentHp || 0) - dmgDealt);
+
+                                if (nextHp <= 0) {
+                                    // 👹 บอสตายแม้ผู้เล่นแพ้ -> สุ่มเกิดบอสตัวใหม่ทันที ไม่ให้เลือดติดลบและค้างถาวร
+                                    const nextDefeatedCount = (bData.defeatedCount || 0) + 1;
+                                    const urPool = masterCharacters.filter(c => c.rarity === 'UR' && c.id !== bData.cardId);
+                                    const nextChosen = urPool[Math.floor(Math.random() * urPool.length)] || masterCharacters.find(c => c.id === 'c008');
+                                    const nextSeriesGear = Object.keys(MASTER_EQUIPMENT).filter(k => MASTER_EQUIPMENT[k].series === nextChosen.series);
+
+                                    const nextBossDoc = {
+                                        cardId: nextChosen.id,
+                                        name: `${nextChosen.name} (True Form)`,
+                                        series: nextChosen.series,
+                                        rarity: "UR",
+                                        stars: 5,
+                                        maxHp: 10000000,
+                                        currentHp: 10000000,
+                                        atk: Math.round(nextChosen.stats.atk * 1.35),
+                                        def: Math.round(nextChosen.stats.def * 1.15),
+                                        spd: nextChosen.stats.spd,
+                                        element: nextChosen.element,
+                                        role: nextChosen.role,
+                                        equippedArtifacts: nextSeriesGear.slice(0, 3),
+                                        defeatedCount: nextDefeatedCount,
+                                        lastSpawnTime: Date.now()
+                                    };
+
+                                    t.set(bossDocRef, nextBossDoc);
+                                    logCombat(`🎉 <b>[World Boss Defeated!]</b> บอสถูกกำจัดแล้วแม้ผู้กล้าจะสละชีพ! กำเนิดบอสตัวใหม่: <b>${nextBossDoc.name}</b>!`);
+                                } else {
+                                    t.update(bossDocRef, { currentHp: nextHp });
+                                }
+                            });
+                        } catch(e) {
+                            console.error("World Boss Defeat Sync Error:", e);
+                        }
                     }
                 } else {
                     title.innerText = "💀 DEFEAT (พ่ายแพ้)";
@@ -6259,7 +6189,7 @@
                         document.getElementById('realtimeTimerBox').style.display = 'flex';
 
                         // 🎲 สุ่มเลือกสมรภูมิและเคลือบ Scrim CSS สำหรับ Realtime PvP
-                        applyRandomArenaScrim();
+                        applyRandomArenaScrim(myTeam, oppTeam);
                         document.getElementById('battleOpponentName').innerText = `🌐 Realtime PvP vs ${oppName}`;
                         document.getElementById('battleRoundCounter').innerText = room.round || '1';
 
@@ -6535,7 +6465,9 @@
                 globalAllUsers.push({
                     uid: d.id,
                     username: u.username || u.email?.split('@')[0] || 'Player',
-                    pvpPoints: u.pvpRankPoints || 0
+                    pvpPoints: u.pvpRankPoints || 0,
+                    uniqueCards: u.uniqueCards || 0,
+                    totalCards: u.totalCards || 0
                 });
             });
             renderPvPLeaderboard();
@@ -6566,6 +6498,9 @@
                 } else if (globalUserInventoryStats[user.uid]) {
                     userUnique = globalUserInventoryStats[user.uid].cardSet.size;
                     userTotal = globalUserInventoryStats[user.uid].totalCount;
+                } else if (user.uniqueCards > 0) {
+                    userUnique = user.uniqueCards;
+                    userTotal = user.totalCards || userUnique;
                 }
 
                 const pct = Math.min(100, Math.round((userUnique / totalMasterCards) * 100));
@@ -7283,6 +7218,7 @@
 
         function loadUserEquipmentState() {
             try {
+                loadArtifactSubstats();
                 const saved = localStorage.getItem(`animeEquip_${currentUser ? currentUser.uid : 'guest'}`);
                 if (saved) {
                     myOwnedEquipment = JSON.parse(saved);
@@ -7396,8 +7332,25 @@
             return null;
         }
 
-        // Substats storage for owned equipment
+        // Substats storage for owned equipment with LocalStorage persistence
         let userArtifactSubstats = {};
+
+        function saveArtifactSubstats() {
+            if (currentUser) {
+                try {
+                    localStorage.setItem(`animeArtifactSubs_${currentUser.uid}`, JSON.stringify(userArtifactSubstats));
+                } catch (e) {}
+            }
+        }
+
+        function loadArtifactSubstats() {
+            if (currentUser) {
+                try {
+                    const saved = localStorage.getItem(`animeArtifactSubs_${currentUser.uid}`);
+                    if (saved) userArtifactSubstats = JSON.parse(saved);
+                } catch (e) {}
+            }
+        }
 
         function getArtifactSubstats(equipId) {
             if (!userArtifactSubstats[equipId]) {
@@ -7411,6 +7364,7 @@
                 ];
                 pool.sort(() => 0.5 - Math.random());
                 userArtifactSubstats[equipId] = pool.slice(0, 2);
+                saveArtifactSubstats();
             }
             return userArtifactSubstats[equipId];
         }
@@ -7524,6 +7478,7 @@
                 ];
                 pool.sort(() => 0.5 - Math.random());
                 userArtifactSubstats[currentInspectedEquipId] = pool.slice(0, 2);
+                saveArtifactSubstats();
 
                 renderInspectSubstats(currentInspectedEquipId);
                 renderEquipmentUI();
