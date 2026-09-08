@@ -3239,6 +3239,7 @@
                     renderCodexUI();
                     renderURShowcase();
                     validateAndRenderTeamSlots();
+                    renderPvPLeaderboard(); // ป้องกันตัวเองขึ้น 0
 
                 // Load User Team
                 const teamDocSnap = await getDoc(doc(db, "animeTeams", uid));
@@ -3787,43 +3788,151 @@
         // =========================================================================
         //          ARENA CONFIGS & SCRIM CSS DYNAMIC BACKGROUND SYSTEM
         // =========================================================================
+                // =========================================================================
+        //     8 ARENAS SYSTEM (ALL 8 ACTIVE FROM GITHUB ARENAS DIRECTORY)
+        // =========================================================================
         const ARENA_CONFIGS = {
-            marineford: {
-                name: "มารีนฟอร์ด (One Piece)",
-                scrimBg: "linear-gradient(to bottom, rgba(8, 12, 22, 0.45) 0%, rgba(8, 12, 22, 0.75) 100%), url('assets/anime/arenas/marineford.jpg') center/cover no-repeat, radial-gradient(circle at 50% 35%, #151f38 0%, #080c16 70%, #03050a 100%)",
-                borderColor: "#00d2d3"
+            jujutsu_high: {
+                id: "jujutsu_high",
+                name: "โรงเรียนไสยเวทโตเกียว (Jujutsu High)",
+                series: "Jujutsu Kaisen",
+                scrimBg: "linear-gradient(to bottom, rgba(18, 10, 28, 0.45) 0%, rgba(8, 12, 22, 0.75) 100%), url('assets/anime/arenas/jujutsu_high.jpg') center/cover no-repeat, radial-gradient(circle at 50% 35%, #1d0f30 0%, #080c16 70%, #03050a 100%)",
+                borderColor: "#a55eea",
+                buffDesc: "อาณาเขตไสยเวทเข้มข้น: ตัวละคร Jujutsu Kaisen เริ่มต้นด้วย SP +25 แต้ม!",
+                applyBuff: (combatants) => {
+                    combatants.forEach(unit => {
+                        if (unit.series === "Jujutsu Kaisen" && !unit.isDead) {
+                            unit.sp = Math.min(100, unit.sp + 25);
+                            unit.statuses.push("CursedSurge (+25 SP)");
+                        }
+                    });
+                }
             },
-            valley_end: {
-                name: "หุบผาสิ้นสุด (Naruto)",
-                scrimBg: "linear-gradient(to bottom, rgba(20, 10, 5, 0.4) 0%, rgba(12, 16, 28, 0.75) 100%), url('assets/anime/arenas/valley_end.jpg') center/cover no-repeat, radial-gradient(circle at 50% 35%, #251205 0%, #080c16 70%, #03050a 100%)",
-                borderColor: "#ffa502"
+            marineford: {
+                id: "marineford",
+                name: "มารีนฟอร์ด (One Piece)",
+                series: "One Piece",
+                scrimBg: "linear-gradient(to bottom, rgba(8, 12, 22, 0.45) 0%, rgba(8, 12, 22, 0.75) 100%), url('assets/anime/arenas/marineford.jpg') center/cover no-repeat, radial-gradient(circle at 50% 35%, #151f38 0%, #080c16 70%, #03050a 100%)",
+                borderColor: "#00d2d3",
+                buffDesc: "สมรภูมิน้ำแข็งทหารเรือ: ตัวละคร One Piece ได้รับ ATK +15%!",
+                applyBuff: (combatants) => {
+                    combatants.forEach(unit => {
+                        if (unit.series === "One Piece" && !unit.isDead) {
+                            unit.atk = Math.round(unit.atk * 1.15);
+                            unit.statuses.push("MarinefordBuff (+15% ATK)");
+                        }
+                    });
+                }
             },
             soukyoku_hill: {
+                id: "soukyoku_hill",
                 name: "ลานประหารโซลโซไซตี้ (Bleach)",
+                series: "Bleach",
                 scrimBg: "linear-gradient(to bottom, rgba(6, 16, 30, 0.4) 0%, rgba(8, 12, 22, 0.75) 100%), url('assets/anime/arenas/soukyoku_hill.jpg') center/cover no-repeat, radial-gradient(circle at 50% 35%, #0d213a 0%, #080c16 70%, #03050a 100%)",
-                borderColor: "#38bdf8"
+                borderColor: "#38bdf8",
+                buffDesc: "แรงดันวิญญาณฟาดฟัน: ตัวละคร Bleach เจาะเกราะ DEF ศัตรู 25%!",
+                applyBuff: (combatants) => {
+                    combatants.forEach(unit => {
+                        if (unit.series === "Bleach" && !unit.isDead) {
+                            unit.statuses.push("ReiatsuPierce (25% Pierce)");
+                        }
+                    });
+                }
             },
-            shibuya: {
-                name: "ทางแยกชิบูย่า (Jujutsu Kaisen)",
-                scrimBg: "linear-gradient(to bottom, rgba(15, 8, 25, 0.45) 0%, rgba(8, 12, 22, 0.75) 100%), url('assets/anime/arenas/shibuya.jpg') center/cover no-repeat, radial-gradient(circle at 50% 35%, #1d0f30 0%, #080c16 70%, #03050a 100%)",
-                borderColor: "#a855f7"
+            ua_stadium: {
+                id: "ua_stadium",
+                name: "สังเวียนกีฬายูเอ (My Hero Academia)",
+                series: "My Hero Academia",
+                scrimBg: "linear-gradient(to bottom, rgba(10, 18, 32, 0.35) 0%, rgba(8, 12, 22, 0.75) 100%), url('assets/anime/arenas/ua_stadium.jpg') center/cover no-repeat, radial-gradient(circle at 50% 35%, #141c2c 0%, #080c16 70%, #03050a 100%)",
+                borderColor: "#ff4757",
+                buffDesc: "เสียงเชียร์กึกก้อง: ตัวละคร My Hero Academia กางบาเรีย Shield +400 HP ทันที!",
+                applyBuff: (combatants) => {
+                    combatants.forEach(unit => {
+                        if (unit.series === "My Hero Academia" && !unit.isDead) {
+                            unit.shield += 400;
+                            unit.statuses.push("PlusUltraShield (+400 HP)");
+                        }
+                    });
+                }
             },
-            mugen_train: {
-                name: "รถไฟสู่นิรันดร์ (Demon Slayer)",
-                scrimBg: "linear-gradient(to bottom, rgba(25, 10, 10, 0.45) 0%, rgba(8, 12, 22, 0.75) 100%), url('assets/anime/arenas/mugen_train.jpg') center/cover no-repeat, radial-gradient(circle at 50% 35%, #280d0d 0%, #080c16 70%, #03050a 100%)",
-                borderColor: "#ef4444"
+            valley_end: {
+                id: "valley_end",
+                name: "หุบผาสิ้นสุด (Naruto)",
+                series: "Naruto",
+                scrimBg: "linear-gradient(to bottom, rgba(20, 10, 5, 0.4) 0%, rgba(12, 16, 28, 0.75) 100%), url('assets/anime/arenas/valley_end.jpg') center/cover no-repeat, radial-gradient(circle at 50% 35%, #251205 0%, #080c16 70%, #03050a 100%)",
+                borderColor: "#ffa502",
+                buffDesc: "กระแสน้ำวนแห่งโชคชะตา: ตัวละคร Naruto คอมโบปฏิกิริยาธาตุรุนแรงขึ้น +30%!",
+                applyBuff: (combatants) => {
+                    combatants.forEach(unit => {
+                        if (unit.series === "Naruto" && !unit.isDead) {
+                            unit.statuses.push("DestinySurge (+30% Reaction)");
+                        }
+                    });
+                }
             },
-            shiganshina: {
-                name: "เขตกักกันชิกันชินะ (Attack on Titan)",
-                scrimBg: "linear-gradient(to bottom, rgba(18, 14, 10, 0.4) 0%, rgba(8, 12, 22, 0.75) 100%), url('assets/anime/arenas/shiganshina.jpg') center/cover no-repeat, radial-gradient(circle at 50% 35%, #22180f 0%, #080c16 70%, #03050a 100%)",
-                borderColor: "#eab308"
+            wall_maria: {
+                id: "wall_maria",
+                name: "เขตชิกันชินะ กำแพงมาเรีย (Attack on Titan)",
+                series: "Attack on Titan",
+                scrimBg: "linear-gradient(to bottom, rgba(24, 18, 14, 0.35) 0%, rgba(10, 12, 20, 0.8) 100%), url('assets/anime/arenas/wall_maria.jpg') center/cover no-repeat, radial-gradient(circle at 50% 35%, #231a14 0%, #080c16 70%, #03050a 100%)",
+                borderColor: "#a4b0be",
+                buffDesc: "ป้อมปราการกำแพงมาเรีย: ตัวละคร Attack on Titan แถวหน้ารับความเสียหายเบาลง 20%!",
+                applyBuff: (combatants) => {
+                    combatants.forEach(unit => {
+                        if (unit.series === "Attack on Titan" && unit.slotIndex < 2 && !unit.isDead) {
+                            unit.statuses.push("TitanWall (-20% Dmg)");
+                        }
+                    });
+                }
+            },
+            wisteria_forest: {
+                id: "wisteria_forest",
+                name: "ป่าฟูจิคาซาเนะ (Demon Slayer)",
+                series: "Demon Slayer",
+                scrimBg: "linear-gradient(to bottom, rgba(12, 24, 18, 0.4) 0%, rgba(8, 12, 22, 0.75) 100%), url('assets/anime/arenas/wisteria_forest.jpg') center/cover no-repeat, radial-gradient(circle at 50% 35%, #0e2417 0%, #080c16 70%, #03050a 100%)",
+                borderColor: "#2ed573",
+                buffDesc: "กลิ่นอายดอกฟูจิ: ตัวละคร Demon Slayer ความเร็ว SPD +15 แต้ม!",
+                applyBuff: (combatants) => {
+                    combatants.forEach(unit => {
+                        if (unit.series === "Demon Slayer" && !unit.isDead) {
+                            unit.spd += 15;
+                            unit.statuses.push("WisteriaBreeze (+15 SPD)");
+                        }
+                    });
+                }
+            },
+            yorknew_city: {
+                id: "yorknew_city",
+                name: "นครยอร์กชินยามค่ำคืน (Hunter x Hunter)",
+                series: "Hunter x Hunter",
+                scrimBg: "linear-gradient(to bottom, rgba(14, 10, 26, 0.4) 0%, rgba(6, 8, 18, 0.8) 100%), url('assets/anime/arenas/yorknew_city.jpg') center/cover no-repeat, radial-gradient(circle at 50% 35%, #191228 0%, #080c16 70%, #03050a 100%)",
+                borderColor: "#eccc68",
+                buffDesc: "ตลาดมืดใต้แสงนีออน: ตัวละคร Hunter x Hunter อัตราคริติคอล +25%!",
+                applyBuff: (combatants) => {
+                    combatants.forEach(unit => {
+                        if (unit.series === "Hunter x Hunter" && !unit.isDead) {
+                            unit.statuses.push("NenFocus (+25% Crit)");
+                        }
+                    });
+                }
             }
         };
 
-        function applyRandomArenaScrim() {
-            const arenaKeys = Object.keys(ARENA_CONFIGS);
-            const randomKey = arenaKeys[Math.floor(Math.random() * arenaKeys.length)];
-            const arena = ARENA_CONFIGS[randomKey];
+        const ACTIVE_ARENA_KEYS = [
+            'jujutsu_high',
+            'marineford',
+            'soukyoku_hill',
+            'ua_stadium',
+            'valley_end',
+            'wall_maria',
+            'wisteria_forest',
+            'yorknew_city'
+        ];
+
+        function applyRandomArenaScrim(players, enemies) {
+            const pool = ACTIVE_ARENA_KEYS;
+            const randomKey = pool[Math.floor(Math.random() * pool.length)];
+            const arena = ARENA_CONFIGS[randomKey] || ARENA_CONFIGS.marineford;
 
             const battlefieldView = document.getElementById('pixelBattlefieldView');
             if (battlefieldView) {
@@ -3836,7 +3945,12 @@
                 clashTitle.innerText = `🏟️ สมรภูมิ: ${arena.name}`;
             }
 
-            logCombat(`🏟️ เข้าสู่สมรภูมิ: <b>${arena.name}</b>`);
+            if (arena.applyBuff && players && enemies) {
+                arena.applyBuff(players);
+                arena.applyBuff(enemies);
+            }
+
+            logCombat(`🏟️ เข้าสู่สมรภูมิ: <b>${arena.name}</b> • <span style="color:${arena.borderColor};">${arena.buffDesc}</span>`);
             return arena;
         }
 
@@ -5361,31 +5475,54 @@
         }
 
         
-        // ------------------ PvP Leaderboard Logic ------------------
-        onSnapshot(collection(db, "animeUsers"), (snapshot) => {
-            const tbody = document.getElementById('pvpLeaderboardBody');
-            if (!tbody) return;
+        // =========================================================================
+        //     REAL-TIME GLOBAL INVENTORY AGGREGATION & LEADERBOARD (100% ACCURATE)
+        // =========================================================================
+        let globalAllUsers = [];
+        let globalUserInventoryStats = {};
 
-            let usersList = [];
+        // 1. ดึงข้อมูลคลังการ์ดทั้งหมดแบบ Real-time เพื่อนับสถิติจริง 100%
+        onSnapshot(collection(db, "animeInventory"), (snapshot) => {
+            globalUserInventoryStats = {};
+            snapshot.forEach(docSnap => {
+                const item = docSnap.data();
+                if (!item.uid) return;
+                if (!globalUserInventoryStats[item.uid]) {
+                    globalUserInventoryStats[item.uid] = {
+                        cardSet: new Set(),
+                        totalCount: 0
+                    };
+                }
+                if (item.cardId) {
+                    globalUserInventoryStats[item.uid].cardSet.add(item.cardId);
+                }
+                globalUserInventoryStats[item.uid].totalCount++;
+            });
+            renderPvPLeaderboard();
+        });
+
+        // 2. ดึงรายชื่อผู้เล่นทั้งหมด
+        onSnapshot(collection(db, "animeUsers"), (snapshot) => {
+            globalAllUsers = [];
             snapshot.forEach(d => {
                 const u = d.data();
-                usersList.push({
+                globalAllUsers.push({
                     uid: d.id,
                     username: u.username || u.email?.split('@')[0] || 'Player',
-                    pvpPoints: u.pvpRankPoints || 0,
-                    uniqueCards: u.uniqueCards,
-                    totalCards: u.totalCards
+                    pvpPoints: u.pvpRankPoints || 0
                 });
             });
+            renderPvPLeaderboard();
+        });
 
-            // If few users, add simulated top contenders for excitement
-            if (usersList.length < 3) {
-                usersList.push({ uid: 'bot_1', username: 'KingOfPirates', pvpPoints: 420 });
-                usersList.push({ uid: 'bot_2', username: 'HokageMaster', pvpPoints: 310 });
-                usersList.push({ uid: 'bot_3', username: 'GojoSensei', pvpPoints: 240 });
-            }
+        function renderPvPLeaderboard() {
+            const tbody = document.getElementById('pvpLeaderboardBody');
+            if (!tbody || globalAllUsers.length === 0) return;
 
-            usersList.sort((a, b) => b.pvpPoints - a.pvpPoints);
+            let usersList = [...globalAllUsers];
+            usersList.sort((a, b) => (b.pvpPoints || 0) - (a.pvpPoints || 0));
+
+            const totalMasterCards = masterCharacters.length; // 50 ตัวละคร
 
             tbody.innerHTML = usersList.map((user, idx) => {
                 const rank = idx + 1;
@@ -5393,9 +5530,18 @@
                 const isMe = (currentUser && user.uid === currentUser.uid);
                 const bgStyle = isMe ? 'background: rgba(0, 210, 211, 0.1); font-weight: 800;' : '';
 
-                const totalMasterCards = masterCharacters.length; // 50 ตัวละคร
-                const userUnique = isMe ? new Set(myInventoryDocs.map(i => i.cardId)).size : (user.uniqueCards || (user.totalCards ? Math.min(totalMasterCards, Math.round(user.totalCards * 0.85)) : 15));
-                const userTotal = isMe ? myInventoryDocs.length : (user.totalCards || userUnique);
+                let userUnique = 0;
+                let userTotal = 0;
+
+                // ตรวจสอบจำนวนการ์ดจริงจากหน่วยความจำ
+                if (isMe && myInventoryDocs && myInventoryDocs.length > 0) {
+                    userUnique = new Set(myInventoryDocs.map(i => i.cardId)).size;
+                    userTotal = myInventoryDocs.length;
+                } else if (globalUserInventoryStats[user.uid]) {
+                    userUnique = globalUserInventoryStats[user.uid].cardSet.size;
+                    userTotal = globalUserInventoryStats[user.uid].totalCount;
+                }
+
                 const pct = Math.min(100, Math.round((userUnique / totalMasterCards) * 100));
                 const isComplete = (userUnique >= totalMasterCards);
 
@@ -5431,12 +5577,12 @@
                             ${collectionHtml}
                         </td>
                         <td style="padding: 10px 14px; text-align: right; color: var(--gold); font-weight: 900; font-size: 16px;">
-                            ${user.pvpPoints.toLocaleString()} PTS
+                            ${(user.pvpPoints || 0).toLocaleString()} PTS
                         </td>
                     </tr>
                 `;
             }).join('');
-        });
+        }
 
         // ------------------ Card Fusion / Limit Break Logic ------------------
         let currentFusionBaseInv = null;
