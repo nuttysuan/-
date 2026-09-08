@@ -4367,8 +4367,35 @@
                 isBusy: false
             };
 
-            document.getElementById('arenaLobbyView').style.display = 'none';
-            document.getElementById('arenaBattleView').style.display = 'block';
+            // 🚀 TRANSITION TO BATTLE MODE:
+            // สลับ Tab มาที่ Arena เสมอเพื่อเปิดให้หน้าจอการต่อสู้แสดงผล แม้จะกดเริ่มมาจากหน้า World Boss ก็ตาม
+            const allTabs = ['arena', 'gacha', 'inventory', 'equipment', 'market', 'missions', 'worldboss', 'codex', 'elements'];
+            allTabs.forEach(t => {
+                const btn = document.getElementById(`tabBtn-${t}`);
+                const sec = document.getElementById(`tab-${t}`);
+                if (btn) btn.classList.remove('active');
+                if (sec) {
+                    sec.classList.remove('active');
+                    sec.style.setProperty('display', 'none', 'important');
+                }
+            });
+
+            const arenaBtn = document.getElementById('tabBtn-arena');
+            if (arenaBtn) arenaBtn.classList.add('active');
+
+            const arenaSec = document.getElementById('tab-arena');
+            if (arenaSec) {
+                arenaSec.classList.add('active');
+                arenaSec.style.setProperty('display', 'block', 'important');
+            }
+
+            const lobbyView = document.getElementById('arenaLobbyView');
+            const battleView = document.getElementById('arenaBattleView');
+            if (lobbyView) lobbyView.style.display = 'none';
+            if (battleView) {
+                battleView.style.display = 'block';
+                battleView.scrollIntoView({ behavior: 'smooth' });
+            }
 
             // 🎲 สุ่มเลือกสมรภูมิและเคลือบ Scrim CSS (ส่งทีมผู้เล่นและศัตรูเพื่อรับบัฟเจ้าถิ่น)
             applyRandomArenaScrim(players, enemies);
@@ -4511,7 +4538,7 @@
                     </div>
                     <div style="font-size:10px; color:var(--text-muted); display:flex; justify-content:space-between;">
                         <span>HP</span>
-                        <span>${Math.max(0, c.currentHp)}/${c.maxHp}</span>
+                        <span>${Math.max(0, c.currentHp).toLocaleString()}/${c.maxHp.toLocaleString()}</span>
                     </div>
 
                     <div class="bar-wrap" style="height:4px; margin-top:2px;">
@@ -5144,73 +5171,123 @@
         };
 
         window.startWorldBossRaid = async () => {
-            if (!currentUser) return showToast("⚠️ กรุณาเข้าสู่ระบบก่อนครับ", "error");
-            if (!currentWorldBossData) return showToast("⚠️ กำลังโหลดข้อมูล World Boss...", "info");
+            try {
+                if (!currentUser) {
+                    showToast("⚠️ กรุณาเข้าสู่ระบบก่อนร่วมศึก World Boss ครับ", "error");
+                    const authSec = document.getElementById('authSection');
+                    if (authSec) authSec.scrollIntoView({ behavior: 'smooth' });
+                    return;
+                }
 
-            const validCount = myTeamDocIds.filter(Boolean).length;
-            if (validCount < 5) return showToast(`⚠️ กรุณาจัดทีมให้ครบ 5 ใบก่อนเริ่มเรดบอสครับ`, "error");
+                // ตรวจสอบและดึง/สุ่มบอส UR 5 ดาวทันทีหากยังไม่มี หรือบอสตัวเดิมตายแล้ว
+                if (!currentWorldBossData || (currentWorldBossData.currentHp || 0) <= 0) {
+                    showToast("⏳ กำลังตรวจสอบและเตรียมพร้อม World Boss...", "info");
+                    try {
+                        const bossSnap = await getDoc(doc(db, "animeWorldBoss", "currentBoss"));
+                        if (bossSnap.exists() && (bossSnap.data().currentHp || 0) > 0) {
+                            currentWorldBossData = bossSnap.data();
+                        } else {
+                            const prevDefeated = currentWorldBossData ? (currentWorldBossData.defeatedCount || 0) : 0;
+                            const prevCardId = currentWorldBossData ? currentWorldBossData.cardId : null;
+                            currentWorldBossData = await spawnNewWorldBoss(prevCardId, prevDefeated);
+                        }
+                        if (typeof renderWorldBossUI === 'function') renderWorldBossUI();
+                    } catch(err) {
+                        console.error("Fetch Boss Error:", err);
+                        if (!currentWorldBossData) {
+                            currentWorldBossData = await spawnNewWorldBoss();
+                        }
+                    }
+                }
 
-            if (userRaidAttemptsToday <= 0) {
-                const confirmed = await showConfirmModal({
-                    title: "🎟️ ซื้อตั๋วลงเรดบอสเพิ่ม",
-                    message: "สิทธิ์ฟรีวันนี้หมดแล้ว ต้องการใช้ 💎 <b>300 Gems</b> เพื่อซื้อตั๋วท้าทายเพิ่มหรือไม่?",
-                    icon: "🎟️"
-                });
-                if (!confirmed) return;
-                if (userGems < 300) return showToast("❌ Gems ไม่พอซื้อตั๋ว (ต้องการ 300 Gems)", "error");
-                
-                try {
-                    const userRef = doc(db, "animeUsers", currentUser.uid);
-                    await updateDoc(userRef, { gems: userGems - 300 });
-                } catch(e) {}
-            } else {
-                userRaidAttemptsToday--;
-                try {
-                    const todayStr = new Date().toISOString().slice(0, 10);
-                    const userRef = doc(db, "animeUsers", currentUser.uid);
-                    await updateDoc(userRef, {
-                        lastRaidDate: todayStr,
-                        raidAttemptsToday: userRaidAttemptsToday
+                if (!currentWorldBossData) {
+                    showToast("❌ ไม่สามารถโหลดข้อมูล World Boss ได้ กรุณาลองใหม่อีกครั้ง", "error");
+                    return;
+                }
+
+                // ตรวจสอบทีม 5 ใบ
+                const validCards = myTeamDocIds.filter(id => id && myInventoryDocs.some(d => d.id === id));
+                if (validCards.length < 5) {
+                    showToast(`⚠️ กรุณาจัดทีมให้ครบ 5 ใบก่อนเริ่มเรดบอสครับ (ปัจจุบันมี ${validCards.length}/5)`, "error");
+                    switchTab('arena');
+                    return;
+                }
+
+                // ตรวจสอบสิทธิ์การเข้าเล่น / ซื้อตั๋ว
+                if (userRaidAttemptsToday <= 0) {
+                    const confirmed = await showConfirmModal({
+                        title: "🎟️ ซื้อตั๋วลงเรดบอสเพิ่ม",
+                        message: "สิทธิ์ฟรีวันนี้ครบ 2 ครั้งแล้ว ต้องการใช้ 💎 <b>300 Gems</b> เพื่อซื้อตั๋วท้าทายเพิ่มหรือไม่?",
+                        icon: "🎟️",
+                        okText: "ซื้อตั๋ว & ลุยเลย"
                     });
-                } catch(e) {}
+                    if (!confirmed) return;
+                    if (userGems < 300) {
+                        showToast("❌ Gems ไม่พอซื้อตั๋ว (ต้องการ 300 Gems)", "error");
+                        return;
+                    }
+                    
+                    try {
+                        const userRef = doc(db, "animeUsers", currentUser.uid);
+                        await updateDoc(userRef, { gems: userGems - 300 });
+                    } catch(e) {
+                        console.error(e);
+                    }
+                } else {
+                    userRaidAttemptsToday--;
+                    try {
+                        const todayStr = new Date().toISOString().slice(0, 10);
+                        const userRef = doc(db, "animeUsers", currentUser.uid);
+                        await updateDoc(userRef, {
+                            lastRaidDate: todayStr,
+                            raidAttemptsToday: userRaidAttemptsToday
+                        });
+                    } catch(e) {
+                        console.error(e);
+                    }
+                }
+
+                const cData = charMap[currentWorldBossData.cardId] || masterCharacters.find(c => c.id === 'c013') || masterCharacters[0];
+
+                // Construct Boss Combatant from currentWorldBossData (Persistent Shared HP)
+                const bossMaster = {
+                    id: currentWorldBossData.cardId || cData.id,
+                    name: currentWorldBossData.name || `${cData.name} (True Form)`,
+                    series: currentWorldBossData.series || cData.series,
+                    rarity: "UR",
+                    element: currentWorldBossData.element || cData.element,
+                    role: currentWorldBossData.role || "Attacker",
+                    stats: {
+                        hp: currentWorldBossData.maxHp || 10000000,
+                        atk: currentWorldBossData.atk || Math.round(cData.stats.atk * 1.35),
+                        def: currentWorldBossData.def || Math.round(cData.stats.def * 1.15),
+                        spd: currentWorldBossData.spd || cData.stats.spd,
+                        sp: 100
+                    },
+                    skill: cData.skill || { name: "Ultimate Annihilation", spCost: 50, desc: "ปลดปล่อยพลังทำลายล้างสูงสุด" },
+                    image: cData.image
+                };
+
+                const playerCombatants = myTeamDocIds.map((docId, idx) => {
+                    const inv = myInventoryDocs.find(d => d.id === docId);
+                    return buildCombatant(charMap[inv.cardId], true, idx, inv.stars || 0, inv);
+                });
+
+                const bossCombatant = buildCombatant(bossMaster, false, 0, 5);
+                bossCombatant.maxHp = currentWorldBossData.maxHp || 10000000;
+                bossCombatant.currentHp = currentWorldBossData.currentHp || 10000000;
+                bossCombatant.stars = 5;
+
+                // Save start boss hp to calculate actual damage dealt
+                battleState_bossInitialHp = bossCombatant.currentHp;
+
+                // Transition to Battle Mode
+                initBattle(playerCombatants, [bossCombatant], `👹 World Boss: ${currentWorldBossData.name}`, "world_boss", 500);
+                logCombat(`👹 <b>เข้าสู่สังเวียน DPS 10 เทิร์นกับ World Boss [${currentWorldBossData.name}]! ดาเมจจะหักลบเลือดเซิร์ฟเวอร์ถาวร!</b>`);
+            } catch (err) {
+                console.error("startWorldBossRaid Error:", err);
+                showToast("❌ เกิดข้อผิดพลาดในการเข้าสู่โหมดต่อสู้: " + err.message, "error");
             }
-
-            const cData = charMap[currentWorldBossData.cardId] || masterCharacters.find(c => c.id === 'c013');
-
-            // Construct Boss Combatant from currentWorldBossData (Persistent Shared HP)
-            const bossMaster = {
-                id: currentWorldBossData.cardId,
-                name: currentWorldBossData.name,
-                series: currentWorldBossData.series,
-                rarity: "UR",
-                element: currentWorldBossData.element,
-                role: currentWorldBossData.role || "Attacker",
-                stats: {
-                    hp: currentWorldBossData.maxHp,
-                    atk: currentWorldBossData.atk,
-                    def: currentWorldBossData.def,
-                    spd: currentWorldBossData.spd,
-                    sp: 100
-                },
-                skill: cData.skill || { name: "Ultimate Annihilation", spCost: 50, desc: "ปลดปล่อยพลังทำลายล้างสูงสุด" },
-                image: cData.image
-            };
-
-            const playerCombatants = myTeamDocIds.map((docId, idx) => {
-                const inv = myInventoryDocs.find(d => d.id === docId);
-                return buildCombatant(charMap[inv.cardId], true, idx, inv.stars || 0, inv);
-            });
-
-            const bossCombatant = buildCombatant(bossMaster, false, 0, 5);
-            bossCombatant.maxHp = currentWorldBossData.maxHp;
-            bossCombatant.currentHp = currentWorldBossData.currentHp;
-            bossCombatant.stars = 5;
-
-            // Save start boss hp to calculate actual damage dealt
-            battleState_bossInitialHp = currentWorldBossData.currentHp;
-
-            initBattle(playerCombatants, [bossCombatant], `👹 World Boss: ${currentWorldBossData.name}`, "world_boss", 500);
-            logCombat(`👹 <b>เข้าสู่สังเวียน DPS 10 เทิร์นกับ World Boss [${currentWorldBossData.name}]! ดาเมจจะหักลบเลือดเซิร์ฟเวอร์ถาวร!</b>`);
         };
 
         window.claimRaidMilestone = async (targetDmg, gemsReward, artifactId) => {
@@ -5773,10 +5850,20 @@
         }
 
         window.closeBattleResultModal = () => {
-            document.getElementById('battleResultModal').style.display = 'none';
-            document.getElementById('arenaBattleView').style.display = 'none';
-            document.getElementById('arenaLobbyView').style.display = 'block';
+            const modal = document.getElementById('battleResultModal');
+            if (modal) modal.style.display = 'none';
+            const battleView = document.getElementById('arenaBattleView');
+            if (battleView) battleView.style.display = 'none';
+            const lobbyView = document.getElementById('arenaLobbyView');
+            if (lobbyView) lobbyView.style.display = 'block';
+            
+            const prevMode = battleState ? battleState.mode : null;
             battleState = null;
+            if (prevMode === 'world_boss') {
+                switchTab('worldboss');
+            } else {
+                switchTab('arena');
+            }
         };
 
         window.surrenderBattle = async () => {
@@ -5793,9 +5880,17 @@
             if (battleState && battleState.isRealtime) {
                 exitRealtimeBattle();
             } else {
-                document.getElementById('arenaBattleView').style.display = 'none';
-                document.getElementById('arenaLobbyView').style.display = 'block';
+                const prevMode = battleState ? battleState.mode : null;
+                const battleView = document.getElementById('arenaBattleView');
+                if (battleView) battleView.style.display = 'none';
+                const lobbyView = document.getElementById('arenaLobbyView');
+                if (lobbyView) lobbyView.style.display = 'block';
                 battleState = null;
+                if (prevMode === 'world_boss') {
+                    switchTab('worldboss');
+                } else {
+                    switchTab('arena');
+                }
             }
         };
 
