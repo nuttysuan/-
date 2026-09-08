@@ -2389,9 +2389,11 @@
         <!-- App Section (Shown if logged in) -->
         <div id="appSection" style="display: none;">
             
-            <!-- Tab Buttons -->
+            <!-- Tab Buttons (Clean, Verified Order without Glitch) -->
             <div class="nav-tabs">
-                <button id="tabBtn-arena" class="tab-btn active" onclick="switchTab('arena')">⚔️ จัดทีม & ประลอง (Arena)</button>
+                <button id="tabBtn-arena" class="tab-btn active" onclick="switchTab('arena')">
+                    ⚔️ จัดทีม & ประลอง (Arena)
+                </button>
                 <button id="tabBtn-gacha" class="tab-btn" onclick="switchTab('gacha')">
                     🎰 ตู้สุ่ม & กล่องสมบัติ (Gacha)
                 </button>
@@ -2399,9 +2401,7 @@
                     🎒 คลังการ์ด <span id="invCountBadge" class="badge-count">0</span>
                 </button>
                 <button id="tabBtn-equipment" class="tab-btn" onclick="switchTab('equipment')">
-                    🛡️ คลังอุปกรณ์ <span id="equipCountBadge" class="badge-count">0</span>
-                </button>
-                    🎒 คลังการ์ดของฉัน <span id="invCountBadge" class="badge-count">0</span>
+                    🛡️ คลัง Artifacts <span id="equipCountBadge" class="badge-count">0</span>
                 </button>
                 <button id="tabBtn-market" class="tab-btn" onclick="switchTab('market')">
                     🏪 ตลาดมังงะ (Market) <span id="marketCountBadge" class="badge-count">0</span>
@@ -2410,7 +2410,7 @@
                     📜 ภารกิจ & รางวัล <span id="missionClaimableBadge" class="badge-count" style="background:#2ed573; color:#000; display:none;">!</span>
                 </button>
                 <button id="tabBtn-worldboss" class="tab-btn" onclick="switchTab('worldboss')">
-                    👹 เวิลด์บอส & อุปกรณ์ (Raid)
+                    👹 เวิลด์บอส (Boss Raid)
                 </button>
                 <button id="tabBtn-codex" class="tab-btn" onclick="switchTab('codex')">
                     📖 สมุดภาพ 50 ตัวละคร
@@ -2974,31 +2974,55 @@
 
             <!-- Tab: World Boss Raid & Artifacts Section -->
             <div id="tab-worldboss" class="content-section">
-                <!-- World Boss Raid Banner -->
-                <div class="world-boss-banner">
-                    <div style="display:inline-block; background:rgba(255,71,87,0.25); border:1px solid #ff4757; padding:4px 14px; border-radius:12px; font-size:12px; font-weight:900; color:#ff6b81; margin-bottom:10px;">
-                        ⚠️ WEEKLY SERVER RAID EVENT (รีเซ็ตทุกวันจันทร์)
+                <!-- World Boss Raid Banner (Dynamic UR 5★ Shared Boss) -->
+                <div class="world-boss-banner" id="worldBossBannerContainer">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
+                        <div style="display:inline-block; background:rgba(255,71,87,0.25); border:1px solid #ff4757; padding:4px 14px; border-radius:12px; font-size:12px; font-weight:900; color:#ff6b81;">
+                            ⚠️ GLOBAL SERVER RAID (เลือดแชร์ถาวรทั้งเซิร์ฟเวอร์)
+                        </div>
+                        <div id="bossDefeatedCountBadge" style="font-size:12px; color:var(--gold); font-weight:800; background:rgba(0,0,0,0.5); padding:3px 12px; border-radius:10px; border:1px solid var(--border-color);">
+                            🏆 พิชิตไปแล้ว: 0 ตัว
+                        </div>
                     </div>
-                    <h2 style="font-size:32px; font-weight:900; color:#fff; text-shadow:0 0 20px rgba(255,71,87,0.8); margin-bottom:4px;">
-                        👹 มหาเทวรูปสุคุนะ (Ryomen Sukuna - True Form)
-                    </h2>
-                    <p style="font-size:14px; color:#ced6e0; max-width:650px; margin:0 auto;">
-                        รวมพลังทั้งเซิร์ฟเวอร์ถล่มบอส 10,000,000 HP! แข่งขันทำดาเมจสะสมสูงสุดภายใน 10 เทิร์น เพื่อชิงอุปกรณ์สวมใส่ระดับเทพ
+
+                    <!-- Dynamic Boss Presentation Box -->
+                    <div style="display:flex; align-items:center; justify-content:center; gap:20px; flex-wrap:wrap; margin:15px 0;">
+                        <div style="position:relative; width:100px; height:100px; border-radius:18px; overflow:hidden; border:3px solid #ffd700; box-shadow:0 0 25px rgba(255,215,0,0.5);" class="golden-aura">
+                            <img id="currentBossAvatarImg" src="assets/anime/cards/c013.webp" style="width:100%; height:100%; object-fit:cover;">
+                            <span style="position:absolute; bottom:2px; right:2px; background:#ff007f; color:#fff; font-size:10px; font-weight:900; padding:1px 5px; border-radius:4px;">5★ UR</span>
+                        </div>
+                        <div style="text-align:left; max-width:550px;">
+                            <h2 id="currentBossNameText" style="font-size:28px; font-weight:900; color:#fff; text-shadow:0 0 20px rgba(255,71,87,0.8); margin:0;">
+                                👹 Ryomen Sukuna (5★ UR)
+                            </h2>
+                            <div style="display:flex; gap:8px; align-items:center; margin:4px 0 8px; font-size:13px;">
+                                <span id="currentBossSeriesBadge" class="element-tag" style="background:#1e263d; color:#00d2d3;">Jujutsu Kaisen</span>
+                                <span id="currentBossElementBadge" class="element-tag el-Dark">🌑 Dark</span>
+                                <span id="currentBossStatsBadge" style="color:var(--text-muted); font-size:12px;">ATK: 750 • DEF: 450</span>
+                            </div>
+                            <div id="currentBossArtifactsBox" style="font-size:12px; color:var(--gold);">
+                                🛡️ ติดตั้ง Artifacts: กำลังโหลด...
+                            </div>
+                        </div>
+                    </div>
+
+                    <p style="font-size:13px; color:#ced6e0; max-width:700px; margin:0 auto;">
+                        รวมพลังผู้เล่นทั้งเซิร์ฟเวอร์สู้ศึก 10 เทิร์น! ดาเมจจะหักลบเลือดบอสในระบบถาวร เมื่อบอสตายจะแจกรางวัลผู้พิชิตและสุ่มบอส UR ตัวใหม่ทันที!
                     </p>
 
                     <!-- Boss Global HP Bar -->
-                    <div class="boss-hp-bar-container">
-                        <div id="bossGlobalHpFill" class="boss-hp-bar-fill" style="width: 78%;"></div>
-                        <div id="bossGlobalHpText" class="boss-hp-bar-text">7,842,500 / 10,000,000 HP (78.4%)</div>
+                    <div class="boss-hp-bar-container" style="height:26px;">
+                        <div id="bossGlobalHpFill" class="boss-hp-bar-fill" style="width: 100%;"></div>
+                        <div id="bossGlobalHpText" class="boss-hp-bar-text" style="font-size:13px;">10,000,000 / 10,000,000 HP (100%)</div>
                     </div>
 
                     <div style="display:flex; justify-content:center; gap:15px; margin-top:20px; flex-wrap:wrap; align-items:center;">
                         <div style="font-size:13px; color:var(--gold); font-weight:800; background:#111728; padding:8px 16px; border-radius:12px; border:1px solid var(--border-color);">
                             🎟️ สิทธิ์ลงฟรีวันนี้: <span id="raidAttemptsText" style="color:#2ed573;">2/2 ครั้ง</span>
                         </div>
-                        <button class="btn-pull btn-pull-10" style="padding:12px 28px; min-width:220px;" onclick="startWorldBossRaid()">
+                        <button class="btn-pull btn-pull-10" style="padding:12px 32px; min-width:240px;" onclick="startWorldBossRaid()">
                             <span>⚔️ ท้าทาย World Boss</span>
-                            <span class="btn-sub-label">ทดสอบ DPS 10 เทิร์น</span>
+                            <span class="btn-sub-label">ทดสอบ DPS 10 เทิร์น (เลือดลดถาวร)</span>
                         </button>
                     </div>
                 </div>
@@ -3026,7 +3050,7 @@
 
             
             <!-- ========================================================= -->
-            <!--             TAB: EQUIPMENT INVENTORY SECTION              -->
+            <!--             TAB: ARTIFACTS VAULT (CARD GRID STYLE)          -->
             <!-- ========================================================= -->
             <div id="tab-equipment" class="content-section">
                 <!-- Equipment Banner -->
@@ -3034,13 +3058,13 @@
                     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
                         <div>
                             <div style="display: inline-block; background: rgba(0,210,211,0.15); border: 1px solid #00d2d3; padding: 3px 10px; border-radius: 10px; font-size: 11px; font-weight: 800; color: #00d2d3; margin-bottom: 6px;">
-                                🛡️ TACTICAL GEAR & WEAPON ARSENAL
+                                🛡️ TACTICAL ARTIFACTS & EQUIPMENT VAULT
                             </div>
                             <h2 style="margin: 0; font-size: 26px; font-weight: 900; color: #fff;">
-                                คลังอุปกรณ์สวมใส่ (Equipment Vault)
+                                คลัง Artifacts (คลังอุปกรณ์สวมใส่)
                             </h2>
-                            <div style="font-size: 13px; color: var(--text-muted); margin-top: 4px; max-width: 650px;">
-                                สวมใส่อาวุธ ⚔️, ชุดเกราะ 🛡️, และเครื่องประดับ 💍 ให้การ์ดตัวละครเพื่อเพิ่มค่าพลัง HP, ATK, DEF, SPD และเกราะบาเรียในสนามประลอง!
+                            <div style="font-size: 13px; color: var(--text-muted); margin-top: 4px; max-width: 680px;">
+                                สวมใส่อาวุธ ⚔️, ชุดเกราะ 🛡️, และเครื่องประดับ 💍 ให้ตัวละครเพื่อเพิ่มค่าพลัง HP, ATK, DEF, SPD และเกราะบาเรีย! <b>(สวมใส่ได้เฉพาะตัวละครจากเรื่องเดียวกันเท่านั้น)</b>
                             </div>
                         </div>
                         <div style="display: flex; gap: 10px; flex-wrap: wrap;">
@@ -3054,32 +3078,46 @@
                     </div>
                 </div>
 
-                <!-- Filter Toolbar -->
-                <div style="background: #0e1424; border: 1px solid var(--border-color); border-radius: 14px; padding: 12px 16px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
-                    <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
-                        <button class="filter-chip active" id="eqFilterBtn-all" onclick="filterEquipmentTab('all')">ทั้งหมด (<span id="eqCountAll">0</span>)</button>
-                        <button class="filter-chip" id="eqFilterBtn-weapon" onclick="filterEquipmentTab('weapon')">⚔️ อาวุธ (<span id="eqCountWeapon">0</span>)</button>
-                        <button class="filter-chip" id="eqFilterBtn-armor" onclick="filterEquipmentTab('armor')">🛡️ ชุดเกราะ (<span id="eqCountArmor">0</span>)</button>
-                        <button class="filter-chip" id="eqFilterBtn-accessory" onclick="filterEquipmentTab('accessory')">💍 เครื่องประดับ (<span id="eqCountAccessory">0</span>)</button>
-                    </div>
-                    <div style="display: flex; gap: 10px; align-items: center;">
-                        <select id="eqRarityFilter" class="form-input" style="width: auto; padding: 6px 12px; font-size: 12px;" onchange="renderEquipmentUI()">
-                            <option value="all">ทุกระดับความหายาก (All)</option>
-                            <option value="UR">ระดับ UR (Ultra Rare)</option>
-                            <option value="SSR">ระดับ SSR</option>
-                            <option value="SR">ระดับ SR</option>
-                            <option value="R">ระดับ R</option>
-                        </select>
-                        <select id="eqStatusFilter" class="form-input" style="width: auto; padding: 6px 12px; font-size: 12px;" onchange="renderEquipmentUI()">
-                            <option value="all">สถานะทั้งหมด</option>
-                            <option value="available">เฉพาะที่ยังว่างอยู่</option>
-                            <option value="equipped">เฉพาะที่สวมใส่อยู่</option>
-                        </select>
-                    </div>
+                <!-- Comprehensive Filter Bar (Card Grid Style) -->
+                <div class="filter-bar" style="background: #111728; padding: 14px; border-radius: 14px; border: 1px solid var(--border-color); margin-bottom: 20px;">
+                    <input type="text" id="eqSearchInput" class="search-input" placeholder="🔍 ค้นหาชื่ออุปกรณ์..." oninput="renderEquipmentUI()" style="min-width: 180px;">
+                    
+                    <select id="eqFilterSeries" class="filter-select" onchange="renderEquipmentUI()">
+                        <option value="all">ทุกซีรีส์ (All Series)</option>
+                        <option value="One Piece">One Piece</option>
+                        <option value="Jujutsu Kaisen">Jujutsu Kaisen</option>
+                        <option value="Demon Slayer">Demon Slayer</option>
+                        <option value="Naruto">Naruto</option>
+                        <option value="Hunter x Hunter">Hunter x Hunter</option>
+                        <option value="Bleach">Bleach</option>
+                        <option value="My Hero Academia">My Hero Academia</option>
+                        <option value="Attack on Titan">Attack on Titan</option>
+                    </select>
+
+                    <select id="eqFilterType" class="filter-select" onchange="renderEquipmentUI()">
+                        <option value="all">ทุกประเภท (อาวุธ/เกราะ/ประดับ)</option>
+                        <option value="weapon">⚔️ อาวุธ (Weapon)</option>
+                        <option value="armor">🛡️ ชุดเกราะ (Armor)</option>
+                        <option value="accessory">💍 เครื่องประดับ (Accessory)</option>
+                    </select>
+
+                    <select id="eqFilterRarity" class="filter-select" onchange="renderEquipmentUI()">
+                        <option value="all">ทุกระดับ (All Rarity)</option>
+                        <option value="UR">ระดับ UR</option>
+                        <option value="SSR">ระดับ SSR</option>
+                        <option value="SR">ระดับ SR</option>
+                        <option value="R">ระดับ R</option>
+                    </select>
+
+                    <select id="eqFilterStatus" class="filter-select" onchange="renderEquipmentUI()">
+                        <option value="all">ทุกสถานะ</option>
+                        <option value="available">🟢 เฉพาะที่ยังว่างอยู่</option>
+                        <option value="equipped">🛡️ เฉพาะที่สวมใส่อยู่</option>
+                    </select>
                 </div>
 
-                <!-- Grid of Equipment Items -->
-                <div id="equipmentGridContainer" class="equipment-grid"></div>
+                <!-- Card Grid of Artifacts (Same Style as Inventory Card Grid) -->
+                <div id="equipmentGridContainer" class="card-grid"></div>
             </div>
 
             <!-- Tab 4: Codex Section -->
@@ -4051,6 +4089,7 @@
         //               TACTICAL BATTLE ENGINE (5v5)
         // =========================================================
         let battleState = null;
+        let battleState_bossInitialHp = 10000000;
 
         function buildCombatant(c, isPlayer, index, stars = 0, invData = null, botScale = null) {
             let starBonus = 1 + (stars * 0.05);
@@ -5034,62 +5073,113 @@
         //         SYSTEM 3: WORLD BOSS RAID & ARTIFACTS ENGINE
         // =========================================================================
 
-        const MASTER_ARTIFACTS = {
-            art_straw_hat: {
-                id: 'art_straw_hat',
-                name: 'หมวกฟางของลูฟี่ (Straw Hat)',
-                rarity: 'SSR',
-                icon: '👒',
-                mainStat: { hp: 400, atk: 50 },
-                desc: 'มอบ Base HP +400, ATK +50'
-            },
-            art_headband: {
-                id: 'art_headband',
-                name: 'ผ้าคาดหัวโคโนฮะ (Shinobi Headband)',
-                rarity: 'SR',
-                icon: '🥷',
-                mainStat: { spd: 15, def: 60 },
-                desc: 'มอบ SPD +15, DEF +60'
-            },
-            art_nichirin: {
-                id: 'art_nichirin',
-                name: 'ดาบนิจิริน (Nichirin Blade)',
-                rarity: 'SSR',
-                icon: '⚔️',
-                mainStat: { atk: 90, pierce: 0.10 },
-                desc: 'มอบ ATK +90, เจาะเกราะ 10%'
-            },
-            art_blindfold: {
-                id: 'art_blindfold',
-                name: 'แว่นตาดำโกโจ (Blindfold of the Honored One)',
-                rarity: 'UR',
-                icon: '🕶️',
-                mainStat: { sp: 25, critRate: 0.15 },
-                desc: 'มอบ SP เริ่มต้น +25, อัตราคริติคอล +15%'
-            }
-        };
+        // =========================================================================
+        //  ข้อที่ 2: ยกเครื่องระบบ WORLD BOSS RAID (DYNAMIC UR + PERSISTENT SHARED HP)
+        // =========================================================================
 
         const RAID_MILESTONES = [
-            { targetDmg: 50000, gems: 200, rewardDesc: 'หีบอุปกรณ์ระดับ SR', rewardArtifact: 'art_headband' },
-            { targetDmg: 150000, gems: 500, rewardDesc: 'ดาบนิจิรินระดับ SSR', rewardArtifact: 'art_nichirin' },
-            { targetDmg: 300000, gems: 1000, rewardDesc: 'แว่นตาดำโกโจระดับ UR', rewardArtifact: 'art_blindfold' }
+            { targetDmg: 50000, gems: 200, rewardDesc: 'หีบอุปกรณ์ระดับ SR', rewardArtifact: 'eq_headband' },
+            { targetDmg: 150000, gems: 500, rewardDesc: 'ดาบนิจิรินระดับ SSR', rewardArtifact: 'eq_nichirin_sun' },
+            { targetDmg: 350000, gems: 1000, rewardDesc: 'ผ้าปิดตาไร้ขีดจำกัดระดับ UR', rewardArtifact: 'eq_infinity_blindfold' },
+            { targetDmg: 700000, gems: 2000, rewardDesc: 'หีบจักรพรรดิ UR + 2000 Gems', rewardArtifact: 'eq_kamusari' }
         ];
 
-        let globalBossHp = 7842500;
-        const GLOBAL_BOSS_MAX_HP = 10000000;
+        let currentWorldBossData = null;
         let userRaidTotalDamage = 0;
         let userRaidAttemptsToday = 2;
         let userClaimedMilestones = [];
-        let selectedArtifactToReroll = null;
+
+        // 1. Realtime Firestore Listener สำหรับซิงค์สถานะบอสทั้งเซิร์ฟเวอร์
+        onSnapshot(doc(db, "animeWorldBoss", "currentBoss"), async (docSnap) => {
+            if (!docSnap.exists()) {
+                await spawnNewWorldBoss();
+                return;
+            }
+            currentWorldBossData = docSnap.data();
+            renderWorldBossUI();
+        });
+
+        // 2. ฟังก์ชันสุ่มบอส UR ตัวใหม่พร้อมสเตตัส 5★ และ Artifacts ครบชุด
+        async function spawnNewWorldBoss(excludeCardId = null, defeatedCount = 0) {
+            const urPool = masterCharacters.filter(c => c.rarity === 'UR' && c.id !== excludeCardId);
+            const chosen = urPool[Math.floor(Math.random() * urPool.length)] || masterCharacters.find(c => c.id === 'c013');
+
+            // หา Artifacts ประจำเรื่องของบอส
+            const seriesGear = Object.keys(MASTER_EQUIPMENT).filter(k => MASTER_EQUIPMENT[k].series === chosen.series);
+
+            const newBossDoc = {
+                cardId: chosen.id,
+                name: `${chosen.name} (True Form)`,
+                series: chosen.series,
+                rarity: "UR",
+                stars: 5,
+                maxHp: 10000000,
+                currentHp: 10000000,
+                atk: Math.round(chosen.stats.atk * 1.35),
+                def: Math.round(chosen.stats.def * 1.15),
+                spd: chosen.stats.spd,
+                element: chosen.element,
+                role: chosen.role,
+                equippedArtifacts: seriesGear.slice(0, 3),
+                defeatedCount: defeatedCount,
+                lastSpawnTime: Date.now()
+            };
+
+            try {
+                await setDoc(doc(db, "animeWorldBoss", "currentBoss"), newBossDoc);
+                logCombat(`👹 [World Boss] <b>${newBossDoc.name}</b> ระดับ 5★ UR จุติลงสู่สมรภูมิแล้ว! เลือดเต็ม 10,000,000 HP`);
+            } catch (err) {
+                console.error("Spawn Boss Error:", err);
+            }
+            return newBossDoc;
+        }
 
         window.renderWorldBossUI = () => {
+            if (!currentWorldBossData) return;
+
+            const cData = charMap[currentWorldBossData.cardId] || {};
+            const curHp = currentWorldBossData.currentHp || 0;
+            const maxHp = currentWorldBossData.maxHp || 10000000;
+            const hpPct = Math.max(0, Math.min(100, Math.round((curHp / maxHp) * 100)));
+
+            const avatarImg = document.getElementById('currentBossAvatarImg');
+            if (avatarImg) avatarImg.src = cData.image || 'assets/anime/cards/c013.webp';
+
+            const nameText = document.getElementById('currentBossNameText');
+            if (nameText) nameText.innerHTML = `👹 ${currentWorldBossData.name} <span style="color:#ffd700;">(5★ UR)</span>`;
+
+            const seriesBadge = document.getElementById('currentBossSeriesBadge');
+            if (seriesBadge) seriesBadge.innerText = currentWorldBossData.series;
+
+            const elementBadge = document.getElementById('currentBossElementBadge');
+            if (elementBadge) {
+                elementBadge.className = `element-tag el-${currentWorldBossData.element}`;
+                elementBadge.innerHTML = `${getElementIcon(currentWorldBossData.element)} ${currentWorldBossData.element}`;
+            }
+
+            const statsBadge = document.getElementById('currentBossStatsBadge');
+            if (statsBadge) statsBadge.innerText = `ATK: ${currentWorldBossData.atk} • DEF: ${currentWorldBossData.def} • SPD: ${currentWorldBossData.spd}`;
+
+            const defBadge = document.getElementById('bossDefeatedCountBadge');
+            if (defBadge) defBadge.innerText = `🏆 พิชิตไปแล้ว: ${currentWorldBossData.defeatedCount || 0} ตัว`;
+
+            // Artifacts
+            const artBox = document.getElementById('currentBossArtifactsBox');
+            if (artBox) {
+                const arts = (currentWorldBossData.equippedArtifacts || []).map(id => {
+                    const item = MASTER_EQUIPMENT[id];
+                    return item ? `${item.icon} ${item.name.split(' ')[0]}` : '';
+                }).filter(Boolean);
+                artBox.innerHTML = `🛡️ สวมใส่ Artifacts ประจำเรื่อง (${currentWorldBossData.series}): <b style="color:#fff;">${arts.join(' • ') || 'ชุดเกราะเทพ'}</b>`;
+            }
+
             // Update Boss HP bar
-            const hpPct = Math.max(0, Math.min(100, Math.round((globalBossHp / GLOBAL_BOSS_MAX_HP) * 100)));
             const fill = document.getElementById('bossGlobalHpFill');
             const text = document.getElementById('bossGlobalHpText');
             if (fill) fill.style.width = `${hpPct}%`;
-            if (text) text.innerText = `${globalBossHp.toLocaleString()} / ${GLOBAL_BOSS_MAX_HP.toLocaleString()} HP (${hpPct}%)`;
+            if (text) text.innerText = `${curHp.toLocaleString()} / ${maxHp.toLocaleString()} HP (${hpPct}%)`;
 
+            // Quota
             const attemptsText = document.getElementById('raidAttemptsText');
             if (attemptsText) attemptsText.innerText = `${userRaidAttemptsToday}/2 ครั้ง`;
 
@@ -5124,49 +5214,12 @@
                     `;
                 }).join('');
             }
-
-            // Render Artifacts Grid
-            renderArtifactsGrid();
         };
-
-        function renderArtifactsGrid() {
-            const grid = document.getElementById('artifactsGrid');
-            if (!grid) return;
-
-            grid.innerHTML = Object.values(MASTER_ARTIFACTS).map(art => {
-                return `
-                    <div class="artifact-card rarity-${art.rarity}">
-                        <div style="display:flex; justify-content:space-between; align-items:center;">
-                            <span class="rarity-tag tag-${art.rarity}">${art.rarity}</span>
-                            <span style="font-size:24px;">${art.icon}</span>
-                        </div>
-                        <div style="font-weight:800; font-size:15px; color:#fff; margin:8px 0 4px;">
-                            ${art.name}
-                        </div>
-                        <div style="font-size:12px; color:var(--text-muted); margin-bottom:8px;">
-                            ${art.desc}
-                        </div>
-                        
-                        <div style="border-top:1px dashed var(--border-color); padding-top:6px; margin-bottom:10px;">
-                            <div style="font-size:11px; font-weight:800; color:#00d2d3;">🔮 ออปชันสุ่ม (Sub-stats):</div>
-                            <div class="artifact-substat-row">
-                                <span>คริติคอล</span><span>+8%</span>
-                            </div>
-                            <div class="artifact-substat-row">
-                                <span>เจาะเกราะ</span><span>+6%</span>
-                            </div>
-                        </div>
-
-                        <button class="btn-card-action" style="background:linear-gradient(135deg, #00d2d3, #5352ed); color:#fff; width:100%; font-weight:800;" onclick="openArtifactRerollModal('${art.id}')">
-                            🔮 สุ่มออปชันรองใหม่ (💎 50)
-                        </button>
-                    </div>
-                `;
-            }).join('');
-        }
 
         window.startWorldBossRaid = async () => {
             if (!currentUser) return showToast("⚠️ กรุณาเข้าสู่ระบบก่อนครับ", "error");
+            if (!currentWorldBossData) return showToast("⚠️ กำลังโหลดข้อมูล World Boss...", "info");
+
             const validCount = myTeamDocIds.filter(Boolean).length;
             if (validCount < 5) return showToast(`⚠️ กรุณาจัดทีมให้ครบ 5 ใบก่อนเริ่มเรดบอสครับ`, "error");
 
@@ -5185,19 +5238,35 @@
                 } catch(e) {}
             } else {
                 userRaidAttemptsToday--;
+                try {
+                    const todayStr = new Date().toISOString().slice(0, 10);
+                    const userRef = doc(db, "animeUsers", currentUser.uid);
+                    await updateDoc(userRef, {
+                        lastRaidDate: todayStr,
+                        raidAttemptsToday: userRaidAttemptsToday
+                    });
+                } catch(e) {}
             }
 
-            // Build Boss Combatant (Sukuna True Form)
+            const cData = charMap[currentWorldBossData.cardId] || masterCharacters.find(c => c.id === 'c013');
+
+            // Construct Boss Combatant from currentWorldBossData (Persistent Shared HP)
             const bossMaster = {
-                id: "c013",
-                name: "มหาเทวรูปสุคุนะ (Sukuna - True Form)",
-                series: "Jujutsu Kaisen",
+                id: currentWorldBossData.cardId,
+                name: currentWorldBossData.name,
+                series: currentWorldBossData.series,
                 rarity: "UR",
-                element: "Dark",
-                role: "Attacker",
-                stats: { hp: 10000000, atk: 720, def: 420, spd: 110, sp: 100 },
-                skill: { name: "Malevolent Shrine: Cleave & Dismantle", spCost: 50, desc: "ฟันตัดล้างบางมหาพิภพ" },
-                image: "assets/anime/cards/c013.webp"
+                element: currentWorldBossData.element,
+                role: currentWorldBossData.role || "Attacker",
+                stats: {
+                    hp: currentWorldBossData.maxHp,
+                    atk: currentWorldBossData.atk,
+                    def: currentWorldBossData.def,
+                    spd: currentWorldBossData.spd,
+                    sp: 100
+                },
+                skill: cData.skill || { name: "Ultimate Annihilation", spCost: 50, desc: "ปลดปล่อยพลังทำลายล้างสูงสุด" },
+                image: cData.image
             };
 
             const playerCombatants = myTeamDocIds.map((docId, idx) => {
@@ -5205,12 +5274,16 @@
                 return buildCombatant(charMap[inv.cardId], true, idx, inv.stars || 0, inv);
             });
 
-            const bossCombatant = buildCombatant(bossMaster, false, 0);
-            bossCombatant.maxHp = 10000000;
-            bossCombatant.currentHp = globalBossHp;
+            const bossCombatant = buildCombatant(bossMaster, false, 0, 5);
+            bossCombatant.maxHp = currentWorldBossData.maxHp;
+            bossCombatant.currentHp = currentWorldBossData.currentHp;
+            bossCombatant.stars = 5;
 
-            initBattle(playerCombatants, [bossCombatant], "👹 World Boss: มหาเทวรูปสุคุนะ", "world_boss", 500);
-            logCombat(`👹 <b>เข้าสู่การทดสอบ DPS 10 เทิร์นกับ World Boss! ทุ่มสุดตัวทำดาเมจสะสมให้ได้มากที่สุด!</b>`);
+            // Save start boss hp to calculate actual damage dealt
+            battleState_bossInitialHp = currentWorldBossData.currentHp;
+
+            initBattle(playerCombatants, [bossCombatant], `👹 World Boss: ${currentWorldBossData.name}`, "world_boss", 500);
+            logCombat(`👹 <b>เข้าสู่สังเวียน DPS 10 เทิร์นกับ World Boss [${currentWorldBossData.name}]! ดาเมจจะหักลบเลือดเซิร์ฟเวอร์ถาวร!</b>`);
         };
 
         window.claimRaidMilestone = async (targetDmg, gemsReward, artifactId) => {
@@ -5655,19 +5728,67 @@
 
             if (isVictory) {
                 if (battleState.mode === 'world_boss') {
+                    const boss = battleState.enemies[0];
+                    const finalBossHp = boss ? Math.max(0, boss.currentHp) : 0;
+                    const dmgDealt = Math.max(0, battleState_bossInitialHp - finalBossHp);
+                    userRaidTotalDamage += dmgDealt;
+
                     title.innerText = "👹 สิ้นสุดการท้าทาย WORLD BOSS!";
                     title.style.color = "var(--gold)";
-                    const boss = battleState.enemies[0];
-                    const dmgDealt = Math.max(10000, 10000000 - (boss ? boss.currentHp : 0));
-                    userRaidTotalDamage += dmgDealt;
-                    globalBossHp = Math.max(0, globalBossHp - dmgDealt);
-                    desc.innerText = `คุณทำดาเมจใส่ World Boss ได้ทั้งหมด ${dmgDealt.toLocaleString()} DMG (สะสมรวม: ${userRaidTotalDamage.toLocaleString()} DMG)`;
-                    rewardBox.innerText = `+${battleState.rewardGems} Gems & หีบรางวัลเรดบอส!`;
+                    desc.innerText = `คุณทำดาเมจใส่ ${boss ? boss.name : 'World Boss'} ได้ทั้งหมด ${dmgDealt.toLocaleString()} DMG! (สะสมรวมของคุณ: ${userRaidTotalDamage.toLocaleString()} DMG)`;
+                    rewardBox.innerText = `+${battleState.rewardGems} Gems & หีบสมบัติเรดบอส!`;
+
+                    // ซิงค์หักลบเลือดบอสใน Firestore แบบถาวร (Persistent Shared Damage)
                     if (currentUser) {
                         try {
                             const userRef = doc(db, "animeUsers", currentUser.uid);
-                            await updateDoc(userRef, { gems: userGems + battleState.rewardGems });
-                        } catch(e) {}
+                            await updateDoc(userRef, {
+                                gems: userGems + battleState.rewardGems,
+                                raidTotalDamage: userRaidTotalDamage
+                            });
+
+                            const bossDocRef = doc(db, "animeWorldBoss", "currentBoss");
+                            await runTransaction(db, async (t) => {
+                                const bSnap = await t.get(bossDocRef);
+                                if (!bSnap.exists()) return;
+                                const bData = bSnap.data();
+                                const nextHp = Math.max(0, bData.currentHp - dmgDealt);
+
+                                if (nextHp <= 0) {
+                                    // 🏆 ข้อที่ 2: กลไกเมื่อบอสตาย (Boss Defeat & Reroll)
+                                    const nextDefeatedCount = (bData.defeatedCount || 0) + 1;
+                                    const urPool = masterCharacters.filter(c => c.rarity === 'UR' && c.id !== bData.cardId);
+                                    const nextChosen = urPool[Math.floor(Math.random() * urPool.length)] || masterCharacters.find(c => c.id === 'c008');
+                                    const nextSeriesGear = Object.keys(MASTER_EQUIPMENT).filter(k => MASTER_EQUIPMENT[k].series === nextChosen.series);
+
+                                    const nextBossDoc = {
+                                        cardId: nextChosen.id,
+                                        name: `${nextChosen.name} (True Form)`,
+                                        series: nextChosen.series,
+                                        rarity: "UR",
+                                        stars: 5,
+                                        maxHp: 10000000,
+                                        currentHp: 10000000,
+                                        atk: Math.round(nextChosen.stats.atk * 1.35),
+                                        def: Math.round(nextChosen.stats.def * 1.15),
+                                        spd: nextChosen.stats.spd,
+                                        element: nextChosen.element,
+                                        role: nextChosen.role,
+                                        equippedArtifacts: nextSeriesGear.slice(0, 3),
+                                        defeatedCount: nextDefeatedCount,
+                                        lastSpawnTime: Date.now()
+                                    };
+
+                                    t.set(bossDocRef, nextBossDoc);
+                                    showToast(`👑🎉 คุณคือผู้ปลิดชีพ ${bData.name}! ได้รับโบนัสผู้พิชิต 💎 +1,000 Gems!`, "success");
+                                    t.update(userRef, { gems: increment(1000) });
+                                } else {
+                                    t.update(bossDocRef, { currentHp: nextHp });
+                                }
+                            });
+                        } catch (err) {
+                            console.error("Raid damage sync error:", err);
+                        }
                     }
                 } else {
                     title.innerText = "🏆 VICTORY (ชัยชนะ!)";
@@ -5688,10 +5809,34 @@
                     }
                 }
             } else {
-                title.innerText = "💀 DEFEAT (พ่ายแพ้)";
-                title.style.color = "#ff4757";
-                desc.innerText = "ทีมของคุณพ่ายแพ้ในศึกนี้ ลองปรับแถวหน้าเป็นสาย Tank และใช้ปฏิกิริยาธาตุตัดจังหวะศัตรูดูสิ!";
-                rewardBox.innerText = "";
+                if (battleState.mode === 'world_boss') {
+                    const boss = battleState.enemies[0];
+                    const finalBossHp = boss ? Math.max(0, boss.currentHp) : 0;
+                    const dmgDealt = Math.max(0, battleState_bossInitialHp - finalBossHp);
+                    userRaidTotalDamage += dmgDealt;
+
+                    title.innerText = "👹 สิ้นสุดการท้าทาย WORLD BOSS!";
+                    title.style.color = "var(--gold)";
+                    desc.innerText = `ทีมของคุณหมดสภาพการต่อสู้ แต่ยังทำดาเมจใส่บอสได้ถึง ${dmgDealt.toLocaleString()} DMG! (สะสมรวม: ${userRaidTotalDamage.toLocaleString()} DMG)`;
+                    rewardBox.innerText = "+150 Gems (รางวัลปลอบใจ)";
+
+                    if (currentUser) {
+                        try {
+                            const userRef = doc(db, "animeUsers", currentUser.uid);
+                            await updateDoc(userRef, {
+                                gems: userGems + 150,
+                                raidTotalDamage: userRaidTotalDamage
+                            });
+                            const bossDocRef = doc(db, "animeWorldBoss", "currentBoss");
+                            await updateDoc(bossDocRef, { currentHp: increment(-dmgDealt) });
+                        } catch(e) {}
+                    }
+                } else {
+                    title.innerText = "💀 DEFEAT (พ่ายแพ้)";
+                    title.style.color = "#ff4757";
+                    desc.innerText = "ทีมของคุณพ่ายแพ้ในศึกนี้ ลองปรับแถวหน้าเป็นสาย Tank และใช้ปฏิกิริยาธาตุตัดจังหวะศัตรูดูสิ!";
+                    rewardBox.innerText = "";
+                }
             }
 
             modal.style.display = 'flex';
@@ -6832,8 +6977,8 @@
         //         MASTER EQUIPMENT CATALOG & INVENTORY SYSTEM (21 ITEMS)
         // =========================================================================
 
-        const MASTER_EQUIPMENT = {
-            // ==================== 1. WEAPONS (อาวุธ ⚔️) ====================
+                const MASTER_EQUIPMENT = {
+            // ==================== 1. ONE PIECE ====================
             eq_kamusari: {
                 id: 'eq_kamusari',
                 name: 'ดาบกริฟฟอน คลื่นราชัน (Gryphon)',
@@ -6844,140 +6989,16 @@
                 stats: { atk: 180, crit: 0.15, spd: 5 },
                 desc: 'มอบพลังโจมตี ATK +180, อัตราคริติคอล +15%, ความเร็ว SPD +5'
             },
-            eq_inverted_spear: {
-                id: 'eq_inverted_spear',
-                name: 'หอกพลิกสวรรค์ (Inverted Spear of Heaven)',
-                series: 'Jujutsu Kaisen',
-                type: 'weapon',
-                rarity: 'UR',
-                icon: '🔱',
-                stats: { atk: 190, defPierce: 0.20 },
-                desc: 'มอบพลังโจมตี ATK +190, เจาะเกราะ DEF ของศัตรู 20%'
-            },
-            eq_zangetsu: {
-                id: 'eq_zangetsu',
-                name: 'ดาบฟันวิญญาณ ซันเงสึ (Zangetsu)',
-                series: 'Bleach',
-                type: 'weapon',
-                rarity: 'SSR',
-                icon: '⚔️',
-                stats: { atk: 140, spd: 8, sp: 15 },
-                desc: 'มอบพลังโจมตี ATK +140, SPD +8, และได้รับ SP เริ่มต้น +15'
-            },
-            eq_nichirin_sun: {
-                id: 'eq_nichirin_sun',
-                name: 'ดาบนิจิริน เพลิงสุริยัน (Sun Breathing Nichirin)',
-                series: 'Demon Slayer',
-                type: 'weapon',
-                rarity: 'SSR',
-                icon: '🔥',
-                stats: { atk: 135, crit: 0.10, hp: 200 },
-                desc: 'มอบพลังโจมตี ATK +135, โอกาสคริติคอล +10%, HP +200'
-            },
-            eq_thunder_kunai: {
-                id: 'eq_thunder_kunai',
-                name: 'คุไนอัสนีเหิน (Flying Thunder God Kunai)',
-                series: 'Naruto',
-                type: 'weapon',
-                rarity: 'SSR',
-                icon: '⚡',
-                stats: { atk: 110, spd: 18, crit: 0.08 },
-                desc: 'มอบพลังโจมตี ATK +110, ความเร็ว SPD +18, อัตราคริติคอล +8%'
-            },
-            eq_thunder_spear: {
-                id: 'eq_thunder_spear',
-                name: 'หอกสายฟ้าทะลวงไททัน (Thunder Spear)',
-                series: 'Attack on Titan',
-                type: 'weapon',
-                rarity: 'SR',
-                icon: '🚀',
-                stats: { atk: 95, crit: 0.12 },
-                desc: 'มอบพลังโจมตี ATK +95, อัตราคริติคอล +12%'
-            },
-            eq_bungee_knuckle: {
-                id: 'eq_bungee_knuckle',
-                name: 'หมัดยางยืด บันจี้กัม (Bungee Gum Knuckle)',
-                series: 'Hunter x Hunter',
-                type: 'weapon',
-                rarity: 'SR',
-                icon: '🥊',
-                stats: { atk: 85, spd: 10, hp: 150 },
-                desc: 'มอบพลังโจมตี ATK +85, ความเร็ว SPD +10, HP +150'
-            },
-
-            // ==================== 2. ARMORS (ชุดเกราะ / เสื้อคลุม 🛡️) ====================
-            eq_infinity_blindfold: {
-                id: 'eq_infinity_blindfold',
-                name: 'ผ้าปิดตาไร้ขีดจำกัด (Infinity Blindfold)',
-                series: 'Jujutsu Kaisen',
-                type: 'armor',
-                rarity: 'UR',
-                icon: '🕶️',
-                stats: { hp: 800, def: 90, initialShield: 350 },
-                desc: 'มอบ HP +800, เกราะ DEF +90, และเกราะบาเรียเริ่มต้น +350 HP'
-            },
-            eq_peace_cape: {
-                id: 'eq_peace_cape',
-                name: 'ผ้าคลุมสัญลักษณ์สันติภาพ (Cape of Peace)',
-                series: 'My Hero Academia',
-                type: 'armor',
-                rarity: 'UR',
-                icon: '🦸',
-                stats: { hp: 950, def: 85, atk: 40 },
-                desc: 'มอบ HP +950, เกราะ DEF +85, และพลังโจมตี ATK +40'
-            },
-            eq_akatsuki_cloak: {
-                id: 'eq_akatsuki_cloak',
-                name: 'เสื้อคลุมเมฆาแดง แสงอุษา (Akatsuki Cloak)',
-                series: 'Naruto',
+            eq_pirate_coat: {
+                id: 'eq_pirate_coat',
+                name: 'เสื้อคลุมกัปตันโจรสลัด (Captain Overcoat)',
+                series: 'One Piece',
                 type: 'armor',
                 rarity: 'SSR',
-                icon: '👘',
-                stats: { hp: 650, def: 75, sp: 20 },
-                desc: 'มอบ HP +650, เกราะ DEF +75, และ SP เริ่มต้น +20'
+                icon: '🧥',
+                stats: { hp: 620, def: 75, atk: 45 },
+                desc: 'มอบ HP +620, เกราะ DEF +75, พลังโจมตี ATK +45'
             },
-            eq_flame_haori: {
-                id: 'eq_flame_haori',
-                name: 'ฮาโอริเสาหลักเพลิง (Flame Hashira Haori)',
-                series: 'Demon Slayer',
-                type: 'armor',
-                rarity: 'SSR',
-                icon: '🔥',
-                stats: { hp: 600, def: 70, atk: 50 },
-                desc: 'มอบ HP +600, เกราะ DEF +70, พลังโจมตี ATK +50'
-            },
-            eq_captain_haori: {
-                id: 'eq_captain_haori',
-                name: 'เสื้อคลุมหัวหน้าหน่วยยมทูต (Captain Haori)',
-                series: 'Bleach',
-                type: 'armor',
-                rarity: 'SSR',
-                icon: '🥋',
-                stats: { hp: 550, def: 80, spd: 8 },
-                desc: 'มอบ HP +550, เกราะ DEF +80, ความเร็ว SPD +8'
-            },
-            eq_scout_cloak: {
-                id: 'eq_scout_cloak',
-                name: 'ผ้าคลุมปีกแห่งอิสรภาพ (Wings of Freedom Cloak)',
-                series: 'Attack on Titan',
-                type: 'armor',
-                rarity: 'SR',
-                icon: '🕊️',
-                stats: { hp: 420, def: 45, spd: 14 },
-                desc: 'มอบ HP +420, เกราะ DEF +45, ความเร็ว SPD +14'
-            },
-            eq_jonin_vest: {
-                id: 'eq_jonin_vest',
-                name: 'เสื้อกั๊กโจนินโคโนฮะ (Jonin Flak Vest)',
-                series: 'Naruto',
-                type: 'armor',
-                rarity: 'SR',
-                icon: '🦺',
-                stats: { hp: 450, def: 60, initialShield: 150 },
-                desc: 'มอบ HP +450, เกราะ DEF +60, เกราะบาเรียเริ่มต้น +150'
-            },
-
-            // ==================== 3. ACCESSORIES (เครื่องประดับ / ของวิเศษ 💍) ====================
             eq_straw_hat: {
                 id: 'eq_straw_hat',
                 name: 'หมวกฟางแห่งเจตจำนงดี (Straw Hat)',
@@ -6987,36 +7008,6 @@
                 icon: '👒',
                 stats: { hp: 500, sp: 30, atk: 60 },
                 desc: 'มอบ HP +500, พลังโจมตี ATK +60, และเริ่มการต่อสู้ด้วย SP +30'
-            },
-            eq_sukuna_finger: {
-                id: 'eq_sukuna_finger',
-                name: 'นิ้วต้องสาปสุคุนะ (Sukuna Cursed Finger)',
-                series: 'Jujutsu Kaisen',
-                type: 'accessory',
-                rarity: 'UR',
-                icon: '👹',
-                stats: { atk: 160, crit: 0.20, sp: 20 },
-                desc: 'มอบพลังโจมตี ATK +160, อัตราคริติคอล +20%, SP เริ่มต้น +20'
-            },
-            eq_hunter_license: {
-                id: 'eq_hunter_license',
-                name: 'บัตรฮันเตอร์สองดาว (Hunter License)',
-                series: 'Hunter x Hunter',
-                type: 'accessory',
-                rarity: 'SSR',
-                icon: '💳',
-                stats: { spd: 20, crit: 0.12, atk: 45 },
-                desc: 'มอบความเร็ว SPD +20, โอกาสคริติคอล +12%, ATK +45'
-            },
-            eq_sand_gourd: {
-                id: 'eq_sand_gourd',
-                name: 'น้ำเต้าทรายพิทักษ์ชีพ (Sand Gourd)',
-                series: 'Naruto',
-                type: 'accessory',
-                rarity: 'SSR',
-                icon: '🏺',
-                stats: { def: 95, initialShield: 400, hp: 350 },
-                desc: 'มอบ DEF +95, HP +350, และเกราะบาเรียทรายเริ่มต้น +400 HP'
             },
             eq_chopper_kit: {
                 id: 'eq_chopper_kit',
@@ -7028,6 +7019,60 @@
                 stats: { hp: 450, def: 40, sp: 15 },
                 desc: 'มอบ HP +450, DEF +40, SP เริ่มต้น +15'
             },
+
+            // ==================== 2. JUJUTSU KAISEN ====================
+            eq_inverted_spear: {
+                id: 'eq_inverted_spear',
+                name: 'หอกพลิกสวรรค์ (Inverted Spear of Heaven)',
+                series: 'Jujutsu Kaisen',
+                type: 'weapon',
+                rarity: 'UR',
+                icon: '🔱',
+                stats: { atk: 190, defPierce: 0.20 },
+                desc: 'มอบพลังโจมตี ATK +190, เจาะเกราะ DEF ของศัตรู 20%'
+            },
+            eq_infinity_blindfold: {
+                id: 'eq_infinity_blindfold',
+                name: 'ผ้าปิดตาไร้ขีดจำกัด (Infinity Blindfold)',
+                series: 'Jujutsu Kaisen',
+                type: 'armor',
+                rarity: 'UR',
+                icon: '🕶️',
+                stats: { hp: 800, def: 90, initialShield: 350 },
+                desc: 'มอบ HP +800, เกราะ DEF +90, และเกราะบาเรียเริ่มต้น +350 HP'
+            },
+            eq_sukuna_finger: {
+                id: 'eq_sukuna_finger',
+                name: 'นิ้วต้องสาปสุคุนะ (Sukuna Cursed Finger)',
+                series: 'Jujutsu Kaisen',
+                type: 'accessory',
+                rarity: 'UR',
+                icon: '👹',
+                stats: { atk: 160, crit: 0.20, sp: 20 },
+                desc: 'มอบพลังโจมตี ATK +160, อัตราคริติคอล +20%, SP เริ่มต้น +20'
+            },
+
+            // ==================== 3. DEMON SLAYER ====================
+            eq_nichirin_sun: {
+                id: 'eq_nichirin_sun',
+                name: 'ดาบนิจิริน เพลิงสุริยัน (Sun Breathing Nichirin)',
+                series: 'Demon Slayer',
+                type: 'weapon',
+                rarity: 'SSR',
+                icon: '🔥',
+                stats: { atk: 135, crit: 0.10, hp: 200 },
+                desc: 'มอบพลังโจมตี ATK +135, โอกาสคริติคอล +10%, HP +200'
+            },
+            eq_flame_haori: {
+                id: 'eq_flame_haori',
+                name: 'ฮาโอริเสาหลักเพลิง (Flame Hashira Haori)',
+                series: 'Demon Slayer',
+                type: 'armor',
+                rarity: 'SSR',
+                icon: '👘',
+                stats: { hp: 600, def: 70, atk: 50 },
+                desc: 'มอบ HP +600, เกราะ DEF +70, พลังโจมตี ATK +50'
+            },
             eq_fox_mask: {
                 id: 'eq_fox_mask',
                 name: 'หน้ากากจิ้งจอกปัดเป่า (Warding Fox Mask)',
@@ -7038,6 +7083,58 @@
                 stats: { spd: 12, crit: 0.08, def: 35 },
                 desc: 'มอบความเร็ว SPD +12, โอกาสคริติคอล +8%, DEF +35'
             },
+
+            // ==================== 4. NARUTO ====================
+            eq_thunder_kunai: {
+                id: 'eq_thunder_kunai',
+                name: 'คุไนอัสนีเหิน (Flying Thunder God Kunai)',
+                series: 'Naruto',
+                type: 'weapon',
+                rarity: 'SSR',
+                icon: '⚡',
+                stats: { atk: 110, spd: 18, crit: 0.08 },
+                desc: 'มอบพลังโจมตี ATK +110, ความเร็ว SPD +18, อัตราคริติคอล +8%'
+            },
+            eq_akatsuki_cloak: {
+                id: 'eq_akatsuki_cloak',
+                name: 'เสื้อคลุมเมฆาแดง แสงอุษา (Akatsuki Cloak)',
+                series: 'Naruto',
+                type: 'armor',
+                rarity: 'SSR',
+                icon: '👘',
+                stats: { hp: 650, def: 75, sp: 20 },
+                desc: 'มอบ HP +650, เกราะ DEF +75, และ SP เริ่มต้น +20'
+            },
+            eq_jonin_vest: {
+                id: 'eq_jonin_vest',
+                name: 'เสื้อกั๊กโจนินโคโนฮะ (Jonin Flak Vest)',
+                series: 'Naruto',
+                type: 'armor',
+                rarity: 'SR',
+                icon: '🦺',
+                stats: { hp: 450, def: 60, initialShield: 150 },
+                desc: 'มอบ HP +450, เกราะ DEF +60, เกราะบาเรียเริ่มต้น +150'
+            },
+            eq_sand_gourd: {
+                id: 'eq_sand_gourd',
+                name: 'น้ำเต้าทรายพิทักษ์ชีพ (Sand Gourd)',
+                series: 'Naruto',
+                type: 'accessory',
+                rarity: 'SSR',
+                icon: '🏺',
+                stats: { def: 95, initialShield: 400, hp: 350 },
+                desc: 'มอบ DEF +95, HP +350, และเกราะบาเรียทรายเริ่มต้น +400 HP'
+            },
+            eq_headband: {
+                id: 'eq_headband',
+                name: 'ผ้าคาดหัวโคโนฮะ (Shinobi Headband)',
+                series: 'Naruto',
+                type: 'accessory',
+                rarity: 'SR',
+                icon: '🥷',
+                stats: { spd: 15, def: 60 },
+                desc: 'มอบความเร็ว SPD +15, เกราะ DEF +60'
+            },
             eq_shinobi_scroll: {
                 id: 'eq_shinobi_scroll',
                 name: 'คัมภีร์วิชานินจาลับ (Secret Shinobi Scroll)',
@@ -7047,6 +7144,134 @@
                 icon: '📜',
                 stats: { atk: 35, hp: 200, sp: 10 },
                 desc: 'มอบ ATK +35, HP +200, SP เริ่มต้น +10'
+            },
+
+            // ==================== 5. HUNTER X HUNTER ====================
+            eq_bungee_knuckle: {
+                id: 'eq_bungee_knuckle',
+                name: 'หมัดยางยืด บันจี้กัม (Bungee Gum Knuckle)',
+                series: 'Hunter x Hunter',
+                type: 'weapon',
+                rarity: 'SR',
+                icon: '🥊',
+                stats: { atk: 85, spd: 10, hp: 150 },
+                desc: 'มอบพลังโจมตี ATK +85, ความเร็ว SPD +10, HP +150'
+            },
+            eq_shadow_suit: {
+                id: 'eq_shadow_suit',
+                name: 'สูทเงากองโจรเงามายา (Phantom Troupe Suit)',
+                series: 'Hunter x Hunter',
+                type: 'armor',
+                rarity: 'SSR',
+                icon: '👔',
+                stats: { hp: 580, def: 75, crit: 0.10 },
+                desc: 'มอบ HP +580, เกราะ DEF +75, อัตราคริติคอล +10%'
+            },
+            eq_hunter_license: {
+                id: 'eq_hunter_license',
+                name: 'บัตรฮันเตอร์สองดาว (Hunter License)',
+                series: 'Hunter x Hunter',
+                type: 'accessory',
+                rarity: 'SSR',
+                icon: '💳',
+                stats: { spd: 20, crit: 0.12, atk: 45 },
+                desc: 'มอบความเร็ว SPD +20, โอกาสคริติคอล +12%, ATK +45'
+            },
+
+            // ==================== 6. BLEACH ====================
+            eq_zangetsu: {
+                id: 'eq_zangetsu',
+                name: 'ดาบฟันวิญญาณ ซันเงสึ (Zangetsu)',
+                series: 'Bleach',
+                type: 'weapon',
+                rarity: 'SSR',
+                icon: '⚔️',
+                stats: { atk: 140, spd: 8, sp: 15 },
+                desc: 'มอบพลังโจมตี ATK +140, SPD +8, และได้รับ SP เริ่มต้น +15'
+            },
+            eq_captain_haori: {
+                id: 'eq_captain_haori',
+                name: 'เสื้อคลุมหัวหน้าหน่วยยมทูต (Captain Haori)',
+                series: 'Bleach',
+                type: 'armor',
+                rarity: 'SSR',
+                icon: '🥋',
+                stats: { hp: 550, def: 80, spd: 8 },
+                desc: 'มอบ HP +550, เกราะ DEF +80, ความเร็ว SPD +8'
+            },
+            eq_sanrei_glove: {
+                id: 'eq_sanrei_glove',
+                name: 'ถุงมือซันเรย์ ควินซี่ (Sanrei Glove)',
+                series: 'Bleach',
+                type: 'accessory',
+                rarity: 'SR',
+                icon: '🧤',
+                stats: { atk: 60, crit: 0.10, spd: 10 },
+                desc: 'มอบ ATK +60, คริติคอล +10%, SPD +10'
+            },
+
+            // ==================== 7. MY HERO ACADEMIA ====================
+            eq_grenade_gauntlet: {
+                id: 'eq_grenade_gauntlet',
+                name: 'ถุงมือระเบิดเกรเนด บาคุโก (Grenade Gauntlet)',
+                series: 'My Hero Academia',
+                type: 'weapon',
+                rarity: 'SSR',
+                icon: '💣',
+                stats: { atk: 145, crit: 0.12 },
+                desc: 'มอบ ATK +145, อัตราคริติคอล +12%'
+            },
+            eq_peace_cape: {
+                id: 'eq_peace_cape',
+                name: 'ผ้าคลุมสัญลักษณ์สันติภาพ (Cape of Peace)',
+                series: 'My Hero Academia',
+                type: 'armor',
+                rarity: 'UR',
+                icon: '🦸',
+                stats: { hp: 950, def: 85, atk: 40 },
+                desc: 'มอบ HP +950, เกราะ DEF +85, และพลังโจมตี ATK +40'
+            },
+            eq_iron_soles: {
+                id: 'eq_iron_soles',
+                name: 'พื้นรองเท้าเหล็กเดกุ (Iron Soles)',
+                series: 'My Hero Academia',
+                type: 'accessory',
+                rarity: 'SR',
+                icon: '🥾',
+                stats: { hp: 380, spd: 15, def: 40 },
+                desc: 'มอบ HP +380, SPD +15, DEF +40'
+            },
+
+            // ==================== 8. ATTACK ON TITAN ====================
+            eq_thunder_spear: {
+                id: 'eq_thunder_spear',
+                name: 'หอกสายฟ้าทะลวงไททัน (Thunder Spear)',
+                series: 'Attack on Titan',
+                type: 'weapon',
+                rarity: 'SR',
+                icon: '🚀',
+                stats: { atk: 95, crit: 0.12 },
+                desc: 'มอบพลังโจมตี ATK +95, อัตราคริติคอล +12%'
+            },
+            eq_scout_cloak: {
+                id: 'eq_scout_cloak',
+                name: 'ผ้าคลุมปีกแห่งอิสรภาพ (Wings of Freedom Cloak)',
+                series: 'Attack on Titan',
+                type: 'armor',
+                rarity: 'SR',
+                icon: '🕊️',
+                stats: { hp: 420, def: 45, spd: 14 },
+                desc: 'มอบ HP +420, เกราะ DEF +45, ความเร็ว SPD +14'
+            },
+            eq_basement_key: {
+                id: 'eq_basement_key',
+                name: 'กุญแจห้องใต้ดินเอเรน (Basement Key)',
+                series: 'Attack on Titan',
+                type: 'accessory',
+                rarity: 'SR',
+                icon: '🗝️',
+                stats: { hp: 350, sp: 20, atk: 30 },
+                desc: 'มอบ HP +350, SP เริ่มต้น +20, ATK +30'
             }
         };
 
@@ -7171,29 +7396,164 @@
             return null;
         }
 
+        // Substats storage for owned equipment
+        let userArtifactSubstats = {};
+
+        function getArtifactSubstats(equipId) {
+            if (!userArtifactSubstats[equipId]) {
+                const pool = [
+                    { name: "คริติคอล (Crit Rate)", val: "+8%" },
+                    { name: "ความแรงคริ (Crit DMG)", val: "+15%" },
+                    { name: "เจาะเกราะ (DEF Pierce)", val: "+6%" },
+                    { name: "ความเร็ว (SPD)", val: "+8" },
+                    { name: "ดูดเลือด (Life Steal)", val: "+5%" },
+                    { name: "พลังชีวิต (HP)", val: "+250" }
+                ];
+                pool.sort(() => 0.5 - Math.random());
+                userArtifactSubstats[equipId] = pool.slice(0, 2);
+            }
+            return userArtifactSubstats[equipId];
+        }
+
+        let currentInspectedEquipId = null;
+
+        window.openArtifactInspectModal = (equipId) => {
+            currentInspectedEquipId = equipId;
+            const eq = MASTER_EQUIPMENT[equipId];
+            if (!eq) return;
+
+            const typeLabels = { weapon: '⚔️ อาวุธ', armor: '🛡️ ชุดเกราะ', accessory: '💍 เครื่องประดับ' };
+
+            document.getElementById('artInspectIconBox').innerText = eq.icon;
+            const rarityTag = document.getElementById('artInspectRarityTag');
+            rarityTag.className = `rarity-tag tag-${eq.rarity}`;
+            rarityTag.innerText = eq.rarity;
+
+            document.getElementById('artInspectTypeTag').innerText = typeLabels[eq.type] || 'อุปกรณ์';
+            document.getElementById('artInspectSeriesTag').innerText = `ซีรีส์: ${eq.series}`;
+            document.getElementById('artInspectTitle').innerText = eq.name;
+            document.getElementById('artInspectDesc').innerText = eq.desc;
+
+            // Main stats
+            const mainStatList = [];
+            if (eq.stats.atk) mainStatList.push(`<span style="color:#ff6b81;">⚔️ ATK +${eq.stats.atk}</span>`);
+            if (eq.stats.hp) mainStatList.push(`<span style="color:#2ed573;">❤️ HP +${eq.stats.hp}</span>`);
+            if (eq.stats.def) mainStatList.push(`<span style="color:#1e90ff;">🛡️ DEF +${eq.stats.def}</span>`);
+            if (eq.stats.spd) mainStatList.push(`<span style="color:#ffa502;">⚡ SPD +${eq.stats.spd}</span>`);
+            if (eq.stats.sp) mainStatList.push(`<span style="color:#00d2d3;">✨ SP +${eq.stats.sp}</span>`);
+            if (eq.stats.initialShield) mainStatList.push(`<span style="color:#70a1ff;">🛡️ เกราะ +${eq.stats.initialShield}</span>`);
+            if (eq.stats.crit) mainStatList.push(`<span style="color:#ff4757;">💥 คริ +${Math.round(eq.stats.crit * 100)}%</span>`);
+            if (eq.stats.defPierce) mainStatList.push(`<span style="color:#e056fd;">🗡️ เจาะเกราะ +${Math.round(eq.stats.defPierce * 100)}%</span>`);
+
+            document.getElementById('artInspectMainStats').innerHTML = mainStatList.join(' • ');
+
+            // Substats
+            renderInspectSubstats(equipId);
+
+            // Holder & Actions
+            const wearingInv = getCardWearingEquipment(equipId);
+            const wearingChar = wearingInv ? charMap[wearingInv.cardId] : null;
+
+            const holderBox = document.getElementById('artInspectHolderBox');
+            const actionBox = document.getElementById('artInspectActionButtons');
+
+            if (wearingChar) {
+                holderBox.innerHTML = `
+                    <div style="display:flex; align-items:center; gap:12px;">
+                        <img src="${wearingChar.image}" style="width:42px; height:42px; border-radius:50%; object-fit:cover; border:2px solid #00d2d3;">
+                        <div>
+                            <div style="font-size:13px; font-weight:800; color:#fff;">สวมใส่อยู่กับ: ${wearingChar.name} (${wearingChar.rarity})</div>
+                            <div style="font-size:11px; color:var(--text-muted);">${wearingChar.series} • ${wearingChar.element}</div>
+                        </div>
+                    </div>
+                `;
+                actionBox.innerHTML = `
+                    <button class="btn-card-action" style="background:#ff4757; color:#fff; padding:10px; font-weight:800; flex:1;" onclick="unequipGearFromInventory('${wearingInv.id}', '${eq.type}')">
+                        ❌ ปลดอุปกรณ์ออกจาก ${wearingChar.name.split(' ')[0]}
+                    </button>
+                `;
+            } else {
+                holderBox.innerHTML = `
+                    <div style="text-align:center; color:#2ed573; font-size:13px; font-weight:800;">
+                        🟢 ไอเทมนี้ยังว่างอยู่ (พร้อมสวมใส่ให้ตัวละครจากเรื่อง ${eq.series})
+                    </div>
+                `;
+                actionBox.innerHTML = `
+                    <button class="btn-card-action" style="background:linear-gradient(135deg, #00d2d3, #1e90ff); color:#fff; padding:10px; font-weight:800; flex:1;" onclick="closeArtifactInspectModal(); openCardSelectModalForGear('${equipId}')">
+                        ➕ สวมใส่ให้การ์ดในเรื่อง ${eq.series}
+                    </button>
+                `;
+            }
+
+            document.getElementById('artifactInspectModal').style.display = 'flex';
+        };
+
+        window.closeArtifactInspectModal = () => {
+            document.getElementById('artifactInspectModal').style.display = 'none';
+            currentInspectedEquipId = null;
+        };
+
+        function renderInspectSubstats(equipId) {
+            const subs = getArtifactSubstats(equipId);
+            const container = document.getElementById('artInspectSubStatsList');
+            if (!container) return;
+            container.innerHTML = subs.map(s => `
+                <div class="artifact-substat-row" style="font-size:12px; padding:5px 10px; margin-top:5px;">
+                    <span style="color:#ced6e0;">${s.name}</span>
+                    <span style="font-weight:900; color:#2ed573;">${s.val}</span>
+                </div>
+            `).join('');
+        }
+
+        window.rerollCurrentInspectedArtifact = async () => {
+            if (!currentInspectedEquipId || !currentUser) return;
+            if (userGems < 50) return showToast("❌ Gems ไม่พอ (ต้องการ 💎 50 Gems)", "error");
+
+            try {
+                const userRef = doc(db, "animeUsers", currentUser.uid);
+                await updateDoc(userRef, { gems: userGems - 50 });
+
+                const pool = [
+                    { name: "คริติคอล (Crit Rate)", val: `+${Math.floor(6 + Math.random() * 8)}%` },
+                    { name: "ความแรงคริ (Crit DMG)", val: `+${Math.floor(12 + Math.random() * 15)}%` },
+                    { name: "เจาะเกราะ (DEF Pierce)", val: `+${Math.floor(5 + Math.random() * 8)}%` },
+                    { name: "ดูดเลือด (Life Steal)", val: `+${Math.floor(3 + Math.random() * 6)}%` },
+                    { name: "ความเร็ว (SPD)", val: `+${Math.floor(6 + Math.random() * 10)}` },
+                    { name: "พลังชีวิต (HP)", val: `+${Math.floor(200 + Math.random() * 250)}` },
+                    { name: "พลังโจมตี (ATK)", val: `+${Math.floor(35 + Math.random() * 45)}` }
+                ];
+                pool.sort(() => 0.5 - Math.random());
+                userArtifactSubstats[currentInspectedEquipId] = pool.slice(0, 2);
+
+                renderInspectSubstats(currentInspectedEquipId);
+                renderEquipmentUI();
+                showToast("🔮 สุ่มออปชันรองใหม่สำเร็จ! (+50 Gems)", "success");
+            } catch (err) {
+                showToast("สุ่มไม่สำเร็จ: " + err.message, "error");
+            }
+        };
+
+        // Render Artifacts as Card Grid (Issue 3)
         window.renderEquipmentUI = () => {
             loadUserEquipmentState();
             const container = document.getElementById('equipmentGridContainer');
             if (!container) return;
 
-            const rarityFilter = document.getElementById('eqRarityFilter')?.value || 'all';
-            const statusFilter = document.getElementById('eqStatusFilter')?.value || 'all';
+            const search = document.getElementById('eqSearchInput')?.value.trim().toLowerCase() || '';
+            const seriesFilter = document.getElementById('eqFilterSeries')?.value || 'all';
+            const typeFilter = document.getElementById('eqFilterType')?.value || 'all';
+            const rarityFilter = document.getElementById('eqFilterRarity')?.value || 'all';
+            const statusFilter = document.getElementById('eqFilterStatus')?.value || 'all';
 
-            // Count stats
-            const counts = { all: myOwnedEquipment.length, weapon: 0, armor: 0, accessory: 0 };
-            myOwnedEquipment.forEach(id => {
-                const eq = MASTER_EQUIPMENT[id];
-                if (eq && counts[eq.type] !== undefined) counts[eq.type]++;
-            });
-            if (document.getElementById('eqCountAll')) document.getElementById('eqCountAll').innerText = counts.all;
-            if (document.getElementById('eqCountWeapon')) document.getElementById('eqCountWeapon').innerText = counts.weapon;
-            if (document.getElementById('eqCountArmor')) document.getElementById('eqCountArmor').innerText = counts.armor;
-            if (document.getElementById('eqCountAccessory')) document.getElementById('eqCountAccessory').innerText = counts.accessory;
+            const badge = document.getElementById('equipCountBadge');
+            if (badge) badge.innerText = myOwnedEquipment.length;
 
             let filteredIds = myOwnedEquipment.filter(id => {
                 const eq = MASTER_EQUIPMENT[id];
                 if (!eq) return false;
-                if (currentEquipTypeFilter !== 'all' && eq.type !== currentEquipTypeFilter) return false;
+                if (search && !eq.name.toLowerCase().includes(search) && !eq.series.toLowerCase().includes(search)) return false;
+                if (seriesFilter !== 'all' && eq.series !== seriesFilter) return false;
+                if (typeFilter !== 'all' && eq.type !== typeFilter) return false;
                 if (rarityFilter !== 'all' && eq.rarity !== rarityFilter) return false;
                 
                 const wearingInv = getCardWearingEquipment(id);
@@ -7204,16 +7564,16 @@
 
             if (filteredIds.length === 0) {
                 container.innerHTML = `
-                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px; background: #0c1220; border-radius: 12px; border: 1px dashed var(--border-color);">
-                        <div style="font-size: 36px; margin-bottom: 8px;">🛡️</div>
-                        <div style="font-size: 15px; font-weight: 800; color: #fff;">ไม่พบอุปกรณ์ในหมวดนี้</div>
-                        <div style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">
-                            กดรับกล่องอุปกรณ์เริ่มต้นฟรี หรือสุ่มเปิดหีบอุปกรณ์เพื่อสะสมไอเทมใหม่ๆ
-                        </div>
+                    <div class="empty-state" style="grid-column: 1 / -1; padding: 45px 20px;">
+                        <div style="font-size: 40px; margin-bottom: 8px;">🛡️</div>
+                        <h3>ไม่พบ Artifacts ในหมวดหมู่นี้</h3>
+                        <p>กดรับกล่องอุปกรณ์เริ่มต้นฟรี หรือสุ่มหีบอุปกรณ์เพื่อสะสมไอเทมใหม่ๆ</p>
                     </div>
                 `;
                 return;
             }
+
+            const typeIcons = { weapon: '⚔️ อาวุธ', armor: '🛡️ เกราะ', accessory: '💍 ประดับ' };
 
             container.innerHTML = filteredIds.map(id => {
                 const eq = MASTER_EQUIPMENT[id];
@@ -7221,77 +7581,63 @@
                 const wearingChar = wearingInv ? charMap[wearingInv.cardId] : null;
 
                 const statBadges = [];
-                if (eq.stats.atk) statBadges.push(`<span style="color:#ff6b81; font-weight:bold;">⚔️ ATK +${eq.stats.atk}</span>`);
-                if (eq.stats.hp) statBadges.push(`<span style="color:#2ed573; font-weight:bold;">❤️ HP +${eq.stats.hp}</span>`);
-                if (eq.stats.def) statBadges.push(`<span style="color:#1e90ff; font-weight:bold;">🛡️ DEF +${eq.stats.def}</span>`);
-                if (eq.stats.spd) statBadges.push(`<span style="color:#ffa502; font-weight:bold;">⚡ SPD +${eq.stats.spd}</span>`);
-                if (eq.stats.sp) statBadges.push(`<span style="color:#00d2d3; font-weight:bold;">✨ SP +${eq.stats.sp}</span>`);
-                if (eq.stats.initialShield) statBadges.push(`<span style="color:#70a1ff; font-weight:bold;">🛡️ เกราะ +${eq.stats.initialShield}</span>`);
-                if (eq.stats.crit) statBadges.push(`<span style="color:#ff4757; font-weight:bold;">💥 คริ +${Math.round(eq.stats.crit * 100)}%</span>`);
+                if (eq.stats.atk) statBadges.push(`<span style="color:#ff6b81;">⚔️ +${eq.stats.atk}</span>`);
+                if (eq.stats.hp) statBadges.push(`<span style="color:#2ed573;">❤️ +${eq.stats.hp}</span>`);
+                if (eq.stats.def) statBadges.push(`<span style="color:#1e90ff;">🛡️ +${eq.stats.def}</span>`);
+                if (eq.stats.spd) statBadges.push(`<span style="color:#ffa502;">⚡ +${eq.stats.spd}</span>`);
+                if (eq.stats.sp) statBadges.push(`<span style="color:#00d2d3;">✨ +${eq.stats.sp}</span>`);
 
-                const typeLabels = { weapon: '⚔️ อาวุธ', armor: '🛡️ ชุดเกราะ', accessory: '💍 เครื่องประดับ' };
-
-                let statusHtml = '';
-                let actionBtnHtml = '';
-
-                if (wearingChar) {
-                    statusHtml = `
-                        <div style="background:#0a1a2f; border:1px solid #00d2d3; border-radius:8px; padding:6px 10px; font-size:12px; display:flex; align-items:center; gap:8px; margin-top:10px;">
-                            <img src="${wearingChar.image}" style="width:28px; height:28px; border-radius:50%; object-fit:cover; border:1px solid #00d2d3;">
-                            <span style="color:#fff; font-weight:bold; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">สวมใส่ให้: ${wearingChar.name.split(' ')[0]}</span>
-                        </div>
-                    `;
-                    actionBtnHtml = `
-                        <button class="btn-auth-primary" style="background:var(--border-color); color:#ff6b81; padding:7px 12px; font-size:12px; font-weight:bold; width:100%; margin-top:10px;" onclick="unequipGearFromInventory('${wearingInv.id}', '${eq.type}')">
-                            ❌ ปลดอุปกรณ์ออก
-                        </button>
-                    `;
-                } else {
-                    statusHtml = `
-                        <div style="background:#131c30; border:1px dashed #2ed573; border-radius:8px; padding:6px 10px; font-size:12px; color:#2ed573; font-weight:bold; margin-top:10px; text-align:center;">
-                            🟢 ว่างอยู่ (พร้อมสวมใส่)
-                        </div>
-                    `;
-                    actionBtnHtml = `
-                        <button class="btn-auth-primary" style="background:linear-gradient(135deg, #00d2d3, #1e90ff); color:#fff; padding:7px 12px; font-size:12px; font-weight:bold; width:100%; margin-top:10px;" onclick="openCardSelectModalForGear('${id}')">
-                            ➕ สวมใส่ให้การ์ด
-                        </button>
-                    `;
-                }
+                const subs = getArtifactSubstats(id);
 
                 return `
-                    <div class="equipment-card rarity-${eq.rarity}">
-                        <div>
-                            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
-                                <div style="display:flex; align-items:center; gap:8px;">
-                                    <span style="font-size:26px;">${eq.icon}</span>
-                                    <div>
-                                        <div style="font-size:14px; font-weight:800; color:#fff;">${eq.name}</div>
-                                        <div style="font-size:11px; color:var(--text-muted);">${typeLabels[eq.type]} • ${eq.series}</div>
-                                    </div>
-                                </div>
-                                <span class="badge-rarity rarity-${eq.rarity}">${eq.rarity}</span>
-                            </div>
-
-                            <div style="font-size:12px; color:#ced6e0; line-height:1.5; margin:8px 0; background:#0a0e1a; padding:6px 10px; border-radius:8px;">
-                                ${eq.desc}
-                            </div>
-
-                            <div style="display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; font-size:11px;">
-                                ${statBadges.join(' ')}
-                            </div>
+                    <div class="tcg-card rarity-${eq.rarity}" style="cursor:pointer;" onclick="openArtifactInspectModal('${id}')">
+                        <div class="card-top-bar">
+                            <span class="rarity-tag" style="background:#232c48; color:#ced6e0; font-size:10px;">${typeIcons[eq.type]}</span>
+                            <span class="rarity-tag tag-${eq.rarity}">${eq.rarity}</span>
                         </div>
 
-                        <div>
-                            ${statusHtml}
-                            ${actionBtnHtml}
+                        <div class="card-img-wrap" style="height:115px; background:radial-gradient(circle, #1e263d 0%, #0d1222 100%);">
+                            <div style="font-size:50px; text-shadow:0 0 15px rgba(255,255,255,0.3); transition:transform 0.2s;" class="zoom-glass-icon-hidden">
+                                ${eq.icon}
+                            </div>
+                            <span class="zoom-glass-icon">🔍</span>
+                        </div>
+
+                        <div class="card-body">
+                            <div>
+                                <div class="card-name" style="font-size:14px;" title="${eq.name}">${eq.name}</div>
+                                <div class="card-series" style="color:var(--gem-color); font-weight:700;">${eq.series}</div>
+                            </div>
+
+                            <div style="background:#0c1220; border:1px solid #1a253d; border-radius:8px; padding:6px 8px; margin:6px 0;">
+                                <div style="font-size:10px; color:var(--text-muted); margin-bottom:2px;">⚡ Main Stat:</div>
+                                <div style="display:flex; gap:6px; font-size:11px; font-weight:800;">
+                                    ${statBadges.join(' ')}
+                                </div>
+                            </div>
+
+                            <div style="font-size:11px; color:#2ed573; background:#0c181f; padding:4px 8px; border-radius:6px; margin-bottom:8px; display:flex; justify-content:space-between;">
+                                <span>${subs[0].name.split(' ')[0]}</span>
+                                <span style="font-weight:900;">${subs[0].val}</span>
+                            </div>
+
+                            ${wearingChar ? `
+                                <div style="background:#0a1a2f; border:1px solid #00d2d3; border-radius:8px; padding:5px 8px; font-size:11px; display:flex; align-items:center; gap:6px;">
+                                    <img src="${wearingChar.image}" style="width:20px; height:20px; border-radius:50%; object-fit:cover;">
+                                    <span style="color:#fff; font-weight:bold; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">สวมให้: ${wearingChar.name.split(' ')[0]}</span>
+                                </div>
+                            ` : `
+                                <div style="background:#131c30; border:1px dashed #2ed573; border-radius:8px; padding:5px 8px; font-size:11px; color:#2ed573; font-weight:bold; text-align:center;">
+                                    🟢 ว่างอยู่ (คลิกดูสเตตัส)
+                                </div>
+                            `}
                         </div>
                     </div>
                 `;
             }).join('');
         };
 
-        // Open modal to select gear from card detail view
+        // Open modal to select gear from card detail view (Enforces Same-Series)
         window.openSelectEquipmentModal = (cardInvId, slotType) => {
             activeCardForEquipSelection = cardInvId;
             activeSlotForEquipSelection = slotType;
@@ -7301,23 +7647,29 @@
             const title = document.getElementById('selectEquipModalTitle');
             if (!modal || !list) return;
 
+            const targetInv = myInventoryDocs.find(i => i.id === cardInvId);
+            const targetChar = targetInv ? charMap[targetInv.cardId] : null;
+
             const slotNames = { weapon: '⚔️ อาวุธ', armor: '🛡️ ชุดเกราะ', accessory: '💍 เครื่องประดับ' };
-            if (title) title.innerText = `เลือก${slotNames[slotType]}สวมใส่`;
+            if (title) title.innerText = `เลือก${slotNames[slotType]}สวมใส่ให้ ${targetChar ? targetChar.name : ''} (${targetChar ? targetChar.series : ''})`;
 
             loadUserEquipmentState();
 
-            // Filter items of this slotType
+            // 🔒 Filter items of this slotType AND matching SAME SERIES!
             const matchingIds = myOwnedEquipment.filter(id => {
                 const eq = MASTER_EQUIPMENT[id];
-                return eq && eq.type === slotType;
+                return eq && eq.type === slotType && targetChar && (eq.series === targetChar.series);
             });
 
             if (matchingIds.length === 0) {
                 list.innerHTML = `
                     <div style="text-align:center; padding:30px; color:var(--text-muted);">
-                        ⚠️ คุณยังไม่มีอุปกรณ์ประเภท${slotNames[slotType]}ในคลัง<br>
+                        ⚠️ คุณยังไม่มี${slotNames[slotType]}จากเรื่อง <b>${targetChar ? targetChar.series : 'นี้'}</b> ในคลัง<br>
+                        <div style="font-size:12px; color:var(--gold); margin-top:6px;">
+                            (กฎเหล็ก: ตัวละครสามารถสวมใส่ได้เฉพาะ Artifacts จากเรื่องเดียวกันเท่านั้น)
+                        </div>
                         <button class="btn-auth-primary" style="margin-top:12px; font-size:12px; padding:6px 14px;" onclick="closeSelectEquipmentModal(); switchTab('equipment')">
-                            ไปที่คลังอุปกรณ์ ➔
+                            ไปที่คลัง Artifacts ➔
                         </button>
                     </div>
                 `;
@@ -7364,10 +7716,20 @@
             if (modal) modal.style.display = 'none';
         };
 
-        // Equip a piece of gear to a card in myInventoryDocs
+        // Equip a piece of gear to a card in myInventoryDocs (Enforces Same-Series Rule)
         window.equipGearToInventory = async (cardInvId, equipId, slotType) => {
             const inv = myInventoryDocs.find(i => i.id === cardInvId);
             if (!inv) return;
+
+            const targetChar = charMap[inv.cardId];
+            const artifact = MASTER_EQUIPMENT[equipId];
+            if (!targetChar || !artifact) return;
+
+            // 🔒 ข้อที่ 4: กฎเหล็กการสวมใส่ Artifacts เฉพาะตัวละครจากเรื่องเดียวกัน (Series Restriction)
+            if (artifact.series !== targetChar.series) {
+                showToast(`⚠️ ไอเทม [${artifact.name}] สวมใส่ได้เฉพาะตัวละครจากเรื่อง ${artifact.series} เท่านั้น! (${targetChar.name} มาจาก ${targetChar.series})`, "error");
+                return;
+            }
 
             // If this gear was equipped to another card, remove it first
             const otherInv = getCardWearingEquipment(equipId);
@@ -7391,10 +7753,15 @@
                 console.error(e);
             }
 
-            showToast(`🛡️ สวมใส่ ${MASTER_EQUIPMENT[equipId].name} สำเร็จ!`, "success");
+            showToast(`🛡️ สวมใส่ ${artifact.name} ให้ ${targetChar.name} สำเร็จ!`, "success");
             renderInventoryUI();
             renderEquipmentUI();
-            openCardDetail(inv.cardId, inv.id); // Refresh detail modal
+            if (document.getElementById('cardDetailModal').style.display === 'flex') {
+                openCardDetail(inv.cardId, inv.id);
+            }
+            if (document.getElementById('artifactInspectModal').style.display === 'flex') {
+                openArtifactInspectModal(equipId);
+            }
         };
 
         // Unequip a piece of gear from a card
@@ -7421,7 +7788,7 @@
             openCardDetail(inv.cardId, inv.id); // Refresh detail modal
         };
 
-        // Open modal to select card when clicking equip on equipment page
+        // Open modal to select card when clicking equip on equipment page (Enforces Same-Series)
         window.openCardSelectModalForGear = (equipId) => {
             const eq = MASTER_EQUIPMENT[equipId];
             if (!eq) return;
@@ -7431,12 +7798,28 @@
             const title = document.getElementById('selectEquipModalTitle');
             if (!modal || !list) return;
 
-            if (title) title.innerText = `สวมใส่ ${eq.name} ให้การ์ด`;
+            if (title) title.innerText = `สวมใส่ [${eq.name}] ให้ตัวละครเรื่อง ${eq.series}`;
 
-            if (!myInventoryDocs || myInventoryDocs.length === 0) {
-                list.innerHTML = `<div style="text-align:center; padding:30px; color:var(--text-muted);">คุณยังไม่มีการ์ดตัวละครในคลัง</div>`;
+            // 🔒 Filter only characters belonging to the SAME SERIES!
+            const matchingCards = (myInventoryDocs || []).filter(inv => {
+                const c = charMap[inv.cardId];
+                return c && c.series === eq.series;
+            });
+
+            if (matchingCards.length === 0) {
+                list.innerHTML = `
+                    <div style="text-align:center; padding:30px; color:var(--text-muted);">
+                        ⚠️ คุณยังไม่มีการ์ดตัวละครจากเรื่อง <b>${eq.series}</b> ในคลัง<br>
+                        <div style="font-size:12px; color:var(--gold); margin-top:6px;">
+                            (กฎเหล็ก: [${eq.name}] สวมใส่ได้เฉพาะตัวละครจากเรื่อง ${eq.series} เท่านั้น)
+                        </div>
+                        <button class="btn-auth-primary" style="margin-top:12px; font-size:12px; padding:6px 14px;" onclick="closeSelectEquipmentModal(); switchTab('gacha')">
+                            ไปเปิดตู้สุ่มกาชา ➔
+                        </button>
+                    </div>
+                `;
             } else {
-                list.innerHTML = myInventoryDocs.map(inv => {
+                list.innerHTML = matchingCards.map(inv => {
                     const c = charMap[inv.cardId];
                     if (!c) return '';
                     const currentlyEquippedId = inv.equippedGear ? inv.equippedGear[eq.type] : null;
@@ -8899,6 +9282,59 @@
             if (tabName === 'equipment') renderEquipmentUI();
         };
     </script>
+
+    
+    <!-- Artifact Inspection Modal (ข้อที่ 3: ดูรายละเอียดเต็มตา สุ่มออปชัน และสวมใส่) -->
+    <div id="artifactInspectModal" class="modal-backdrop" style="display: none;">
+        <div class="modal-box" style="max-width: 520px; text-align: left;">
+            <button class="modal-close-btn" onclick="closeArtifactInspectModal()">✕</button>
+            
+            <div style="display: flex; gap: 16px; align-items: center; border-bottom: 2px dashed var(--border-color); padding-bottom: 16px; margin-bottom: 16px;">
+                <div id="artInspectIconBox" style="width: 80px; height: 80px; border-radius: 16px; background: #151b2e; border: 2px solid var(--border-color); display: flex; align-items: center; justify-content: center; font-size: 42px; flex-shrink: 0;">
+                    🛡️
+                </div>
+                <div>
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                        <span id="artInspectRarityTag" class="rarity-tag tag-SSR">SSR</span>
+                        <span id="artInspectTypeTag" style="font-size: 11px; background: #232c48; color: #ced6e0; padding: 2px 8px; border-radius: 6px; font-weight: bold;">⚔️ อาวุธ</span>
+                        <span id="artInspectSeriesTag" style="font-size: 11px; color: var(--gem-color); font-weight: bold;">One Piece</span>
+                    </div>
+                    <h3 id="artInspectTitle" style="font-size: 18px; font-weight: 900; color: #fff; margin: 0;">
+                        ชื่ออุปกรณ์
+                    </h3>
+                    <p id="artInspectDesc" style="font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.4;">
+                        คำอธิบายอุปกรณ์
+                    </p>
+                </div>
+            </div>
+
+            <!-- Main Stat Box -->
+            <div style="background: #111728; border: 1.5px solid var(--secondary); border-radius: 12px; padding: 14px; margin-bottom: 14px;">
+                <div style="font-size: 12px; font-weight: 800; color: var(--gold); margin-bottom: 6px;">
+                    ⚡ สเตตัสหลัก (Main Stat):
+                </div>
+                <div id="artInspectMainStats" style="display: flex; flex-wrap: wrap; gap: 8px; font-size: 13px; font-weight: 800; color: #fff;">
+                    -
+                </div>
+            </div>
+
+            <!-- Sub-stats Box & Reroll -->
+            <div style="background: #111728; border: 1.5px solid var(--border-color); border-radius: 12px; padding: 14px; margin-bottom: 18px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <span style="font-size: 12px; font-weight: 800; color: #00d2d3;">🔮 ออปชันรองสุ่ม (Sub-stats 2 แถว):</span>
+                    <button class="btn-card-action" style="background: linear-gradient(135deg, #00d2d3, #5352ed); color: #fff; font-size: 11px; padding: 4px 12px; font-weight: 800;" onclick="rerollCurrentInspectedArtifact()">
+                        🔮 สุ่มใหม่ (💎 50)
+                    </button>
+                </div>
+                <div id="artInspectSubStatsList"></div>
+            </div>
+
+            <!-- Equipment Holder & Action Buttons -->
+            <div id="artInspectHolderBox" style="background: #0d1424; border: 1px solid var(--border-color); border-radius: 12px; padding: 12px; margin-bottom: 16px;"></div>
+
+            <div id="artInspectActionButtons" style="display: flex; gap: 10px;"></div>
+        </div>
+    </div>
 
     <!-- Modal: เลือกอุปกรณ์สวมใส่ให้การ์ด -->
     <div id="selectEquipmentModal" class="modal-backdrop" style="display:none;">
