@@ -7473,7 +7473,15 @@
 
             const typeLabels = { weapon: '⚔️ อาวุธ', armor: '🛡️ ชุดเกราะ', accessory: '💍 เครื่องประดับ' };
 
-            document.getElementById('artInspectIconBox').innerText = eq.icon;
+            const artBox = document.getElementById('artInspectIconBox');
+            if (artBox) {
+                artBox.innerHTML = `
+                    <img src="assets/anime/artifacts/${equipId}.jpg" alt="${eq.name}" 
+                         onerror="if(this.src.endsWith('.jpg')){this.src='assets/anime/artifacts/${equipId}.webp';}else{this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='inline';}" 
+                         style="width:100%; height:100%; object-fit:contain; border-radius:12px;">
+                    <span style="display:none; font-size:42px;">${eq.icon}</span>
+                `;
+            }
             const rarityTag = document.getElementById('artInspectRarityTag');
             rarityTag.className = `rarity-tag tag-${eq.rarity}`;
             rarityTag.innerText = eq.rarity;
@@ -7646,11 +7654,14 @@
                             <span class="rarity-tag tag-${eq.rarity}">${eq.rarity}</span>
                         </div>
 
-                        <div class="card-img-wrap" style="height:115px; background:radial-gradient(circle, #1e263d 0%, #0d1222 100%);">
-                            <div style="font-size:50px; text-shadow:0 0 15px rgba(255,255,255,0.3); transition:transform 0.2s;" class="zoom-glass-icon-hidden">
+                        <div class="card-img-wrap" style="height:115px; background:radial-gradient(circle, #1e263d 0%, #0d1222 100%); position:relative; overflow:hidden;">
+                            <img src="assets/anime/artifacts/${id}.jpg" alt="${eq.name}" 
+                                 onerror="if(this.src.endsWith('.jpg')){this.src='assets/anime/artifacts/${id}.webp';}else{this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='flex';}" 
+                                 style="width:100%; height:100%; object-fit:contain; padding:8px; position:absolute; top:0; left:0; z-index:2; transition:transform 0.2s;">
+                            <div style="font-size:50px; text-shadow:0 0 15px rgba(255,255,255,0.3); width:100%; height:100%; display:none; align-items:center; justify-content:center;">
                                 ${eq.icon}
                             </div>
-                            <span class="zoom-glass-icon">🔍</span>
+                            <span class="zoom-glass-icon" style="z-index:3;">🔍</span>
                         </div>
 
                         <div class="card-body">
@@ -7733,7 +7744,12 @@
                     return `
                         <div style="background:#0f172a; border:1px solid ${isWornByCurrent ? '#00d2d3' : 'var(--border-color)'}; border-radius:10px; padding:10px; display:flex; justify-content:space-between; align-items:center;">
                             <div style="display:flex; align-items:center; gap:10px;">
-                                <span style="font-size:24px;">${eq.icon}</span>
+                                <div style="width:44px; height:44px; border-radius:8px; background:#1e263d; border:1px solid var(--border-color); display:flex; align-items:center; justify-content:center; flex-shrink:0; overflow:hidden;">
+                                    <img src="assets/anime/artifacts/${id}.jpg" alt="${eq.name}" 
+                                         onerror="if(this.src.endsWith('.jpg')){this.src='assets/anime/artifacts/${id}.webp';}else{this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='inline';}" 
+                                         style="width:100%; height:100%; object-fit:contain;">
+                                    <span style="display:none; font-size:24px;">${eq.icon}</span>
+                                </div>
                                 <div>
                                     <div style="font-size:13px; font-weight:800; color:#fff;">
                                         ${eq.name} <span class="badge-rarity rarity-${eq.rarity}" style="font-size:9px; padding:1px 5px;">${eq.rarity}</span>
@@ -7909,16 +7925,7 @@
         let battleViewMode = localStorage.getItem('animeBattleViewMode') || 'pixel';
 
         // 🎯 จุดลงทะเบียนรหัสตัวละครที่มี Spritesheets (ใน assets/anime/sprites/{id}.png)
-        const KNOWN_SPRITE_IDS = new Set(['c001', 'c002', 'c003', 'c004', 'c005',
-                                          'c006', 'c007', 'c008', 'c009', 'c010',
-                                          'c011', 'c012', 'c013', 'c014', 'c015',
-                                          'c016', 'c017', 'c018', 'c019', 'c020',
-                                          'c021', 'c022', 'c023', 'c024', 'c025',
-                                          'c026', 'c027', 'c028', 'c029', 'c030',
-                                          'c031', 'c032', 'c033', 'c034', 'c035',
-                                          'c036', 'c037', 'c038', 'c039', 'c040',
-                                          'c041', 'c042', 'c043', 'c044', 'c045',
-                                           'c046', 'c047', 'c048', 'c049', 'c050']);
+        const KNOWN_SPRITE_IDS = new Set(['c004', 'c005', 'c019', 'c034', 'c040']);
 
         window.toggleBattleViewMode = () => {
             battleViewMode = (battleViewMode === 'pixel') ? 'card' : 'pixel';
@@ -9222,7 +9229,14 @@
                                 const w = wId ? MASTER_EQUIPMENT[wId] : null;
                                 return `
                                     <div class="equip-slot-box ${w ? 'equipped' : ''}" onclick="openSelectEquipmentModal('${inv.id}', 'weapon')">
-                                        <div style="font-size: 22px;">${w ? w.icon : '⚔️'}</div>
+                                        ${w ? `
+                                            <div style="width:36px; height:36px; margin:0 auto; display:flex; align-items:center; justify-content:center;">
+                                                <img src="assets/anime/artifacts/${wId}.jpg" alt="${w.name}" 
+                                                     onerror="if(this.src.endsWith('.jpg')){this.src='assets/anime/artifacts/${wId}.webp';}else{this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='inline';}" 
+                                                     style="width:100%; height:100%; object-fit:contain;">
+                                                <span style="display:none; font-size:22px;">${w.icon}</span>
+                                            </div>
+                                        ` : `<div style="font-size: 22px;">⚔️</div>`}
                                         <div style="font-size: 11px; font-weight: 800; color: #fff; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                             ${w ? w.name.split(' ')[0] : 'อาวุธ'}
                                         </div>
@@ -9239,7 +9253,14 @@
                                 const a = aId ? MASTER_EQUIPMENT[aId] : null;
                                 return `
                                     <div class="equip-slot-box ${a ? 'equipped' : ''}" onclick="openSelectEquipmentModal('${inv.id}', 'armor')">
-                                        <div style="font-size: 22px;">${a ? a.icon : '🛡️'}</div>
+                                        ${a ? `
+                                            <div style="width:36px; height:36px; margin:0 auto; display:flex; align-items:center; justify-content:center;">
+                                                <img src="assets/anime/artifacts/${aId}.jpg" alt="${a.name}" 
+                                                     onerror="if(this.src.endsWith('.jpg')){this.src='assets/anime/artifacts/${aId}.webp';}else{this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='inline';}" 
+                                                     style="width:100%; height:100%; object-fit:contain;">
+                                                <span style="display:none; font-size:22px;">${a.icon}</span>
+                                            </div>
+                                        ` : `<div style="font-size: 22px;">🛡️</div>`}
                                         <div style="font-size: 11px; font-weight: 800; color: #fff; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                             ${a ? a.name.split(' ')[0] : 'ชุดเกราะ'}
                                         </div>
@@ -9256,7 +9277,14 @@
                                 const acc = accId ? MASTER_EQUIPMENT[accId] : null;
                                 return `
                                     <div class="equip-slot-box ${acc ? 'equipped' : ''}" onclick="openSelectEquipmentModal('${inv.id}', 'accessory')">
-                                        <div style="font-size: 22px;">${acc ? acc.icon : '💍'}</div>
+                                        ${acc ? `
+                                            <div style="width:36px; height:36px; margin:0 auto; display:flex; align-items:center; justify-content:center;">
+                                                <img src="assets/anime/artifacts/${accId}.jpg" alt="${acc.name}" 
+                                                     onerror="if(this.src.endsWith('.jpg')){this.src='assets/anime/artifacts/${accId}.webp';}else{this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='inline';}" 
+                                                     style="width:100%; height:100%; object-fit:contain;">
+                                                <span style="display:none; font-size:22px;">${acc.icon}</span>
+                                            </div>
+                                        ` : `<div style="font-size: 22px;">💍</div>`}
                                         <div style="font-size: 11px; font-weight: 800; color: #fff; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                             ${acc ? acc.name.split(' ')[0] : 'ของวิเศษ'}
                                         </div>
