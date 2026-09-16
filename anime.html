@@ -7924,8 +7924,8 @@
         // =========================================================================
         let battleViewMode = localStorage.getItem('animeBattleViewMode') || 'pixel';
 
-        // 🎯 จุดลงทะเบียนรหัสตัวละครที่มี Spritesheets (ใน assets/anime/sprites/{id}.png)
-        const KNOWN_SPRITE_IDS = new Set(['c004', 'c005', 'c019', 'c034', 'c040']);
+        // 🎯 ลงทะเบียนตัวละครทั้งหมด (c001 - c050) ให้เปิดใช้งานระบบ Pixel Sprite 8-Bit
+        const KNOWN_SPRITE_IDS = new Set(masterCharacters.map(c => c.id));
 
         window.toggleBattleViewMode = () => {
             battleViewMode = (battleViewMode === 'pixel') ? 'card' : 'pixel';
@@ -8112,8 +8112,11 @@
                 bodyHtml = `
                     <div class="pixel-sprite-canvas ${flipCls} ${stanceCls}"
                          id="isoSprite_${isEnemy ? 'e' : 'p'}_${slotIndex}"
-                         style="background-image: url('assets/anime/sprites/${c.id}.png'); width:56px; height:56px;">
+                         style="background-image: url('assets/anime/sprites/${c.id}.png'); width:56px; height:56px;"
+                         onerror="this.style.backgroundImage='url(assets/anime/sprites/${c.id}.webp)';">
                     </div>
+                    <img src="assets/anime/sprites/${c.id}.png" style="display:none;" 
+                         onerror="const el = document.getElementById('isoSprite_${isEnemy ? 'e' : 'p'}_${slotIndex}'); if(this.src.endsWith('.png')){ this.src='assets/anime/sprites/${c.id}.webp'; if(el) el.style.backgroundImage='url(assets/anime/sprites/${c.id}.webp)'; } else { if(el) { el.className='pixel-standee-fallback'; el.style.backgroundImage=''; el.style.width='48px'; el.style.height='58px'; el.innerHTML='<img src=\"${c.image}\" alt=\"${c.name}\" onerror=\"this.style.display=\\'none\\'\">'; } }">
                 `;
             } else {
                 // Hybrid Fallback: Compact Pixel Standee with Card Art
