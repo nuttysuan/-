@@ -3365,14 +3365,87 @@
     </div>
 
 
-    <!-- Slot Picker Modal -->
+    <!-- Slot Picker Modal (อัปเกรดระบบค้นหาและกรองข้อมูล) -->
     <div id="slotPickerModal" class="modal-backdrop">
-        <div class="modal-box" style="max-width: 650px;">
-            <button class="modal-close-btn" onclick="closeSlotPicker()">✕</button>
-            <h3 style="font-size: 18px; font-weight: 800; margin-bottom: 12px; color: var(--gold);">
-                🎴 เลือกการ์ดลงตำแหน่งทีม
-            </h3>
-            <div id="slotPickerGrid" class="card-grid" style="max-height: 60vh; overflow-y: auto; padding: 5px;"></div>
+        <div class="modal-box" style="max-width: 780px; max-height: 90vh; display: flex; flex-direction: column;">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--border-color); padding-bottom: 12px; margin-bottom: 12px;">
+                <div>
+                    <h3 id="slotPickerModalTitle" style="font-size: 20px; font-weight: 900; color: var(--gold); margin: 0;">
+                        🎴 เลือกการ์ดลงตำแหน่งทีม
+                    </h3>
+                    <div id="slotPickerSubTitle" style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">
+                        เลือกตัวละครที่ต้องการ • กฎความหลากหลาย: ห้ามใช้ตัวซ้ำในทีม
+                    </div>
+                </div>
+                <button class="modal-close-btn" onclick="closeSlotPicker()">✕</button>
+            </div>
+
+            <!-- Filter & Search Toolbar -->
+            <div style="background: #111728; border: 1px solid var(--border-color); border-radius: 12px; padding: 12px; margin-bottom: 14px; display: flex; flex-direction: column; gap: 10px;">
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                    <input type="text" id="slotPickerSearchInput" class="search-input" placeholder="🔍 ค้นหาชื่อตัวละคร..." 
+                           style="flex: 2; min-width: 180px;" oninput="renderSlotPickerCards()">
+                    
+                    <select id="slotPickerSortSelect" class="filter-select" style="flex: 1.2; min-width: 150px;" onchange="renderSlotPickerCards()">
+                        <option value="stars_desc">⭐ จำนวนดาว: มาก ➔ น้อย</option>
+                        <option value="rarity_desc">👑 ระดับ: UR ➔ R</option>
+                        <option value="atk_desc">⚔️ ATK: สูง ➔ ต่ำ</option>
+                        <option value="hp_desc">❤️ HP: สูง ➔ ต่ำ</option>
+                        <option value="spd_desc">⚡ SPD: เร็ว ➔ ช้า</option>
+                    </select>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px;">
+                    <select id="slotPickerFilterSeries" class="filter-select" onchange="renderSlotPickerCards()">
+                        <option value="all">ทุกซีรีส์ (All Series)</option>
+                        <option value="One Piece">One Piece</option>
+                        <option value="Jujutsu Kaisen">Jujutsu Kaisen</option>
+                        <option value="Demon Slayer">Demon Slayer</option>
+                        <option value="Naruto">Naruto</option>
+                        <option value="Hunter x Hunter">Hunter x Hunter</option>
+                        <option value="Bleach">Bleach</option>
+                        <option value="My Hero Academia">My Hero Academia</option>
+                        <option value="Attack on Titan">Attack on Titan</option>
+                    </select>
+
+                    <select id="slotPickerFilterRarity" class="filter-select" onchange="renderSlotPickerCards()">
+                        <option value="all">ทุก Rarity</option>
+                        <option value="UR">UR (Ultra Rare)</option>
+                        <option value="SSR">SSR</option>
+                        <option value="SR">SR</option>
+                        <option value="R">R</option>
+                    </select>
+
+                    <select id="slotPickerFilterElement" class="filter-select" onchange="renderSlotPickerCards()">
+                        <option value="all">ทุกธาตุ (All Elements)</option>
+                        <option value="Fire">🔥 Fire</option>
+                        <option value="Wind">🌪️ Wind</option>
+                        <option value="Earth">🪨 Earth</option>
+                        <option value="Lightning">⚡ Lightning</option>
+                        <option value="Water">💧 Water</option>
+                        <option value="Light">☀️ Light</option>
+                        <option value="Dark">🌑 Dark</option>
+                    </select>
+
+                    <select id="slotPickerFilterRole" class="filter-select" onchange="renderSlotPickerCards()">
+                        <option value="all">ทุกบทบาท (All Roles)</option>
+                        <option value="Attacker">⚔️ Attacker</option>
+                        <option value="Tank">🛡️ Tank</option>
+                        <option value="Assassin">🗡️ Assassin</option>
+                        <option value="Spell">📜 Spell</option>
+                        <option value="Healer">💖 Healer</option>
+                        <option value="Tactician">🧠 Tactician</option>
+                    </select>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--gem-color); padding-top: 2px;">
+                    <span id="slotPickerCountBadge">พบ 0 การ์ดที่พร้อมใช้งาน</span>
+                    <span style="color: var(--text-muted);">คลิกการ์ดเพื่อนำเข้าสู่ตำแหน่งทันที</span>
+                </div>
+            </div>
+
+            <!-- Cards Result Container -->
+            <div id="slotPickerGrid" class="card-grid" style="overflow-y: auto; max-height: 52vh; padding: 4px; gap: 14px;"></div>
         </div>
     </div>
 
@@ -6888,83 +6961,214 @@
             `;
         }
 
+        // -------------------------------------------------------------
+        // อัปเกรดระบบเลือกตัวละครลงทีม (Slot Picker Controller)
+        // -------------------------------------------------------------
+        const RARITY_RANK = { UR: 4, SSR: 3, SR: 2, R: 1 };
+
         window.openSlotPicker = (slotIndex) => {
             currentPickingSlot = slotIndex;
             const modal = document.getElementById('slotPickerModal');
-            const grid = document.getElementById('slotPickerGrid');
+            
+            // ตั้งค่าหัวข้อแจ้งเตือนตำแหน่งที่กำลังเลือก
+            const titleEl = document.getElementById('slotPickerModalTitle');
+            const subTitleEl = document.getElementById('slotPickerSubTitle');
+            const preset = myFormationPreset || '2-3';
+            let isFront = false;
+            if (preset === '2-3') isFront = slotIndex < 2;
+            else if (preset === '3-2') isFront = slotIndex < 3;
+            else if (preset === '1-4') isFront = slotIndex < 1;
 
-            // Exclude already selected charIds in other slots (NO-DUPLICATE RULE)
-            const currentSelectedCharIds = new Set(
-                myTeamDocIds
-                    .map((id, idx) => (id && idx !== slotIndex) ? myInventoryDocs.find(d => d.id === id)?.cardId : null)
-                    .filter(Boolean)
-            );
-
-            const availableCards = myInventoryDocs.filter(inv => !inv.isListed && !currentSelectedCharIds.has(inv.cardId));
-
-            if (availableCards.length === 0) {
-                grid.innerHTML = `
-                    <div class="empty-state" style="grid-column:1/-1;">
-                        <h3>ไม่มีการ์ดที่สามารถเลือกได้</h3>
-                        <p>หมายเหตุ: ใน 1 ทีม ห้ามเลือกตัวละครซ้ำกัน และต้องไม่เป็นการ์ดที่วางขายอยู่</p>
-                    </div>`;
-            } else {
-                grid.innerHTML = availableCards.map(inv => {
-                    const c = charMap[inv.cardId];
-                    const stars = inv.stars || 0;
-                    const hpVal = Math.round(c.stats.hp * (1 + (stars * 0.05)));
-                    const atkVal = Math.round(c.stats.atk * (1 + (stars * 0.05)));
-                    const auraClass = stars >= 5 ? 'golden-aura' : '';
-                    return `
-                        <div class="tcg-card rarity-${c.rarity} ${auraClass}" style="cursor:pointer;" onclick="selectCardForSlot('${inv.id}')">
-                            <div class="card-top-bar">
-                                <span class="element-tag el-${c.element}">${getElementIcon(c.element)} ${c.element}</span>
-                                <span class="rarity-tag tag-${c.rarity}">${c.rarity}</span>
-                            </div>
-                            <div class="card-img-wrap" style="height:120px;">
-                                <img src="${c.image}" alt="${c.name}" onerror="this.style.display='none'">
-                            </div>
-                            <div class="card-body">
-                                <div class="card-name">${c.name} ${stars > 0 ? `<span style="color:#ffd700; font-size:11px;">(${stars}★)</span>` : ''}</div>
-                                <div class="card-series">${c.series} • ${c.role}</div>
-                                <div class="stats-mini-row">
-                                    <div><span class="stat-label">HP</span>${hpVal}</div>
-                                    <div><span class="stat-label">ATK</span>${atkVal}</div>
-                                    <div><span class="stat-label">SPD</span>${c.stats.spd}</div>
-                                </div>
-                                <button class="btn-card-action" style="background:var(--secondary); color:#fff; width:100%;">เลือกใส่ทีม</button>
-                            </div>
-                        </div>
-                    `;
-                }).join('');
+            if (titleEl) {
+                titleEl.innerHTML = `🎴 เลือกการ์ดลงตำแหน่งที่ ${slotIndex + 1} (${isFront ? '🛡️ แถวหน้า - ปะทะรับดาเมจ' : '⚡ แถวหลัง - ดาเมจ/ซัพพอร์ต'})`;
             }
+            if (subTitleEl) {
+                subTitleEl.innerText = isFront 
+                    ? '💡 แนะนำ: เลือกตัวละครสาย Tank หรือตัวที่มี HP และ DEF หนาแน่น' 
+                    : '💡 แนะนำ: เลือกตัวละครสาย Attacker, Spell, Assassin หรือ Healer';
+            }
+
+            // Reset ตัวกรองการค้นหาให้กลับมาเป็นค่าเริ่มต้น
+            const searchInput = document.getElementById('slotPickerSearchInput');
+            if (searchInput) searchInput.value = '';
+            
+            renderSlotPickerCards();
             modal.style.display = 'flex';
         };
 
-        // ------------------ Card Dismantle / Recycle Logic ------------------
+        window.renderSlotPickerCards = () => {
+            const grid = document.getElementById('slotPickerGrid');
+            const badge = document.getElementById('slotPickerCountBadge');
+            if (!grid) return;
+
+            // กฎห้ามเลือกตัวละครซ้ำ: สแกนรายชื่อ Card ID ของตัวที่อยู่ในทีมแล้ว
+            const currentSelectedCharIds = new Set(
+                myTeamDocIds
+                    .map((id, idx) => (id && idx !== currentPickingSlot) ? myInventoryDocs.find(d => d.id === id)?.cardId : null)
+                    .filter(Boolean)
+            );
+
+            // ดึงการ์ดที่ยังไม่ถูกตั้งขาย และไม่ใช่ตัวซ้ำในทีม
+            let pool = myInventoryDocs.filter(inv => !inv.isListed && !currentSelectedCharIds.has(inv.cardId));
+
+            // ดึงค่าตัวกรองจาก UI
+            const search = document.getElementById('slotPickerSearchInput')?.value.trim().toLowerCase() || '';
+            const series = document.getElementById('slotPickerFilterSeries')?.value || 'all';
+            const rarity = document.getElementById('slotPickerFilterRarity')?.value || 'all';
+            const element = document.getElementById('slotPickerFilterElement')?.value || 'all';
+            const role = document.getElementById('slotPickerFilterRole')?.value || 'all';
+            const sortBy = document.getElementById('slotPickerSortSelect')?.value || 'stars_desc';
+
+            // ดำเนินการกรองข้อมูล (Filter)
+            pool = pool.filter(inv => {
+                const c = charMap[inv.cardId];
+                if (!c) return false;
+                if (search && !c.name.toLowerCase().includes(search) && !c.series.toLowerCase().includes(search)) return false;
+                if (series !== 'all' && c.series !== series) return false;
+                if (rarity !== 'all' && c.rarity !== rarity) return false;
+                if (element !== 'all' && c.element !== element) return false;
+                if (role !== 'all' && c.role !== role) return false;
+                return true;
+            });
+
+            // ดำเนินการจัดเรียงลำดับ (Sorting)
+            pool.sort((a, b) => {
+                const cA = charMap[a.cardId];
+                const cB = charMap[b.cardId];
+                const starsA = a.stars || 0;
+                const starsB = b.stars || 0;
+
+                if (sortBy === 'stars_desc') {
+                    if (starsB !== starsA) return starsB - starsA;
+                    return (RARITY_RANK[cB.rarity] || 0) - (RARITY_RANK[cA.rarity] || 0);
+                } else if (sortBy === 'rarity_desc') {
+                    const rDiff = (RARITY_RANK[cB.rarity] || 0) - (RARITY_RANK[cA.rarity] || 0);
+                    if (rDiff !== 0) return rDiff;
+                    return starsB - starsA;
+                } else if (sortBy === 'atk_desc') {
+                    const atkA = Math.round(cA.stats.atk * (1 + (starsA * 0.05)));
+                    const atkB = Math.round(cB.stats.atk * (1 + (starsB * 0.05)));
+                    return atkB - atkA;
+                } else if (sortBy === 'hp_desc') {
+                    const hpA = Math.round(cA.stats.hp * (1 + (starsA * 0.05)));
+                    const hpB = Math.round(cB.stats.hp * (1 + (starsB * 0.05)));
+                    return hpB - hpA;
+                } else if (sortBy === 'spd_desc') {
+                    return cB.stats.spd - cA.stats.spd;
+                }
+                return 0;
+            });
+
+            if (badge) badge.innerText = `พบ ${pool.length} การ์ดที่พร้อมใช้งาน`;
+
+            if (pool.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1 / -1; padding: 40px 10px;">
+                        <div style="font-size: 36px; margin-bottom: 8px;">🔍</div>
+                        <h4 style="color:#fff;">ไม่พบตัวละครตามเงื่อนไขที่เลือก</h4>
+                        <p style="font-size:12px; color:var(--text-muted); margin-top:4px;">
+                            ลองเปลี่ยนคำค้นหา หรือรีเซ็ตตัวกรองเพื่อดูตัวละครอื่นๆ ในคลัง
+                        </p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = pool.map(inv => {
+                const c = charMap[inv.cardId];
+                const stars = inv.stars || 0;
+                const hpVal = Math.round(c.stats.hp * (1 + (stars * 0.05)));
+                const atkVal = Math.round(c.stats.atk * (1 + (stars * 0.05)));
+                const auraClass = stars >= 5 ? 'golden-aura' : '';
+
+                return `
+                    <div class="tcg-card rarity-${c.rarity} ${auraClass}" 
+                         style="cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;" 
+                         onclick="selectCardForSlot('${inv.id}')"
+                         onmouseenter="this.style.transform='translateY(-4px)'"
+                         onmouseleave="this.style.transform='translateY(0)'">
+                        <div class="card-top-bar">
+                            <span class="element-tag el-${c.element}">${getElementIcon(c.element)} ${c.element}</span>
+                            <span class="rarity-tag tag-${c.rarity}">${c.rarity}</span>
+                        </div>
+                        <div class="card-img-wrap" style="height: 125px;">
+                            <img src="${c.image}" alt="${c.name}" onerror="this.style.display='none'">
+                            ${stars > 0 ? `<span style="position:absolute; top:4px; right:4px; background:rgba(0,0,0,0.8); color:#ffd700; padding:1px 6px; border-radius:6px; font-size:11px; font-weight:900;">${'★'.repeat(stars)}</span>` : ''}
+                        </div>
+                        <div class="card-body" style="padding: 10px;">
+                            <div class="card-name" style="font-size: 14px;">${c.name}</div>
+                            <div class="card-series" style="font-size: 11px; color: var(--text-muted);">${c.series} • ${c.role}</div>
+                            <div class="stats-mini-row" style="margin-top: 6px;">
+                                <div><span class="stat-label">HP</span>${hpVal}</div>
+                                <div><span class="stat-label">ATK</span>${atkVal}</div>
+                                <div><span class="stat-label">SPD</span>${c.stats.spd}</div>
+                            </div>
+                            <button class="btn-card-action" style="background: linear-gradient(135deg, #00d2d3, #1e90ff); color: #fff; width: 100%; margin-top: 4px; font-size: 12px; font-weight: 800;">
+                                ➕ เลือกใส่ทีม
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        };
+
+        // -------------------------------------------------------------
+        // อัปเกรดระบบย่อยสลายการ์ด: คืน Gems ทวีคูณตามจำนวนดาวสะสม
+        // -------------------------------------------------------------
         const DISMANTLE_RATES = { UR: 600, SSR: 250, SR: 80, R: 30 };
-        let cardToDismantle = null;
+
+        function calculateDismantleGems(rarity, stars = 0) {
+            const baseGems = DISMANTLE_RATES[rarity] || 30;
+            // คืนค่า Gems เท่ากับการ์ดทุกใบที่ถูกหลอมรวมเข้าไป (1 ใบตั้งต้น + จำนวนดาว)
+            return baseGems * (1 + stars);
+        }
 
         window.openDismantleModal = (invId) => {
             const inv = myInventoryDocs.find(i => i.id === invId);
             if (!inv) return;
-            if (inv.isListed) return showToast("⚠️ ไม่สามารถย่อยการ์ดที่ตั้งขายอยู่ได้", "error");
+            if (inv.isListed) return showToast("⚠️ ไม่สามารถย่อยการ์ดที่ตั้งขายในตลาดได้", "error");
 
             cardToDismantle = inv;
             const c = charMap[inv.cardId];
-            const gemsGained = DISMANTLE_RATES[c.rarity] || 30;
+            const stars = inv.stars || 0;
+            const baseGems = DISMANTLE_RATES[c.rarity] || 30;
+            const totalGems = calculateDismantleGems(c.rarity, stars);
+            const starBonusGems = totalGems - baseGems;
 
             document.getElementById('dismantlePreviewContainer').innerHTML = `
-                <div style="background:#0e1322; border:1px solid var(--border-color); border-radius:12px; padding:15px; text-align:left;">
+                <div style="background:#0e1322; border:1px solid var(--border-color); border-radius:14px; padding:16px; text-align:left;">
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                        <span style="font-weight:800; font-size:16px; color:#fff;">${c.name}</span>
+                        <span style="font-weight:900; font-size:16px; color:#fff;">${c.name}</span>
                         <span class="rarity-tag tag-${c.rarity}">${c.rarity}</span>
                     </div>
-                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">${c.series} • ${c.element} • ${c.role}</div>
-                    <div style="background:#151c2e; padding:12px; border-radius:8px; text-align:center; border:1px solid #00d2d3;">
-                        <span style="font-size:13px; color:#ced6e0;">คุณจะได้รับ Gems คืน:</span>
-                        <div style="font-size:24px; font-weight:900; color:var(--gem-color); margin-top:2px;">
-                            💎 +${gemsGained} Gems
+                    
+                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">
+                        ${c.series} • ${c.element} • ${c.role} 
+                        ${stars > 0 ? `<span style="color:#ffd700; font-weight:800; margin-left:6px;">(${stars}★ Limit Break)</span>` : ''}
+                    </div>
+
+                    <!-- แจกแจงการคำนวณ Gems -->
+                    <div style="background:#131a2d; border-radius:10px; padding:10px 12px; font-size:12px; margin-bottom:12px;">
+                        <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                            <span style="color:var(--text-muted);">มูลค่าพื้นฐาน (${c.rarity}):</span>
+                            <span style="color:#fff; font-weight:700;">💎 ${baseGems} Gems</span>
+                        </div>
+                        ${stars > 0 ? `
+                        <div style="display:flex; justify-content:space-between; margin-bottom:4px; color:#ffd700;">
+                            <span>โบนัสหลอมรวมดาว (${stars}★ = การ์ดวัตถุดิบ ${stars} ใบ):</span>
+                            <span style="font-weight:700;">+💎 ${starBonusGems} Gems</span>
+                        </div>
+                        ` : ''}
+                        <div style="border-top:1px dashed var(--border-color); margin-top:6px; padding-top:6px; display:flex; justify-content:space-between; font-weight:800;">
+                            <span style="color:#ced6e0;">จำนวนการ์ดรวมที่ได้รับคืน:</span>
+                            <span style="color:#00d2d3;">${1 + stars} ใบ</span>
+                        </div>
+                    </div>
+
+                    <div style="background:#151c2e; padding:12px; border-radius:10px; text-align:center; border:1.5px solid var(--gem-color);">
+                        <span style="font-size:13px; color:#ced6e0;">คุณจะได้รับ Gems ทั้งหมด:</span>
+                        <div style="font-size:26px; font-weight:900; color:var(--gem-color); margin-top:2px; text-shadow:0 0 10px var(--gem-glow);">
+                            💎 +${totalGems.toLocaleString()} Gems
                         </div>
                     </div>
                 </div>
@@ -6983,14 +7187,16 @@
             if (!cardToDismantle || !currentUser) return;
             const inv = cardToDismantle;
             const c = charMap[inv.cardId];
-            const gemsGained = DISMANTLE_RATES[c.rarity] || 30;
+            const stars = inv.stars || 0;
+            const totalGems = calculateDismantleGems(c.rarity, stars);
 
             try {
+                // ลบเอกสารการ์ดออกจาก Firestore และเพิ่ม Gems ให้ผู้ใช้
                 await deleteDoc(doc(db, "animeInventory", inv.id));
                 const userRef = doc(db, "animeUsers", currentUser.uid);
-                await updateDoc(userRef, { gems: userGems + gemsGained });
+                await updateDoc(userRef, { gems: userGems + totalGems });
 
-                showToast(`♻️ ย่อยสลาย ${c.name} สำเร็จ! ได้รับ 💎 ${gemsGained} Gems`, 'success');
+                showToast(`♻️ ย่อยสลาย ${c.name} ${stars > 0 ? `(${stars}★)` : ''} สำเร็จ! ได้รับ 💎 +${totalGems.toLocaleString()} Gems เข้ากระเป๋า!`, 'success');
                 trackMissionProgress('dismantleCount', 1);
                 closeDismantleModal();
             } catch (err) {
@@ -8076,6 +8282,41 @@
             board.innerHTML = tilesHtml + unitsHtml;
         }
 
+        // -------------------------------------------------------------
+        // Safe Sprite Fallback Handler (ป้องกัน Quote Leak ใต้เท้าตัวละคร)
+        // -------------------------------------------------------------
+        function handleIsoSpriteError(imgEl, spriteCanvasId, fallbackImgSrc, fallbackName) {
+            if (!imgEl) return;
+
+            // สเต็ปที่ 1: หากโหลด .png ไม่พบ ให้ลองโหลดไฟล์ .webp
+            if (imgEl.src.endsWith('.png')) {
+                const webpSrc = imgEl.src.replace(/\.png$/, '.webp');
+                imgEl.src = webpSrc;
+                const canvas = document.getElementById(spriteCanvasId);
+                if (canvas) {
+                    canvas.style.backgroundImage = `url('${webpSrc}')`;
+                }
+            } else {
+                // สเต็ปที่ 2: หากไม่มีทั้ง 2 ไฟล์ ให้ Fallback เป็น Standee การ์ดสี่เหลี่ยม
+                const canvas = document.getElementById(spriteCanvasId);
+                if (canvas) {
+                    canvas.className = 'pixel-standee-fallback';
+                    canvas.style.backgroundImage = 'none';
+                    canvas.style.width = '48px';
+                    canvas.style.height = '58px';
+                    
+                    const standeeImg = document.createElement('img');
+                    standeeImg.src = fallbackImgSrc;
+                    standeeImg.alt = fallbackName;
+                    standeeImg.onerror = () => { standeeImg.style.display = 'none'; };
+                    
+                    canvas.innerHTML = '';
+                    canvas.appendChild(standeeImg);
+                }
+            }
+        }
+        window.handleIsoSpriteError = handleIsoSpriteError;
+
         function renderIsoCharacterUnit(c, isEnemy, slotIndex, preset) {
             if (!c) return '';
             const gridPos = getFormationSlotPos(slotIndex, isEnemy, preset);
@@ -8108,21 +8349,23 @@
             if (isLowHp || c.statuses.includes('Burn')) stanceCls = 'sprite-stance-hurt';
 
             let bodyHtml = '';
+            const spriteCanvasId = `isoSprite_${isEnemy ? 'e' : 'p'}_${slotIndex}`;
+            const safeName = (c.name || '').replace(/'/g, "\\'");
+
             if (hasSprite) {
                 bodyHtml = `
                     <div class="pixel-sprite-canvas ${flipCls} ${stanceCls}"
-                         id="isoSprite_${isEnemy ? 'e' : 'p'}_${slotIndex}"
-                         style="background-image: url('assets/anime/sprites/${c.id}.png'); width:56px; height:56px;"
-                         onerror="this.style.backgroundImage='url(assets/anime/sprites/${c.id}.webp)';">
+                         id="${spriteCanvasId}"
+                         style="background-image: url('assets/anime/sprites/${c.id}.png'); width:56px; height:56px;">
                     </div>
                     <img src="assets/anime/sprites/${c.id}.png" style="display:none;" 
-                         onerror="const el = document.getElementById('isoSprite_${isEnemy ? 'e' : 'p'}_${slotIndex}'); if(this.src.endsWith('.png')){ this.src='assets/anime/sprites/${c.id}.webp'; if(el) el.style.backgroundImage='url(assets/anime/sprites/${c.id}.webp)'; } else { if(el) { el.className='pixel-standee-fallback'; el.style.backgroundImage=''; el.style.width='48px'; el.style.height='58px'; el.innerHTML='<img src=\"${c.image}\" alt=\"${c.name}\" onerror=\"this.style.display=\\'none\\'\">'; } }">
+                         onerror="handleIsoSpriteError(this, '${spriteCanvasId}', '${c.image}', '${safeName}')">
                 `;
             } else {
-                // Hybrid Fallback: Compact Pixel Standee with Card Art
+                // Standee Fallback กรณีไม่มี Sprite ในระบบ
                 bodyHtml = `
-                    <div class="pixel-standee-fallback" id="isoSprite_${isEnemy ? 'e' : 'p'}_${slotIndex}" style="width:48px; height:58px;">
-                        <img src="${c.image}" alt="${c.name}" onerror="this.style.display='none'">
+                    <div class="pixel-standee-fallback" id="${spriteCanvasId}" style="width:48px; height:58px;">
+                        <img src="${c.image}" alt="${safeName}" onerror="this.style.display='none'">
                     </div>
                 `;
             }
