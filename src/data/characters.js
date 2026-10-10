@@ -1,4 +1,5 @@
-[
+// Master characters dataset (50 Characters)
+export const masterCharacters = [
   {
     "id": "c001",
     "name": "Monkey D. Luffy",
@@ -1049,4 +1050,4 @@
     },
     "image": "assets/anime/cards/c050.webp"
   }
-]
+];
