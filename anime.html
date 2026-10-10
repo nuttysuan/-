@@ -17,7 +17,7 @@
             <div class="logo-box">
                 <h1>🎴 Anime TCG</h1>
                 <span style="font-size: 12px; background: #212c49; padding: 4px 8px; border-radius: 6px; color: var(--gem-color); font-weight: 700;">
-                    50 Characters
+                    80 Characters
                 </span>
             </div>
 
@@ -89,7 +89,7 @@
                     👹 เวิลด์บอส (Boss Raid)
                 </button>
                 <button id="tabBtn-codex" class="tab-btn" onclick="switchTab('codex')">
-                    📖 สมุดภาพ 50 ตัวละคร
+                    📖 สมุดภาพ 80 ตัวละคร
                 </button>
                 <button id="tabBtn-elements" class="tab-btn" onclick="switchTab('elements')">
                     ⚡ กฎ 7 ธาตุ & บทบาท
@@ -227,7 +227,7 @@
                                     <tr style="background: #0f1424; color: var(--text-muted); border-bottom: 2px solid var(--border-color);">
                                         <th style="padding: 10px 14px; width: 70px; text-align: center;">อันดับ</th>
                                         <th style="padding: 10px 14px;">ผู้เล่น (Player)</th>
-                                        <th style="padding: 10px 14px; text-align: center;">การ์ดสะสม (ความสมบูรณ์ 50 ตัว)</th>
+                                        <th style="padding: 10px 14px; text-align: center;">การ์ดสะสม (ความสมบูรณ์ 80 ตัว)</th>
                                         <th style="padding: 10px 14px; text-align: right; color: var(--gold);">PvP Points</th>
                                     </tr>
                                 </thead>
@@ -409,7 +409,7 @@
             <div id="tab-gacha" class="content-section">
                 <div class="gacha-banner">
                     <h2>✨ SUMMON FESTIVAL: THE MULTIVERSE</h2>
-                    <p>รวบรวม 50 ยอดฝีมือจาก 8 ซีรีส์อนิเมะชั้นนำ การันตีการ์ด SR ขึ้นไปทุกๆ การสุ่ม 10 ใบ!</p>
+                    <p>รวบรวม 80 ยอดฝีมือจาก 8 ซีรีส์อนิเมะชั้นนำ การันตีการ์ด SR ขึ้นไปทุกๆ การสุ่ม 10 ใบ!</p>
                     
                     <div class="gacha-actions">
                         <button class="btn-pull btn-pull-1" onclick="pullGacha(1)">
@@ -464,7 +464,7 @@
                             <div class="chest-icon">🎁</div>
                             <h4 style="font-size: 16px; font-weight: 800; color: #a55eea;">ซองการันตีระดับ SR</h4>
                             <p style="font-size: 12px; color: var(--text-muted); margin: 6px 0 15px;">
-                                เปิดแล้วรับ **การ์ดระดับ SR แน่นอน 100%** (1 ใน 12 ตัวละคร)
+                                เปิดแล้วรับ **การ์ดระดับ SR แน่นอน 100%** (1 ใน 21 ตัวละคร)
                             </p>
                             <button class="btn-pull" style="width: 100%; min-width: auto; padding: 10px; background: linear-gradient(135deg, #8e44ad, #3498db); color:#fff;" onclick="buyMysteryChest('sr_pack', 600)">
                                 <span>ฉีกซอง SR</span>
@@ -477,7 +477,7 @@
                             <div class="chest-icon">👑</div>
                             <h4 style="font-size: 16px; font-weight: 800; color: #ffd700;">หีบจักรพรรดิ การันตี SSR</h4>
                             <p style="font-size: 12px; color: var(--text-muted); margin: 6px 0 15px;">
-                                เปิดแล้วรับ **การ์ดระดับ SSR แน่นอน 100%** (1 ใน 23 ตัวละคร)
+                                เปิดแล้วรับ **การ์ดระดับ SSR แน่นอน 100%** (1 ใน 32 ตัวละคร)
                             </p>
                             <button class="btn-pull btn-pull-10" style="width: 100%; min-width: auto; padding: 10px;" onclick="buyMysteryChest('ssr_chest', 1500)">
                                 <span>เปิดหีบ SSR</span>
@@ -792,9 +792,9 @@
             <div id="tab-codex" class="content-section">
                 <div class="panel">
                     <div class="panel-header">
-                        <div class="panel-title">📖 สมุดภาพสารานุกรม 50 ตัวละคร (Codex)</div>
+                        <div class="panel-title">📖 สมุดภาพสารานุกรม 80 ตัวละคร (Codex)</div>
                         <div id="codexProgress" style="font-size: 14px; font-weight: 800; color: var(--gold);">
-                            ปลดล็อก: 0 / 50 ใบ
+                            ปลดล็อก: 0 / 80 ใบ
                         </div>
                     </div>
                                         <!-- Codex Filter Controls -->
@@ -4299,7 +4299,7 @@
             let usersList = [...globalAllUsers];
             usersList.sort((a, b) => (b.pvpPoints || 0) - (a.pvpPoints || 0));
 
-            const totalMasterCards = masterCharacters.length; // 50 ตัวละคร
+            const totalMasterCards = masterCharacters.length; // จำนวนการ์ดทั้งหมดในระบบ
 
             tbody.innerHTML = usersList.map((user, idx) => {
                 const rank = idx + 1;
@@ -6773,7 +6773,8 @@
         const ACHIEVEMENTS_DEF = [
             { id: 'ach_cards_15', title: '🎴 นักสะสมมือใหม่', desc: 'ครอบครองการ์ดไม่ซ้ำครบ 15 ตัวละคร', target: 15, reward: 300, check: (p) => p.uniqueCards },
             { id: 'ach_cards_30', title: '🎴 นักสะสมยอดฝีมือ', desc: 'ครอบครองการ์ดไม่ซ้ำครบ 30 ตัวละคร', target: 30, reward: 700, check: (p) => p.uniqueCards },
-            { id: 'ach_cards_50', title: '🎴 ปรมาจารย์คลังมัลติเวิร์ส', desc: 'สะสมการ์ดครบทั้ง 50 ตัวละคร 100%', target: 50, reward: 2000, check: (p) => p.uniqueCards },
+            { id: 'ach_cards_50', title: '🎴 ปรมาจารย์คลังมัลติเวิร์ส', desc: 'ครอบครองการ์ดไม่ซ้ำครบ 50 ตัวละคร', target: 50, reward: 2000, check: (p) => p.uniqueCards },
+            { id: 'ach_cards_80', title: '👑 จักรพรรดิคลังมัลติเวิร์ส', desc: 'สะสมการ์ดครบทั้ง 80 ตัวละคร 100%', target: 80, reward: 3000, check: (p) => p.uniqueCards },
             { id: 'ach_star_5', title: '⭐ ทะลุขีดจำกัดสูงสุด', desc: 'มีตัวละครหลอมดาวครบ 5 ดาว (MAX)', target: 5, reward: 800, check: (p) => p.maxStars },
             { id: 'ach_pvp_300', title: '⚔️ ผู้เชี่ยวชาญสังเวียน', desc: 'สะสมคะแนน PvP ถึง 300 แต้ม', target: 300, reward: 500, check: (p) => p.pvpPoints },
             { id: 'ach_pvp_1000', title: '👑 ตำนานไร้พ่ายแห่งอารีนา', desc: 'สะสมคะแนน PvP ถึง 1,000 แต้ม', target: 1000, reward: 1500, check: (p) => p.pvpPoints },
@@ -6948,7 +6949,7 @@
             if (!grid) return;
 
             const ownedCardIds = new Set(myInventoryDocs.map(i => i.cardId));
-            document.getElementById('codexProgress').innerText = `ปลดล็อก: ${ownedCardIds.size} / 50 ใบ (${Math.round((ownedCardIds.size/50)*100)}%)`;
+            document.getElementById('codexProgress').innerText = `ปลดล็อก: ${ownedCardIds.size} / ${masterCharacters.length} ใบ (${Math.round((ownedCardIds.size/masterCharacters.length)*100)}%)`;
 
             const search = document.getElementById('codexSearch')?.value.trim().toLowerCase() || '';
             const series = document.getElementById('codexFilterSeries')?.value || 'all';

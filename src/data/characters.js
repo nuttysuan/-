@@ -1,4 +1,4 @@
-// Master characters dataset (50 Characters)
+// Master characters dataset (80 Characters)
 export const masterCharacters = [
   {
     "id": "c001",
@@ -1049,5 +1049,635 @@ export const masterCharacters = [
       "desc": "วางแผนกลยุทธ์ เพิ่ม ATK และ DEF ให้เพื่อนร่วมทีมทุกคน 15%"
     },
     "image": "assets/anime/cards/c050.webp"
+  },
+  {
+    "id": "c051",
+    "name": "Edward Newgate (Whitebeard)",
+    "series": "One Piece",
+    "rarity": "UR",
+    "element": "Earth",
+    "role": "Attacker",
+    "stats": {
+      "hp": 2750,
+      "atk": 555,
+      "def": 400,
+      "spd": 108,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Gura Gura no Mi: Seaquake Punch",
+      "spCost": 60,
+      "desc": "ต่อยอากาศจนเกิดแผ่นดินไหวสะเทือนสมรภูมิ สร้างความเสียหาย Earth 270% และลด DEF ศัตรู 20%"
+    },
+    "image": "assets/anime/cards/c051.webp"
+  },
+  {
+    "id": "c052",
+    "name": "Jinbe",
+    "series": "One Piece",
+    "rarity": "SSR",
+    "element": "Water",
+    "role": "Tank",
+    "stats": {
+      "hp": 2650,
+      "atk": 460,
+      "def": 450,
+      "spd": 102,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Fish-Man Karate: Samehada Shotei",
+      "spCost": 50,
+      "desc": "ฝ่ามือคลื่นน้ำสะท้านอสูรทะเล สร้างความเสียหาย Water 210% และเพิ่ม DEF ตนเอง 25%"
+    },
+    "image": "assets/anime/cards/c052.webp"
+  },
+  {
+    "id": "c053",
+    "name": "Usopp",
+    "series": "One Piece",
+    "rarity": "R",
+    "element": "Earth",
+    "role": "Tactician",
+    "stats": {
+      "hp": 2050,
+      "atk": 335,
+      "def": 325,
+      "spd": 100,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Midori Boshi: Devil",
+      "spCost": 40,
+      "desc": "ยิงดาวสีเขียวหน่อพันธุ์พืชหนามแหลม ดาเมจ Earth 150% พร้อมบัฟ SPD ทีม 8%"
+    },
+    "image": "assets/anime/cards/c053.webp"
+  },
+  {
+    "id": "c054",
+    "name": "Shoko Ieiri",
+    "series": "Jujutsu Kaisen",
+    "rarity": "R",
+    "element": "Light",
+    "role": "Healer",
+    "stats": {
+      "hp": 2150,
+      "atk": 315,
+      "def": 335,
+      "spd": 95,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Reverse Cursed Technique: Field Medic",
+      "spCost": 40,
+      "desc": "ใช้พลังคำสาปย้อนกลับ ฟื้นฟู HP ทีม 12% และล้างสถานะผิดปกติ 1 อย่าง"
+    },
+    "image": "assets/anime/cards/c054.webp"
+  },
+  {
+    "id": "c055",
+    "name": "Panda",
+    "series": "Jujutsu Kaisen",
+    "rarity": "R",
+    "element": "Earth",
+    "role": "Tank",
+    "stats": {
+      "hp": 2250,
+      "atk": 320,
+      "def": 350,
+      "spd": 92,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Gorilla Mode: Drumming Rampage",
+      "spCost": 40,
+      "desc": "กลายร่างกอริลลาทุบพื้นถล่มศัตรู ดาเมจ Earth 150% และเพิ่ม DEF ตนเอง 20%"
+    },
+    "image": "assets/anime/cards/c055.webp"
+  },
+  {
+    "id": "c056",
+    "name": "Yuta Okkotsu",
+    "series": "Jujutsu Kaisen",
+    "rarity": "SSR",
+    "element": "Light",
+    "role": "Spell",
+    "stats": {
+      "hp": 2350,
+      "atk": 520,
+      "def": 360,
+      "spd": 118,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Rika Manifestation: Pure Love Beam",
+      "spCost": 55,
+      "desc": "เรียกริกะเต็มร่างปลดปล่อยลำแสงบริสุทธิ์ สร้างความเสียหาย Light 250% และเพิ่ม ATK ตนเอง 15%"
+    },
+    "image": "assets/anime/cards/c056.webp"
+  },
+  {
+    "id": "c057",
+    "name": "Yoriichi Tsugikuni",
+    "series": "Demon Slayer",
+    "rarity": "UR",
+    "element": "Fire",
+    "role": "Attacker",
+    "stats": {
+      "hp": 2550,
+      "atk": 570,
+      "def": 370,
+      "spd": 130,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Sun Breathing: Dance & Solar Heat Haze",
+      "spCost": 60,
+      "desc": "ร่ายระบำสุริยันแห่งต้นกำเนิด สร้างความเสียหาย Fire 280% และทะลวงเกราะศัตรู 25%"
+    },
+    "image": "assets/anime/cards/c057.webp"
+  },
+  {
+    "id": "c058",
+    "name": "Giyu Tomioka",
+    "series": "Demon Slayer",
+    "rarity": "SSR",
+    "element": "Water",
+    "role": "Attacker",
+    "stats": {
+      "hp": 2450,
+      "atk": 520,
+      "def": 375,
+      "spd": 116,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Water Breathing: Eleventh Form, Dead Calm",
+      "spCost": 50,
+      "desc": "ปล่อยท่าสงบนิ่งไร้เสียงตอบโต้ ดาเมจ Water 235% และลดดาเมจที่ได้รับของตน 15%"
+    },
+    "image": "assets/anime/cards/c058.webp"
+  },
+  {
+    "id": "c059",
+    "name": "Shinobu Kocho",
+    "series": "Demon Slayer",
+    "rarity": "SR",
+    "element": "Wind",
+    "role": "Assassin",
+    "stats": {
+      "hp": 2000,
+      "atk": 465,
+      "def": 310,
+      "spd": 136,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Insect Breathing: Dance of the Dragonfly",
+      "spCost": 45,
+      "desc": "ปักเข็มพิษหลายจุด ดาเมจ Wind 190% และติดพิษลด HP ศัตรูต่อเนื่อง 3 เทิร์น"
+    },
+    "image": "assets/anime/cards/c059.webp"
+  },
+  {
+    "id": "c060",
+    "name": "Minato Namikaze",
+    "series": "Naruto",
+    "rarity": "UR",
+    "element": "Lightning",
+    "role": "Assassin",
+    "stats": {
+      "hp": 2300,
+      "atk": 555,
+      "def": 350,
+      "spd": 148,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Flying Thunder God: Rasengan Strike",
+      "spCost": 55,
+      "desc": "วาร์ปด้วยเทพสายฟ้าเข้าประชิดพร้อมลูกเกลียวคลื่น ดาเมจ Lightning 270% และเพิ่ม ATB ตนเอง 30%"
+    },
+    "image": "assets/anime/cards/c060.webp"
+  },
+  {
+    "id": "c061",
+    "name": "Tsunade",
+    "series": "Naruto",
+    "rarity": "SSR",
+    "element": "Water",
+    "role": "Healer",
+    "stats": {
+      "hp": 2450,
+      "atk": 430,
+      "def": 380,
+      "spd": 108,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Creation Rebirth: Hundred Healings",
+      "spCost": 50,
+      "desc": "ปลดผนึกร้อยเยียวยา ฟื้นฟู HP ทีม 28% และเพิ่ม DEF ทีม 10%"
+    },
+    "image": "assets/anime/cards/c061.webp"
+  },
+  {
+    "id": "c062",
+    "name": "Rock Lee",
+    "series": "Naruto",
+    "rarity": "R",
+    "element": "Wind",
+    "role": "Attacker",
+    "stats": {
+      "hp": 2000,
+      "atk": 355,
+      "def": 310,
+      "spd": 106,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Eight Gates: Primary Lotus",
+      "spCost": 40,
+      "desc": "ปลดประตูแห่งพลังและเตะรวดเร็ว สร้างความเสียหาย Wind 160% แต่ลด DEF ตนเอง 10%"
+    },
+    "image": "assets/anime/cards/c062.webp"
+  },
+  {
+    "id": "c063",
+    "name": "Alluka Zoldyck (Nanika)",
+    "series": "Hunter x Hunter",
+    "rarity": "SR",
+    "element": "Light",
+    "role": "Healer",
+    "stats": {
+      "hp": 2150,
+      "atk": 405,
+      "def": 345,
+      "spd": 106,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Nanika's Wish: Reset",
+      "spCost": 45,
+      "desc": "ขอพรนานิกะ ฟื้นฟู HP ทีม 22% และล้างสถานะผิดปกติทั้งหมด"
+    },
+    "image": "assets/anime/cards/c063.webp"
+  },
+  {
+    "id": "c064",
+    "name": "Isaac Netero",
+    "series": "Hunter x Hunter",
+    "rarity": "SSR",
+    "element": "Light",
+    "role": "Tank",
+    "stats": {
+      "hp": 2650,
+      "atk": 470,
+      "def": 440,
+      "spd": 104,
+      "sp": 100
+    },
+    "skill": {
+      "name": "100-Type Guanyin Bodhisattva",
+      "spCost": 55,
+      "desc": "เรียกพระโพธิสัตว์พันมือโจมตีเหนือเสียง ดาเมจ Light 230% และเพิ่ม DEF ตนเอง 20%"
+    },
+    "image": "assets/anime/cards/c064.webp"
+  },
+  {
+    "id": "c065",
+    "name": "Feitan Portor",
+    "series": "Hunter x Hunter",
+    "rarity": "SR",
+    "element": "Fire",
+    "role": "Assassin",
+    "stats": {
+      "hp": 2050,
+      "atk": 480,
+      "def": 315,
+      "spd": 134,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Rising Sun: Pain Packer",
+      "spCost": 45,
+      "desc": "ปล่อยดวงอาทิตย์เพลิงแผดเผา สร้างความเสียหาย Fire 200% และเพิ่ม SPD ตนเอง 15%"
+    },
+    "image": "assets/anime/cards/c065.webp"
+  },
+  {
+    "id": "c066",
+    "name": "Orihime Inoue",
+    "series": "Bleach",
+    "rarity": "SR",
+    "element": "Light",
+    "role": "Healer",
+    "stats": {
+      "hp": 2250,
+      "atk": 385,
+      "def": 365,
+      "spd": 102,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Santen Kesshun & Soten Kisshun",
+      "spCost": 45,
+      "desc": "ฟื้นฟู HP ทีม 20% พร้อมเกราะ Shield +200 ให้เพื่อนที่ HP ต่ำที่สุด"
+    },
+    "image": "assets/anime/cards/c066.webp"
+  },
+  {
+    "id": "c067",
+    "name": "Yoruichi Shihoin",
+    "series": "Bleach",
+    "rarity": "SSR",
+    "element": "Lightning",
+    "role": "Assassin",
+    "stats": {
+      "hp": 2200,
+      "atk": 515,
+      "def": 335,
+      "spd": 146,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Shunko: Lightning Flash God",
+      "spCost": 50,
+      "desc": "สวมเกราะสายฟ้าพุ่งสังหารเร็วดั่งเทพ ดาเมจ Lightning 240% และเพิ่ม SPD ตนเอง 15%"
+    },
+    "image": "assets/anime/cards/c067.webp"
+  },
+  {
+    "id": "c068",
+    "name": "Kenpachi Zaraki",
+    "series": "Bleach",
+    "rarity": "SSR",
+    "element": "Earth",
+    "role": "Attacker",
+    "stats": {
+      "hp": 2600,
+      "atk": 545,
+      "def": 360,
+      "spd": 104,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Unrestrained Slash: Eyepatch Released",
+      "spCost": 50,
+      "desc": "ปลดผนึกที่ปิดตาและฟาดฟันสุดแรงเกิด สร้างความเสียหาย Earth 250% แต่ลด DEF ตนเอง 10%"
+    },
+    "image": "assets/anime/cards/c068.webp"
+  },
+  {
+    "id": "c069",
+    "name": "Toshiro Hitsugaya",
+    "series": "Bleach",
+    "rarity": "SR",
+    "element": "Water",
+    "role": "Spell",
+    "stats": {
+      "hp": 2100,
+      "atk": 470,
+      "def": 325,
+      "spd": 118,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Hyorinmaru: Guncho Tsurara",
+      "spCost": 45,
+      "desc": "สร้างมังกรน้ำแข็งกลืนกิน ดาเมจ Water 190% และมีโอกาส 30% แช่แข็งศัตรู"
+    },
+    "image": "assets/anime/cards/c069.webp"
+  },
+  {
+    "id": "c070",
+    "name": "Yasutora Sado (Chad)",
+    "series": "Bleach",
+    "rarity": "R",
+    "element": "Earth",
+    "role": "Tank",
+    "stats": {
+      "hp": 2350,
+      "atk": 335,
+      "def": 345,
+      "spd": 90,
+      "sp": 100
+    },
+    "skill": {
+      "name": "El Directo: La Muerte",
+      "spCost": 40,
+      "desc": "เกราะแขนซ้ายดูดซับแรงกระแทก ลดดาเมจที่ได้รับของตน 20% พร้อมโต้กลับ Earth 140%"
+    },
+    "image": "assets/anime/cards/c070.webp"
+  },
+  {
+    "id": "c071",
+    "name": "Endeavor",
+    "series": "My Hero Academia",
+    "rarity": "SSR",
+    "element": "Fire",
+    "role": "Attacker",
+    "stats": {
+      "hp": 2500,
+      "atk": 540,
+      "def": 375,
+      "spd": 108,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Prominence Burn",
+      "spCost": 50,
+      "desc": "พ่นเปลวเพลิงสูงสุดอย่างไม่ยั้ง สร้างความเสียหาย Fire 245% และติดสถานะ Burn"
+    },
+    "image": "assets/anime/cards/c071.webp"
+  },
+  {
+    "id": "c072",
+    "name": "Tenya Iida",
+    "series": "My Hero Academia",
+    "rarity": "SR",
+    "element": "Lightning",
+    "role": "Assassin",
+    "stats": {
+      "hp": 2000,
+      "atk": 455,
+      "def": 300,
+      "spd": 138,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Recipro Burst: Reciproextreme",
+      "spCost": 45,
+      "desc": "ท่อไอเสียระเบิดความเร็ว พุ่งเตะเป้าหมายเดี่ยว ดาเมจ Lightning 190% และเพิ่ม SPD ตนเอง 20%"
+    },
+    "image": "assets/anime/cards/c072.webp"
+  },
+  {
+    "id": "c073",
+    "name": "Shota Aizawa (Eraser Head)",
+    "series": "My Hero Academia",
+    "rarity": "SR",
+    "element": "Dark",
+    "role": "Tactician",
+    "stats": {
+      "hp": 2250,
+      "atk": 430,
+      "def": 350,
+      "spd": 110,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Erasure Quirk: Capture Weapon",
+      "spCost": 45,
+      "desc": "ลบควิร์กศัตรู ดาเมจ Dark 160% และลบบัฟศัตรู 1 อย่าง พร้อมบัฟ ATK ทีม 10%"
+    },
+    "image": "assets/anime/cards/c073.webp"
+  },
+  {
+    "id": "c074",
+    "name": "Recovery Girl",
+    "series": "My Hero Academia",
+    "rarity": "R",
+    "element": "Light",
+    "role": "Healer",
+    "stats": {
+      "hp": 2150,
+      "atk": 300,
+      "def": 340,
+      "spd": 94,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Healing Quirk: Kiss of Life",
+      "spCost": 40,
+      "desc": "จุมพิตรักษา ฟื้นฟู HP 28% ให้เพื่อนร่วมทีมที่ HP ต่ำที่สุด"
+    },
+    "image": "assets/anime/cards/c074.webp"
+  },
+  {
+    "id": "c075",
+    "name": "Ochaco Uraraka",
+    "series": "My Hero Academia",
+    "rarity": "R",
+    "element": "Wind",
+    "role": "Spell",
+    "stats": {
+      "hp": 2000,
+      "atk": 350,
+      "def": 315,
+      "spd": 100,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Zero Gravity: Comet Home Run",
+      "spCost": 40,
+      "desc": "ลอยวัตถุเหนือศัตรูแล้วปล่อยร่วงกระแทก ดาเมจ Wind 150% และลด SPD ศัตรู 10%"
+    },
+    "image": "assets/anime/cards/c075.webp"
+  },
+  {
+    "id": "c076",
+    "name": "Erwin Smith",
+    "series": "Attack on Titan",
+    "rarity": "SR",
+    "element": "Light",
+    "role": "Tactician",
+    "stats": {
+      "hp": 2300,
+      "atk": 440,
+      "def": 350,
+      "spd": 108,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Final Charge: Soldiers' Resolve",
+      "spCost": 45,
+      "desc": "นำทัพบุกครั้งสุดท้าย เพิ่ม ATK และ SPD ทีม 15% พร้อมดาเมจ Light 160%"
+    },
+    "image": "assets/anime/cards/c076.webp"
+  },
+  {
+    "id": "c077",
+    "name": "Reiner Braun",
+    "series": "Attack on Titan",
+    "rarity": "SSR",
+    "element": "Earth",
+    "role": "Tank",
+    "stats": {
+      "hp": 2720,
+      "atk": 430,
+      "def": 470,
+      "spd": 95,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Armored Titan: Armor Shield Charge",
+      "spCost": 50,
+      "desc": "กลายร่างไททันเกราะแข็งพุ่งชน ดาเมจ Earth 200% และเพิ่ม DEF ตนเอง 30%"
+    },
+    "image": "assets/anime/cards/c077.webp"
+  },
+  {
+    "id": "c078",
+    "name": "Hange Zoe",
+    "series": "Attack on Titan",
+    "rarity": "R",
+    "element": "Lightning",
+    "role": "Tactician",
+    "stats": {
+      "hp": 2050,
+      "atk": 335,
+      "def": 325,
+      "spd": 100,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Thunder Spear: Titan Research",
+      "spCost": 40,
+      "desc": "ยิงหอกสายฟ้าระเบิดจุดอ่อน ดาเมจ Lightning 150% และบัฟ ATK ทีม 10%"
+    },
+    "image": "assets/anime/cards/c078.webp"
+  },
+  {
+    "id": "c079",
+    "name": "Jean Kirstein",
+    "series": "Attack on Titan",
+    "rarity": "R",
+    "element": "Wind",
+    "role": "Attacker",
+    "stats": {
+      "hp": 2150,
+      "atk": 345,
+      "def": 335,
+      "spd": 98,
+      "sp": 100
+    },
+    "skill": {
+      "name": "ODM Gear: Cutback Slash",
+      "spCost": 40,
+      "desc": "ใช้อุปกรณ์ ODM ตัดฟาดต่อเนื่อง ดาเมจ Wind 160% และบัฟ SPD ตนเอง 10%"
+    },
+    "image": "assets/anime/cards/c079.webp"
+  },
+  {
+    "id": "c080",
+    "name": "Annie Leonhart",
+    "series": "Attack on Titan",
+    "rarity": "SR",
+    "element": "Water",
+    "role": "Assassin",
+    "stats": {
+      "hp": 2150,
+      "atk": 470,
+      "def": 340,
+      "spd": 128,
+      "sp": 100
+    },
+    "skill": {
+      "name": "Crystal Hardening: Female Titan Kick",
+      "spCost": 45,
+      "desc": "เตะส้นสะบั้นด้วยร่างไททันเกราะผลึก ดาเมจ Water 195% และเพิ่ม DEF ตนเอง 15%"
+    },
+    "image": "assets/anime/cards/c080.webp"
   }
 ];
