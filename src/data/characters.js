@@ -1472,211 +1472,211 @@ export const masterCharacters = [
   },
   {
     "id": "c071",
-    "name": "Endeavor",
-    "series": "My Hero Academia",
+    "name": "Tsunayoshi Sawada",
+    "series": "Katekyo Hitman Reborn",
     "rarity": "SSR",
     "element": "Fire",
     "role": "Attacker",
     "stats": {
-      "hp": 2500,
-      "atk": 540,
-      "def": 375,
-      "spd": 108,
+      "hp": 2520,
+      "atk": 545,
+      "def": 370,
+      "spd": 122,
       "sp": 100
     },
     "skill": {
-      "name": "Prominence Burn",
+      "name": "X-Burner: Maximum Output",
       "spCost": 50,
-      "desc": "พ่นเปลวเพลิงสูงสุดอย่างไม่ยั้ง สร้างความเสียหาย Fire 245% และติดสถานะ Burn"
+      "desc": "ยิงเพลิงดับเครื่องชนแรงผลักดันสูงสุด สร้างความเสียหาย Fire 260% และเร่ง SPD ตนเอง 15%"
     },
     "image": "assets/anime/cards/c071.webp"
   },
   {
     "id": "c072",
-    "name": "Tenya Iida",
-    "series": "My Hero Academia",
+    "name": "Kyoya Hibari",
+    "series": "Katekyo Hitman Reborn",
     "rarity": "SR",
-    "element": "Lightning",
+    "element": "Dark",
     "role": "Assassin",
     "stats": {
-      "hp": 2000,
-      "atk": 455,
-      "def": 300,
-      "spd": 138,
+      "hp": 2100,
+      "atk": 490,
+      "def": 320,
+      "spd": 140,
       "sp": 100
     },
     "skill": {
-      "name": "Recipro Burst: Reciproextreme",
+      "name": "Cloud Tonfa: Kamikorosu",
       "spCost": 45,
-      "desc": "ท่อไอเสียระเบิดความเร็ว พุ่งเตะเป้าหมายเดี่ยว ดาเมจ Lightning 190% และเพิ่ม SPD ตนเอง 20%"
+      "desc": "กระหน่ำฟาดทอนฟาวายุเมฆา ดาเมจ Dark 230% มีโอกาส 40% ทำให้เป้าหมาย Stun 1 เทิร์น"
     },
     "image": "assets/anime/cards/c072.webp"
   },
   {
     "id": "c073",
-    "name": "Shota Aizawa (Eraser Head)",
-    "series": "My Hero Academia",
+    "name": "Takeshi Yamamoto",
+    "series": "Katekyo Hitman Reborn",
     "rarity": "SR",
-    "element": "Dark",
+    "element": "Water",
     "role": "Tactician",
     "stats": {
-      "hp": 2250,
-      "atk": 430,
-      "def": 350,
-      "spd": 110,
+      "hp": 2300,
+      "atk": 460,
+      "def": 360,
+      "spd": 114,
       "sp": 100
     },
     "skill": {
-      "name": "Erasure Quirk: Capture Weapon",
+      "name": "Shigure Soen Ryu: Mirroring Rain",
       "spCost": 45,
-      "desc": "ลบควิร์กศัตรู ดาเมจ Dark 160% และลบบัฟศัตรู 1 อย่าง พร้อมบัฟ ATK ทีม 10%"
+      "desc": "เพลงดาบชิเงุเระโซเอ็นริว คลื่นพิรุณสงบนิ่ง ดาเมจ Water 190% และลด ATK ศัตรู 20%"
     },
     "image": "assets/anime/cards/c073.webp"
   },
   {
     "id": "c074",
-    "name": "Recovery Girl",
-    "series": "My Hero Academia",
+    "name": "Ryohei Sasagawa",
+    "series": "Katekyo Hitman Reborn",
     "rarity": "R",
     "element": "Light",
     "role": "Healer",
     "stats": {
-      "hp": 2150,
-      "atk": 300,
+      "hp": 2250,
+      "atk": 340,
       "def": 340,
-      "spd": 94,
+      "spd": 96,
       "sp": 100
     },
     "skill": {
-      "name": "Healing Quirk: Kiss of Life",
+      "name": "Maximum Cannon: Sun Activation",
       "spCost": 40,
-      "desc": "จุมพิตรักษา ฟื้นฟู HP 28% ให้เพื่อนร่วมทีมที่ HP ต่ำที่สุด"
+      "desc": "หมัดอรุณสุดขั้ว ปล่อยคลื่นเพลิงอรุณเร่งเซลล์ ฟื้นฟู HP เพื่อนทั้งทีม 25% ของ Max HP"
     },
     "image": "assets/anime/cards/c074.webp"
   },
   {
     "id": "c075",
-    "name": "Ochaco Uraraka",
-    "series": "My Hero Academia",
+    "name": "Lambo (10-Year)",
+    "series": "Katekyo Hitman Reborn",
     "rarity": "R",
-    "element": "Wind",
-    "role": "Spell",
+    "element": "Lightning",
+    "role": "Tank",
     "stats": {
-      "hp": 2000,
-      "atk": 350,
-      "def": 315,
-      "spd": 100,
+      "hp": 2350,
+      "atk": 320,
+      "def": 365,
+      "spd": 88,
       "sp": 100
     },
     "skill": {
-      "name": "Zero Gravity: Comet Home Run",
+      "name": "Elettrico Cornuta",
       "spCost": 40,
-      "desc": "ลอยวัตถุเหนือศัตรูแล้วปล่อยร่วงกระแทก ดาเมจ Wind 150% และลด SPD ศัตรู 10%"
+      "desc": "สลับร่างบาซูก้า 10 ปี ปล่อยเขาอัสนี ดาเมจ Lightning 170% และเพิ่ม DEF ตนเอง 30%"
     },
     "image": "assets/anime/cards/c075.webp"
   },
   {
     "id": "c076",
-    "name": "Erwin Smith",
-    "series": "Attack on Titan",
-    "rarity": "SR",
-    "element": "Light",
-    "role": "Tactician",
+    "name": "Ken Takakura (Okarun)",
+    "series": "Dandadan",
+    "rarity": "SSR",
+    "element": "Dark",
+    "role": "Assassin",
     "stats": {
-      "hp": 2300,
-      "atk": 440,
-      "def": 350,
-      "spd": 108,
+      "hp": 2450,
+      "atk": 535,
+      "def": 355,
+      "spd": 145,
       "sp": 100
     },
     "skill": {
-      "name": "Final Charge: Soldiers' Resolve",
-      "spCost": 45,
-      "desc": "นำทัพบุกครั้งสุดท้าย เพิ่ม ATK และ SPD ทีม 15% พร้อมดาเมจ Light 160%"
+      "name": "Turbo Granny: 100km/h Full Throttle",
+      "spCost": 50,
+      "desc": "ปลดปล่อยพลังยายเทอร์โบ พุ่งทะลวงความเร็วแสง ดาเมจ Dark 250% มีอัตราคริติคอลสูง"
     },
     "image": "assets/anime/cards/c076.webp"
   },
   {
     "id": "c077",
-    "name": "Reiner Braun",
-    "series": "Attack on Titan",
-    "rarity": "SSR",
-    "element": "Earth",
-    "role": "Tank",
+    "name": "Momo Ayase",
+    "series": "Dandadan",
+    "rarity": "SR",
+    "element": "Light",
+    "role": "Tactician",
     "stats": {
-      "hp": 2720,
-      "atk": 430,
-      "def": 470,
-      "spd": 95,
+      "hp": 2280,
+      "atk": 440,
+      "def": 350,
+      "spd": 112,
       "sp": 100
     },
     "skill": {
-      "name": "Armored Titan: Armor Shield Charge",
-      "spCost": 50,
-      "desc": "กลายร่างไททันเกราะแข็งพุ่งชน ดาเมจ Earth 200% และเพิ่ม DEF ตนเอง 30%"
+      "name": "Psychokinetic Giant Hands",
+      "spCost": 45,
+      "desc": "กางฝ่ามือพลังจิตไซโคคิเนซิสยักษ์บีบอัด ดาเมจ Light 200% และลด SPD ศัตรูลง 25%"
     },
     "image": "assets/anime/cards/c077.webp"
   },
   {
     "id": "c078",
-    "name": "Hange Zoe",
-    "series": "Attack on Titan",
-    "rarity": "R",
-    "element": "Lightning",
-    "role": "Tactician",
+    "name": "Seiko Ayase (Santa Dodoria)",
+    "series": "Dandadan",
+    "rarity": "SR",
+    "element": "Earth",
+    "role": "Tank",
     "stats": {
-      "hp": 2050,
-      "atk": 335,
-      "def": 325,
-      "spd": 100,
-      "sp": 100
+      "hp": 2550,
+      "atk": 420,
+      "def": 430,
+      "spd": 102,
+      "sp": 45
     },
     "skill": {
-      "name": "Thunder Spear: Titan Research",
-      "spCost": 40,
-      "desc": "ยิงหอกสายฟ้าระเบิดจุดอ่อน ดาเมจ Lightning 150% และบัฟ ATK ทีม 10%"
+      "name": "Medium Barrier: Spirit Ward",
+      "spCost": 45,
+      "desc": "ร่ายอาคมลงยันต์ศาลเจ้า สร้างบาเรียดูดซับความเสียหายให้ทั้งทีม 20% ของ Max HP"
     },
     "image": "assets/anime/cards/c078.webp"
   },
   {
     "id": "c079",
-    "name": "Jean Kirstein",
-    "series": "Attack on Titan",
+    "name": "Aira Shiratori",
+    "series": "Dandadan",
     "rarity": "R",
     "element": "Wind",
     "role": "Attacker",
     "stats": {
-      "hp": 2150,
-      "atk": 345,
-      "def": 335,
-      "spd": 98,
+      "hp": 2100,
+      "atk": 360,
+      "def": 320,
+      "spd": 110,
       "sp": 100
     },
     "skill": {
-      "name": "ODM Gear: Cutback Slash",
+      "name": "Acrobatic Silky: Hair Drill",
       "spCost": 40,
-      "desc": "ใช้อุปกรณ์ ODM ตัดฟาดต่อเนื่อง ดาเมจ Wind 160% และบัฟ SPD ตนเอง 10%"
+      "desc": "สวมร่างอโครบาติกซิลกี้ ตวัดเส้นผมควงสว่าน สร้างความเสียหาย Wind 180%"
     },
     "image": "assets/anime/cards/c079.webp"
   },
   {
     "id": "c080",
-    "name": "Annie Leonhart",
-    "series": "Attack on Titan",
-    "rarity": "SR",
+    "name": "Jin Enjoji (Jiji)",
+    "series": "Dandadan",
+    "rarity": "R",
     "element": "Water",
-    "role": "Assassin",
+    "role": "Spell",
     "stats": {
-      "hp": 2150,
-      "atk": 470,
-      "def": 340,
-      "spd": 128,
+      "hp": 2180,
+      "atk": 350,
+      "def": 330,
+      "spd": 104,
       "sp": 100
     },
     "skill": {
-      "name": "Crystal Hardening: Female Titan Kick",
-      "spCost": 45,
-      "desc": "เตะส้นสะบั้นด้วยร่างไททันเกราะผลึก ดาเมจ Water 195% และเพิ่ม DEF ตนเอง 15%"
+      "name": "Evil Gun: Water Stream",
+      "spCost": 40,
+      "desc": "ปลดปล่อยเนตรปิศาจ ยิงกระสุนน้ำแรงดันวิญญาณคำสาป สร้างความเสียหาย Water 190%"
     },
     "image": "assets/anime/cards/c080.webp"
   }
