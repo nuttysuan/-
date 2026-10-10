@@ -1474,20 +1474,20 @@ export const masterCharacters = [
     "id": "c071",
     "name": "Tsunayoshi Sawada",
     "series": "Katekyo Hitman Reborn",
-    "rarity": "SSR",
+    "rarity": "UR",
     "element": "Fire",
     "role": "Attacker",
     "stats": {
-      "hp": 2520,
-      "atk": 545,
-      "def": 370,
-      "spd": 122,
+      "hp": 2600,
+      "atk": 565,
+      "def": 385,
+      "spd": 126,
       "sp": 100
     },
     "skill": {
       "name": "X-Burner: Maximum Output",
-      "spCost": 50,
-      "desc": "ยิงเพลิงดับเครื่องชนแรงผลักดันสูงสุด สร้างความเสียหาย Fire 260% และเร่ง SPD ตนเอง 15%"
+      "spCost": 55,
+      "desc": "ยิงเพลิงดับเครื่องชนแรงผลักดันสูงสุด สร้างความเสียหาย Fire 280% และเร่ง SPD ตนเอง +20% (2 เทิร์น)"
     },
     "image": "assets/anime/cards/c071.webp"
   },
@@ -1495,20 +1495,20 @@ export const masterCharacters = [
     "id": "c072",
     "name": "Kyoya Hibari",
     "series": "Katekyo Hitman Reborn",
-    "rarity": "SR",
+    "rarity": "SSR",
     "element": "Dark",
     "role": "Assassin",
     "stats": {
-      "hp": 2100,
-      "atk": 490,
-      "def": 320,
-      "spd": 140,
+      "hp": 2280,
+      "atk": 535,
+      "def": 350,
+      "spd": 144,
       "sp": 100
     },
     "skill": {
       "name": "Cloud Tonfa: Kamikorosu",
-      "spCost": 45,
-      "desc": "กระหน่ำฟาดทอนฟาวายุเมฆา ดาเมจ Dark 230% มีโอกาส 40% ทำให้เป้าหมาย Stun 1 เทิร์น"
+      "spCost": 50,
+      "desc": "กระหน่ำฟาดทอนฟาวายุเมฆา ดาเมจ Dark 250% มีโอกาส 50% ทำให้เป้าหมาย Stun 1 เทิร์น"
     },
     "image": "assets/anime/cards/c072.webp"
   },
@@ -1516,20 +1516,20 @@ export const masterCharacters = [
     "id": "c073",
     "name": "Takeshi Yamamoto",
     "series": "Katekyo Hitman Reborn",
-    "rarity": "SR",
+    "rarity": "SSR",
     "element": "Water",
     "role": "Tactician",
     "stats": {
-      "hp": 2300,
-      "atk": 460,
-      "def": 360,
-      "spd": 114,
+      "hp": 2500,
+      "atk": 510,
+      "def": 390,
+      "spd": 120,
       "sp": 100
     },
     "skill": {
       "name": "Shigure Soen Ryu: Mirroring Rain",
-      "spCost": 45,
-      "desc": "เพลงดาบชิเงุเระโซเอ็นริว คลื่นพิรุณสงบนิ่ง ดาเมจ Water 190% และลด ATK ศัตรู 20%"
+      "spCost": 50,
+      "desc": "เพลงดาบชิเงุเระโซเอ็นริว คลื่นพิรุณสงบนิ่ง ดาเมจ Water 220% และลด ATK ศัตรู 25% (2 เทิร์น)"
     },
     "image": "assets/anime/cards/c073.webp"
   },
@@ -1537,20 +1537,20 @@ export const masterCharacters = [
     "id": "c074",
     "name": "Ryohei Sasagawa",
     "series": "Katekyo Hitman Reborn",
-    "rarity": "R",
+    "rarity": "SR",
     "element": "Light",
     "role": "Healer",
     "stats": {
-      "hp": 2250,
-      "atk": 340,
-      "def": 340,
-      "spd": 96,
+      "hp": 2320,
+      "atk": 410,
+      "def": 360,
+      "spd": 104,
       "sp": 100
     },
     "skill": {
       "name": "Maximum Cannon: Sun Activation",
-      "spCost": 40,
-      "desc": "หมัดอรุณสุดขั้ว ปล่อยคลื่นเพลิงอรุณเร่งเซลล์ ฟื้นฟู HP เพื่อนทั้งทีม 25% ของ Max HP"
+      "spCost": 45,
+      "desc": "หมัดอรุณสุดขั้ว ปล่อยเพลิงอรุณเร่งเซลล์ ฟื้นฟู HP เพื่อนทั้งทีม 30% ของ Max HP และเพิ่ม ATK ตนเอง 15%"
     },
     "image": "assets/anime/cards/c074.webp"
   },

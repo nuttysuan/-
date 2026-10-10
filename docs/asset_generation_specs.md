@@ -6,13 +6,13 @@
 
 ---
 
-## สรุปภาพรวมจำนวน Asset
+## สรุปภาพรวมจำนวน Asset (อัปเดต Rarity ล่าสุด)
 | กลุ่มความหายาก | จำนวนตัวละคร | รหัส ID | ลักษณะออร่า & เอฟเฟกต์ |
 | :-- | :-: | :-- | :-- |
-| **UR (Ultra Rare)** | 3 | c051, c057, c060 | ออร่าทองเปล่งประกาย คลื่นพลังอลังการ ท่าไม้ตายเต็มจอ |
-| **SSR (Super Super Rare)** | 9 | c052, c056, c058, c061, c064, c067, c068, c071, c076 | ออร่าธาตุเข้มข้น ประกายแสงเอฟเฟกต์เฉพาะตัว |
-| **SR (Super Rare)** | 9 | c059, c063, c065, c066, c069, c072, c073, c077, c078 | ท่วงท่าต่อสู้คล่องแคล่ว มีเอฟเฟกต์พลังธาตุรอบตัว |
-| **R (Rare)** | 9 | c053, c054, c055, c062, c070, c074, c075, c079, c080 | ท่าทางเอกลักษณ์ประจำตัว สะท้อนบุคลิกตามเนื้อเรื่อง |
+| **UR (Ultra Rare)** | 4 | c051, c057, c060, **c071 (Tsuna)** | ออร่าทองเปล่งประกาย คลื่นพลังอลังการ ท่าไม้ตายเต็มจอ |
+| **SSR (Super Super Rare)** | 10 | c052, c056, c058, c061, c064, c067, c068, **c072 (Hibari)**, **c073 (Yamamoto)**, c076 | ออร่าธาตุเข้มข้น ประกายแสงเอฟเฟกต์เฉพาะตัว |
+| **SR (Super Rare)** | 8 | c059, c063, c065, c066, c069, **c074 (Ryohei)**, c077, c078 | ท่วงท่าต่อสู้คล่องแคล่ว มีเอฟเฟกต์พลังธาตุรอบตัว |
+| **R (Rare)** | 8 | c053, c054, c055, c062, c070, c075 (Lambo), c079, c080 | ท่าทางเอกลักษณ์ประจำตัว สะท้อนบุคลิกตามเนื้อเรื่อง |
 
 ---
 
@@ -251,44 +251,44 @@
 ## 7. Katekyo Hitman Reborn! (5 ตัวละคร)
 
 ### c071: Tsunayoshi Sawada (Tsuna)
-- **Rarity**: SSR | **ธาตุ**: Fire | **Role**: Attacker
-- **Stats**: HP 2520 | ATK 545 | DEF 370 | SPD 122 | SP 50
-- **สกิล**: X-Burner: Maximum Output (เพลิงดับเครื่องชนแรงผลักดันสูงสุด เร่งความเร็วและทำลายล้าง)
+- **Rarity**: UR | **ธาตุ**: Fire | **Role**: Attacker
+- **Stats**: HP 2600 | ATK 565 | DEF 385 | SPD 126 | SP 55
+- **สกิล**: X-Burner: Maximum Output (เพลิงดับเครื่องชนแรงผลักดันสูงสุด ดาเมจ Fire 280% และเร่ง SPD +20%)
 - **Card Prompt (`c071.webp`)**:
-  > `masterpiece, ultra-detailed anime card art, Tsunayoshi Sawada Tsuna from Katekyo Hitman Reborn, Hyper Dying Will Mode, pure blazing orange Sky Dying Will Flame on forehead, sharp focused amber eyes, wearing black sweater and X-Gloves Ver. Vongola Ring firing colossal concentrated orange flame beam forward with X-Burner posture, dynamic blast shockwave tearing ground, floating embers, SSR glowing flame border --ar 3:4`
+  > `masterpiece, ultra-detailed anime card art, Tsunayoshi Sawada Tsuna from Katekyo Hitman Reborn, Hyper Dying Will Mode, pure blazing orange Sky Dying Will Flame burning fiercely on forehead, sharp focused amber eyes, wearing black sweater and X-Gloves Ver. Vongola Ring firing colossal concentrated orange flame beam forward with iconic X-Burner posture, dynamic blast shockwave tearing ground, floating embers, UR golden ornate flaming border, epic volumetric aura, vertical card composition --ar 3:4`
 - **8-Bit Sprite Prompt (`c071.png`)**:
   > `16-bit pixel art sprite sheet, 4 frames horizontal sequence, Tsuna Hyper Dying Will mode with orange forehead flame, frame 1 hovering floating idle, frame 2 crossed arms X-Burner charge, frame 3 firing massive orange X-Burner beam, frame 4 aerial recoil hover, retro arcade pixel art, transparent background --ar 4:1`
 
 ---
 
 ### c072: Kyoya Hibari
-- **Rarity**: SR | **ธาตุ**: Dark | **Role**: Assassin
-- **Stats**: HP 2100 | ATK 490 | DEF 320 | SPD 140 | SP 45
-- **สกิล**: Cloud Tonfa: Kamikorosu (กระหน่ำทอนฟาวายุเมฆา กัดให้ตายและสตัน)
+- **Rarity**: SSR | **ธาตุ**: Dark | **Role**: Assassin
+- **Stats**: HP 2280 | ATK 535 | DEF 350 | SPD 144 | SP 50
+- **สกิล**: Cloud Tonfa: Kamikorosu (กระหน่ำทอนฟาวายุเมฆา ดาเมจ Dark 250% มีโอกาส 50% Stun)
 - **Card Prompt (`c072.webp`)**:
-  > `anime card art, Kyoya Hibari from Katekyo Hitman Reborn, Namimori Middle school black uniform coat draped casually over shoulders, cold piercing smirk, dual steel tonfas ignited with swirling violet Cloud Dying Will flames, purple needle hedgehog Roll manifestation in dark misty background, midnight moonlit school rooftop, SR border --ar 3:4`
+  > `masterpiece, dynamic anime card art, Kyoya Hibari from Katekyo Hitman Reborn, Namimori Middle school black uniform coat draped casually over shoulders, cold piercing smirk, dual steel tonfas ignited with swirling violet Cloud Dying Will flames, purple needle hedgehog Roll manifestation in dark misty background, midnight moonlit school rooftop, SSR glowing border --ar 3:4`
 - **8-Bit Sprite Prompt (`c072.png`)**:
   > `16-bit pixel art sprite sheet, 4 frames horizontal sequence, Kyoya Hibari with black school coat and tonfas, frame 1 hand in pocket idle, frame 2 tonfas raised with purple flame, frame 3 rapid tonfa combo flurry with purple slash arcs, frame 4 arrogant sidestep guard, retro pixel art, transparent background --ar 4:1`
 
 ---
 
 ### c073: Takeshi Yamamoto
-- **Rarity**: SR | **ธาตุ**: Water | **Role**: Tactician
-- **Stats**: HP 2300 | ATK 460 | DEF 360 | SPD 114 | SP 45
-- **สกิล**: Shigure Soen Ryu: Mirroring Rain (เพลงดาบพิรุณชิเงุเระโซเอ็นริว ดาบสายน้ำแห่งความสงบนิ่ง)
+- **Rarity**: SSR | **ธาตุ**: Water | **Role**: Tactician
+- **Stats**: HP 2500 | ATK 510 | DEF 390 | SPD 120 | SP 50
+- **สกิล**: Shigure Soen Ryu: Mirroring Rain (เพลงดาบชิเงุเระโซเอ็นริว ดาบสายน้ำแห่งความสงบนิ่ง ดาเมจ Water 220% ลด ATK ศัตรู 25%)
 - **Card Prompt (`c073.webp`)**:
-  > `anime card art, Takeshi Yamamoto from Katekyo Hitman Reborn, cheerful smile shifting into deadly swordsman focus, wielding Shigure Kintoki katana enveloped in serene blue Rain Dying Will flames and rushing water torrents, Kojiro blue swallow bird soaring alongside, reflective rain ripples, SR border --ar 3:4`
+  > `masterpiece, dynamic anime card art, Takeshi Yamamoto from Katekyo Hitman Reborn, cheerful smile shifting into deadly swordsman focus, wielding Shigure Kintoki katana enveloped in serene blue Rain Dying Will flames and rushing water torrents, Kojiro blue swallow bird soaring alongside, reflective rain ripples, SSR glowing water border --ar 3:4`
 - **8-Bit Sprite Prompt (`c073.png`)**:
   > `16-bit pixel art sprite sheet, 4 frames horizontal sequence, Takeshi Yamamoto swordsman with blue flame blade, frame 1 relaxed blade resting on shoulder, frame 2 two-handed kendo ready stance, frame 3 dashing horizontal slash with blue wave rush, frame 4 calm defensive block, retro pixel art, transparent background --ar 4:1`
 
 ---
 
 ### c074: Ryohei Sasagawa
-- **Rarity**: R | **ธาตุ**: Light | **Role**: Healer
-- **Stats**: HP 2250 | ATK 340 | DEF 340 | SPD 96 | SP 40
-- **สกิล**: Maximum Cannon: Sun Activation (หมัดอรุณสุดขั้ว ปล่อยเพลิงอรุณเร่งการรักษาเซลล์ทั้งทีม)
+- **Rarity**: SR | **ธาตุ**: Light | **Role**: Healer
+- **Stats**: HP 2320 | ATK 410 | DEF 360 | SPD 104 | SP 45
+- **สกิล**: Maximum Cannon: Sun Activation (หมัดอรุณสุดขั้ว ปล่อยเพลิงอรุณเร่งการรักษา ฟื้นฟู HP ทั้งทีม 30% และเพิ่ม ATK ตนเอง 15%)
 - **Card Prompt (`c074.webp`)**:
-  > `anime card art, Ryohei Sasagawa from Katekyo Hitman Reborn, boxing headgear and hand wraps, shouting EXTREME with fiery passion, radiant golden and yellow Sun Dying Will flames erupting from fists, glowing regenerative sunlight aura healing surroundings, boxing ring canvas shattering --ar 3:4`
+  > `anime card art, Ryohei Sasagawa from Katekyo Hitman Reborn, boxing headgear and hand wraps, shouting EXTREME with fiery passion, radiant golden and yellow Sun Dying Will flames erupting from fists, glowing regenerative sunlight aura healing surroundings, boxing ring canvas shattering, SR glowing border --ar 3:4`
 - **8-Bit Sprite Prompt (`c074.png`)**:
   > `16-bit pixel art sprite sheet, 4 frames horizontal sequence, Ryohei boxer with yellow flame wraps, frame 1 bouncing boxing guard, frame 2 winding up heavy right cross, frame 3 Maximum Cannon punch releasing yellow solar burst, frame 4 wiping nose smiling, retro pixel art, transparent background --ar 4:1`
 
