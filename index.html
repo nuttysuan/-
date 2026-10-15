@@ -2022,7 +2022,6 @@
     let timerInterval = null;
     let animFrameId = null;
     let spikePlanted = false;
-    let timeoutCount = 0;
     let currentMap = 'Ascent';
 
     let currentTacticA = 'RUSH_A';
@@ -5489,17 +5488,6 @@ function endRound(winner) {
       startTimer();
     }
 
-    function callTacticalTimeout() {
-      if (timeoutCount >= 2) {
-        alert('สโมสรใช้สิทธิ์เวลานอกครบ 2 ครั้งแล้วในแมตช์นี้');
-        return;
-      }
-      timeoutCount++;
-      const btn = document.getElementById('btn-timeout');
-      btn.innerHTML = `<span>⏳ เวลานอก (${timeoutCount}/2)</span>`;
-      alert('📋 โค้ชได้ส่งสัญญาณขอเวลานอก (Tactical Timeout)! มีผลใน Buy Phase รอบถัดไป 60 วินาทีตามกติกาสากล');
-      addEventLog(`Tactical Timeout called by Head Coach (${timeoutCount}/2)`);
-    }
 
     
     // =========================================================================
@@ -7813,6 +7801,70 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
       const v = idOrName.toString().toLowerCase().trim();
       return myRoster.starters.some(p => (p.id && p.id.toLowerCase() === v) || (p.name && p.name.toLowerCase() === v)) ||
              myRoster.bench.some(p => (p.id && p.id.toLowerCase() === v) || (p.name && p.name.toLowerCase() === v));
+    }
+
+    function renderTactics() {
+      const container = document.getElementById('tactics-slots-container');
+      if (!container) return;
+      container.innerHTML = '';
+
+      const agentList = Object.keys(AGENT_SKILLS_DATA);
+
+      (myRoster.starters || []).forEach((p, idx) => {
+        const mastery = calculateAgentMastery(p.role, p.agent || 'Jett');
+        const card = document.createElement('div');
+        card.className = 'bg-[#060a14] border border-[#14213a] rounded-lg p-2.5 flex items-center justify-between gap-3 text-xs';
+
+        let optionsHtml = '';
+        agentList.forEach(ag => {
+          const isSelected = (p.agent === ag) ? 'selected' : '';
+          const agRole = AGENT_SKILLS_DATA[ag] ? AGENT_SKILLS_DATA[ag].role : 'Flex';
+          optionsHtml += `<option value="${ag}" ${isSelected}>${ag} (${agRole})</option>`;
+        });
+
+        card.innerHTML = `
+          <div class="flex items-center gap-2.5 min-w-[140px]">
+            <div class="w-7 h-7 rounded bg-[#0d1627] border border-[#1e3256] flex items-center justify-center font-bold text-slate-200">
+              ${idx + 1}
+            </div>
+            <div>
+              <div class="font-bold text-white text-xs">${p.name}</div>
+              <div class="text-[10px] text-slate-400 font-mono">${p.role} · OVR ${p.ovr || p.overall || 90}</div>
+            </div>
+          </div>
+
+          <div class="flex-1 max-w-[220px]">
+            <select onchange="updatePlayerAgent(${idx}, this.value)" class="w-full bg-[#090f1e] border border-[#1e3256] rounded px-2 py-1 text-slate-200 text-xs font-mono focus:outline-none focus:border-emerald-500">
+              ${optionsHtml}
+            </select>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded border ${
+              mastery.tier === 'S' ? 'bg-amber-950/80 text-amber-300 border-amber-500/40' :
+              mastery.tier === 'A' ? 'bg-emerald-950/80 text-emerald-400 border-emerald-500/40' :
+              'bg-rose-950/80 text-rose-400 border-rose-500/40'
+            }">
+              ${mastery.label}
+            </span>
+            <span class="text-[10px] text-slate-400 hidden sm:inline" title="${mastery.buffDesc}">ℹ️</span>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function updatePlayerAgent(starterIndex, newAgent) {
+      if (myRoster && myRoster.starters && myRoster.starters[starterIndex]) {
+        myRoster.starters[starterIndex].agent = newAgent;
+        syncRosterToMatchPlayers();
+        renderTactics();
+        saveGameToStorage(true);
+      }
+    }
+
+    function updateTacticsMap(mapName) {
+      changeMap(mapName);
     }
 
     function renderRoster() {
