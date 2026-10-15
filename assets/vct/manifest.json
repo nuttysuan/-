@@ -1,0 +1,620 @@
+﻿{
+    "agents":  {
+                   "Skye":  {
+                                "displayIcon":  "assets/vct/agents/Skye.png",
+                                "abilities":  {
+                                                  "Regrowth":  "assets/vct/abilities/Skye_Grenade_Regrowth.png",
+                                                  "Guiding Light":  "assets/vct/abilities/Skye_Ability2_Guiding Light.png",
+                                                  "Seekers":  "assets/vct/abilities/Skye_Ultimate_Seekers.png",
+                                                  "Trailblazer":  "assets/vct/abilities/Skye_Ability1_Trailblazer.png"
+                                              },
+                                "role":  "Initiator"
+                            },
+                   "Fade":  {
+                                "displayIcon":  "assets/vct/agents/Fade.png",
+                                "abilities":  {
+                                                  "Seize":  "assets/vct/abilities/Fade_Ability1_Seize.png",
+                                                  "Haunt":  "assets/vct/abilities/Fade_Ability2_Haunt.png",
+                                                  "Nightfall":  "assets/vct/abilities/Fade_Ultimate_Nightfall.png",
+                                                  "Prowler":  "assets/vct/abilities/Fade_Grenade_Prowler.png"
+                                              },
+                                "role":  "Initiator"
+                            },
+                   "Gekko":  {
+                                 "displayIcon":  "assets/vct/agents/Gekko.png",
+                                 "abilities":  {
+                                                   "Mosh Pit":  "assets/vct/abilities/Gekko_Grenade_Mosh Pit.png",
+                                                   "Wingman":  "assets/vct/abilities/Gekko_Ability1_Wingman.png",
+                                                   "Thrash":  "assets/vct/abilities/Gekko_Ultimate_Thrash.png",
+                                                   "Dizzy":  "assets/vct/abilities/Gekko_Ability2_Dizzy.png"
+                                               },
+                                 "role":  "Initiator"
+                             },
+                   "Clove":  {
+                                 "displayIcon":  "assets/vct/agents/Clove.png",
+                                 "abilities":  {
+                                                   "Ruse":  "assets/vct/abilities/Clove_Ability2_Ruse.png",
+                                                   "Pick-me-up":  "assets/vct/abilities/Clove_Grenade_Pick-me-up.png",
+                                                   "Meddle":  "assets/vct/abilities/Clove_Ability1_Meddle.png",
+                                                   "Not Dead Yet":  "assets/vct/abilities/Clove_Ultimate_Not Dead Yet.png"
+                                               },
+                                 "role":  "Controller"
+                             },
+                   "Killjoy":  {
+                                   "displayIcon":  "assets/vct/agents/Killjoy.png",
+                                   "abilities":  {
+                                                     "Lockdown":  "assets/vct/abilities/Killjoy_Ultimate_Lockdown.png",
+                                                     "ALARMBOT":  "assets/vct/abilities/Killjoy_Ability1_ALARMBOT.png",
+                                                     "Nanoswarm":  "assets/vct/abilities/Killjoy_Grenade_Nanoswarm.png",
+                                                     "TURRET":  "assets/vct/abilities/Killjoy_Ability2_TURRET.png"
+                                                 },
+                                   "role":  "Sentinel"
+                               },
+                   "Omen":  {
+                                "displayIcon":  "assets/vct/agents/Omen.png",
+                                "abilities":  {
+                                                  "From the Shadows":  "assets/vct/abilities/Omen_Ultimate_From the Shadows.png",
+                                                  "Paranoia":  "assets/vct/abilities/Omen_Ability1_Paranoia.png",
+                                                  "Shrouded Step":  "assets/vct/abilities/Omen_Grenade_Shrouded Step.png",
+                                                  "Dark Cover":  "assets/vct/abilities/Omen_Ability2_Dark Cover.png"
+                                              },
+                                "role":  "Controller"
+                            },
+                   "Breach":  {
+                                  "displayIcon":  "assets/vct/agents/Breach.png",
+                                  "abilities":  {
+                                                    "Flashpoint":  "assets/vct/abilities/Breach_Ability1_Flashpoint.png",
+                                                    "Fault Line":  "assets/vct/abilities/Breach_Ability2_Fault Line.png",
+                                                    "Aftershock":  "assets/vct/abilities/Breach_Grenade_Aftershock.png",
+                                                    "Rolling Thunder":  "assets/vct/abilities/Breach_Ultimate_Rolling Thunder.png"
+                                                },
+                                  "role":  "Initiator"
+                              },
+                   "Cypher":  {
+                                  "displayIcon":  "assets/vct/agents/Cypher.png",
+                                  "abilities":  {
+                                                    "Cyber Cage":  "assets/vct/abilities/Cypher_Ability1_Cyber Cage.png",
+                                                    "Spycam":  "assets/vct/abilities/Cypher_Ability2_Spycam.png",
+                                                    "Trapwire":  "assets/vct/abilities/Cypher_Grenade_Trapwire.png",
+                                                    "Neural Theft":  "assets/vct/abilities/Cypher_Ultimate_Neural Theft.png"
+                                                },
+                                  "role":  "Sentinel"
+                              },
+                   "Veto":  {
+                                "displayIcon":  "assets/vct/agents/Veto.png",
+                                "abilities":  {
+                                                  "Interceptor":  "assets/vct/abilities/Veto_Ability2_Interceptor.png",
+                                                  "Crosscut":  "assets/vct/abilities/Veto_Grenade_Crosscut.png",
+                                                  "Chokehold":  "assets/vct/abilities/Veto_Ability1_Chokehold.png",
+                                                  "Evolution":  "assets/vct/abilities/Veto_Ultimate_Evolution.png"
+                                              },
+                                "role":  "Sentinel"
+                            },
+                   "Chamber":  {
+                                   "displayIcon":  "assets/vct/agents/Chamber.png",
+                                   "abilities":  {
+                                                     "Headhunter":  "assets/vct/abilities/Chamber_Ability1_Headhunter.png",
+                                                     "Trademark":  "assets/vct/abilities/Chamber_Grenade_Trademark.png",
+                                                     "Tour De Force":  "assets/vct/abilities/Chamber_Ultimate_Tour De Force.png",
+                                                     "Rendezvous":  "assets/vct/abilities/Chamber_Ability2_Rendezvous.png"
+                                                 },
+                                   "role":  "Sentinel"
+                               },
+                   "Jett":  {
+                                "displayIcon":  "assets/vct/agents/Jett.png",
+                                "abilities":  {
+                                                  "Tailwind":  "assets/vct/abilities/Jett_Ability2_Tailwind.png",
+                                                  "Drift":  "assets/vct/abilities/Jett_Passive_Drift.png",
+                                                  "Cloudburst":  "assets/vct/abilities/Jett_Grenade_Cloudburst.png",
+                                                  "Updraft":  "assets/vct/abilities/Jett_Ability1_Updraft.png",
+                                                  "Blade Storm":  "assets/vct/abilities/Jett_Ultimate_Blade Storm.png"
+                                              },
+                                "role":  "Duelist"
+                            },
+                   "Raze":  {
+                                "displayIcon":  "assets/vct/agents/Raze.png",
+                                "abilities":  {
+                                                  "Paint Shells":  "assets/vct/abilities/Raze_Ability2_Paint Shells.png",
+                                                  "Showstopper":  "assets/vct/abilities/Raze_Ultimate_Showstopper.png",
+                                                  "Blast Pack":  "assets/vct/abilities/Raze_Ability1_Blast Pack.png",
+                                                  "Boom Bot":  "assets/vct/abilities/Raze_Grenade_Boom Bot.png"
+                                              },
+                                "role":  "Duelist"
+                            },
+                   "Iso":  {
+                               "displayIcon":  "assets/vct/agents/Iso.png",
+                               "abilities":  {
+                                                 "Contingency":  "assets/vct/abilities/Iso_Grenade_Contingency.png",
+                                                 "Undercut":  "assets/vct/abilities/Iso_Ability1_Undercut.png",
+                                                 "Double Tap":  "assets/vct/abilities/Iso_Ability2_Double Tap.png",
+                                                 "Kill Contract":  "assets/vct/abilities/Iso_Ultimate_Kill Contract.png"
+                                             },
+                               "role":  "Duelist"
+                           },
+                   "Sova":  {
+                                "displayIcon":  "assets/vct/agents/Sova.png",
+                                "abilities":  {
+                                                  "Recon Bolt":  "assets/vct/abilities/Sova_Ability2_Recon Bolt.png",
+                                                  "Shock Bolt":  "assets/vct/abilities/Sova_Ability1_Shock Bolt.png",
+                                                  "Hunter\u0027s Fury":  "assets/vct/abilities/Sova_Ultimate_Hunter\u0027s Fury.png",
+                                                  "Owl Drone":  "assets/vct/abilities/Sova_Grenade_Owl Drone.png"
+                                              },
+                                "role":  "Initiator"
+                            },
+                   "Astra":  {
+                                 "displayIcon":  "assets/vct/agents/Astra.png",
+                                 "abilities":  {
+                                                   "Gravity Well":  "assets/vct/abilities/Astra_Grenade_Gravity Well.png",
+                                                   "Nebula  - Dissipate":  "assets/vct/abilities/Astra_Ability2_Nebula  - Dissipate.png",
+                                                   "Astral Form - Cosmic Divide":  "assets/vct/abilities/Astra_Ultimate_Astral Form - Cosmic Divide.png",
+                                                   "Nova Pulse":  "assets/vct/abilities/Astra_Ability1_Nova Pulse.png",
+                                                   "Astral Form":  "assets/vct/abilities/Astra_Passive_Astral Form.png"
+                                               },
+                                 "role":  "Controller"
+                             },
+                   "Tejo":  {
+                                "displayIcon":  "assets/vct/agents/Tejo.png",
+                                "abilities":  {
+                                                  "Armageddon":  "assets/vct/abilities/Tejo_Ultimate_Armageddon.png",
+                                                  "Guided Salvo":  "assets/vct/abilities/Tejo_Ability2_Guided Salvo.png",
+                                                  "Stealth Drone":  "assets/vct/abilities/Tejo_Grenade_Stealth Drone.png",
+                                                  "Special Delivery":  "assets/vct/abilities/Tejo_Ability1_Special Delivery.png"
+                                              },
+                                "role":  "Initiator"
+                            },
+                   "Sage":  {
+                                "displayIcon":  "assets/vct/agents/Sage.png",
+                                "abilities":  {
+                                                  "Barrier Orb":  "assets/vct/abilities/Sage_Grenade_Barrier Orb.png",
+                                                  "Slow Orb":  "assets/vct/abilities/Sage_Ability1_Slow Orb.png",
+                                                  "Healing Orb":  "assets/vct/abilities/Sage_Ability2_Healing Orb.png",
+                                                  "Resurrection":  "assets/vct/abilities/Sage_Ultimate_Resurrection.png"
+                                              },
+                                "role":  "Sentinel"
+                            },
+                   "Viper":  {
+                                 "displayIcon":  "assets/vct/agents/Viper.png",
+                                 "abilities":  {
+                                                   "Toxic Screen":  "assets/vct/abilities/Viper_Ability2_Toxic Screen.png",
+                                                   "Snake Bite":  "assets/vct/abilities/Viper_Grenade_Snake Bite.png",
+                                                   "Poison Cloud":  "assets/vct/abilities/Viper_Ability1_Poison Cloud.png",
+                                                   "Viper\u0027s Pit":  "assets/vct/abilities/Viper_Ultimate_Viper\u0027s Pit.png"
+                                               },
+                                 "role":  "Controller"
+                             },
+                   "Vyse":  {
+                                "displayIcon":  "assets/vct/agents/Vyse.png",
+                                "abilities":  {
+                                                  "Shear":  "assets/vct/abilities/Vyse_Ability1_Shear.png",
+                                                  "Steel Garden":  "assets/vct/abilities/Vyse_Ultimate_Steel Garden.png",
+                                                  "Arc Rose":  "assets/vct/abilities/Vyse_Ability2_Arc Rose.png",
+                                                  "Razorvine":  "assets/vct/abilities/Vyse_Grenade_Razorvine.png"
+                                              },
+                                "role":  "Sentinel"
+                            },
+                   "Neon":  {
+                                "displayIcon":  "assets/vct/agents/Neon.png",
+                                "abilities":  {
+                                                  "Relay Bolt":  "assets/vct/abilities/Neon_Ability1_Relay Bolt.png",
+                                                  "Overdrive":  "assets/vct/abilities/Neon_Ultimate_Overdrive.png",
+                                                  "Fast Lane":  "assets/vct/abilities/Neon_Grenade_Fast Lane.png",
+                                                  "High Gear":  "assets/vct/abilities/Neon_Ability2_High Gear.png"
+                                              },
+                                "role":  "Duelist"
+                            },
+                   "Phoenix":  {
+                                   "displayIcon":  "assets/vct/agents/Phoenix.png",
+                                   "abilities":  {
+                                                     "Hot Hands":  "assets/vct/abilities/Phoenix_Ability1_Hot Hands.png",
+                                                     "Blaze":  "assets/vct/abilities/Phoenix_Grenade_Blaze.png",
+                                                     "Curveball":  "assets/vct/abilities/Phoenix_Ability2_Curveball.png",
+                                                     "Run it Back":  "assets/vct/abilities/Phoenix_Ultimate_Run it Back.png"
+                                                 },
+                                   "role":  "Duelist"
+                               },
+                   "KAY-O":  {
+                                 "displayIcon":  "assets/vct/agents/KAY-O.png",
+                                 "abilities":  {
+                                                   "NULL-cmd":  "assets/vct/abilities/KAY-O_Ultimate_NULL-cmd.png",
+                                                   "ZERO-point":  "assets/vct/abilities/KAY-O_Ability2_ZERO-point.png",
+                                                   "FRAG-ment":  "assets/vct/abilities/KAY-O_Grenade_FRAG-ment.png",
+                                                   "FLASH-drive":  "assets/vct/abilities/KAY-O_Ability1_FLASH-drive.png"
+                                               },
+                                 "role":  "Initiator"
+                             },
+                   "Brimstone":  {
+                                     "displayIcon":  "assets/vct/agents/Brimstone.png",
+                                     "abilities":  {
+                                                       "Sky Smoke":  "assets/vct/abilities/Brimstone_Ability2_Sky Smoke.png",
+                                                       "Orbital Strike":  "assets/vct/abilities/Brimstone_Ultimate_Orbital Strike.png",
+                                                       "Stim Beacon":  "assets/vct/abilities/Brimstone_Grenade_Stim Beacon.png",
+                                                       "Incendiary":  "assets/vct/abilities/Brimstone_Ability1_Incendiary.png"
+                                                   },
+                                     "role":  "Controller"
+                                 },
+                   "Deadlock":  {
+                                    "displayIcon":  "assets/vct/agents/Deadlock.png",
+                                    "abilities":  {
+                                                      "Sonic Sensor":  "assets/vct/abilities/Deadlock_Ability1_Sonic Sensor.png",
+                                                      "GravNet":  "assets/vct/abilities/Deadlock_Ability2_GravNet.png",
+                                                      "Barrier Mesh":  "assets/vct/abilities/Deadlock_Grenade_Barrier Mesh.png",
+                                                      "Annihilation":  "assets/vct/abilities/Deadlock_Ultimate_Annihilation.png"
+                                                  },
+                                    "role":  "Sentinel"
+                                },
+                   "Waylay":  {
+                                  "displayIcon":  "assets/vct/agents/Waylay.png",
+                                  "abilities":  {
+                                                    "Convergent Paths":  "assets/vct/abilities/Waylay_Ultimate_Convergent Paths.png",
+                                                    "Saturate":  "assets/vct/abilities/Waylay_Grenade_Saturate.png",
+                                                    "Lightspeed":  "assets/vct/abilities/Waylay_Ability1_Lightspeed.png",
+                                                    "Refract":  "assets/vct/abilities/Waylay_Ability2_Refract.png"
+                                                },
+                                  "role":  "Duelist"
+                              },
+                   "Miks":  {
+                                "displayIcon":  "assets/vct/agents/Miks.png",
+                                "abilities":  {
+                                                  "M-pulse":  "assets/vct/abilities/Miks_Grenade_M-pulse.png",
+                                                  "Harmonize":  "assets/vct/abilities/Miks_Ability1_Harmonize.png",
+                                                  "Waveform":  "assets/vct/abilities/Miks_Ability2_Waveform.png",
+                                                  "Bassquake":  "assets/vct/abilities/Miks_Ultimate_Bassquake.png"
+                                              },
+                                "role":  "Controller"
+                            },
+                   "Harbor":  {
+                                  "displayIcon":  "assets/vct/agents/Harbor.png",
+                                  "abilities":  {
+                                                    "High Tide":  "assets/vct/abilities/Harbor_Ability1_High Tide.png",
+                                                    "Cove":  "assets/vct/abilities/Harbor_Ability2_Cove.png",
+                                                    "Reckoning":  "assets/vct/abilities/Harbor_Ultimate_Reckoning.png",
+                                                    "Storm Surge":  "assets/vct/abilities/Harbor_Grenade_Storm Surge.png"
+                                                },
+                                  "role":  "Controller"
+                              },
+                   "Yoru":  {
+                                "displayIcon":  "assets/vct/agents/Yoru.png",
+                                "abilities":  {
+                                                  "DIMENSIONAL DRIFT":  "assets/vct/abilities/Yoru_Ultimate_DIMENSIONAL DRIFT.png",
+                                                  "BLINDSIDE":  "assets/vct/abilities/Yoru_Ability1_BLINDSIDE.png",
+                                                  "FAKEOUT":  "assets/vct/abilities/Yoru_Grenade_FAKEOUT.png",
+                                                  "GATECRASH":  "assets/vct/abilities/Yoru_Ability2_GATECRASH.png"
+                                              },
+                                "role":  "Duelist"
+                            },
+                   "Reyna":  {
+                                 "displayIcon":  "assets/vct/agents/Reyna.png",
+                                 "abilities":  {
+                                                   "Leer":  "assets/vct/abilities/Reyna_Grenade_Leer.png",
+                                                   "Dismiss":  "assets/vct/abilities/Reyna_Ability2_Dismiss.png",
+                                                   "Empress":  "assets/vct/abilities/Reyna_Ultimate_Empress.png",
+                                                   "Devour":  "assets/vct/abilities/Reyna_Ability1_Devour.png"
+                                               },
+                                 "role":  "Duelist"
+                             }
+               },
+    "weapons":  {
+                    "Odin":  {
+                                 "killStream":  "assets/vct/weapons/Odin_killstream.png",
+                                 "display":  "assets/vct/weapons/Odin.png"
+                             },
+                    "Operator":  {
+                                     "killStream":  "assets/vct/weapons/Operator_killstream.png",
+                                     "display":  "assets/vct/weapons/Operator.png"
+                                 },
+                    "Guardian":  {
+                                     "killStream":  "assets/vct/weapons/Guardian_killstream.png",
+                                     "display":  "assets/vct/weapons/Guardian.png"
+                                 },
+                    "Ghost":  {
+                                  "killStream":  "assets/vct/weapons/Ghost_killstream.png",
+                                  "display":  "assets/vct/weapons/Ghost.png"
+                              },
+                    "Bandit":  {
+                                   "killStream":  "assets/vct/weapons/Bandit_killstream.png",
+                                   "display":  "assets/vct/weapons/Bandit.png"
+                               },
+                    "Ares":  {
+                                 "killStream":  "assets/vct/weapons/Ares_killstream.png",
+                                 "display":  "assets/vct/weapons/Ares.png"
+                             },
+                    "Vandal":  {
+                                   "killStream":  "assets/vct/weapons/Vandal_killstream.png",
+                                   "display":  "assets/vct/weapons/Vandal.png"
+                               },
+                    "Frenzy":  {
+                                   "killStream":  "assets/vct/weapons/Frenzy_killstream.png",
+                                   "display":  "assets/vct/weapons/Frenzy.png"
+                               },
+                    "Bucky":  {
+                                  "killStream":  "assets/vct/weapons/Bucky_killstream.png",
+                                  "display":  "assets/vct/weapons/Bucky.png"
+                              },
+                    "Shorty":  {
+                                   "killStream":  "assets/vct/weapons/Shorty_killstream.png",
+                                   "display":  "assets/vct/weapons/Shorty.png"
+                               },
+                    "Bulldog":  {
+                                    "killStream":  "assets/vct/weapons/Bulldog_killstream.png",
+                                    "display":  "assets/vct/weapons/Bulldog.png"
+                                },
+                    "Outlaw":  {
+                                   "killStream":  "assets/vct/weapons/Outlaw_killstream.png",
+                                   "display":  "assets/vct/weapons/Outlaw.png"
+                               },
+                    "Melee":  {
+                                  "killStream":  "assets/vct/weapons/Melee_killstream.png",
+                                  "display":  "assets/vct/weapons/Melee.png"
+                              },
+                    "Phantom":  {
+                                    "killStream":  "assets/vct/weapons/Phantom_killstream.png",
+                                    "display":  "assets/vct/weapons/Phantom.png"
+                                },
+                    "Judge":  {
+                                  "killStream":  "assets/vct/weapons/Judge_killstream.png",
+                                  "display":  "assets/vct/weapons/Judge.png"
+                              },
+                    "Classic":  {
+                                    "killStream":  "assets/vct/weapons/Classic_killstream.png",
+                                    "display":  "assets/vct/weapons/Classic.png"
+                                },
+                    "Sheriff":  {
+                                    "killStream":  "assets/vct/weapons/Sheriff_killstream.png",
+                                    "display":  "assets/vct/weapons/Sheriff.png"
+                                },
+                    "Spectre":  {
+                                    "killStream":  "assets/vct/weapons/Spectre_killstream.png",
+                                    "display":  "assets/vct/weapons/Spectre.png"
+                                },
+                    "Marshal":  {
+                                    "killStream":  "assets/vct/weapons/Marshal_killstream.png",
+                                    "display":  "assets/vct/weapons/Marshal.png"
+                                },
+                    "Stinger":  {
+                                    "killStream":  "assets/vct/weapons/Stinger_killstream.png",
+                                    "display":  "assets/vct/weapons/Stinger.png"
+                                },
+                    "Warden":  {
+                                   "killStream":  "assets/vct/weapons/Warden_killstream.png",
+                                   "display":  "assets/vct/weapons/Warden.png"
+                               }
+                },
+    "abilities":  {
+                      "Gekko:Dizzy":  "assets/vct/abilities/Gekko_Ability2_Dizzy.png",
+                      "FAKEOUT":  "assets/vct/abilities/Yoru_Grenade_FAKEOUT.png",
+                      "Toxic Screen":  "assets/vct/abilities/Viper_Ability2_Toxic Screen.png",
+                      "GravNet":  "assets/vct/abilities/Deadlock_Ability2_GravNet.png",
+                      "Killjoy:TURRET":  "assets/vct/abilities/Killjoy_Ability2_TURRET.png",
+                      "Killjoy:Lockdown":  "assets/vct/abilities/Killjoy_Ultimate_Lockdown.png",
+                      "Brimstone:Orbital Strike":  "assets/vct/abilities/Brimstone_Ultimate_Orbital Strike.png",
+                      "Tejo:Armageddon":  "assets/vct/abilities/Tejo_Ultimate_Armageddon.png",
+                      "From the Shadows":  "assets/vct/abilities/Omen_Ultimate_From the Shadows.png",
+                      "Slow Orb":  "assets/vct/abilities/Sage_Ability1_Slow Orb.png",
+                      "Waylay:Convergent Paths":  "assets/vct/abilities/Waylay_Ultimate_Convergent Paths.png",
+                      "Dismiss":  "assets/vct/abilities/Reyna_Ability2_Dismiss.png",
+                      "High Gear":  "assets/vct/abilities/Neon_Ability2_High Gear.png",
+                      "Owl Drone":  "assets/vct/abilities/Sova_Grenade_Owl Drone.png",
+                      "Tejo:Guided Salvo":  "assets/vct/abilities/Tejo_Ability2_Guided Salvo.png",
+                      "Blast Pack":  "assets/vct/abilities/Raze_Ability1_Blast Pack.png",
+                      "Astra:Astral Form - Cosmic Divide":  "assets/vct/abilities/Astra_Ultimate_Astral Form - Cosmic Divide.png",
+                      "Brimstone:Sky Smoke":  "assets/vct/abilities/Brimstone_Ability2_Sky Smoke.png",
+                      "Nanoswarm":  "assets/vct/abilities/Killjoy_Grenade_Nanoswarm.png",
+                      "Astra:Nova Pulse":  "assets/vct/abilities/Astra_Ability1_Nova Pulse.png",
+                      "Raze:Paint Shells":  "assets/vct/abilities/Raze_Ability2_Paint Shells.png",
+                      "Wingman":  "assets/vct/abilities/Gekko_Ability1_Wingman.png",
+                      "Paranoia":  "assets/vct/abilities/Omen_Ability1_Paranoia.png",
+                      "Stealth Drone":  "assets/vct/abilities/Tejo_Grenade_Stealth Drone.png",
+                      "Fault Line":  "assets/vct/abilities/Breach_Ability2_Fault Line.png",
+                      "Regrowth":  "assets/vct/abilities/Skye_Grenade_Regrowth.png",
+                      "Breach:Aftershock":  "assets/vct/abilities/Breach_Grenade_Aftershock.png",
+                      "KAY-O:FLASH-drive":  "assets/vct/abilities/KAY-O_Ability1_FLASH-drive.png",
+                      "Waylay:Saturate":  "assets/vct/abilities/Waylay_Grenade_Saturate.png",
+                      "Yoru:DIMENSIONAL DRIFT":  "assets/vct/abilities/Yoru_Ultimate_DIMENSIONAL DRIFT.png",
+                      "Sonic Sensor":  "assets/vct/abilities/Deadlock_Ability1_Sonic Sensor.png",
+                      "Crosscut":  "assets/vct/abilities/Veto_Grenade_Crosscut.png",
+                      "Chamber:Headhunter":  "assets/vct/abilities/Chamber_Ability1_Headhunter.png",
+                      "Fade:Seize":  "assets/vct/abilities/Fade_Ability1_Seize.png",
+                      "Veto:Crosscut":  "assets/vct/abilities/Veto_Grenade_Crosscut.png",
+                      "KAY-O:ZERO-point":  "assets/vct/abilities/KAY-O_Ability2_ZERO-point.png",
+                      "Rolling Thunder":  "assets/vct/abilities/Breach_Ultimate_Rolling Thunder.png",
+                      "Miks:Bassquake":  "assets/vct/abilities/Miks_Ultimate_Bassquake.png",
+                      "Tejo:Special Delivery":  "assets/vct/abilities/Tejo_Ability1_Special Delivery.png",
+                      "Yoru:BLINDSIDE":  "assets/vct/abilities/Yoru_Ability1_BLINDSIDE.png",
+                      "Not Dead Yet":  "assets/vct/abilities/Clove_Ultimate_Not Dead Yet.png",
+                      "Mosh Pit":  "assets/vct/abilities/Gekko_Grenade_Mosh Pit.png",
+                      "Harbor:Storm Surge":  "assets/vct/abilities/Harbor_Grenade_Storm Surge.png",
+                      "Thrash":  "assets/vct/abilities/Gekko_Ultimate_Thrash.png",
+                      "Reyna:Dismiss":  "assets/vct/abilities/Reyna_Ability2_Dismiss.png",
+                      "Sova:Hunter\u0027s Fury":  "assets/vct/abilities/Sova_Ultimate_Hunter\u0027s Fury.png",
+                      "Sova:Shock Bolt":  "assets/vct/abilities/Sova_Ability1_Shock Bolt.png",
+                      "Sage:Slow Orb":  "assets/vct/abilities/Sage_Ability1_Slow Orb.png",
+                      "Deadlock:Annihilation":  "assets/vct/abilities/Deadlock_Ultimate_Annihilation.png",
+                      "Tour De Force":  "assets/vct/abilities/Chamber_Ultimate_Tour De Force.png",
+                      "Sky Smoke":  "assets/vct/abilities/Brimstone_Ability2_Sky Smoke.png",
+                      "Nightfall":  "assets/vct/abilities/Fade_Ultimate_Nightfall.png",
+                      "Sage:Healing Orb":  "assets/vct/abilities/Sage_Ability2_Healing Orb.png",
+                      "Viper:Snake Bite":  "assets/vct/abilities/Viper_Grenade_Snake Bite.png",
+                      "Chamber:Rendezvous":  "assets/vct/abilities/Chamber_Ability2_Rendezvous.png",
+                      "Astra:Nebula  - Dissipate":  "assets/vct/abilities/Astra_Ability2_Nebula  - Dissipate.png",
+                      "Sova:Recon Bolt":  "assets/vct/abilities/Sova_Ability2_Recon Bolt.png",
+                      "Iso:Contingency":  "assets/vct/abilities/Iso_Grenade_Contingency.png",
+                      "Astral Form - Cosmic Divide":  "assets/vct/abilities/Astra_Ultimate_Astral Form - Cosmic Divide.png",
+                      "Skye:Trailblazer":  "assets/vct/abilities/Skye_Ability1_Trailblazer.png",
+                      "Clove:Pick-me-up":  "assets/vct/abilities/Clove_Grenade_Pick-me-up.png",
+                      "Skye:Regrowth":  "assets/vct/abilities/Skye_Grenade_Regrowth.png",
+                      "Clove:Meddle":  "assets/vct/abilities/Clove_Ability1_Meddle.png",
+                      "Miks:M-pulse":  "assets/vct/abilities/Miks_Grenade_M-pulse.png",
+                      "FLASH-drive":  "assets/vct/abilities/KAY-O_Ability1_FLASH-drive.png",
+                      "Raze:Showstopper":  "assets/vct/abilities/Raze_Ultimate_Showstopper.png",
+                      "Waylay:Refract":  "assets/vct/abilities/Waylay_Ability2_Refract.png",
+                      "Gekko:Thrash":  "assets/vct/abilities/Gekko_Ultimate_Thrash.png",
+                      "Deadlock:Sonic Sensor":  "assets/vct/abilities/Deadlock_Ability1_Sonic Sensor.png",
+                      "Yoru:GATECRASH":  "assets/vct/abilities/Yoru_Ability2_GATECRASH.png",
+                      "Phoenix:Run it Back":  "assets/vct/abilities/Phoenix_Ultimate_Run it Back.png",
+                      "Jett:Cloudburst":  "assets/vct/abilities/Jett_Grenade_Cloudburst.png",
+                      "Lockdown":  "assets/vct/abilities/Killjoy_Ultimate_Lockdown.png",
+                      "Showstopper":  "assets/vct/abilities/Raze_Ultimate_Showstopper.png",
+                      "Jett:Updraft":  "assets/vct/abilities/Jett_Ability1_Updraft.png",
+                      "Cypher:Trapwire":  "assets/vct/abilities/Cypher_Grenade_Trapwire.png",
+                      "Refract":  "assets/vct/abilities/Waylay_Ability2_Refract.png",
+                      "Viper:Toxic Screen":  "assets/vct/abilities/Viper_Ability2_Toxic Screen.png",
+                      "Special Delivery":  "assets/vct/abilities/Tejo_Ability1_Special Delivery.png",
+                      "Evolution":  "assets/vct/abilities/Veto_Ultimate_Evolution.png",
+                      "Hunter\u0027s Fury":  "assets/vct/abilities/Sova_Ultimate_Hunter\u0027s Fury.png",
+                      "Viper:Viper\u0027s Pit":  "assets/vct/abilities/Viper_Ultimate_Viper\u0027s Pit.png",
+                      "Sage:Barrier Orb":  "assets/vct/abilities/Sage_Grenade_Barrier Orb.png",
+                      "Tailwind":  "assets/vct/abilities/Jett_Ability2_Tailwind.png",
+                      "TURRET":  "assets/vct/abilities/Killjoy_Ability2_TURRET.png",
+                      "Saturate":  "assets/vct/abilities/Waylay_Grenade_Saturate.png",
+                      "Prowler":  "assets/vct/abilities/Fade_Grenade_Prowler.png",
+                      "ZERO-point":  "assets/vct/abilities/KAY-O_Ability2_ZERO-point.png",
+                      "Veto:Interceptor":  "assets/vct/abilities/Veto_Ability2_Interceptor.png",
+                      "Nebula  - Dissipate":  "assets/vct/abilities/Astra_Ability2_Nebula  - Dissipate.png",
+                      "Omen:Dark Cover":  "assets/vct/abilities/Omen_Ability2_Dark Cover.png",
+                      "Gekko:Wingman":  "assets/vct/abilities/Gekko_Ability1_Wingman.png",
+                      "Incendiary":  "assets/vct/abilities/Brimstone_Ability1_Incendiary.png",
+                      "Seize":  "assets/vct/abilities/Fade_Ability1_Seize.png",
+                      "Killjoy:Nanoswarm":  "assets/vct/abilities/Killjoy_Grenade_Nanoswarm.png",
+                      "Phoenix:Blaze":  "assets/vct/abilities/Phoenix_Grenade_Blaze.png",
+                      "Iso:Kill Contract":  "assets/vct/abilities/Iso_Ultimate_Kill Contract.png",
+                      "Viper\u0027s Pit":  "assets/vct/abilities/Viper_Ultimate_Viper\u0027s Pit.png",
+                      "Cypher:Spycam":  "assets/vct/abilities/Cypher_Ability2_Spycam.png",
+                      "Shock Bolt":  "assets/vct/abilities/Sova_Ability1_Shock Bolt.png",
+                      "Drift":  "assets/vct/abilities/Jett_Passive_Drift.png",
+                      "Iso:Double Tap":  "assets/vct/abilities/Iso_Ability2_Double Tap.png",
+                      "Harbor:Reckoning":  "assets/vct/abilities/Harbor_Ultimate_Reckoning.png",
+                      "Cove":  "assets/vct/abilities/Harbor_Ability2_Cove.png",
+                      "Paint Shells":  "assets/vct/abilities/Raze_Ability2_Paint Shells.png",
+                      "Raze:Boom Bot":  "assets/vct/abilities/Raze_Grenade_Boom Bot.png",
+                      "Chamber:Trademark":  "assets/vct/abilities/Chamber_Grenade_Trademark.png",
+                      "Neon:Overdrive":  "assets/vct/abilities/Neon_Ultimate_Overdrive.png",
+                      "Sage:Resurrection":  "assets/vct/abilities/Sage_Ultimate_Resurrection.png",
+                      "Orbital Strike":  "assets/vct/abilities/Brimstone_Ultimate_Orbital Strike.png",
+                      "KAY-O:NULL-cmd":  "assets/vct/abilities/KAY-O_Ultimate_NULL-cmd.png",
+                      "Reyna:Devour":  "assets/vct/abilities/Reyna_Ability1_Devour.png",
+                      "Cypher:Neural Theft":  "assets/vct/abilities/Cypher_Ultimate_Neural Theft.png",
+                      "Harbor:High Tide":  "assets/vct/abilities/Harbor_Ability1_High Tide.png",
+                      "Aftershock":  "assets/vct/abilities/Breach_Grenade_Aftershock.png",
+                      "Raze:Blast Pack":  "assets/vct/abilities/Raze_Ability1_Blast Pack.png",
+                      "Dizzy":  "assets/vct/abilities/Gekko_Ability2_Dizzy.png",
+                      "Omen:Paranoia":  "assets/vct/abilities/Omen_Ability1_Paranoia.png",
+                      "Rendezvous":  "assets/vct/abilities/Chamber_Ability2_Rendezvous.png",
+                      "Breach:Fault Line":  "assets/vct/abilities/Breach_Ability2_Fault Line.png",
+                      "Breach:Rolling Thunder":  "assets/vct/abilities/Breach_Ultimate_Rolling Thunder.png",
+                      "Clove:Not Dead Yet":  "assets/vct/abilities/Clove_Ultimate_Not Dead Yet.png",
+                      "Barrier Orb":  "assets/vct/abilities/Sage_Grenade_Barrier Orb.png",
+                      "Reckoning":  "assets/vct/abilities/Harbor_Ultimate_Reckoning.png",
+                      "Tejo:Stealth Drone":  "assets/vct/abilities/Tejo_Grenade_Stealth Drone.png",
+                      "Skye:Seekers":  "assets/vct/abilities/Skye_Ultimate_Seekers.png",
+                      "Iso:Undercut":  "assets/vct/abilities/Iso_Ability1_Undercut.png",
+                      "M-pulse":  "assets/vct/abilities/Miks_Grenade_M-pulse.png",
+                      "Jett:Tailwind":  "assets/vct/abilities/Jett_Ability2_Tailwind.png",
+                      "Blade Storm":  "assets/vct/abilities/Jett_Ultimate_Blade Storm.png",
+                      "NULL-cmd":  "assets/vct/abilities/KAY-O_Ultimate_NULL-cmd.png",
+                      "Killjoy:ALARMBOT":  "assets/vct/abilities/Killjoy_Ability1_ALARMBOT.png",
+                      "Neural Theft":  "assets/vct/abilities/Cypher_Ultimate_Neural Theft.png",
+                      "Kill Contract":  "assets/vct/abilities/Iso_Ultimate_Kill Contract.png",
+                      "Arc Rose":  "assets/vct/abilities/Vyse_Ability2_Arc Rose.png",
+                      "Updraft":  "assets/vct/abilities/Jett_Ability1_Updraft.png",
+                      "Undercut":  "assets/vct/abilities/Iso_Ability1_Undercut.png",
+                      "Harbor:Cove":  "assets/vct/abilities/Harbor_Ability2_Cove.png",
+                      "Annihilation":  "assets/vct/abilities/Deadlock_Ultimate_Annihilation.png",
+                      "Brimstone:Incendiary":  "assets/vct/abilities/Brimstone_Ability1_Incendiary.png",
+                      "Fast Lane":  "assets/vct/abilities/Neon_Grenade_Fast Lane.png",
+                      "Boom Bot":  "assets/vct/abilities/Raze_Grenade_Boom Bot.png",
+                      "Ruse":  "assets/vct/abilities/Clove_Ability2_Ruse.png",
+                      "Clove:Ruse":  "assets/vct/abilities/Clove_Ability2_Ruse.png",
+                      "Viper:Poison Cloud":  "assets/vct/abilities/Viper_Ability1_Poison Cloud.png",
+                      "Pick-me-up":  "assets/vct/abilities/Clove_Grenade_Pick-me-up.png",
+                      "Cypher:Cyber Cage":  "assets/vct/abilities/Cypher_Ability1_Cyber Cage.png",
+                      "Jett:Drift":  "assets/vct/abilities/Jett_Passive_Drift.png",
+                      "Vyse:Steel Garden":  "assets/vct/abilities/Vyse_Ultimate_Steel Garden.png",
+                      "Curveball":  "assets/vct/abilities/Phoenix_Ability2_Curveball.png",
+                      "Cyber Cage":  "assets/vct/abilities/Cypher_Ability1_Cyber Cage.png",
+                      "Poison Cloud":  "assets/vct/abilities/Viper_Ability1_Poison Cloud.png",
+                      "Overdrive":  "assets/vct/abilities/Neon_Ultimate_Overdrive.png",
+                      "FRAG-ment":  "assets/vct/abilities/KAY-O_Grenade_FRAG-ment.png",
+                      "Empress":  "assets/vct/abilities/Reyna_Ultimate_Empress.png",
+                      "Omen:From the Shadows":  "assets/vct/abilities/Omen_Ultimate_From the Shadows.png",
+                      "Waveform":  "assets/vct/abilities/Miks_Ability2_Waveform.png",
+                      "Deadlock:GravNet":  "assets/vct/abilities/Deadlock_Ability2_GravNet.png",
+                      "Trademark":  "assets/vct/abilities/Chamber_Grenade_Trademark.png",
+                      "Chamber:Tour De Force":  "assets/vct/abilities/Chamber_Ultimate_Tour De Force.png",
+                      "Convergent Paths":  "assets/vct/abilities/Waylay_Ultimate_Convergent Paths.png",
+                      "DIMENSIONAL DRIFT":  "assets/vct/abilities/Yoru_Ultimate_DIMENSIONAL DRIFT.png",
+                      "Vyse:Razorvine":  "assets/vct/abilities/Vyse_Grenade_Razorvine.png",
+                      "Trailblazer":  "assets/vct/abilities/Skye_Ability1_Trailblazer.png",
+                      "Veto:Evolution":  "assets/vct/abilities/Veto_Ultimate_Evolution.png",
+                      "Contingency":  "assets/vct/abilities/Iso_Grenade_Contingency.png",
+                      "GATECRASH":  "assets/vct/abilities/Yoru_Ability2_GATECRASH.png",
+                      "Yoru:FAKEOUT":  "assets/vct/abilities/Yoru_Grenade_FAKEOUT.png",
+                      "Armageddon":  "assets/vct/abilities/Tejo_Ultimate_Armageddon.png",
+                      "Spycam":  "assets/vct/abilities/Cypher_Ability2_Spycam.png",
+                      "Chokehold":  "assets/vct/abilities/Veto_Ability1_Chokehold.png",
+                      "Interceptor":  "assets/vct/abilities/Veto_Ability2_Interceptor.png",
+                      "Run it Back":  "assets/vct/abilities/Phoenix_Ultimate_Run it Back.png",
+                      "Fade:Prowler":  "assets/vct/abilities/Fade_Grenade_Prowler.png",
+                      "Blaze":  "assets/vct/abilities/Phoenix_Grenade_Blaze.png",
+                      "Resurrection":  "assets/vct/abilities/Sage_Ultimate_Resurrection.png",
+                      "Cloudburst":  "assets/vct/abilities/Jett_Grenade_Cloudburst.png",
+                      "Waylay:Lightspeed":  "assets/vct/abilities/Waylay_Ability1_Lightspeed.png",
+                      "Trapwire":  "assets/vct/abilities/Cypher_Grenade_Trapwire.png",
+                      "Veto:Chokehold":  "assets/vct/abilities/Veto_Ability1_Chokehold.png",
+                      "Phoenix:Hot Hands":  "assets/vct/abilities/Phoenix_Ability1_Hot Hands.png",
+                      "Double Tap":  "assets/vct/abilities/Iso_Ability2_Double Tap.png",
+                      "Neon:Relay Bolt":  "assets/vct/abilities/Neon_Ability1_Relay Bolt.png",
+                      "Miks:Harmonize":  "assets/vct/abilities/Miks_Ability1_Harmonize.png",
+                      "High Tide":  "assets/vct/abilities/Harbor_Ability1_High Tide.png",
+                      "Dark Cover":  "assets/vct/abilities/Omen_Ability2_Dark Cover.png",
+                      "Storm Surge":  "assets/vct/abilities/Harbor_Grenade_Storm Surge.png",
+                      "Astra:Gravity Well":  "assets/vct/abilities/Astra_Grenade_Gravity Well.png",
+                      "Flashpoint":  "assets/vct/abilities/Breach_Ability1_Flashpoint.png",
+                      "Seekers":  "assets/vct/abilities/Skye_Ultimate_Seekers.png",
+                      "Shrouded Step":  "assets/vct/abilities/Omen_Grenade_Shrouded Step.png",
+                      "Astra:Astral Form":  "assets/vct/abilities/Astra_Passive_Astral Form.png",
+                      "Reyna:Leer":  "assets/vct/abilities/Reyna_Grenade_Leer.png",
+                      "Deadlock:Barrier Mesh":  "assets/vct/abilities/Deadlock_Grenade_Barrier Mesh.png",
+                      "Razorvine":  "assets/vct/abilities/Vyse_Grenade_Razorvine.png",
+                      "Stim Beacon":  "assets/vct/abilities/Brimstone_Grenade_Stim Beacon.png",
+                      "Haunt":  "assets/vct/abilities/Fade_Ability2_Haunt.png",
+                      "Neon:High Gear":  "assets/vct/abilities/Neon_Ability2_High Gear.png",
+                      "Devour":  "assets/vct/abilities/Reyna_Ability1_Devour.png",
+                      "Barrier Mesh":  "assets/vct/abilities/Deadlock_Grenade_Barrier Mesh.png",
+                      "Vyse:Arc Rose":  "assets/vct/abilities/Vyse_Ability2_Arc Rose.png",
+                      "Nova Pulse":  "assets/vct/abilities/Astra_Ability1_Nova Pulse.png",
+                      "Breach:Flashpoint":  "assets/vct/abilities/Breach_Ability1_Flashpoint.png",
+                      "ALARMBOT":  "assets/vct/abilities/Killjoy_Ability1_ALARMBOT.png",
+                      "Shear":  "assets/vct/abilities/Vyse_Ability1_Shear.png",
+                      "Leer":  "assets/vct/abilities/Reyna_Grenade_Leer.png",
+                      "BLINDSIDE":  "assets/vct/abilities/Yoru_Ability1_BLINDSIDE.png",
+                      "Gravity Well":  "assets/vct/abilities/Astra_Grenade_Gravity Well.png",
+                      "Relay Bolt":  "assets/vct/abilities/Neon_Ability1_Relay Bolt.png",
+                      "Fade:Haunt":  "assets/vct/abilities/Fade_Ability2_Haunt.png",
+                      "Steel Garden":  "assets/vct/abilities/Vyse_Ultimate_Steel Garden.png",
+                      "Snake Bite":  "assets/vct/abilities/Viper_Grenade_Snake Bite.png",
+                      "Guiding Light":  "assets/vct/abilities/Skye_Ability2_Guiding Light.png",
+                      "Recon Bolt":  "assets/vct/abilities/Sova_Ability2_Recon Bolt.png",
+                      "Jett:Blade Storm":  "assets/vct/abilities/Jett_Ultimate_Blade Storm.png",
+                      "Healing Orb":  "assets/vct/abilities/Sage_Ability2_Healing Orb.png",
+                      "Omen:Shrouded Step":  "assets/vct/abilities/Omen_Grenade_Shrouded Step.png",
+                      "KAY-O:FRAG-ment":  "assets/vct/abilities/KAY-O_Grenade_FRAG-ment.png",
+                      "Bassquake":  "assets/vct/abilities/Miks_Ultimate_Bassquake.png",
+                      "Headhunter":  "assets/vct/abilities/Chamber_Ability1_Headhunter.png",
+                      "Gekko:Mosh Pit":  "assets/vct/abilities/Gekko_Grenade_Mosh Pit.png",
+                      "Neon:Fast Lane":  "assets/vct/abilities/Neon_Grenade_Fast Lane.png",
+                      "Vyse:Shear":  "assets/vct/abilities/Vyse_Ability1_Shear.png",
+                      "Astral Form":  "assets/vct/abilities/Astra_Passive_Astral Form.png",
+                      "Brimstone:Stim Beacon":  "assets/vct/abilities/Brimstone_Grenade_Stim Beacon.png",
+                      "Lightspeed":  "assets/vct/abilities/Waylay_Ability1_Lightspeed.png",
+                      "Guided Salvo":  "assets/vct/abilities/Tejo_Ability2_Guided Salvo.png",
+                      "Fade:Nightfall":  "assets/vct/abilities/Fade_Ultimate_Nightfall.png",
+                      "Reyna:Empress":  "assets/vct/abilities/Reyna_Ultimate_Empress.png",
+                      "Sova:Owl Drone":  "assets/vct/abilities/Sova_Grenade_Owl Drone.png",
+                      "Skye:Guiding Light":  "assets/vct/abilities/Skye_Ability2_Guiding Light.png",
+                      "Miks:Waveform":  "assets/vct/abilities/Miks_Ability2_Waveform.png",
+                      "Meddle":  "assets/vct/abilities/Clove_Ability1_Meddle.png",
+                      "Harmonize":  "assets/vct/abilities/Miks_Ability1_Harmonize.png",
+                      "Phoenix:Curveball":  "assets/vct/abilities/Phoenix_Ability2_Curveball.png",
+                      "Hot Hands":  "assets/vct/abilities/Phoenix_Ability1_Hot Hands.png"
+                  }
+}
