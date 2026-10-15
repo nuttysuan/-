@@ -153,10 +153,10 @@
   <main class="flex-1 overflow-hidden relative">
 
     <!-- ==================== 0. TAB: LANDING / GAME DETAILS & RULES (INITIAL VIEW) ==================== -->
-    <div id="view-landing" class="tab-view h-full overflow-y-auto p-3 md:p-6 space-y-6 max-w-7xl mx-auto">
+    <div id="view-landing" class="tab-view h-full overflow-y-auto p-3 md:p-6 space-y-6 flex flex-col w-full max-w-7xl mx-auto">
       
       <!-- HERO HEADER -->
-      <div class="shrink-0 min-h-fit bg-gradient-to-r from-[#0c162b] via-[#081226] to-[#0a1836] border-2 border-cyan-500/50 rounded-2xl p-5 md:p-8 shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="w-full shrink-0 min-h-fit bg-gradient-to-r from-[#0c162b] via-[#081226] to-[#0a1836] border-2 border-cyan-500/50 rounded-2xl p-5 md:p-8 shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
         <div class="relative z-10 flex-1">
           <div class="flex items-center gap-2 flex-wrap mb-2">
             <span class="text-xs font-mono bg-cyan-950 text-cyan-400 border border-cyan-500/50 px-2.5 py-1 rounded font-bold uppercase tracking-wider">OFFICIAL VALORANT ESPORTS SIMULATOR</span>
@@ -171,12 +171,15 @@
           </p>
         </div>
 
-        <div class="flex flex-col sm:flex-row md:flex-col items-center gap-3 shrink-0 relative z-10 w-full sm:w-auto">
-          <button onclick="openFriendlySetupModal()" class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-black text-sm shadow-xl shadow-cyan-500/30 transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2 cursor-pointer shrink-0">
+        <div class="flex flex-col sm:flex-row md:flex-col items-stretch gap-2.5 shrink-0 relative z-10 w-full sm:w-auto min-w-[220px]">
+          <button onclick="openFriendlySetupModal()" class="w-full px-5 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-black text-xs md:text-sm shadow-xl shadow-cyan-500/30 transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2 cursor-pointer shrink-0">
             <span>⚔️</span><span>เริ่มเล่น FRIENDLY MATCH ด่วน</span>
           </button>
-          <button onclick="startFreshCareerFullSense()" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs shadow-lg shadow-emerald-500/25 transition flex items-center justify-center gap-2 cursor-pointer shrink-0">
-            <span>🏆</span><span>เริ่มคุมทีม FULL SENSE (ซีซัน 1)</span>
+          <button onclick="document.getElementById('section-game-modes')?.scrollIntoView({ behavior: 'smooth' })" class="w-full px-5 py-2.5 rounded-xl bg-[#0c1933] hover:bg-[#16274a] text-cyan-300 hover:text-white font-bold text-xs border border-cyan-500/40 transition flex items-center justify-center gap-2 cursor-pointer shrink-0">
+            <span>🎮</span><span>เลือกโหมดการเล่น (MODES)</span>
+          </button>
+          <button onclick="document.getElementById('section-rules-guide')?.scrollIntoView({ behavior: 'smooth' })" class="w-full px-5 py-2 rounded-xl bg-[#081020] hover:bg-[#101e38] text-slate-300 hover:text-white font-semibold text-xs border border-slate-700/60 transition flex items-center justify-center gap-2 cursor-pointer shrink-0">
+            <span>📖</span><span>กฎ กติกา & วิธีเล่น (GUIDE)</span>
           </button>
         </div>
 
@@ -184,7 +187,7 @@
       </div>
 
       <!-- RESUME SAVE NOTIFICATION STRIP (SHOWN IF SAVE DETECTED) -->
-      <div id="landing-save-strip" class="hidden bg-gradient-to-r from-emerald-950/80 via-[#0a1526] to-cyan-950/80 border-2 border-emerald-500/70 rounded-xl p-3.5 flex items-center justify-between gap-4 shadow-xl">
+      <div id="landing-save-strip" class="w-full hidden bg-gradient-to-r from-emerald-950/80 via-[#0a1526] to-cyan-950/80 border-2 border-emerald-500/70 rounded-xl p-3.5 flex items-center justify-between gap-4 shadow-xl">
         <div class="flex items-center gap-3">
           <span class="text-2xl animate-pulse">💾</span>
           <div>
@@ -198,7 +201,7 @@
       </div>
 
       <!-- SECTION: CHOOSE GAME MODE (4 CARDS) -->
-      <div class="shrink-0 min-h-fit">
+      <div id="section-game-modes" class="w-full shrink-0 min-h-fit">
         <div class="flex items-center gap-2 mb-3">
           <span class="text-xl">🎮</span>
           <h2 class="text-lg md:text-xl font-black text-white tracking-wide">เลือกโหมดการเล่น (SELECT GAME MODE)</h2>
@@ -344,7 +347,7 @@
       </div>
 
       <!-- SECTION: RULES & COMPETITION REGULATIONS -->
-      <div class="bg-[#070c18] border border-[#17253f] rounded-2xl p-5 shadow-xl flex flex-col gap-4">
+      <div id="section-rules-guide" class="w-full bg-[#070c18] border border-[#17253f] rounded-2xl p-5 shadow-xl flex flex-col gap-4">
         <div class="flex items-center gap-2 border-b border-[#142138] pb-3">
           <span class="text-xl">📜</span>
           <h2 class="text-base md:text-lg font-black text-white tracking-wide">กฏ กติกา & ระบบการแข่งขันอย่างเป็นทางการ (OFFICIAL REGULATIONS)</h2>
@@ -921,6 +924,9 @@
                   <span>🎯</span> วางแผนแท็กติก & เศรษฐกิจ (ROUND <span id="deck-round-num">1</span>)
                 </span>
                 <span class="text-[10px] text-slate-400 font-mono" id="current-side-label">ฝ่ายบุก (ATTACKERS)</span>
+                <button onclick="openAgentSwapModal()" id="btn-agent-swap" class="text-[10px] font-mono bg-[#0b1527] hover:bg-emerald-950 text-cyan-300 hover:text-emerald-300 border border-cyan-500/40 px-2 py-0.5 rounded transition flex items-center gap-1 cursor-pointer" title="ปรับแต่ง Agent ประจำตัวของ 5 ผู้เล่นในทีมเรา">
+                  <span>👥</span><span>เลือก AGENTS</span>
+                </button>
               </div>
               <div class="flex items-center gap-3 text-[10px] font-mono">
                 <span class="text-slate-400">เงินทีมคงเหลือ: <b class="text-emerald-400" id="team-creds-display">$4,000</b></span>
@@ -993,24 +999,11 @@
                 <span>🔴 กำลังปะทะ (LIVE COMBAT)</span>
               </button>
               
-              <!-- Anti-Cheat Protected Controls -->
-              <div class="relative group">
-                <button disabled class="bg-[#0d1424] text-slate-600 px-2.5 py-1 rounded border border-[#172540] cursor-not-allowed text-xs flex items-center gap-1 font-mono">
-                  <span>🔒 PAUSE</span>
-                </button>
-                <div class="absolute bottom-full left-0 mb-1 hidden group-hover:block w-48 p-1.5 bg-[#0c1424] text-slate-300 text-[10px] rounded border border-[#1e3256] shadow-xl z-30">
-                  🛡️ ป้องกันการโกง: ห้าม Pause ระหว่างเริ่มแข่ง
-                </div>
-              </div>
-
-              <div class="relative group">
-                <button disabled class="bg-[#0d1424] text-slate-600 px-2.5 py-1 rounded border border-[#172540] cursor-not-allowed text-xs flex items-center gap-1 font-mono">
-                  <span>🔒 RESTART</span>
-                </button>
-                <div class="absolute bottom-full left-0 mb-1 hidden group-hover:block w-48 p-1.5 bg-[#0c1424] text-slate-300 text-[10px] rounded border border-[#1e3256] shadow-xl z-30">
-                  🛡️ กฎ VCT: ห้ามรีสตาร์ตรอบระหว่างเริ่มเกม
-                </div>
-              </div>
+              <!-- Live Pause/Resume Control -->
+              <button onclick="togglePause()" id="btn-pause-match" class="bg-[#0f1b30] hover:bg-[#182847] text-amber-300 px-2.5 py-1 rounded border border-amber-600/50 text-xs font-bold transition flex items-center gap-1 cursor-pointer">
+                <span id="btn-pause-icon">⏸️</span>
+                <span id="btn-pause-text">PAUSE</span>
+              </button>
             </div>
 
             <!-- Middle Status -->
@@ -1025,9 +1018,9 @@
               </button>
 
               <div class="flex items-center bg-[#050914] p-0.5 rounded border border-[#172540]">
-                <button onclick="setSpeed(1)" id="spd-1" class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500 text-slate-950 transition font-mono">1x</button>
-                <button onclick="setSpeed(2)" id="spd-2" class="px-2 py-0.5 rounded text-[10px] font-bold text-slate-400 hover:text-white transition font-mono">2x</button>
-                <button onclick="setSpeed(4)" id="spd-4" class="px-2 py-0.5 rounded text-[10px] font-bold text-slate-400 hover:text-white transition font-mono">4x</button>
+                <button onclick="setSpeed(0.5)" id="spd-0_5" title="0.5x Tactical Slow-Mo" class="px-2 py-0.5 rounded text-[10px] font-bold text-slate-400 hover:text-white transition font-mono cursor-pointer">0.5x</button>
+                <button onclick="setSpeed(1)" id="spd-1" title="1x Standard Speed" class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500 text-slate-950 transition font-mono cursor-pointer">1x</button>
+                <button onclick="setSpeed(2)" id="spd-2" title="2x Fast Sim" class="px-2 py-0.5 rounded text-[10px] font-bold text-slate-400 hover:text-white transition font-mono cursor-pointer">2x</button>
               </div>
             </div>
           </div>
@@ -1650,7 +1643,7 @@
 
     <!-- ==================== FRIENDLY MATCH QUICK SETUP MODAL ==================== -->
   <div id="friendly-setup-modal" class="fixed inset-0 modal-backdrop hidden items-center justify-center p-3 z-50">
-    <div class="bg-[#090f1d] border-2 border-cyan-500/80 rounded-2xl p-5 max-w-lg w-full shadow-2xl relative flex flex-col gap-4 text-slate-200 animate-fade-in">
+    <div class="bg-[#090f1d] border-2 border-cyan-500/80 rounded-2xl p-5 max-w-lg w-full max-h-[92vh] overflow-y-auto shadow-2xl relative flex flex-col gap-3.5 text-slate-200 animate-fade-in">
       <button onclick="closeFriendlySetupModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white font-mono text-lg cursor-pointer">✕</button>
 
       <div class="flex items-center gap-3 border-b border-[#1b2d4f] pb-3">
@@ -1664,21 +1657,34 @@
       </div>
 
       <p class="text-xs text-slate-400 leading-relaxed">
-        เลือกทีมที่คุณต้องการควบคุม ทีมคู่แข่ง และสมรภูมิการแข่งขันเพื่อประลองแท็กติก 2D Radar เสมือนจริง (ไม่มีผลต่อตารางคะแนนลีกหรือการเงินสโมสร)
+        เลือกทีมที่คุณต้องการควบคุม กำหนด Agent ประจำตัวให้ผู้เล่นแต่ละคน เลือกทีมคู่แข่ง และสมรภูมิแข่งขัน
       </p>
 
       <div class="flex flex-col gap-3 text-xs">
         <!-- Team A Picker -->
         <div>
           <label class="text-[11px] font-bold text-slate-300 block mb-1">1. ทีมที่คุณควบคุม (TEAM A - YOUR SQUAD):</label>
-          <select id="friendly-select-teama" class="w-full bg-[#050914] border border-[#1b2d4f] rounded-lg px-3 py-2 text-cyan-300 font-bold focus:outline-none focus:border-cyan-500">
+          <select id="friendly-select-teama" onchange="renderFriendlyAgentSelect(this.value)" class="w-full bg-[#050914] border border-[#1b2d4f] rounded-lg px-3 py-2 text-cyan-300 font-bold focus:outline-none focus:border-cyan-500">
             <!-- Populated dynamically -->
           </select>
         </div>
 
+        <!-- 2. Agent Selection for Team A 5 Starters -->
+        <div class="bg-[#050914] border border-[#17253f] rounded-xl p-3 flex flex-col gap-2">
+          <div class="flex items-center justify-between border-b border-[#14213a] pb-1.5">
+            <label class="text-[11px] font-bold text-emerald-400 flex items-center gap-1.5">
+              <span>🎯</span> 2. กำหนด AGENT ให้ผู้เล่นทั้ง 5 คน (TEAM A AGENTS):
+            </label>
+            <span class="text-[10px] text-slate-400 font-mono" id="friendly-roster-hint">เลือกได้อิสระ</span>
+          </div>
+          <div id="friendly-agents-list" class="flex flex-col gap-1.5 max-h-48 overflow-y-auto pr-1">
+            <!-- Populated dynamically with 5 players and agent dropdowns -->
+          </div>
+        </div>
+
         <!-- Team B Picker -->
         <div>
-          <label class="text-[11px] font-bold text-slate-300 block mb-1">2. ทีมคู่แข่ง (TEAM B - AI OPPONENT):</label>
+          <label class="text-[11px] font-bold text-slate-300 block mb-1">3. ทีมคู่แข่ง (TEAM B - AI OPPONENT):</label>
           <select id="friendly-select-teamb" class="w-full bg-[#050914] border border-[#1b2d4f] rounded-lg px-3 py-2 text-rose-300 font-bold focus:outline-none focus:border-rose-500">
             <!-- Populated dynamically -->
           </select>
@@ -1687,7 +1693,7 @@
         <!-- Map Picker & Starting Side -->
         <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="text-[11px] font-bold text-slate-300 block mb-1">3. แผนที่แข่งขัน (MAP):</label>
+            <label class="text-[11px] font-bold text-slate-300 block mb-1">4. แผนที่แข่งขัน (MAP):</label>
             <select id="friendly-select-map" class="w-full bg-[#050914] border border-[#1b2d4f] rounded-lg px-3 py-2 text-emerald-300 font-bold focus:outline-none focus:border-emerald-500">
               <option value="Ascent" selected>Ascent</option>
               <option value="Bind">Bind</option>
@@ -1699,7 +1705,7 @@
             </select>
           </div>
           <div>
-            <label class="text-[11px] font-bold text-slate-300 block mb-1">4. ฝั่งเริ่มต้น (STARTING SIDE):</label>
+            <label class="text-[11px] font-bold text-slate-300 block mb-1">5. ฝั่งเริ่มต้น (STARTING SIDE):</label>
             <select id="friendly-select-side" class="w-full bg-[#050914] border border-[#1b2d4f] rounded-lg px-3 py-2 text-amber-300 font-bold focus:outline-none focus:border-amber-500">
               <option value="ATK" selected>ฝ่ายบุก (ATTACKERS)</option>
               <option value="DEF">ฝ่ายรับ (DEFENDERS)</option>
@@ -1714,6 +1720,40 @@
         </button>
         <button onclick="confirmStartFriendlyMatch()" class="px-5 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-black text-xs shadow-lg shadow-cyan-500/25 transition flex items-center gap-1.5 cursor-pointer">
           <span>⚔️</span><span>เข้าสู่สนามแข่ง (START MATCH) ➔</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== QUICK AGENT SELECTION MODAL ==================== -->
+  <div id="agent-swap-modal" class="fixed inset-0 modal-backdrop hidden items-center justify-center p-3 z-50">
+    <div class="bg-[#090f1d] border-2 border-emerald-500/80 rounded-2xl p-5 max-w-md w-full max-h-[90vh] overflow-y-auto shadow-2xl relative flex flex-col gap-3.5 text-slate-200 animate-fade-in">
+      <button onclick="closeAgentSwapModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white font-mono text-lg cursor-pointer">✕</button>
+
+      <div class="flex items-center gap-3 border-b border-[#1b2d4f] pb-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-700 flex items-center justify-center text-xl shadow-lg">
+          👥
+        </div>
+        <div>
+          <span class="text-[10px] font-mono text-emerald-400 font-bold uppercase tracking-widest bg-emerald-950 px-2 py-0.5 rounded border border-emerald-500/40">TEAM AGENT SELECTION</span>
+          <h3 class="text-base font-black text-white mt-0.5">เลือก Agent ประจำตัวของทีมเรา</h3>
+        </div>
+      </div>
+
+      <p class="text-xs text-slate-400">
+        ปรับเปลี่ยน Agent ให้กับผู้เล่นตัวจริงทั้ง 5 คนเพื่อความเข้ากันของแท็กติก
+      </p>
+
+      <div id="agent-swap-list" class="flex flex-col gap-2 max-h-60 overflow-y-auto pr-1">
+        <!-- Dynamically rendered -->
+      </div>
+
+      <div class="flex items-center justify-end gap-2 border-t border-[#1b2d4f] pt-3 mt-1">
+        <button onclick="closeAgentSwapModal()" class="px-4 py-2 rounded-xl bg-[#0f172a] hover:bg-[#18233c] text-slate-400 font-semibold text-xs border border-[#1e293b] transition cursor-pointer">
+          ยกเลิก
+        </button>
+        <button onclick="saveAgentSwap()" class="px-5 py-2 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 font-black text-xs shadow-lg shadow-emerald-500/25 transition flex items-center gap-1.5 cursor-pointer">
+          <span>✓</span><span>บันทึกการเลือก (CONFIRM)</span>
         </button>
       </div>
     </div>
@@ -2320,6 +2360,8 @@
       'Killjoy': 'Sentinel', 'Cypher': 'Sentinel', 'Chamber': 'Sentinel', 'Deadlock': 'Sentinel', 'Sage': 'Sentinel', 'Vyse': 'Sentinel'
     };
 
+    const AGENTS_LIST = Object.keys(AGENT_ROLES);
+
     const MAP_META = {
       Ascent: { comp: ['Jett', 'Sova', 'Omen', 'Killjoy', 'Fade'], favors: 'DEF', desc: 'ลานกว้าง Mid Courtyard ต้องการ Sova สแกนและ Omen ควัน' },
       Bind: { comp: ['Raze', 'Skye', 'Brimstone', 'Viper', 'Cypher'], favors: 'DEF', desc: 'ประตูวาร์ป One-Way ต้องการ Raze ระเบิดโซนและ Viper ปิดไซต์' },
@@ -2473,7 +2515,13 @@
         defaultSmokes: {
           rushA: [{ x: 495, y: 180, r: 24 }, { x: 430, y: 220, r: 24 }],
           rushB: [{ x: 302, y: 179, r: 24 }, { x: 160, y: 130, r: 24 }]
-        }
+        },
+        walls: [
+          { x: 215, y: 195, w: 55, h: 90, name: 'Market/Mid Wall' },
+          { x: 365, y: 200, w: 55, h: 100, name: 'A Link/Mid Wall' },
+          { x: 110, y: 125, w: 35, h: 40, name: 'B Backsite Wall' },
+          { x: 500, y: 165, w: 30, h: 35, name: 'A Generator' }
+        ]
       },
       Bind: {
         displayName: 'Bind',
@@ -2500,7 +2548,13 @@
         defaultSmokes: {
           rushA: [{ x: 475, y: 180, r: 24 }, { x: 396, y: 220, r: 24 }],
           rushB: [{ x: 170, y: 140, r: 24 }, { x: 150, y: 130, r: 24 }]
-        }
+        },
+        walls: [
+          { x: 195, y: 220, w: 50, h: 70, name: 'Hookah Wall' },
+          { x: 395, y: 215, w: 50, h: 65, name: 'U-Hall/Lamps' },
+          { x: 275, y: 210, w: 60, h: 75, name: 'Mid Separator' },
+          { x: 125, y: 220, w: 35, h: 60, name: 'B Long Wall' }
+        ]
       },
       Haven: {
         displayName: 'Haven',
@@ -2526,7 +2580,13 @@
           rushA: [{ x: 517, y: 185, r: 24 }, { x: 405, y: 174, r: 24 }],
           rushB: [{ x: 300, y: 176, r: 24 }, { x: 222, y: 296, r: 24 }],
           rushC: [{ x: 100, y: 175, r: 24 }, { x: 210, y: 206, r: 24 }]
-        }
+        },
+        walls: [
+          { x: 165, y: 250, w: 50, h: 85, name: 'C Garage' },
+          { x: 275, y: 190, w: 50, h: 40, name: 'B Back Wall' },
+          { x: 410, y: 260, w: 55, h: 80, name: 'A Sewer Wall' },
+          { x: 470, y: 195, w: 35, h: 35, name: 'A Tower Base' }
+        ]
       },
       Split: {
         displayName: 'Split',
@@ -2551,7 +2611,13 @@
         defaultSmokes: {
           rushA: [{ x: 446, y: 120, r: 24 }, { x: 398, y: 189, r: 24 }],
           rushB: [{ x: 127, y: 128, r: 24 }, { x: 152, y: 180, r: 24 }]
-        }
+        },
+        walls: [
+          { x: 175, y: 220, w: 60, h: 75, name: 'B Rafters/Vent' },
+          { x: 345, y: 210, w: 60, h: 75, name: 'A Tower/Mail' },
+          { x: 70, y: 165, w: 30, h: 35, name: 'B Site Box' },
+          { x: 460, y: 140, w: 35, h: 35, name: 'A Screens Box' }
+        ]
       },
       Sunset: {
         displayName: 'Sunset',
@@ -2577,7 +2643,13 @@
         defaultSmokes: {
           rushA: [{ x: 468, y: 170, r: 24 }, { x: 440, y: 206, r: 24 }],
           rushB: [{ x: 141, y: 319, r: 24 }, { x: 80, y: 206, r: 24 }]
-        }
+        },
+        walls: [
+          { x: 165, y: 280, w: 55, h: 80, name: 'B Market Wall' },
+          { x: 330, y: 260, w: 55, h: 80, name: 'Mid/A Wall' },
+          { x: 95, y: 200, w: 35, h: 35, name: 'B Boba Box' },
+          { x: 430, y: 210, w: 35, h: 35, name: 'A Link Box' }
+        ]
       },
       Lotus: {
         displayName: 'Lotus',
@@ -2603,7 +2675,13 @@
           rushA: [{ x: 450, y: 180, r: 24 }, { x: 460, y: 250, r: 24 }],
           rushB: [{ x: 381, y: 338, r: 24 }, { x: 302, y: 210, r: 24 }],
           rushC: [{ x: 120, y: 150, r: 24 }, { x: 180, y: 200, r: 24 }]
-        }
+        },
+        walls: [
+          { x: 210, y: 240, w: 55, h: 75, name: 'B/C Waterfall Wall' },
+          { x: 415, y: 260, w: 55, h: 75, name: 'A Tree Wall' },
+          { x: 85, y: 220, w: 30, h: 35, name: 'C Site Box' },
+          { x: 495, y: 180, w: 30, h: 35, name: 'A Site Pillar' }
+        ]
       },
       Abyss: {
         displayName: 'Abyss',
@@ -2627,12 +2705,48 @@
         defaultSmokes: {
           rushA: [{ x: 447, y: 260, r: 24 }, { x: 480, y: 180, r: 24 }],
           rushB: [{ x: 109, y: 180, r: 24 }, { x: 180, y: 180, r: 24 }]
-        }
+        },
+        walls: [
+          { x: 250, y: 260, w: 55, h: 70, name: 'Library Wall' },
+          { x: 420, y: 270, w: 55, h: 75, name: 'A Tower Wall' },
+          { x: 130, y: 250, w: 50, h: 75, name: 'B Danger Wall' }
+        ]
       }
     };
 
     function getActiveMap() {
       return MAP_DATA[currentMap] || MAP_DATA['Ascent'];
+    }
+
+    // --- RAYCAST & WALL LINE-OF-SIGHT SYSTEM ---
+    function lineIntersectsLine(x1, y1, x2, y2, x3, y3, x4, y4) {
+      const d = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
+      if (Math.abs(d) < 0.0001) return false;
+      const t = ((x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4)) / d;
+      const u = -((x1 - x2) * (y1 - y3) - (y1 - y2) * (x1 - x3)) / d;
+      return t >= 0 && t <= 1 && u >= 0 && u <= 1;
+    }
+
+    function lineIntersectsRect(x1, y1, x2, y2, rx, ry, rw, rh) {
+      if ((x1 >= rx && x1 <= rx + rw && y1 >= ry && y1 <= ry + rh) ||
+          (x2 >= rx && x2 <= rx + rw && y2 >= ry && y2 <= ry + rh)) {
+        return true;
+      }
+      return lineIntersectsLine(x1, y1, x2, y2, rx, ry, rx + rw, ry) ||
+             lineIntersectsLine(x1, y1, x2, y2, rx + rw, ry, rx + rw, ry + rh) ||
+             lineIntersectsLine(x1, y1, x2, y2, rx + rw, ry + rh, rx, ry + rh) ||
+             lineIntersectsLine(x1, y1, x2, y2, rx, ry + rh, rx, ry);
+    }
+
+    function hasLineOfSight(x1, y1, x2, y2, mapName) {
+      const m = MAP_DATA[mapName] || MAP_DATA['Ascent'];
+      if (!m || !m.walls || m.walls.length === 0) return true;
+      for (let w of m.walls) {
+        if (lineIntersectsRect(x1, y1, x2, y2, w.x, w.y, w.w, w.h)) {
+          return false;
+        }
+      }
+      return true;
     }
 
     let plantedSiteCoords = null;
@@ -2656,13 +2770,93 @@
     ];
 
     const fallbackRosters = {
+      // --- AMERICAS ---
+      g2esports: [
+        { name: 'valyn', role: 'Controller', agent: 'Omen', aim: 94, iq: 96, clutch: 94 },
+        { name: 'leaf', role: 'Sentinel', agent: 'Killjoy', aim: 95, iq: 93, clutch: 94 },
+        { name: 'trent', role: 'Initiator', agent: 'Sova', aim: 94, iq: 94, clutch: 93 },
+        { name: 'jawgemo', role: 'Duelist', agent: 'Jett', aim: 95, iq: 91, clutch: 93 },
+        { name: 'JonahP', role: 'Flex', agent: 'Breach', aim: 93, iq: 94, clutch: 93 }
+      ],
       sentinels: [
         { name: 'reduxx', role: 'Duelist', agent: 'Jett', aim: 96, iq: 90, clutch: 92 },
         { name: 'johnqt', role: 'Sentinel', agent: 'Cypher', aim: 94, iq: 96, clutch: 95 },
         { name: 'N4RRATE', role: 'Initiator', agent: 'Sova', aim: 95, iq: 93, clutch: 94 },
         { name: 'cortezia', role: 'Controller', agent: 'Omen', aim: 92, iq: 91, clutch: 90 },
-        { name: 'JonahP', role: 'Initiator', agent: 'Breach', aim: 93, iq: 94, clutch: 93 }
+        { name: 'Zellsis', role: 'Flex', agent: 'KAY/O', aim: 93, iq: 95, clutch: 94 }
       ],
+      leviatn: [
+        { name: 'kiNgg', role: 'Controller', agent: 'Omen', aim: 95, iq: 95, clutch: 96 },
+        { name: 'Sato', role: 'Duelist', agent: 'Jett', aim: 94, iq: 90, clutch: 91 },
+        { name: 'blowz', role: 'Duelist', agent: 'Raze', aim: 93, iq: 89, clutch: 90 },
+        { name: 'spikeziN', role: 'Initiator', agent: 'Sova', aim: 92, iq: 92, clutch: 91 },
+        { name: 'C0M', role: 'Initiator', agent: 'Sova', aim: 93, iq: 94, clutch: 94 }
+      ],
+      loud: [
+        { name: 'Less', role: 'Sentinel', agent: 'Killjoy', aim: 96, iq: 95, clutch: 96 },
+        { name: 'cauanzin', role: 'Initiator', agent: 'Fade', aim: 93, iq: 92, clutch: 91 },
+        { name: 'tuyz', role: 'Controller', agent: 'Omen', aim: 92, iq: 91, clutch: 92 },
+        { name: 'pANcada', role: 'Controller', agent: 'Viper', aim: 93, iq: 94, clutch: 93 },
+        { name: 'dgzin', role: 'Duelist', agent: 'Jett', aim: 94, iq: 89, clutch: 90 }
+      ],
+      '100thieves': [
+        { name: 'Cryocells', role: 'Duelist', agent: 'Jett', aim: 96, iq: 90, clutch: 93 },
+        { name: 'Asuna', role: 'Flex', agent: 'Raze', aim: 94, iq: 91, clutch: 92 },
+        { name: 'bang', role: 'Controller', agent: 'Omen', aim: 93, iq: 92, clutch: 91 },
+        { name: 'eeiu', role: 'Initiator', agent: 'Sova', aim: 93, iq: 93, clutch: 92 },
+        { name: 'Boostio', role: 'Sentinel', agent: 'Killjoy', aim: 93, iq: 96, clutch: 95 }
+      ],
+      cloud9: [
+        { name: 'oxy', role: 'Duelist', agent: 'Jett', aim: 96, iq: 89, clutch: 91 },
+        { name: 'Xeppaa', role: 'Initiator', agent: 'KAY/O', aim: 92, iq: 91, clutch: 90 },
+        { name: 'vanity', role: 'Controller', agent: 'Omen', aim: 90, iq: 95, clutch: 92 },
+        { name: 'runi', role: 'Initiator', agent: 'Sova', aim: 91, iq: 92, clutch: 91 },
+        { name: 'moose', role: 'Sentinel', agent: 'Cypher', aim: 91, iq: 92, clutch: 91 }
+      ],
+      nrg: [
+        { name: 'Ethan', role: 'Initiator', agent: 'Breach', aim: 94, iq: 96, clutch: 95 },
+        { name: 'Crashies', role: 'Initiator', agent: 'Sova', aim: 92, iq: 94, clutch: 93 },
+        { name: 'Victor', role: 'Flex', agent: 'Raze', aim: 92, iq: 91, clutch: 91 },
+        { name: 's0m', role: 'Controller', agent: 'Omen', aim: 93, iq: 93, clutch: 92 },
+        { name: 'FNS', role: 'Sentinel', agent: 'Cypher', aim: 89, iq: 98, clutch: 94 }
+      ],
+      kresports: [
+        { name: 'keznit', role: 'Duelist', agent: 'Jett', aim: 95, iq: 90, clutch: 93 },
+        { name: 'Klaus', role: 'Initiator', agent: 'Sova', aim: 91, iq: 93, clutch: 92 },
+        { name: 'Melser', role: 'Controller', agent: 'Omen', aim: 92, iq: 92, clutch: 91 },
+        { name: 'heat', role: 'Duelist', agent: 'Raze', aim: 93, iq: 89, clutch: 90 },
+        { name: 'Shyy', role: 'Sentinel', agent: 'Cypher', aim: 92, iq: 91, clutch: 91 }
+      ],
+      furia: [
+        { name: 'mwzera', role: 'Duelist', agent: 'Raze', aim: 94, iq: 89, clutch: 91 },
+        { name: 'khalil', role: 'Sentinel', agent: 'Killjoy', aim: 91, iq: 92, clutch: 90 },
+        { name: 'havoc', role: 'Duelist', agent: 'Jett', aim: 93, iq: 88, clutch: 89 },
+        { name: 'basic', role: 'Initiator', agent: 'Sova', aim: 90, iq: 91, clutch: 89 },
+        { name: 'pryz', role: 'Controller', agent: 'Omen', aim: 89, iq: 90, clutch: 89 }
+      ],
+      mibr: [
+        { name: 'artzin', role: 'Duelist', agent: 'Jett', aim: 93, iq: 89, clutch: 90 },
+        { name: 'mazin', role: 'Initiator', agent: 'Fade', aim: 91, iq: 91, clutch: 90 },
+        { name: 'rich', role: 'Sentinel', agent: 'Cypher', aim: 90, iq: 91, clutch: 89 },
+        { name: 'RgLM', role: 'Controller', agent: 'Omen', aim: 89, iq: 91, clutch: 89 },
+        { name: 'Palla', role: 'Duelist', agent: 'Raze', aim: 91, iq: 88, clutch: 88 }
+      ],
+      evilgeniuses: [
+        { name: 'Derrek', role: 'Initiator', agent: 'Sova', aim: 92, iq: 93, clutch: 94 },
+        { name: 'NaturE', role: 'Initiator', agent: 'Breach', aim: 91, iq: 92, clutch: 90 },
+        { name: 'supamen', role: 'Controller', agent: 'Omen', aim: 91, iq: 92, clutch: 91 },
+        { name: 'Apoth', role: 'Sentinel', agent: 'Cypher', aim: 90, iq: 91, clutch: 89 },
+        { name: 'icy', role: 'Duelist', agent: 'Jett', aim: 91, iq: 89, clutch: 89 }
+      ],
+      '2gameesports': [
+        { name: 'silentzz', role: 'Duelist', agent: 'Jett', aim: 92, iq: 89, clutch: 90 },
+        { name: 'zap', role: 'Initiator', agent: 'Sova', aim: 90, iq: 91, clutch: 89 },
+        { name: 'spikeziN', role: 'Controller', agent: 'Omen', aim: 90, iq: 90, clutch: 89 },
+        { name: 'lz', role: 'Sentinel', agent: 'Cypher', aim: 89, iq: 91, clutch: 89 },
+        { name: 'pryzee', role: 'Flex', agent: 'KAY/O', aim: 89, iq: 89, clutch: 88 }
+      ],
+
+      // --- EMEA ---
       fnatic: [
         { name: 'Alfajer', role: 'Sentinel', agent: 'Killjoy', aim: 97, iq: 94, clutch: 96 },
         { name: 'Cloud', role: 'Initiator', agent: 'Sova', aim: 93, iq: 92, clutch: 91 },
@@ -2670,40 +2864,77 @@
         { name: 'crashies', role: 'Initiator', agent: 'Fade', aim: 92, iq: 94, clutch: 93 },
         { name: 'Boaster', role: 'Controller', agent: 'Astra', aim: 90, iq: 97, clutch: 95 }
       ],
-      edwardgaming: [
-        { name: 'ZmjjKK (KangKang)', role: 'Duelist', agent: 'Jett', aim: 98, iq: 91, clutch: 97 },
-        { name: 'CHICHOO', role: 'Controller', agent: 'Omen', aim: 94, iq: 96, clutch: 96 },
-        { name: 'nobody', role: 'Initiator', agent: 'Sova', aim: 93, iq: 94, clutch: 93 },
-        { name: 'Smoggy', role: 'Initiator', agent: 'Breach', aim: 94, iq: 93, clutch: 94 },
-        { name: 'Jieni7', role: 'Sentinel', agent: 'Killjoy', aim: 92, iq: 91, clutch: 90 }
-      ],
       teamheretics: [
         { name: 'Wo0t', role: 'Duelist', agent: 'Jett', aim: 96, iq: 93, clutch: 95 },
         { name: 'RieNs', role: 'Initiator', agent: 'Sova', aim: 95, iq: 94, clutch: 94 },
         { name: 'benjyfishy', role: 'Sentinel', agent: 'Cypher', aim: 94, iq: 92, clutch: 93 },
         { name: 'Boo', role: 'Controller', agent: 'Omen', aim: 92, iq: 95, clutch: 92 },
-        { name: 'ComeBack', role: 'Initiator', agent: 'KAY/O', aim: 92, iq: 91, clutch: 90 }
+        { name: 'MiniBoo', role: 'Duelist', agent: 'Neon', aim: 94, iq: 90, clutch: 91 }
       ],
-      leviatn: [
-        { name: 'kiNgg', role: 'Controller', agent: 'Omen', aim: 95, iq: 95, clutch: 96 },
-        { name: 'Sato', role: 'Duelist', agent: 'Jett', aim: 94, iq: 90, clutch: 91 },
-        { name: 'blowz', role: 'Duelist', agent: 'Raze', aim: 93, iq: 89, clutch: 90 },
-        { name: 'spikeziN', role: 'Initiator', agent: 'Sova', aim: 92, iq: 92, clutch: 91 },
-        { name: 'Neon', role: 'Sentinel', agent: 'Killjoy', aim: 91, iq: 91, clutch: 90 }
+      teamvitality: [
+        { name: 'Derke', role: 'Duelist', agent: 'Jett', aim: 96, iq: 92, clutch: 95 },
+        { name: 'Sayf', role: 'Initiator', agent: 'Sova', aim: 94, iq: 94, clutch: 94 },
+        { name: 'trexx', role: 'Initiator', agent: 'Fade', aim: 93, iq: 93, clutch: 92 },
+        { name: 'Kicks', role: 'Sentinel', agent: 'Cypher', aim: 92, iq: 91, clutch: 91 },
+        { name: 'runneR', role: 'Duelist', agent: 'Raze', aim: 93, iq: 89, clutch: 90 }
       ],
+      karminecorp: [
+        { name: 'Shin', role: 'Initiator', agent: 'Breach', aim: 93, iq: 92, clutch: 91 },
+        { name: 'marteen', role: 'Duelist', agent: 'Jett', aim: 94, iq: 90, clutch: 91 },
+        { name: 'tomaszy', role: 'Sentinel', agent: 'Killjoy', aim: 93, iq: 91, clutch: 92 },
+        { name: 'saadhak', role: 'Initiator', agent: 'Sova', aim: 92, iq: 97, clutch: 95 },
+        { name: 'Avez', role: 'Controller', agent: 'Omen', aim: 91, iq: 92, clutch: 90 }
+      ],
+      futesports: [
+        { name: 'cNed', role: 'Duelist', agent: 'Jett', aim: 96, iq: 91, clutch: 94 },
+        { name: 'MrFaliN', role: 'Controller', agent: 'Omen', aim: 91, iq: 95, clutch: 93 },
+        { name: 'qRaxs', role: 'Initiator', agent: 'KAY/O', aim: 92, iq: 92, clutch: 91 },
+        { name: 'yetujey', role: 'Sentinel', agent: 'Cypher', aim: 93, iq: 92, clutch: 92 },
+        { name: 'ATA KANAN', role: 'Duelist', agent: 'Raze', aim: 93, iq: 89, clutch: 90 }
+      ],
+      natusvincere: [
+        { name: 'ANGE1', role: 'Controller', agent: 'Omen', aim: 90, iq: 96, clutch: 92 },
+        { name: 'SUYGETSU', role: 'Sentinel', agent: 'Cypher', aim: 95, iq: 93, clutch: 94 },
+        { name: 'Shao', role: 'Initiator', agent: 'Fade', aim: 93, iq: 95, clutch: 96 },
+        { name: 'ardiis', role: 'Duelist', agent: 'Jett', aim: 94, iq: 91, clutch: 92 },
+        { name: 'dpl', role: 'Initiator', agent: 'Breach', aim: 91, iq: 91, clutch: 90 }
+      ],
+      teamliquid: [
+        { name: 'nAts', role: 'Sentinel', agent: 'Cypher', aim: 95, iq: 98, clutch: 97 },
+        { name: 'Keiko', role: 'Duelist', agent: 'Jett', aim: 94, iq: 90, clutch: 92 },
+        { name: 'kamo', role: 'Duelist', agent: 'Raze', aim: 93, iq: 89, clutch: 90 },
+        { name: 'paTiTek', role: 'Initiator', agent: 'KAY/O', aim: 92, iq: 93, clutch: 93 },
+        { name: 'serial', role: 'Controller', agent: 'Omen', aim: 91, iq: 91, clutch: 90 }
+      ],
+      gentlemates: [
+        { name: 'TakaS', role: 'Duelist', agent: 'Jett', aim: 93, iq: 89, clutch: 90 },
+        { name: 'beyAz', role: 'Initiator', agent: 'Sova', aim: 91, iq: 93, clutch: 91 },
+        { name: 'nataNk', role: 'Flex', agent: 'Breach', aim: 92, iq: 90, clutch: 90 },
+        { name: 'Wailers', role: 'Sentinel', agent: 'Killjoy', aim: 90, iq: 91, clutch: 89 },
+        { name: 'logaN', role: 'Controller', agent: 'Omen', aim: 90, iq: 92, clutch: 90 }
+      ],
+      bblesports: [
+        { name: 'QutionerX', role: 'Duelist', agent: 'Jett', aim: 93, iq: 88, clutch: 89 },
+        { name: 'sociablEE', role: 'Initiator', agent: 'Sova', aim: 91, iq: 91, clutch: 90 },
+        { name: 'pAura', role: 'Sentinel', agent: 'Cypher', aim: 90, iq: 93, clutch: 91 },
+        { name: 'Brave', role: 'Controller', agent: 'Omen', aim: 90, iq: 90, clutch: 89 },
+        { name: 're签', role: 'Flex', agent: 'KAY/O', aim: 90, iq: 89, clutch: 89 }
+      ],
+      giantx: [
+        { name: 'Fit1nho', role: 'Duelist', agent: 'Jett', aim: 94, iq: 90, clutch: 91 },
+        { name: 'Cloud', role: 'Initiator', agent: 'Sova', aim: 93, iq: 92, clutch: 91 },
+        { name: 'hoody', role: 'Sentinel', agent: 'Killjoy', aim: 91, iq: 91, clutch: 90 },
+        { name: 'purp0', role: 'Duelist', agent: 'Raze', aim: 92, iq: 89, clutch: 89 },
+        { name: 'Redgar', role: 'Controller', agent: 'Omen', aim: 89, iq: 95, clutch: 92 }
+      ],
+
+      // --- PACIFIC ---
       paperrex: [
         { name: 'something', role: 'Duelist', agent: 'Jett', aim: 97, iq: 89, clutch: 93 },
         { name: 'f0rsakeN', role: 'Flex', agent: 'Yoru', aim: 94, iq: 95, clutch: 94 },
         { name: 'Jinggg', role: 'Duelist', agent: 'Raze', aim: 95, iq: 88, clutch: 90 },
         { name: 'd4v41', role: 'Initiator', agent: 'Fade', aim: 92, iq: 95, clutch: 96 },
         { name: 'mindfreak', role: 'Controller', agent: 'Omen', aim: 91, iq: 94, clutch: 95 }
-      ],
-      talonesports: [
-        { name: 'ban', role: 'Duelist', agent: 'Jett', aim: 93, iq: 91, clutch: 90 },
-        { name: 'Governor', role: 'Duelist', agent: 'Raze', aim: 94, iq: 90, clutch: 89 },
-        { name: 'Crws', role: 'Initiator', agent: 'Breach', aim: 89, iq: 96, clutch: 95 },
-        { name: 'JitboyS', role: 'Initiator', agent: 'KAY/O', aim: 92, iq: 90, clutch: 88 },
-        { name: 'Surf', role: 'Controller', agent: 'Omen', aim: 90, iq: 91, clutch: 89 }
       ],
       drx: [
         { name: 'MaKo', role: 'Controller', agent: 'Omen', aim: 95, iq: 96, clutch: 95 },
@@ -2726,6 +2957,108 @@
         { name: 'seph1roth', role: 'Controller', agent: 'Omen', aim: 88, iq: 92, clutch: 89 },
         { name: 'JitboyS', role: 'Initiator', agent: 'KAY/O', aim: 92, iq: 90, clutch: 88 }
       ],
+      talonesports: [
+        { name: 'ban', role: 'Duelist', agent: 'Jett', aim: 93, iq: 91, clutch: 90 },
+        { name: 'Governor', role: 'Duelist', agent: 'Raze', aim: 94, iq: 90, clutch: 89 },
+        { name: 'Crws', role: 'Initiator', agent: 'Breach', aim: 89, iq: 96, clutch: 95 },
+        { name: 'JitboyS', role: 'Initiator', agent: 'KAY/O', aim: 92, iq: 90, clutch: 88 },
+        { name: 'Surf', role: 'Controller', agent: 'Omen', aim: 90, iq: 91, clutch: 89 }
+      ],
+      teamsecret: [
+        { name: 'JessieVash', role: 'Initiator', agent: 'Sova', aim: 91, iq: 96, clutch: 94 },
+        { name: 'Jremy', role: 'Duelist', agent: 'Jett', aim: 94, iq: 89, clutch: 91 },
+        { name: 'invy', role: 'Initiator', agent: 'Breach', aim: 94, iq: 92, clutch: 93 },
+        { name: 'NDG', role: 'Sentinel', agent: 'Cypher', aim: 91, iq: 91, clutch: 90 },
+        { name: 'wild0reoo', role: 'Controller', agent: 'Omen', aim: 90, iq: 91, clutch: 89 }
+      ],
+      rexregumqeon: [
+        { name: 'Jemkin', role: 'Duelist', agent: 'Jett', aim: 95, iq: 90, clutch: 92 },
+        { name: 'Kush', role: 'Initiator', agent: 'Sova', aim: 91, iq: 91, clutch: 90 },
+        { name: 'Lmemore', role: 'Sentinel', agent: 'Killjoy', aim: 93, iq: 92, clutch: 92 },
+        { name: 'Monyet', role: 'Controller', agent: 'Omen', aim: 93, iq: 93, clutch: 93 },
+        { name: 'Estrella', role: 'Initiator', agent: 'Fade', aim: 92, iq: 92, clutch: 91 }
+      ],
+      t1: [
+        { name: 'Sayaplayer', role: 'Duelist', agent: 'Jett', aim: 95, iq: 90, clutch: 93 },
+        { name: 'Carpe', role: 'Initiator', agent: 'Sova', aim: 92, iq: 93, clutch: 92 },
+        { name: 'iZu', role: 'Duelist', agent: 'Raze', aim: 94, iq: 89, clutch: 91 },
+        { name: 'xccurate', role: 'Sentinel', agent: 'Cypher', aim: 93, iq: 92, clutch: 92 },
+        { name: 'Sylvan', role: 'Controller', agent: 'Omen', aim: 91, iq: 91, clutch: 90 }
+      ],
+      zetadivision: [
+        { name: 'Dep', role: 'Duelist', agent: 'Jett', aim: 95, iq: 91, clutch: 93 },
+        { name: 'Laz', role: 'Sentinel', agent: 'Cypher', aim: 93, iq: 96, clutch: 95 },
+        { name: 'SugarZ3ro', role: 'Controller', agent: 'Astra', aim: 92, iq: 94, clutch: 93 },
+        { name: 'hiroronn', role: 'Sentinel', agent: 'Killjoy', aim: 92, iq: 91, clutch: 91 },
+        { name: 'Yuran', role: 'Initiator', agent: 'Sova', aim: 91, iq: 90, clutch: 89 }
+      ],
+      detonationfocusme: [
+        { name: 'Meiy', role: 'Duelist', agent: 'Jett', aim: 95, iq: 90, clutch: 92 },
+        { name: 'Anthem', role: 'Initiator', agent: 'Breach', aim: 91, iq: 91, clutch: 90 },
+        { name: 'neth', role: 'Sentinel', agent: 'Killjoy', aim: 92, iq: 93, clutch: 91 },
+        { name: 'Medusa', role: 'Controller', agent: 'Omen', aim: 91, iq: 91, clutch: 90 },
+        { name: 'SSeeS', role: 'Controller', agent: 'Viper', aim: 90, iq: 90, clutch: 89 }
+      ],
+      bleedesports: [
+        { name: 'Deryeon', role: 'Duelist', agent: 'Jett', aim: 93, iq: 89, clutch: 90 },
+        { name: 'retla', role: 'Flex', agent: 'KAY/O', aim: 91, iq: 91, clutch: 90 },
+        { name: 'Juicy', role: 'Duelist', agent: 'Raze', aim: 93, iq: 88, clutch: 90 },
+        { name: 'crazyguy', role: 'Initiator', agent: 'Sova', aim: 92, iq: 93, clutch: 91 },
+        { name: 'yay', role: 'Sentinel', agent: 'Chamber', aim: 95, iq: 91, clutch: 93 }
+      ],
+      globalesports: [
+        { name: 'Lightningfast', role: 'Initiator', agent: 'Fade', aim: 92, iq: 91, clutch: 90 },
+        { name: 'Benkai', role: 'Sentinel', agent: 'Cypher', aim: 89, iq: 96, clutch: 93 },
+        { name: 'Russ', role: 'Initiator', agent: 'Sova', aim: 91, iq: 91, clutch: 90 },
+        { name: 'blaZek1ng', role: 'Controller', agent: 'Omen', aim: 90, iq: 92, clutch: 90 },
+        { name: 'Polvi', role: 'Duelist', agent: 'Jett', aim: 92, iq: 88, clutch: 89 }
+      ],
+
+      // --- CHINA ---
+      edwardgaming: [
+        { name: 'ZmjjKK (KangKang)', role: 'Duelist', agent: 'Jett', aim: 98, iq: 91, clutch: 97 },
+        { name: 'CHICHOO', role: 'Controller', agent: 'Omen', aim: 94, iq: 96, clutch: 96 },
+        { name: 'nobody', role: 'Initiator', agent: 'Sova', aim: 93, iq: 94, clutch: 93 },
+        { name: 'Smoggy', role: 'Initiator', agent: 'Breach', aim: 94, iq: 93, clutch: 94 },
+        { name: 'S1Mon', role: 'Sentinel', agent: 'Cypher', aim: 93, iq: 92, clutch: 92 }
+      ],
+      funplusphoenix: [
+        { name: 'Autumn', role: 'Duelist', agent: 'Jett', aim: 95, iq: 90, clutch: 93 },
+        { name: 'Life', role: 'Duelist', agent: 'Raze', aim: 94, iq: 89, clutch: 91 },
+        { name: 'BerYi', role: 'Initiator', agent: 'Sova', aim: 92, iq: 93, clutch: 91 },
+        { name: 'AAAAY', role: 'Initiator', agent: 'Fade', aim: 93, iq: 92, clutch: 92 },
+        { name: 'Lysoar', role: 'Controller', agent: 'Omen', aim: 92, iq: 92, clutch: 91 }
+      ],
+      traceesports: [
+        { name: 'FengF', role: 'Duelist', agent: 'Jett', aim: 95, iq: 90, clutch: 92 },
+        { name: 'Kai', role: 'Duelist', agent: 'Raze', aim: 94, iq: 89, clutch: 91 },
+        { name: 'HeiB', role: 'Initiator', agent: 'Fade', aim: 92, iq: 92, clutch: 91 },
+        { name: 'Luok1ng', role: 'Controller', agent: 'Omen', aim: 93, iq: 92, clutch: 92 },
+        { name: 'Biank', role: 'Initiator', agent: 'Sova', aim: 93, iq: 93, clutch: 92 }
+      ],
+      bilibiligaming: [
+        { name: 'whzy', role: 'Duelist', agent: 'Jett', aim: 95, iq: 89, clutch: 92 },
+        { name: 'Knight', role: 'Initiator', agent: 'Breach', aim: 93, iq: 92, clutch: 91 },
+        { name: 'nephh', role: 'Initiator', agent: 'Sova', aim: 92, iq: 92, clutch: 91 },
+        { name: 'Yosemite', role: 'Sentinel', agent: 'Cypher', aim: 93, iq: 93, clutch: 93 },
+        { name: 'Flex1n', role: 'Controller', agent: 'Omen', aim: 91, iq: 91, clutch: 90 }
+      ],
+      jdgaming: [
+        { name: 'stew', role: 'Duelist', agent: 'Jett', aim: 94, iq: 89, clutch: 91 },
+        { name: 'Viva', role: 'Initiator', agent: 'Sova', aim: 92, iq: 92, clutch: 90 },
+        { name: 'jkuro', role: 'Controller', agent: 'Omen', aim: 91, iq: 91, clutch: 90 },
+        { name: 'MarDemon', role: 'Sentinel', agent: 'Killjoy', aim: 91, iq: 91, clutch: 90 },
+        { name: 'YiHao', role: 'Initiator', agent: 'Fade', aim: 90, iq: 90, clutch: 89 }
+      ],
+      dragonrangergaming: [
+        { name: 'vo0kashu', role: 'Duelist', agent: 'Jett', aim: 94, iq: 89, clutch: 91 },
+        { name: 'Nicc', role: 'Initiator', agent: 'Sova', aim: 91, iq: 91, clutch: 90 },
+        { name: 'TvirusLuke', role: 'Duelist', agent: 'Raze', aim: 93, iq: 88, clutch: 89 },
+        { name: 'nizhaoTZH', role: 'Controller', agent: 'Omen', aim: 90, iq: 90, clutch: 89 },
+        { name: 'Shion', role: 'Sentinel', agent: 'Cypher', aim: 90, iq: 91, clutch: 89 }
+      ],
+
+      // --- THAI & SEA CHALLENGERS ---
       sharperesports: [
         { name: 'PTC', role: 'Flex', agent: 'KAY/O', aim: 93, iq: 94, clutch: 93 },
         { name: 'Kadoom', role: 'Duelist', agent: 'Jett', aim: 95, iq: 90, clutch: 92 },
@@ -2746,6 +3079,27 @@
         { name: 'KROMAS', role: 'Controller', agent: 'Omen', aim: 90, iq: 91, clutch: 89 },
         { name: 'b3ta', role: 'Sentinel', agent: 'Cypher', aim: 92, iq: 93, clutch: 92 },
         { name: 'kongared', role: 'Flex', agent: 'KAY/O', aim: 91, iq: 90, clutch: 90 }
+      ],
+      xgod: [
+        { name: 'foxz', role: 'Initiator', agent: 'Sova', aim: 92, iq: 95, clutch: 92 },
+        { name: 'JohnOlsen', role: 'Duelist', agent: 'Jett', aim: 94, iq: 90, clutch: 91 },
+        { name: 'garnetS', role: 'Duelist', agent: 'Raze', aim: 93, iq: 89, clutch: 90 },
+        { name: 'Seph', role: 'Controller', agent: 'Omen', aim: 90, iq: 91, clutch: 89 },
+        { name: 'AcE', role: 'Sentinel', agent: 'Killjoy', aim: 91, iq: 91, clutch: 90 }
+      ],
+      '555': [
+        { name: 'Surf', role: 'Duelist', agent: 'Jett', aim: 94, iq: 89, clutch: 91 },
+        { name: 'aLerT', role: 'Initiator', agent: 'Sova', aim: 91, iq: 92, clutch: 90 },
+        { name: 'P1k', role: 'Controller', agent: 'Omen', aim: 90, iq: 90, clutch: 89 },
+        { name: 'LAMMYSNAX', role: 'Initiator', agent: 'Fade', aim: 90, iq: 91, clutch: 90 },
+        { name: 'Flash', role: 'Sentinel', agent: 'Cypher', aim: 90, iq: 90, clutch: 89 }
+      ],
+      attackallaround: [
+        { name: 'Bas', role: 'Duelist', agent: 'Jett', aim: 93, iq: 89, clutch: 90 },
+        { name: 'Gloomy', role: 'Initiator', agent: 'Sova', aim: 91, iq: 91, clutch: 89 },
+        { name: 'Fluk', role: 'Controller', agent: 'Omen', aim: 90, iq: 90, clutch: 89 },
+        { name: 'Kong', role: 'Sentinel', agent: 'Cypher', aim: 90, iq: 90, clutch: 89 },
+        { name: 'Win', role: 'Flex', agent: 'Breach', aim: 90, iq: 89, clutch: 88 }
       ]
     };
 
@@ -2783,47 +3137,56 @@
         }));
       }
 
-      const dbPlayers = allPlayers.filter(p => p.teamName === teamName || (p.teamId && p.teamId === teamKey));
-      if (dbPlayers.length >= 5) {
-        const usedAgents = new Set();
-        return dbPlayers.slice(0, 5).map((p, idx) => {
-          let chosenAgent = p.agent;
-          if (!chosenAgent && p.agentPool && p.agentPool.length > 0) {
-            chosenAgent = p.agentPool.find(ag => !usedAgents.has(ag)) || p.agentPool[0];
-          }
-          if (!chosenAgent || usedAgents.has(chosenAgent)) {
-            chosenAgent = getFallbackAgentByRole(p.role, idx, usedAgents);
-          }
-          usedAgents.add(chosenAgent);
-          return {
-            id: p.id || `p_${idx+1}`,
-            name: p.name,
-            role: p.role || 'Duelist',
-            agent: chosenAgent,
-            aim: p.stats?.aim || p.aim || p.overall || 92,
-            iq: p.stats?.iq || p.iq || p.overall || 90,
-            clutch: p.stats?.clutch || p.clutch || p.overall || 91,
-            form: 'normal',
-            injured: false,
-            injury: null
-          };
+      // Check allPlayers
+      const dbPlayers = allPlayers.filter(p => p.teamName === teamName || (p.teamId && p.teamId === teamKey) || (p.teamName && p.teamName.toLowerCase().includes(teamKey)));
+      const pool = [...dbPlayers];
+
+      // Pro stars & legends to fill any empty spots so generic P1..P5 is NEVER shown
+      const proStandins = [
+        { name: 'sScary', role: 'Controller', agent: 'Astra', aim: 94, iq: 96, clutch: 97 },
+        { name: 'Patiphan', role: 'Duelist', agent: 'Jett', aim: 93, iq: 90, clutch: 93 },
+        { name: 'PTC', role: 'Flex', agent: 'KAY/O', aim: 92, iq: 94, clutch: 93 },
+        { name: 'CigaretteS', role: 'Flex', agent: 'Yoru', aim: 91, iq: 93, clutch: 94 },
+        { name: 'Cbbk', role: 'Sentinel', agent: 'Cypher', aim: 91, iq: 95, clutch: 91 },
+        { name: 'Wannafly', role: 'Duelist', agent: 'Raze', aim: 90, iq: 91, clutch: 91 },
+        { name: 'MAIROLLS', role: 'Initiator', agent: 'Breach', aim: 90, iq: 92, clutch: 91 },
+        { name: 'SuperBusS', role: 'Controller', agent: 'Omen', aim: 90, iq: 91, clutch: 92 },
+        { name: 'Kongared', role: 'Initiator', agent: 'Sova', aim: 90, iq: 91, clutch: 88 },
+        { name: 'ChAlalala', role: 'Sentinel', agent: 'Killjoy', aim: 90, iq: 91, clutch: 91 }
+      ];
+
+      const usedAgents = new Set();
+      const squad = [];
+
+      for (let i = 0; i < 5; i++) {
+        let p = pool[i];
+        if (!p) {
+          p = proStandins[i % proStandins.length];
+        }
+        let chosenAgent = p.agent;
+        if (!chosenAgent && p.agentPool && p.agentPool.length > 0) {
+          chosenAgent = p.agentPool.find(ag => !usedAgents.has(ag)) || p.agentPool[0];
+        }
+        if (!chosenAgent || usedAgents.has(chosenAgent)) {
+          chosenAgent = getFallbackAgentByRole(p.role || 'Duelist', i, usedAgents);
+        }
+        usedAgents.add(chosenAgent);
+
+        squad.push({
+          id: p.id || `${teamKey}_${i+1}`,
+          name: p.name,
+          role: p.role || 'Duelist',
+          agent: chosenAgent,
+          aim: p.stats?.aim || p.aim || p.overall || 92,
+          iq: p.stats?.iq || p.iq || p.overall || 90,
+          clutch: p.stats?.clutch || p.clutch || p.overall || 91,
+          form: 'normal',
+          injured: false,
+          injury: null
         });
       }
 
-      const defaultAgents = ['Jett', 'Sova', 'Omen', 'Cypher', 'KAY/O'];
-      const defaultRoles = ['Duelist', 'Initiator', 'Controller', 'Sentinel', 'Flex'];
-      return defaultAgents.map((ag, idx) => ({
-        id: `${teamKey}_${idx+1}`,
-        name: `${teamName} P${idx+1}`,
-        role: defaultRoles[idx],
-        agent: ag,
-        aim: 91,
-        iq: 90,
-        clutch: 90,
-        form: 'normal',
-        injured: false,
-        injury: null
-      }));
+      return squad;
     }
 
     let currentRoundFirstBlood = false;
@@ -3252,11 +3615,11 @@
           if (t === tabId) {
             v.classList.remove('hidden');
             if (t === 'match' || t === 'dashboard' || t === 'landing') {
-              v.classList.add('flex');
+              v.classList.add('flex', 'flex-col');
             }
           } else {
             v.classList.add('hidden');
-            v.classList.remove('flex');
+            v.classList.remove('flex', 'flex-col');
           }
         }
         if (b) {
@@ -3416,6 +3779,33 @@
       if (roundNum === 13 && matchState.isFullSenseAttacking) {
         matchState.isFullSenseAttacking = false;
         triggerHalfTimeSwap();
+      }
+
+      // Killfeed Round Separator & Status Strip
+      const feed = document.getElementById('killfeed-stream');
+      if (feed) {
+        if (roundNum === 1) {
+          feed.innerHTML = `
+            <div class="my-1 py-1 px-2.5 rounded-lg bg-gradient-to-r from-emerald-950 via-[#071324] to-cyan-950 border border-emerald-500/50 flex items-center justify-between text-[11px] font-mono font-bold text-emerald-300 shadow">
+              <span>⚔️ ROUND 1 · PISTOL ROUND</span>
+              <span class="text-xs text-white">0 : 0</span>
+              <span class="text-[10px] text-slate-400">1st Half</span>
+            </div>
+          `;
+        } else {
+          const roundDiv = document.createElement('div');
+          const isSecondHalf = roundNum >= 13;
+          roundDiv.className = "my-1 py-1 px-2.5 rounded-lg bg-gradient-to-r from-cyan-950 via-[#0a1526] to-blue-950 border border-cyan-500/50 flex items-center justify-between text-[11px] font-mono font-bold text-cyan-300 shadow shrink-0";
+          roundDiv.innerHTML = `
+            <span class="flex items-center gap-1.5">
+              <span>⚔️ ROUND ${roundNum}</span>
+              ${roundNum === 13 ? '<span class="text-[9px] bg-amber-900/80 text-amber-300 px-1 py-0.2 rounded font-bold">HALF-TIME</span>' : ''}
+            </span>
+            <span class="text-xs text-white">${matchState.scoreA} : ${matchState.scoreB}</span>
+            <span class="text-[10px] text-slate-400 font-normal">${isSecondHalf ? '2nd Half' : '1st Half'}</span>
+          `;
+          feed.prepend(roundDiv);
+        }
       }
 
       const isPistol = (roundNum === 1 || roundNum === 13);
@@ -4611,7 +5001,7 @@
 
 // --- 8. COMBAT RESOLUTION & DUELS ---
     function updateCombat() {
-      if (!isRoundActive) return;
+      if (!isRoundActive || isGamePaused) return;
 
       combatCooldown++;
 
@@ -4683,10 +5073,16 @@
         const dy = p.targetY - p.y;
         const dist = Math.hypot(dx, dy);
 
-        if (dist > 4) {
-          const speedMod = (p.status && p.status.concussed > 0) ? 0.55 : 1.15;
-          p.x += (dx / dist) * (speedMod * simSpeed);
-          p.y += (dy / dist) * (speedMod * simSpeed);
+        // If player is currently actively defusing, stay locked in position!
+        if (defuseState.defusingPlayer && defuseState.defusingPlayer.id === p.id && plantedSiteCoords) {
+          p.x = plantedSiteCoords.x;
+          p.y = plantedSiteCoords.y;
+        } else if (dist > 3) {
+          // Tactical, readable speed (~0.60 px/frame at 1x)
+          const speedMod = (p.status && p.status.concussed > 0) ? 0.35 : 0.60;
+          const step = Math.min(dist, speedMod * simSpeed);
+          p.x += (dx / dist) * step;
+          p.y += (dy / dist) * step;
         } else {
           // Arrived at current target waypoint: dynamic next waypoint
           if (isPlayerAtk) {
@@ -4702,23 +5098,35 @@
                 p.targetX = spikeDropCoords.x;
                 p.targetY = spikeDropCoords.y;
               } else {
-                p.targetX = targetSite.x + (Math.random() * 40 - 20);
-                p.targetY = targetSite.y + (Math.random() * 40 - 20);
+                p.targetX = targetSite.x + (Math.random() * 30 - 15);
+                p.targetY = targetSite.y + (Math.random() * 30 - 15);
               }
             } else if (!spikePlanted) {
               // Advance towards target site to secure site or hunt defenders
-              p.targetX = targetSite.x + (Math.random() * 50 - 25);
-              p.targetY = targetSite.y + (Math.random() * 50 - 25);
+              p.targetX = targetSite.x + (Math.random() * 40 - 20);
+              p.targetY = targetSite.y + (Math.random() * 40 - 20);
             }
           } else {
             // Defender behavior
             if (spikePlanted && plantedSiteCoords) {
-              p.targetX = plantedSiteCoords.x + (Math.random() * 30 - 15);
-              p.targetY = plantedSiteCoords.y + (Math.random() * 30 - 15);
+              const defTeam = isAtk ? 'B' : 'A';
+              const aliveDef = matchPlayers.filter(d => d.team === defTeam && d.alive);
+              aliveDef.sort((a, b) => Math.hypot(a.x - plantedSiteCoords.x, a.y - plantedSiteCoords.y) - Math.hypot(b.x - plantedSiteCoords.x, b.y - plantedSiteCoords.y));
+
+              // Closest defender runs directly to the Spike to defuse!
+              if (aliveDef[0] && aliveDef[0].id === p.id) {
+                p.targetX = plantedSiteCoords.x;
+                p.targetY = plantedSiteCoords.y;
+              } else {
+                // Other defenders watch angles surrounding the site
+                const angle = (p.id.charCodeAt(p.id.length - 1) % 4) * (Math.PI / 2);
+                p.targetX = plantedSiteCoords.x + Math.cos(angle) * 32;
+                p.targetY = plantedSiteCoords.y + Math.sin(angle) * 32;
+              }
             } else if (roundTime < 50) {
               // Rotate or push towards site when round is half over
-              p.targetX = targetSite.x + (Math.random() * 40 - 20);
-              p.targetY = targetSite.y + (Math.random() * 40 - 20);
+              p.targetX = targetSite.x + (Math.random() * 30 - 15);
+              p.targetY = targetSite.y + (Math.random() * 30 - 15);
             }
           }
         }
@@ -4939,35 +5347,45 @@
         // Defuse Logic with Half-Defuse Checkpoint Bar & Molly Denial
         const defTeam = isAtk ? 'B' : 'A';
         const atkTeam = isAtk ? 'A' : 'B';
-        const nearbyDefenders = matchPlayers.filter(p => p.team === defTeam && p.alive && Math.hypot(p.x - plantedSiteCoords.x, p.y - plantedSiteCoords.y) < 32);
-        const nearbyAttackers = matchPlayers.filter(p => p.team !== defTeam && p.alive && Math.hypot(p.x - plantedSiteCoords.x, p.y - plantedSiteCoords.y) < 45);
+        const aliveDefenders = matchPlayers.filter(p => p.team === defTeam && p.alive);
+        const aliveAttackers = matchPlayers.filter(p => p.team === atkTeam && p.alive);
         const currentActivePP = isAtk ? currentPostPlantA : currentPostPlantB;
 
-        if (nearbyDefenders.length > 0 && nearbyAttackers.length === 0) {
-          const defuser = nearbyDefenders[0];
+        // Sort alive defenders by distance to Spike
+        aliveDefenders.sort((p1, p2) => Math.hypot(p1.x - plantedSiteCoords.x, p1.y - plantedSiteCoords.y) - Math.hypot(p2.x - plantedSiteCoords.x, p2.y - plantedSiteCoords.y));
+        const primaryDefuser = aliveDefenders[0];
+        const distToSpike = primaryDefuser ? Math.hypot(primaryDefuser.x - plantedSiteCoords.x, primaryDefuser.y - plantedSiteCoords.y) : 9999;
 
-          if (currentActivePP === 'FALLBACK_LINEUPS' && mollyCooldown <= 0) {
-            const aliveAtk = matchPlayers.filter(p => p.team === atkTeam && p.alive);
-            if (aliveAtk.length > 0) {
-              const mollyShooter = aliveAtk.find(p => ['Brimstone', 'Viper', 'Killjoy', 'Sova', 'Gekko', 'Phoenix', 'Fade'].includes(p.agent)) || aliveAtk[0];
-              mollyCooldown = 260;
-              radarAnimations.push({
-                type: 'molly_puddle',
-                x: plantedSiteCoords.x,
-                y: plantedSiteCoords.y,
-                r: 28,
-                life: 180,
-                maxLife: 180
-              });
-              defuser.hp = Math.max(1, defuser.hp - 25);
-              addFloatingText('🔥 MOLLY LINEUP! DEFUSE BLOCKED!', plantedSiteCoords.x, plantedSiteCoords.y - 20, '#fb923c');
-              addEventLog(`🧪 ${mollyShooter.name} (${mollyShooter.agent}) ยิง Molly Lineup ขัดขวางการกู้ Spike สำเร็จ!`);
-              defuseState.defusingPlayer = null;
-              if (defuseState.hasPassedHalf) defuseState.progress = 3.5;
-              else defuseState.progress = 0;
-            }
+        // Check if an alive attacker is actively contesting by direct line-of-sight within 70px
+        const isContestedByLos = aliveAttackers.some(atk => {
+          const dAtk = Math.hypot(atk.x - plantedSiteCoords.x, atk.y - plantedSiteCoords.y);
+          return (dAtk < 70 && hasLineOfSight(atk.x, atk.y, plantedSiteCoords.x, plantedSiteCoords.y, currentMap));
+        });
+
+        if (primaryDefuser && distToSpike < 40 && (!isContestedByLos || aliveAttackers.length === 0)) {
+          // Lock defuser directly onto the Spike
+          primaryDefuser.x = plantedSiteCoords.x;
+          primaryDefuser.y = plantedSiteCoords.y;
+
+          if (currentActivePP === 'FALLBACK_LINEUPS' && mollyCooldown <= 0 && aliveAttackers.length > 0) {
+            const mollyShooter = aliveAttackers.find(p => ['Brimstone', 'Viper', 'Killjoy', 'Sova', 'Gekko', 'Phoenix', 'Fade'].includes(p.agent)) || aliveAttackers[0];
+            mollyCooldown = 260;
+            radarAnimations.push({
+              type: 'molly_puddle',
+              x: plantedSiteCoords.x,
+              y: plantedSiteCoords.y,
+              r: 28,
+              life: 180,
+              maxLife: 180
+            });
+            primaryDefuser.hp = Math.max(1, primaryDefuser.hp - 25);
+            addFloatingText('🔥 MOLLY LINEUP! DEFUSE BLOCKED!', plantedSiteCoords.x, plantedSiteCoords.y - 20, '#fb923c');
+            addEventLog(`🧪 ${mollyShooter.name} (${mollyShooter.agent}) ยิง Molly Lineup ขัดขวางการกู้ Spike สำเร็จ!`);
+            defuseState.defusingPlayer = null;
+            if (defuseState.hasPassedHalf) defuseState.progress = 3.5;
+            else defuseState.progress = 0;
           } else {
-            defuseState.defusingPlayer = defuser;
+            defuseState.defusingPlayer = primaryDefuser;
             defuseState.progress += (1.0 / 60) * simSpeed;
 
             if (defuseState.progress >= 3.5) {
@@ -4975,12 +5393,12 @@
             }
 
             if (defuseState.progress >= defuseState.maxProgress) {
-              defuser.ultPoints = Math.min(defuser.ultMax || 7, (defuser.ultPoints || 0) + 1);
-              if (defuser.ultPoints >= (defuser.ultMax || 7)) defuser.ultReady = true;
-              addFloatingText('SPIKE DEFUSED! 🛡️', defuser.x, defuser.y - 18, '#34d399');
+              primaryDefuser.ultPoints = Math.min(primaryDefuser.ultMax || 7, (primaryDefuser.ultPoints || 0) + 1);
+              if (primaryDefuser.ultPoints >= (primaryDefuser.ultMax || 7)) primaryDefuser.ultReady = true;
+              addFloatingText('SPIKE DEFUSED! 🛡️', primaryDefuser.x, primaryDefuser.y - 18, '#34d399');
               const defWinTeam = isAtk ? 'B' : 'A';
               const defTeamName = isAtk ? (matchState.teamBName || 'DEFENDERS') : (matchState.teamAName || 'DEFENDERS');
-              addEventLog(`🛡️ ${defuser.name} ปลดชนวน SPIKE สำเร็จ! ${defTeamName} WIN ROUND ${matchState.round}!`);
+              addEventLog(`🛡️ ${primaryDefuser.name} ปลดชนวน SPIKE สำเร็จ! ${defTeamName} WIN ROUND ${matchState.round}!`);
               endRound(defWinTeam);
               return;
             }
@@ -4995,24 +5413,20 @@
         }
       }
 
-      // 9. Gunfight Encounters & Sightline Advancing
-      if (combatCooldown % 15 === 0) {
+      // 9. Gunfight Encounters with Line-of-Sight Check (No Shooting Through Walls, No Warping)
+      if (combatCooldown % 18 === 0) {
         const aliveA = matchPlayers.filter(p => p.team === 'A' && p.alive);
         const aliveB = matchPlayers.filter(p => p.team === 'B' && p.alive);
 
         for (let a of aliveA) {
+          if (!a.alive) continue;
           for (let b of aliveB) {
+            if (!b.alive) continue;
             const dist = Math.hypot(a.x - b.x, a.y - b.y);
-            if (dist < 110) {
+            // Gunfight ONLY occurs if within 115px AND line of sight is clear (not blocked by walls)!
+            if (dist < 115 && hasLineOfSight(a.x, a.y, b.x, b.y, currentMap)) {
               resolveGunfight(a, b);
               break;
-            } else if (dist < 180) {
-              // Sightline contact: advance closer to engage
-              const angleAtoB = Math.atan2(b.y - a.y, b.x - a.x);
-              a.x += Math.cos(angleAtoB) * (1.1 * simSpeed);
-              a.y += Math.sin(angleAtoB) * (1.1 * simSpeed);
-              b.x -= Math.cos(angleAtoB) * (1.1 * simSpeed);
-              b.y -= Math.sin(angleAtoB) * (1.1 * simSpeed);
             }
           }
         }
@@ -5025,13 +5439,27 @@
       if (!spikePlanted && (bAlive === 0 || aAlive === 0)) {
         endRound(bAlive === 0 ? 'A' : 'B');
       } else if (spikePlanted) {
-        if ((matchState.isFullSenseAttacking && aAlive === 0) || (!matchState.isFullSenseAttacking && bAlive === 0)) {
-          if (defuseState.defusingPlayer) {
-            defuseState.progress += 0.05 * simSpeed;
-          }
-        } else if ((matchState.isFullSenseAttacking && bAlive === 0) || (!matchState.isFullSenseAttacking && aAlive === 0)) {
+        const atkAlive = matchState.isFullSenseAttacking ? aAlive : bAlive;
+        const defAlive = matchState.isFullSenseAttacking ? bAlive : aAlive;
+
+        if (defAlive === 0) {
           // All defenders dead while spike is planted -> Attackers win immediately
           endRound(matchState.isFullSenseAttacking ? 'A' : 'B');
+        } else if (atkAlive === 0) {
+          // All attackers dead! Nearest defender immediately rushes spike to defuse
+          const defTeam = matchState.isFullSenseAttacking ? 'B' : 'A';
+          const defs = matchPlayers.filter(p => p.team === defTeam && p.alive);
+          if (defs.length > 0) {
+            defs.sort((p1, p2) => Math.hypot(p1.x - plantedSiteCoords.x, p1.y - plantedSiteCoords.y) - Math.hypot(p2.x - plantedSiteCoords.x, p2.y - plantedSiteCoords.y));
+            const mainDef = defs[0];
+            mainDef.targetX = plantedSiteCoords.x;
+            mainDef.targetY = plantedSiteCoords.y;
+            if (Math.hypot(mainDef.x - plantedSiteCoords.x, mainDef.y - plantedSiteCoords.y) < 40) {
+              mainDef.x = plantedSiteCoords.x;
+              mainDef.y = plantedSiteCoords.y;
+              defuseState.defusingPlayer = mainDef;
+            }
+          }
         }
       }
     }
@@ -5271,6 +5699,9 @@
         feed.innerHTML = '';
       }
       feed.prepend(div);
+      while (feed.children.length > 35) {
+        feed.removeChild(feed.lastChild);
+      }
       addEventLog(`${killer.name} (${killer.agent}) eliminated ${victim.name} (${victim.agent}) with ${methodName}${isHeadshot ? ' (HEADSHOT)' : ''}`);
     }
 
@@ -5341,6 +5772,23 @@
 
         ctx.fillStyle = '#a855f7';
         ctx.fillText('SITE C', activeMap.cSite.x - 14, activeMap.cSite.y - 12);
+      }
+
+      // Tactical Map Walls & Obstacles (Cover Buildings)
+      if (activeMap.walls && activeMap.walls.length > 0) {
+        ctx.fillStyle = 'rgba(10, 20, 38, 0.75)';
+        ctx.strokeStyle = 'rgba(56, 189, 248, 0.35)';
+        ctx.lineWidth = 1.5;
+        activeMap.walls.forEach(w => {
+          ctx.fillRect(w.x, w.y, w.w, w.h);
+          ctx.strokeRect(w.x, w.y, w.w, w.h);
+          ctx.beginPath();
+          ctx.moveTo(w.x, w.y);
+          ctx.lineTo(w.x + w.w, w.y + w.h);
+          ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+          ctx.stroke();
+          ctx.strokeStyle = 'rgba(56, 189, 248, 0.35)';
+        });
       }
 
       // Ult Orbs
@@ -6340,17 +6788,42 @@ function endRound(winner) {
       }, 1000 / simSpeed);
     }
 
+    let isGamePaused = false;
+
+    function togglePause() {
+      if (!isRoundActive) return;
+      isGamePaused = !isGamePaused;
+      const icon = document.getElementById('btn-pause-icon');
+      const txt = document.getElementById('btn-pause-text');
+      if (isGamePaused) {
+        clearInterval(timerInterval);
+        if (icon) icon.innerText = '▶️';
+        if (txt) txt.innerText = 'RESUME';
+        addEventLog(`⏸️ พักเกมชั่วคราว (PAUSED)`);
+      } else {
+        startTimer();
+        if (icon) icon.innerText = '⏸️';
+        if (txt) txt.innerText = 'PAUSE';
+        addEventLog(`▶️ ดำเนินการแข่งขันต่อ (RESUMED)`);
+      }
+    }
+
     function setSpeed(spd) {
       simSpeed = spd;
-      [1, 2, 4].forEach(s => {
-        const btn = document.getElementById(`spd-${s}`);
-        if (s === spd) {
-          btn.className = "px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500 text-slate-950 transition font-mono";
-        } else {
-          btn.className = "px-2 py-0.5 rounded text-[10px] font-bold text-slate-400 hover:text-white transition font-mono";
+      [0.5, 1, 2].forEach(s => {
+        const idStr = s.toString().replace('.', '_');
+        const btn = document.getElementById(`spd-${idStr}`);
+        if (btn) {
+          if (s === spd) {
+            btn.className = "px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500 text-slate-950 transition font-mono cursor-pointer";
+          } else {
+            btn.className = "px-2 py-0.5 rounded text-[10px] font-bold text-slate-400 hover:text-white transition font-mono cursor-pointer";
+          }
         }
       });
-      startTimer();
+      if (isRoundActive && !isGamePaused) {
+        startTimer();
+      }
     }
 
 
@@ -6972,6 +7445,76 @@ function endRound(winner) {
       }
     }
 
+    function openAgentSwapModal() {
+      const modal = document.getElementById('agent-swap-modal');
+      const container = document.getElementById('agent-swap-list');
+      if (!modal || !container) return;
+
+      container.innerHTML = '';
+      const starters = matchPlayers.slice(0, 5);
+
+      starters.forEach((p, idx) => {
+        const curAgent = p.agent || 'Jett';
+        const optionsHtml = Object.keys(AGENT_ROLES).map(ag => {
+          const role = AGENT_ROLES[ag] || 'Duelist';
+          const isRoleMatch = (p.role === role) ? '⭐ ' : ((p.role === 'Flex') ? '✔️ ' : '');
+          return `<option value="${ag}" ${ag === curAgent ? 'selected' : ''}>${isRoleMatch}${ag} (${role})</option>`;
+        }).join('');
+
+        const roleColor = p.role === 'Duelist' ? 'text-rose-400 border-rose-500/40 bg-rose-950/60' :
+                          p.role === 'Initiator' ? 'text-sky-400 border-sky-500/40 bg-sky-950/60' :
+                          p.role === 'Controller' ? 'text-purple-400 border-purple-500/40 bg-purple-950/60' :
+                          'text-emerald-400 border-emerald-500/40 bg-emerald-950/60';
+
+        const row = document.createElement('div');
+        row.className = "flex items-center justify-between bg-[#070c17] px-2.5 py-1.5 rounded-lg border border-[#16233b] gap-2";
+        row.innerHTML = `
+          <div class="flex items-center gap-2 min-w-0">
+            <span class="w-5 h-5 rounded bg-[#101b2f] text-slate-300 font-mono text-[10px] font-bold flex items-center justify-center shrink-0">#${idx + 1}</span>
+            <div class="truncate">
+              <span class="font-bold text-white text-xs">${p.name}</span>
+              <span class="text-[9px] font-mono px-1 rounded border ml-1 ${roleColor}">${p.role}</span>
+            </div>
+          </div>
+          <select id="quick-agent-pick-${idx}" class="bg-[#040711] text-emerald-300 font-bold border border-[#1e3256] rounded px-2 py-1 text-xs focus:outline-none focus:border-emerald-500 cursor-pointer">
+            ${optionsHtml}
+          </select>
+        `;
+        container.appendChild(row);
+      });
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeAgentSwapModal() {
+      const modal = document.getElementById('agent-swap-modal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    }
+
+    function saveAgentSwap() {
+      for (let idx = 0; idx < 5; idx++) {
+        const sel = document.getElementById(`quick-agent-pick-${idx}`);
+        if (sel) {
+          const chosenAg = sel.value;
+          if (matchPlayers[idx]) {
+            matchPlayers[idx].agent = chosenAg;
+            const agInfo = AGENT_SKILLS_DATA[chosenAg] || {};
+            matchPlayers[idx].ultMax = agInfo.ultCost || 7;
+          }
+          if (myRoster && myRoster.starters && myRoster.starters[idx]) {
+            myRoster.starters[idx].agent = chosenAg;
+          }
+        }
+      }
+      closeAgentSwapModal();
+      initMatchHud();
+      addEventLog(`👥 อัปเดตรายชื่อ Agent ของทีมสำเร็จ: ${matchPlayers.slice(0, 5).map(p => p.agent).join(', ')}`);
+    }
+
     function populateFriendlyTeamSelects() {
       const selA = document.getElementById('friendly-select-teama');
       const selB = document.getElementById('friendly-select-teamb');
@@ -7006,6 +7549,47 @@ function endRound(winner) {
         if (t.name === 'Paper Rex') optB.selected = true;
         selB.appendChild(optB);
       });
+
+      if (selA.options.length > 0) {
+        renderFriendlyAgentSelect(selA.value);
+      }
+    }
+
+    function renderFriendlyAgentSelect(teamName) {
+      const container = document.getElementById('friendly-agents-list');
+      if (!container) return;
+      const squad = getSquadForTeam(teamName);
+      container.innerHTML = '';
+
+      squad.forEach((p, idx) => {
+        const curAgent = p.agent || getFallbackAgentByRole(p.role, idx);
+        const optionsHtml = Object.keys(AGENT_ROLES).map(ag => {
+          const role = AGENT_ROLES[ag] || 'Duelist';
+          const isRoleMatch = (p.role === role) ? '⭐ ' : ((p.role === 'Flex') ? '✔️ ' : '');
+          return `<option value="${ag}" ${ag === curAgent ? 'selected' : ''}>${isRoleMatch}${ag} (${role})</option>`;
+        }).join('');
+
+        const roleColor = p.role === 'Duelist' ? 'text-rose-400 border-rose-500/40 bg-rose-950/60' :
+                          p.role === 'Initiator' ? 'text-sky-400 border-sky-500/40 bg-sky-950/60' :
+                          p.role === 'Controller' ? 'text-purple-400 border-purple-500/40 bg-purple-950/60' :
+                          'text-emerald-400 border-emerald-500/40 bg-emerald-950/60';
+
+        const row = document.createElement('div');
+        row.className = "flex items-center justify-between bg-[#070c17] px-2.5 py-1.5 rounded-lg border border-[#16233b] gap-2";
+        row.innerHTML = `
+          <div class="flex items-center gap-2 min-w-0">
+            <span class="w-5 h-5 rounded bg-[#101b2f] text-slate-300 font-mono text-[10px] font-bold flex items-center justify-center shrink-0">#${idx + 1}</span>
+            <div class="truncate">
+              <span class="font-bold text-white text-xs">${p.name}</span>
+              <span class="text-[9px] font-mono px-1 rounded border ml-1 ${roleColor}">${p.role}</span>
+            </div>
+          </div>
+          <select id="friendly-agent-pick-${idx}" class="bg-[#040711] text-emerald-300 font-bold border border-[#1e3256] rounded px-2 py-1 text-xs focus:outline-none focus:border-emerald-500 cursor-pointer">
+            ${optionsHtml}
+          </select>
+        `;
+        container.appendChild(row);
+      });
     }
 
     function confirmStartFriendlyMatch() {
@@ -7018,6 +7602,38 @@ function endRound(winner) {
       const teamBName = selB ? selB.value : 'Paper Rex';
       const mapName = selMap ? selMap.value : 'Ascent';
       const startingSide = selSide ? selSide.value : 'ATK';
+
+      // Load Team A players into myRoster.starters
+      myRoster.starters = getSquadForTeam(teamAName);
+
+      // Apply chosen agent from selector for each player
+      for (let idx = 0; idx < 5; idx++) {
+        const agSel = document.getElementById(`friendly-agent-pick-${idx}`);
+        if (agSel && myRoster.starters[idx]) {
+          myRoster.starters[idx].agent = agSel.value;
+        }
+      }
+
+      // Synchronize Team A
+      syncRosterToMatchPlayers();
+
+      // Load Team B squad and sync to matchPlayers[5..9]
+      const oppSquad = getSquadForTeam(teamBName);
+      for (let i = 0; i < 5; i++) {
+        const opp = oppSquad[i];
+        if (opp && matchPlayers[5 + i]) {
+          matchPlayers[5 + i].id = opp.id || `opp_${i+1}`;
+          matchPlayers[5 + i].team = 'B';
+          matchPlayers[5 + i].name = opp.name;
+          matchPlayers[5 + i].role = opp.role;
+          matchPlayers[5 + i].agent = opp.agent;
+          matchPlayers[5 + i].aim = opp.aim || 92;
+          matchPlayers[5 + i].iq = opp.iq || 90;
+          matchPlayers[5 + i].clutch = opp.clutch || 91;
+          const oppAgInfo = AGENT_SKILLS_DATA[opp.agent] || {};
+          matchPlayers[5 + i].ultMax = oppAgInfo.ultCost || 7;
+        }
+      }
 
       currentGameMode = 'FRIENDLY';
       closeFriendlySetupModal();
@@ -7042,9 +7658,6 @@ function endRound(winner) {
       const scoreBEl = document.getElementById('score-b');
       if (scoreAEl) scoreAEl.innerText = '0';
       if (scoreBEl) scoreBEl.innerText = '0';
-
-      // Load Team A players into myRoster.starters
-      loadPlayersForTeam(teamAName);
 
       // Set active Map
       changeMap(mapName);
@@ -7294,13 +7907,29 @@ function endRound(winner) {
         const aBox = document.getElementById(`ult-action-${p.id}`);
         const sTag = document.getElementById(`status-tag-${p.id}`);
 
-        if (hpBar) hpBar.style.width = `${Math.max(0, Math.min(100, (p.hp / (p.maxHp || 100)) * 100))}%`;
+        const hpVal = document.getElementById(`hp-val-${p.id}`);
+        if (hpBar) {
+          const pct = Math.max(0, Math.min(100, (p.hp / (p.maxHp || 100)) * 100));
+          hpBar.style.width = `${pct}%`;
+          if (pct > 50) hpBar.className = `h-full transition-all duration-200 ${p.team === 'A' ? 'bg-emerald-500' : 'bg-rose-500'}`;
+          else if (pct > 25) hpBar.className = 'h-full transition-all duration-200 bg-amber-500';
+          else hpBar.className = 'h-full transition-all duration-200 bg-red-600 animate-pulse';
+        }
+        if (hpVal) {
+          if (!p.alive) {
+            hpVal.innerHTML = `<span class="text-slate-600 text-[8px] font-mono">DEAD</span>`;
+          } else {
+            const curHp = Math.max(0, Math.ceil(p.hp));
+            const col = curHp > 50 ? (p.team === 'A' ? 'text-emerald-400' : 'text-rose-400') : (curHp > 25 ? 'text-amber-400' : 'text-red-500');
+            hpVal.innerHTML = `<span class="${col}">${curHp}</span>`;
+          }
+        }
         if (wep) wep.innerText = p.weapon || 'Classic';
 
         if (!p.alive && card) {
-          card.classList.add('opacity-30', 'line-through');
+          card.classList.add('opacity-40', 'line-through', 'border-slate-800');
         } else if (card) {
-          card.classList.remove('opacity-30', 'line-through');
+          card.classList.remove('opacity-40', 'line-through', 'border-slate-800');
         }
 
         // Status Tag
@@ -7618,6 +8247,20 @@ function endRound(winner) {
       if (n.includes('funplus') || n.includes('fpx')) return 'funplusphoenix';
       if (n.includes('trace')) return 'traceesports';
       if (n.includes('bilibili')) return 'bilibiligaming';
+      if (n.includes('liquid')) return 'teamliquid';
+      if (n.includes('kru') || n.includes('krü')) return 'kresports';
+      if (n.includes('furia')) return 'furia';
+      if (n.includes('mibr')) return 'mibr';
+      if (n.includes('evil') || n.includes('eg')) return 'evilgeniuses';
+      if (n.includes('2game')) return '2gameesports';
+      if (n.includes('gentle')) return 'gentlemates';
+      if (n.includes('bbl')) return 'bblesports';
+      if (n.includes('giant')) return 'giantx';
+      if (n.includes('jd')) return 'jdgaming';
+      if (n.includes('dragon')) return 'dragonrangergaming';
+      if (n.includes('xgod')) return 'xgod';
+      if (n.includes('555')) return '555';
+      if (n.includes('attack')) return 'attackallaround';
       if (n.includes('full sense')) return 'fullsense';
       return n.replace(/[^a-z0-9]/g, '');
     }
@@ -9659,17 +10302,18 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
         ha.innerHTML += `
           <div id="card-${p.id}" class="flex flex-col bg-[#060a14] px-2 py-1.5 rounded border border-[#14213a] transition gap-1">
             <div class="flex items-center justify-between">
-              <div class="flex items-center gap-1.5">
-                <span class="font-bold text-slate-100 text-xs">${p.name}</span>
+              <div class="flex items-center gap-1.5 min-w-0">
+                <span class="font-bold text-slate-100 text-xs truncate max-w-[95px]">${p.name}</span>
                 <span class="text-[10px] text-slate-400 font-mono">(${p.agent})</span>
                 <span class="text-[9px] font-mono px-1 rounded bg-[#0d1627] text-cyan-400 border border-[#1e3256]" title="${mastery.buffDesc}">${mastery.tier}</span>
                 <span id="status-tag-${p.id}" class="text-[9px] font-bold text-amber-400"></span>
               </div>
-              <div class="flex items-center gap-1.5">
+              <div class="flex items-center gap-1.5 shrink-0">
                 <span class="font-mono text-[10px] text-slate-400" id="wep-${p.id}">${p.weapon}</span>
-                <div class="w-14 bg-slate-800 h-1.5 rounded-full overflow-hidden">
-                  <div id="hp-${p.id}" class="bg-emerald-500 h-full transition-all duration-300" style="width: 100%"></div>
+                <div class="w-12 bg-slate-800 h-2 rounded-full overflow-hidden border border-slate-700/60 flex items-center">
+                  <div id="hp-${p.id}" class="bg-emerald-500 h-full transition-all duration-200" style="width: 100%"></div>
                 </div>
+                <span id="hp-val-${p.id}" class="font-mono text-[10px] font-bold text-emerald-400 w-6 text-right">100</span>
               </div>
             </div>
             <div class="flex items-center justify-between pt-0.5 border-t border-[#121c2e]">
@@ -9686,17 +10330,18 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
         hb.innerHTML += `
           <div id="card-${p.id}" class="flex flex-col bg-[#060a14] px-2 py-1.5 rounded border border-[#14213a] transition gap-1">
             <div class="flex items-center justify-between">
-              <div class="flex items-center gap-1.5">
-                <span class="font-bold text-slate-100 text-xs">${p.name}</span>
+              <div class="flex items-center gap-1.5 min-w-0">
+                <span class="font-bold text-slate-100 text-xs truncate max-w-[95px]">${p.name}</span>
                 <span class="text-[10px] text-slate-400 font-mono">(${p.agent})</span>
                 <span class="text-[9px] font-mono px-1 rounded bg-[#0d1627] text-rose-400 border border-[#1e3256]" title="${mastery.buffDesc}">${mastery.tier}</span>
                 <span id="status-tag-${p.id}" class="text-[9px] font-bold text-amber-400"></span>
               </div>
-              <div class="flex items-center gap-1.5">
+              <div class="flex items-center gap-1.5 shrink-0">
                 <span class="font-mono text-[10px] text-slate-400" id="wep-${p.id}">${p.weapon}</span>
-                <div class="w-14 bg-slate-800 h-1.5 rounded-full overflow-hidden">
-                  <div id="hp-${p.id}" class="bg-rose-500 h-full transition-all duration-300" style="width: 100%"></div>
+                <div class="w-12 bg-slate-800 h-2 rounded-full overflow-hidden border border-slate-700/60 flex items-center">
+                  <div id="hp-${p.id}" class="bg-rose-500 h-full transition-all duration-200" style="width: 100%"></div>
                 </div>
+                <span id="hp-val-${p.id}" class="font-mono text-[10px] font-bold text-rose-400 w-6 text-right">100</span>
               </div>
             </div>
             <div class="flex items-center justify-between pt-0.5 border-t border-[#121c2e]">
