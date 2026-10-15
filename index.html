@@ -1318,67 +1318,82 @@
     </div>
   </div>
 
-  <!-- ==================== GAME MODE SELECTOR & NEW CAREER MODAL ==================== -->
+  <!-- ==================== GAME MODE SELECTOR & WELCOME MODAL ==================== -->
   <div id="game-mode-modal" class="fixed inset-0 modal-backdrop hidden items-center justify-center p-3 z-50">
-    <div class="bg-[#0c1424] border border-[#1e3256] rounded-2xl p-5 max-w-lg w-full shadow-2xl relative flex flex-col gap-4 text-slate-200">
-      <div class="flex items-center justify-between border-b border-[#1b2d4f] pb-2">
-        <h3 class="text-base font-black text-white flex items-center gap-2">
-          <span>🎮</span><span>เลือกโหมดการเล่น (GAME MODES)</span>
-        </h3>
+    <div class="bg-[#0c1424] border-2 border-emerald-500/80 rounded-2xl p-5 max-w-lg w-full shadow-2xl relative flex flex-col gap-4 text-slate-200 animate-fade-in">
+      <div class="flex items-center justify-between border-b border-[#1b2d4f] pb-3">
+        <div>
+          <span class="text-[10px] font-mono text-emerald-400 font-bold uppercase tracking-widest bg-emerald-950 px-2 py-0.5 rounded border border-emerald-500/40">VCT & VCL 2026 OFFICIAL SIMULATOR</span>
+          <h3 id="game-mode-title" class="text-base font-black text-white mt-1">ยินดีต้อนรับสู่ TACTIX: Pro Esports Manager 2026</h3>
+          <p id="game-mode-subtitle" class="text-[11px] text-slate-400 mt-0.5">กรุณาเลือกโหมดการเล่นและสโมสรที่คุณต้องการเริ่มต้นคุมทีม</p>
+        </div>
         <button onclick="closeGameModeModal()" class="text-slate-400 hover:text-white font-mono text-lg">✕</button>
       </div>
 
+      <!-- Save Banner (Shown if save file exists) -->
+      <div id="game-mode-save-banner" class="hidden bg-emerald-950/60 border border-emerald-500/40 p-3 rounded-xl flex items-center justify-between gap-3 text-xs">
+        <div>
+          <span class="font-bold text-white block flex items-center gap-1.5">
+            <span>💾</span> <span>พบเซฟเดิมในเครื่อง</span>
+          </span>
+          <span class="text-[11px] text-emerald-300 block" id="save-banner-desc">สโมสร FULL SENSE · Season 1, Week 1</span>
+        </div>
+        <button onclick="continueFromExistingSave()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs transition shrink-0 shadow cursor-pointer">
+          เล่นต่อจากเซฟเดิม →
+        </button>
+      </div>
+
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <!-- Card 1: Career Mode -->
-        <div class="bg-[#050814] p-4 rounded-xl border-2 border-emerald-500/60 flex flex-col justify-between gap-3 shadow-lg">
+        <!-- Card 1: Default Full Sense Career -->
+        <div class="bg-[#050814] p-3.5 rounded-xl border-2 border-emerald-500/60 flex flex-col justify-between gap-2.5 shadow-lg">
           <div>
             <div class="flex items-center justify-between">
               <span class="text-2xl">🏆</span>
-              <span class="text-[10px] font-mono bg-emerald-950 text-emerald-400 border border-emerald-500/40 px-2 py-0.5 rounded font-bold">ACTIVE</span>
+              <span class="text-[10px] font-mono bg-emerald-950 text-emerald-400 border border-emerald-500/40 px-2 py-0.5 rounded font-bold">RECOMMENDED</span>
             </div>
-            <h4 class="font-bold text-white text-sm mt-2">CAREER MANAGER</h4>
-            <p class="text-[11px] text-slate-400 mt-1">คุมทีมระยะยาว ตลาดซื้อขายผู้เล่นแบบห้ามตัวซ้ำ ชิงแชมป์ VCT สะสมเงินรางวัลและบันทึกเซฟอัตโนมัติ</p>
+            <h4 class="font-bold text-white text-sm mt-1.5">คุมทีม FULL SENSE</h4>
+            <p class="text-[11px] text-slate-400 mt-1">เริ่มต้นฤดูกาลใหม่ (Week 1) ในลีก VCT Pacific กับยอดทีมไทย นำทัพโดย Primmie, killua, Crws, seph1roth, JitboyS</p>
           </div>
-          <button onclick="selectGameMode('CAREER')" class="w-full py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold text-xs hover:bg-emerald-400 transition">
-            เล่นโหมด Career
+          <button onclick="startFreshCareerFullSense()" class="w-full py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs transition cursor-pointer shadow">
+            เริ่มคุมทีม FULL SENSE →
           </button>
         </div>
 
         <!-- Card 2: Friendly Match -->
-        <div class="bg-[#050814] p-4 rounded-xl border border-[#1e3256] hover:border-cyan-500/60 flex flex-col justify-between gap-3 shadow-lg transition">
+        <div class="bg-[#050814] p-3.5 rounded-xl border border-[#1e3256] hover:border-cyan-500/60 flex flex-col justify-between gap-2.5 shadow-lg transition">
           <div>
             <div class="flex items-center justify-between">
               <span class="text-2xl">⚔️</span>
               <span class="text-[10px] font-mono bg-cyan-950 text-cyan-400 border border-cyan-500/40 px-2 py-0.5 rounded font-bold">QUICK MATCH</span>
             </div>
-            <h4 class="font-bold text-white text-sm mt-2">FRIENDLY MATCH</h4>
-            <p class="text-[11px] text-slate-400 mt-1">แมตช์กระชับมิตรด่วน นำทีมในเซฟมาลองแท็กติก หรือเลือกทีมจริงใน VCT มาดวลกันโดยไม่กระทบสถิติในเซฟ</p>
+            <h4 class="font-bold text-white text-sm mt-1.5">แมตช์กระชับมิตร</h4>
+            <p class="text-[11px] text-slate-400 mt-1">แข่งขันด่วน 1 แมตช์ ทดลองแผนและสกิล Agent แบบเรียลไทม์ โดยไม่มีผลกระทบต่อสถิติลีกหรือการเงินสโมสร</p>
           </div>
-          <button onclick="selectGameMode('FRIENDLY')" class="w-full py-1.5 rounded-lg bg-[#14233e] hover:bg-cyan-500 hover:text-slate-950 text-cyan-300 font-bold text-xs transition">
-            เล่นโหมด Friendly
+          <button onclick="selectGameMode('FRIENDLY')" class="w-full py-2 rounded-lg bg-[#14233e] hover:bg-cyan-500 hover:text-slate-950 text-cyan-300 font-bold text-xs transition cursor-pointer">
+            เล่นโหมด Friendly →
           </button>
         </div>
       </div>
 
-      <!-- Select Club & Region Option -->
+      <!-- Option 3: Choose Other Club from 4 VCT Regions -->
       <div class="bg-[#050914] p-3 rounded-xl border border-cyan-500/40 flex items-center justify-between gap-3 text-xs">
         <div>
-          <span class="font-bold text-white block">เลือกสโมสร & ลีกภูมิภาคแข่งขัน (4 VCT REGIONS)</span>
-          <span class="text-[11px] text-slate-400">เลือกคุมทีมใน VCT Pacific, Americas, EMEA หรือ China (มีระบบตกชั้น/เลื่อนชั้นทุกโซน)</span>
+          <span class="font-bold text-white block">เลือกสโมสรอื่นจาก 4 ภูมิภาค (4 VCT REGIONS)</span>
+          <span class="text-[11px] text-slate-400">เลือกคุมทีมระดับโลกใน Pacific, Americas, EMEA หรือ China (เช่น PRX, Sentinels, Fnatic, EDG)</span>
         </div>
-        <button onclick="openClubSelectionModal()" class="px-3 py-1.5 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-700 hover:from-cyan-500 hover:to-blue-600 text-white font-bold text-[11px] transition shrink-0 cursor-pointer shadow">
-          🌐 เลือกสโมสร
+        <button onclick="closeGameModeModal(); openClubSelectionModal();" class="px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-700 hover:from-cyan-500 hover:to-blue-600 text-white font-bold text-xs transition shrink-0 cursor-pointer shadow">
+          🌐 เลือกสโมสร →
         </button>
       </div>
 
-      <!-- New Career Option -->
-      <div class="bg-[#050914] p-3 rounded-xl border border-[#1b2d4f] flex items-center justify-between gap-3 text-xs">
+      <!-- Option 4: Fantasy Draft -->
+      <div class="bg-[#050914] p-3 rounded-xl border border-amber-500/30 flex items-center justify-between gap-3 text-xs">
         <div>
-          <span class="font-bold text-white block">ต้องการเริ่มเซฟใหม่หรือไม่?</span>
-          <span class="text-[11px] text-slate-400">เลือกระหว่างไลน์อัปจริง หรือดราฟต์ผู้เล่นเองด้วยงบ $2,000,000</span>
+          <span class="font-bold text-white block">โหมดดราฟต์ผู้เล่นเอง (FANTASY DRAFT)</span>
+          <span class="text-[11px] text-slate-400">สร้างทีมในฝันด้วยงบ $2,000,000 เข้าสู่ตลาดซื้อขายเพื่อดราฟต์นักแข่ง 5 คนด้วยตัวเอง</span>
         </div>
-        <button onclick="promptNewCareerMode()" class="px-3 py-1.5 rounded-lg bg-rose-600/80 hover:bg-rose-500 text-white font-bold text-[11px] transition shrink-0">
-          🔄 เริ่มเซฟใหม่ (NEW)
+        <button onclick="promptNewCareerMode()" class="px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-amber-600 to-yellow-600 hover:from-amber-500 hover:to-yellow-500 text-slate-950 font-bold text-xs transition shrink-0 cursor-pointer shadow">
+          ✨ Fantasy Draft →
         </button>
       </div>
     </div>
@@ -2637,10 +2652,23 @@
     // --- 4. INITIALIZATION ---
     window.addEventListener('DOMContentLoaded', () => {
       loadDatabase();
-      renderStandings();
-      renderClubFinancesDashboard();
-      renderRoster();
-      renderTactics();
+
+      // Check if user has an existing career save
+      const hasSave = localStorage.getItem('TACTIX_CAREER_SAVE_v1');
+      if (hasSave) {
+        loadGameFromStorage(true);
+      } else {
+        renderStandings();
+        renderClubFinancesDashboard();
+        renderRoster();
+        renderTactics();
+        updateDashboardFixtureCard();
+        // First-time visit: display Welcome & Mode Selector modal
+        setTimeout(() => {
+          openGameModeModal(true);
+        }, 350);
+      }
+
       initRoundHistoryStrip();
       enterBuyPhase(1);
       drawMap();
@@ -5930,14 +5958,97 @@ function endRound(winner) {
     // =========================================================================
     // GAME MODES & LOCALSTORAGE SAVE / LOAD ENGINE
     // =========================================================================
-    function openGameModeModal() {
-      document.getElementById('game-mode-modal').classList.remove('hidden');
-      document.getElementById('game-mode-modal').classList.add('flex');
+    function openGameModeModal(isFirstLaunch = false) {
+      const modal = document.getElementById('game-mode-modal');
+      if (!modal) return;
+      
+      const saveRaw = localStorage.getItem('TACTIX_CAREER_SAVE_v1');
+      const banner = document.getElementById('game-mode-save-banner');
+      const title = document.getElementById('game-mode-title');
+      const subtitle = document.getElementById('game-mode-subtitle');
+      
+      if (saveRaw) {
+        try {
+          const s = JSON.parse(saveRaw);
+          if (banner) {
+            banner.classList.remove('hidden');
+            banner.classList.add('flex');
+            const desc = document.getElementById('save-banner-desc');
+            if (desc) desc.innerText = `สโมสร ${s.myClubName || 'FULL SENSE'} · Season ${s.currentSeasonNumber || 1}, Week ${s.currentSeasonWeek || 1} · เงินสด: $${(s.budget || 1450000).toLocaleString()}`;
+          }
+        } catch(e) {}
+      } else {
+        if (banner) {
+          banner.classList.add('hidden');
+          banner.classList.remove('flex');
+        }
+      }
+
+      if (isFirstLaunch) {
+        if (title) title.innerText = 'ยินดีต้อนรับสู่ TACTIX: Pro Esports Manager 2026';
+        if (subtitle) subtitle.innerText = 'กรุณาเลือกโหมดการเล่นและสโมสรที่คุณต้องการเริ่มต้นคุมทีม';
+      } else {
+        if (title) title.innerText = 'เลือกโหมดการเล่น (GAME MODES)';
+        if (subtitle) subtitle.innerText = 'ปรับเปลี่ยนโหมดการเล่น เลือกลีกสโมสร หรือเริ่มต้นเซฟใหม่';
+      }
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
     }
 
     function closeGameModeModal() {
-      document.getElementById('game-mode-modal').classList.add('hidden');
-      document.getElementById('game-mode-modal').classList.remove('flex');
+      const m = document.getElementById('game-mode-modal');
+      if (m) {
+        m.classList.add('hidden');
+        m.classList.remove('flex');
+      }
+    }
+
+    function continueFromExistingSave() {
+      loadGameFromStorage(true);
+      closeGameModeModal();
+      addEventLog(`📂 โหลดข้อมูลเซฟเดิม: ยินดีต้อนรับกลับสู่สโมสร ${myClubName}!`);
+    }
+
+    function startFreshCareerFullSense() {
+      selectGameMode('CAREER');
+      myClubName = 'FULL SENSE';
+      myClubId = 'fullsense';
+      myClubRegion = 'pacific';
+      currentSeasonWeek = 1;
+      
+      const reg = REGIONAL_DATA['pacific'];
+      STANDINGS_VCT = reg.tier1.map((t, idx) => ({
+        pos: idx + 1,
+        name: t.name,
+        id: t.id,
+        mp: 0,
+        w: 0,
+        l: 0,
+        diff: '0',
+        form: []
+      }));
+      STANDINGS_VCL = reg.tier2.map((t, idx) => ({
+        pos: idx + 1,
+        name: t.name,
+        id: t.id,
+        mp: 0,
+        w: 0,
+        l: 0,
+        diff: '0',
+        form: []
+      }));
+
+      SEASON_FIXTURES = generateSeasonFixtures(STANDINGS_VCT);
+      renderStandings();
+      renderRoster();
+      renderTactics();
+      updateDashboardFixtureCard();
+      renderClubFinancesDashboard();
+      saveGameToStorage(true);
+      closeGameModeModal();
+      addEventLog('🎮 เริ่มต้นฤดูกาลใหม่: เข้ารับตำแหน่งผู้จัดการทีม FULL SENSE ใน VCT Pacific');
+      alert('🎉 ยินดีต้อนรับสู่สโมสร FULL SENSE!\nเริ่มแข่งขันในศึก VCT Pacific 2026 (Week 1 / 11) เรียบร้อยแล้ว');
     }
 
     function selectGameMode(mode) {
@@ -5945,6 +6056,9 @@ function endRound(winner) {
       document.getElementById('header-mode-label').innerText = mode === 'CAREER' ? 'CAREER MODE' : 'FRIENDLY MATCH';
       document.getElementById('header-mode-icon').innerText = mode === 'CAREER' ? '🏆' : '⚔️';
       closeGameModeModal();
+      if (mode === 'FRIENDLY') {
+        switchTab('match');
+      }
       addEventLog(`Game Mode switched to: ${mode === 'CAREER' ? 'Career Manager Mode' : 'Friendly Match'}`);
     }
 
@@ -6289,29 +6403,29 @@ function endRound(winner) {
     };
 
     let STANDINGS_VCT = [
-      { pos: 1, name: 'FULL SENSE', mp: 9, w: 8, l: 1, diff: '+54', form: ['W','W','W','W','L'] },
-      { pos: 2, name: 'Paper Rex', mp: 9, w: 7, l: 2, diff: '+41', form: ['W','W','L','W','W'] },
-      { pos: 3, name: 'DRX', mp: 9, w: 7, l: 2, diff: '+35', form: ['W','L','W','W','W'] },
-      { pos: 4, name: 'Gen.G Esports', mp: 9, w: 6, l: 3, diff: '+28', form: ['L','W','W','W','L'] },
-      { pos: 5, name: 'Talon Esports', mp: 9, w: 6, l: 3, diff: '+19', form: ['W','W','L','W','W'] },
-      { pos: 6, name: 'Team Secret', mp: 9, w: 5, l: 4, diff: '+8', form: ['W','L','W','L','W'] },
-      { pos: 7, name: 'Rex Regum Qeon', mp: 9, w: 4, l: 5, diff: '-6', form: ['L','W','L','W','L'] },
-      { pos: 8, name: 'T1', mp: 9, w: 4, l: 5, diff: '-12', form: ['L','L','W','L','W'] },
-      { pos: 9, name: 'ZETA DIVISION', mp: 9, w: 3, l: 6, diff: '-24', form: ['W','L','L','L','L'] },
-      { pos: 10, name: 'Global Esports', mp: 9, w: 2, l: 7, diff: '-42', form: ['L','L','L','W','L'] },
-      { pos: 11, name: 'DetonatioN FM', mp: 9, w: 1, l: 8, diff: '-51', form: ['L','L','L','L','W'] },
-      { pos: 12, name: 'Bleed Esports', mp: 9, w: 1, l: 8, diff: '-48', form: ['L','L','L','L','L'] }
+      { pos: 1, name: 'FULL SENSE', mp: 0, w: 0, l: 0, diff: '0', form: [] },
+      { pos: 2, name: 'Paper Rex', mp: 0, w: 0, l: 0, diff: '0', form: [] },
+      { pos: 3, name: 'DRX', mp: 0, w: 0, l: 0, diff: '0', form: [] },
+      { pos: 4, name: 'Gen.G Esports', mp: 0, w: 0, l: 0, diff: '0', form: [] },
+      { pos: 5, name: 'Talon Esports', mp: 0, w: 0, l: 0, diff: '0', form: [] },
+      { pos: 6, name: 'Team Secret', mp: 0, w: 0, l: 0, diff: '0', form: [] },
+      { pos: 7, name: 'Rex Regum Qeon', mp: 0, w: 0, l: 0, diff: '0', form: [] },
+      { pos: 8, name: 'T1', mp: 0, w: 0, l: 0, diff: '0', form: [] },
+      { pos: 9, name: 'ZETA DIVISION', mp: 0, w: 0, l: 0, diff: '0', form: [] },
+      { pos: 10, name: 'Global Esports', mp: 0, w: 0, l: 0, diff: '0', form: [] },
+      { pos: 11, name: 'DetonatioN FM', mp: 0, w: 0, l: 0, diff: '0', form: [] },
+      { pos: 12, name: 'Bleed Esports', mp: 0, w: 0, l: 0, diff: '0', form: [] }
     ];
 
     let STANDINGS_VCL = [
-      { pos: 1, name: 'Sharper Esport', mp: 7, w: 6, l: 1, diff: '+44', form: ['W','W','W','W','L'] },
-      { pos: 2, name: 'Team NKT', mp: 7, w: 5, l: 2, diff: '+26', form: ['W','L','W','W','W'] },
-      { pos: 3, name: 'Made in Thailand (MiTH)', mp: 7, w: 5, l: 2, diff: '+22', form: ['W','W','L','W','W'] },
-      { pos: 4, name: 'Fancy United Esports', mp: 7, w: 4, l: 3, diff: '+14', form: ['L','W','W','L','W'] },
-      { pos: 5, name: 'NAOS Esports', mp: 7, w: 4, l: 3, diff: '+6', form: ['W','L','W','W','L'] },
-      { pos: 6, name: 'Oasis Gaming', mp: 7, w: 3, l: 4, diff: '-8', form: ['W','L','L','W','L'] },
-      { pos: 7, name: 'Alter Ego', mp: 7, w: 2, l: 5, diff: '-24', form: ['L','W','L','L','L'] },
-      { pos: 8, name: 'XERXIA', mp: 7, w: 1, l: 6, diff: '-45', form: ['L','L','L','L','W'] }
+      { pos: 1, name: 'Sharper Esport', mp: 0, w: 0, l: 0, diff: '0', form: [] },
+      { pos: 2, name: 'Team NKT', mp: 0, w: 0, l: 0, diff: '0', form: [] },
+      { pos: 3, name: 'Made in Thailand (MiTH)', mp: 0, w: 0, l: 0, diff: '0', form: [] },
+      { pos: 4, name: 'Fancy United Esports', mp: 0, w: 0, l: 0, diff: '0', form: [] },
+      { pos: 5, name: 'NAOS Esports', mp: 0, w: 0, l: 0, diff: '0', form: [] },
+      { pos: 6, name: 'Oasis Gaming', mp: 0, w: 0, l: 0, diff: '0', form: [] },
+      { pos: 7, name: 'Alter Ego', mp: 0, w: 0, l: 0, diff: '0', form: [] },
+      { pos: 8, name: 'XERXIA', mp: 0, w: 0, l: 0, diff: '0', form: [] }
     ];
 
     function sortStandings(leagueArray) {
