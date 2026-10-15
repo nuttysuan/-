@@ -89,47 +89,56 @@
       </div>
     </div>
 
-    <!-- 5 Core Navigation Tabs -->
-    <nav class="flex items-center gap-1 md:gap-1.5 text-xs font-semibold">
-      <button onclick="switchTab('dashboard')" id="tab-dashboard" class="nav-tab px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+    <!-- Navigation Tabs (Landing Tab always available; Career/Match tabs reveal dynamically upon mode entry) -->
+    <nav class="flex items-center gap-1 md:gap-1.5 text-xs font-semibold" id="main-nav-bar">
+      <!-- 0. Landing / Rules Tab -->
+      <button onclick="switchTab('landing')" id="tab-landing" class="nav-tab px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 bg-emerald-500 text-slate-950 font-bold">
+        <span>🏠</span><span class="inline">หน้าหลัก & กฎกติกา</span>
+      </button>
+
+      <!-- 1-4 Career Tabs (Hidden on initial landing; revealed when entering Career mode) -->
+      <button onclick="switchTab('dashboard')" id="tab-dashboard" class="nav-tab px-3 py-1.5 rounded-lg transition items-center gap-1.5 text-slate-400 hover:text-slate-200 hover:bg-[#0f1a30] hidden">
         <span>📊</span><span class="hidden sm:inline">ภาพรวมสโมสร</span>
       </button>
-      <button onclick="switchTab('roster')" id="tab-roster" class="nav-tab px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 text-slate-400 hover:text-slate-200 hover:bg-[#0f1a30]">
+      <button onclick="switchTab('roster')" id="tab-roster" class="nav-tab px-3 py-1.5 rounded-lg transition items-center gap-1.5 text-slate-400 hover:text-slate-200 hover:bg-[#0f1a30] hidden">
         <span>👥</span><span class="hidden sm:inline">จัดการทีม</span>
       </button>
-      <button onclick="switchTab('tactics')" id="tab-tactics" class="nav-tab px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 text-slate-400 hover:text-slate-200 hover:bg-[#0f1a30]">
+      <button onclick="switchTab('tactics')" id="tab-tactics" class="nav-tab px-3 py-1.5 rounded-lg transition items-center gap-1.5 text-slate-400 hover:text-slate-200 hover:bg-[#0f1a30] hidden">
         <span>🎯</span><span class="hidden sm:inline">กลยุทธ์ & AGENT</span>
       </button>
-      <button onclick="switchTab('market')" id="tab-market" class="nav-tab px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 text-slate-400 hover:text-slate-200 hover:bg-[#0f1a30]">
+      <button onclick="switchTab('market')" id="tab-market" class="nav-tab px-3 py-1.5 rounded-lg transition items-center gap-1.5 text-slate-400 hover:text-slate-200 hover:bg-[#0f1a30] hidden">
         <span>🛒</span><span class="hidden sm:inline">ตลาดซื้อขาย</span>
       </button>
-      <button onclick="switchTab('match')" id="tab-match" class="nav-tab px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 text-slate-400 hover:text-slate-200 hover:bg-[#0f1a30]">
+
+      <!-- 5. Match Day Tab (Revealed in Career or Friendly Match) -->
+      <button onclick="switchTab('match')" id="tab-match" class="nav-tab px-3 py-1.5 rounded-lg transition items-center gap-1.5 text-slate-400 hover:text-slate-200 hover:bg-[#0f1a30] hidden">
         <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>
-        <span class="font-bold text-rose-400">🎮 แมตช์เดย์ (LIVE)</span>
+        <span class="font-bold text-rose-400" id="tab-match-label">🎮 แมตช์เดย์ (LIVE)</span>
       </button>
     </nav>
 
     <!-- Right: Game Mode, Save/Load, Funds & Anime TCG Mode Link -->
     <div class="flex items-center gap-2">
-      <!-- Game Mode Pill -->
-      <button onclick="openGameModeModal()" id="header-mode-badge" title="คลิกเพื่อสลับหรือตั้งค่าโหมดการเล่น (Career / Friendly)" class="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-[#09152a] hover:bg-[#102242] border border-[#1d3257] text-[11px] font-bold text-emerald-400 transition shadow">
-        <span id="header-mode-icon">🏆</span>
-        <span id="header-mode-label" class="hidden lg:inline">CAREER MODE</span>
+      <!-- Game Mode Switch Button -->
+      <button onclick="openGameModeModal()" id="header-mode-badge" title="คลิกเพื่อสลับหรือเลือกโหมดการเล่น" class="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-700 hover:from-cyan-500 hover:to-blue-600 border border-cyan-400/40 text-[11px] font-bold text-white transition shadow cursor-pointer">
+        <span id="header-mode-icon">🎮</span>
+        <span id="header-mode-label" class="inline">เลือกโหมดการเล่น</span>
       </button>
 
-      <!-- LocalStorage Save / Load Buttons -->
-      <div class="flex items-center bg-[#070e1c] border border-[#17253f] p-0.5 rounded-lg text-[10px] font-mono">
-        <button onclick="saveGameToStorage(false)" title="บันทึกความคืบหน้าลง LocalStorage" class="px-2 py-0.5 rounded text-emerald-400 hover:bg-emerald-500 hover:text-slate-950 font-bold transition flex items-center gap-1">
-          <span>💾</span><span>SAVE</span>
-        </button>
-        <button onclick="loadGameFromStorage(false)" title="โหลดข้อมูลเซฟล่าสุด" class="px-2 py-0.5 rounded text-cyan-400 hover:bg-cyan-500 hover:text-slate-950 font-bold transition flex items-center gap-1">
-          <span>📂</span><span>LOAD</span>
-        </button>
-      </div>
+      <!-- Career-only Controls (Hidden on initial landing) -->
+      <div id="header-career-controls" class="hidden flex items-center gap-2">
+        <div class="flex items-center bg-[#070e1c] border border-[#17253f] p-0.5 rounded-lg text-[10px] font-mono">
+          <button onclick="saveGameToStorage(false)" title="บันทึกความคืบหน้าลง LocalStorage" class="px-2 py-0.5 rounded text-emerald-400 hover:bg-emerald-500 hover:text-slate-950 font-bold transition flex items-center gap-1 cursor-pointer">
+            <span>💾</span><span>SAVE</span>
+          </button>
+          <button onclick="loadGameFromStorage(false)" title="โหลดข้อมูลเซฟล่าสุด" class="px-2 py-0.5 rounded text-cyan-400 hover:bg-cyan-500 hover:text-slate-950 font-bold transition flex items-center gap-1 cursor-pointer">
+            <span>📂</span><span>LOAD</span>
+          </button>
+        </div>
 
-      <!-- Budget -->
-      <div class="hidden sm:flex items-center gap-1.5 bg-[#0d1629] border border-[#1b2d4f] px-2.5 py-1 rounded-lg text-xs font-mono font-bold text-emerald-400">
-        <span>💰</span><span id="header-budget">$1,450,000</span>
+        <div class="hidden sm:flex items-center gap-1.5 bg-[#0d1629] border border-[#1b2d4f] px-2.5 py-1 rounded-lg text-xs font-mono font-bold text-emerald-400">
+          <span>💰</span><span id="header-budget">$1,450,000</span>
+        </div>
       </div>
 
       <!-- Anime TCG Mode Link -->
@@ -142,6 +151,327 @@
 
   <!-- ==================== MAIN CONTENT CONTAINERS ==================== -->
   <main class="flex-1 overflow-hidden relative">
+
+    <!-- ==================== 0. TAB: LANDING / GAME DETAILS & RULES (INITIAL VIEW) ==================== -->
+    <div id="view-landing" class="tab-view h-full overflow-y-auto p-3 md:p-6 flex flex-col gap-6 max-w-7xl mx-auto">
+      
+      <!-- HERO HEADER -->
+      <div class="bg-gradient-to-r from-[#0c162b] via-[#081226] to-[#0a1836] border-2 border-cyan-500/50 rounded-2xl p-5 md:p-8 shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="relative z-10 flex-1">
+          <div class="flex items-center gap-2 flex-wrap mb-2">
+            <span class="text-xs font-mono bg-cyan-950 text-cyan-400 border border-cyan-500/50 px-2.5 py-1 rounded font-bold uppercase tracking-wider">OFFICIAL VALORANT ESPORTS SIMULATOR</span>
+            <span class="text-xs font-mono bg-emerald-950 text-emerald-400 border border-emerald-500/50 px-2.5 py-1 rounded font-bold">VCT & VCL 2026 EDITION</span>
+          </div>
+          <h1 class="text-2xl md:text-4xl font-black text-white tracking-wide font-vct">
+            TACTIX: <span class="bg-gradient-to-r from-cyan-400 via-teal-300 to-emerald-400 bg-clip-text text-transparent">PRO ESPORTS MANAGER</span>
+          </h1>
+          <p class="text-sm md:text-base text-slate-300 mt-2 max-w-3xl leading-relaxed">
+            สวมบทบาทหัวหน้าโค้ชและผู้บริหารสโมสร Esports ชั้นนำในสังเวียน <b>VALORANT Champions Tour (VCT)</b> และ <b>VALORANT Challengers (VCL)</b> 
+            บริหารจัดการไลน์อัปนักแข่ง ตลาดซื้อขาย การเงินสโมสร และสั่งการแผนกลยุทธ์จำลองแมตช์ 2D Visual Radar เสมือนจริง
+          </p>
+        </div>
+
+        <div class="flex flex-col items-center gap-3 shrink-0 relative z-10">
+          <button onclick="openFriendlySetupModal()" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-black text-sm shadow-xl shadow-cyan-500/30 transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2 cursor-pointer">
+            <span>⚔️</span><span>เริ่มเล่น FRIENDLY MATCH ด่วน</span>
+          </button>
+          <button onclick="startFreshCareerFullSense()" class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs shadow-lg shadow-emerald-500/25 transition flex items-center justify-center gap-2 cursor-pointer">
+            <span>🏆</span><span>เริ่มคุมทีม FULL SENSE (ซีซัน 1)</span>
+          </button>
+        </div>
+
+        <div class="absolute -right-10 -bottom-10 w-72 h-72 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      </div>
+
+      <!-- RESUME SAVE NOTIFICATION STRIP (SHOWN IF SAVE DETECTED) -->
+      <div id="landing-save-strip" class="hidden bg-gradient-to-r from-emerald-950/80 via-[#0a1526] to-cyan-950/80 border-2 border-emerald-500/70 rounded-xl p-3.5 flex items-center justify-between gap-4 shadow-xl">
+        <div class="flex items-center gap-3">
+          <span class="text-2xl animate-pulse">💾</span>
+          <div>
+            <span class="text-xs font-bold text-emerald-400 block" id="landing-save-title">พบข้อมูลความคืบหน้าที่บันทึกไว้ในเครื่อง</span>
+            <span class="text-[11px] text-slate-300" id="landing-save-detail">สโมสร FULL SENSE · Season 1, Week 1</span>
+          </div>
+        </div>
+        <button onclick="continueFromExistingSave()" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs transition shadow cursor-pointer">
+          ▶ เล่นต่อจากเซฟเดิมทันที
+        </button>
+      </div>
+
+      <!-- SECTION: CHOOSE GAME MODE (4 CARDS) -->
+      <div>
+        <div class="flex items-center gap-2 mb-3">
+          <span class="text-xl">🎮</span>
+          <h2 class="text-lg md:text-xl font-black text-white tracking-wide">เลือกโหมดการเล่น (SELECT GAME MODE)</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          
+          <!-- Mode 1: Full Sense Career -->
+          <div class="bg-[#070d1a] border-2 border-emerald-500/80 rounded-2xl p-4 flex flex-col justify-between gap-4 shadow-xl relative overflow-hidden group hover:border-emerald-400 transition">
+            <div class="absolute top-0 right-0 bg-emerald-500 text-slate-950 text-[10px] font-black px-2.5 py-0.5 rounded-bl-lg font-mono">
+              RECOMMENDED
+            </div>
+            <div>
+              <div class="w-12 h-12 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-2xl mb-2">
+                🏆
+              </div>
+              <h3 class="font-black text-white text-base">คุมทีม FULL SENSE</h3>
+              <p class="text-xs text-slate-300 mt-1 leading-relaxed">
+                นำทัพยอดทีมตัวแทนไทยเข้าสู่สังเวียน <b>VCT Pacific 2026</b> สัปดาห์ที่ 1 กับสตาร์ตัวจริง Primmie, killua, Crws, seph1roth, JitboyS เพื่อเป้าหมายตั๋ว Champions!
+              </p>
+            </div>
+            <button onclick="startFreshCareerFullSense()" class="w-full py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs transition shadow-lg shadow-emerald-500/25 flex items-center justify-center gap-1.5 cursor-pointer">
+              <span>เริ่มคุมทีมทันที</span><span>➔</span>
+            </button>
+          </div>
+
+          <!-- Mode 2: Friendly Quick Match -->
+          <div class="bg-[#070d1a] border-2 border-cyan-500/80 rounded-2xl p-4 flex flex-col justify-between gap-4 shadow-xl relative overflow-hidden group hover:border-cyan-400 transition">
+            <div class="absolute top-0 right-0 bg-cyan-500 text-slate-950 text-[10px] font-black px-2.5 py-0.5 rounded-bl-lg font-mono">
+              QUICK MATCH
+            </div>
+            <div>
+              <div class="w-12 h-12 rounded-xl bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center text-2xl mb-2">
+                ⚔️
+              </div>
+              <h3 class="font-black text-white text-base">แมตช์กระชับมิตร</h3>
+              <p class="text-xs text-slate-300 mt-1 leading-relaxed">
+                แข่งขันด่วน 1 แมตช์ตามกติกา 24 รอบ เลือกระหว่างสองสโมสรใดก็ได้ในโลก และเลือกแผนที่แข่งขันอิสระ เหมาะสำหรับการทดลองแท็กติกและสกิลแบบสดๆ
+              </p>
+            </div>
+            <button onclick="openFriendlySetupModal()" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-black text-xs transition shadow-lg shadow-cyan-500/25 flex items-center justify-center gap-1.5 cursor-pointer">
+              <span>ตั้งค่า & แข่งด่วน</span><span>➔</span>
+            </button>
+          </div>
+
+          <!-- Mode 3: 4 VCT Regions Club Manager -->
+          <div class="bg-[#070d1a] border border-[#1b2f52] hover:border-cyan-500/60 rounded-2xl p-4 flex flex-col justify-between gap-4 shadow-xl relative transition">
+            <div>
+              <div class="w-12 h-12 rounded-xl bg-blue-500/20 border border-blue-500/40 flex items-center justify-center text-2xl mb-2">
+                🌐
+              </div>
+              <h3 class="font-black text-white text-base">เลือกสโมสรอื่นจาก 4 ภูมิภาค</h3>
+              <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+                เลือกคุมสโมสรระดับโลกใน 4 ลีกใหญ่ <b>Pacific, Americas, EMEA, China</b> เช่น Paper Rex, DRX, Gen.G, Sentinels, Fnatic หรือ EDward Gaming
+              </p>
+            </div>
+            <button onclick="openClubSelectionModal()" class="w-full py-2.5 rounded-xl bg-[#121f38] hover:bg-cyan-500 hover:text-slate-950 text-cyan-300 font-bold text-xs transition border border-cyan-500/30 flex items-center justify-center gap-1.5 cursor-pointer">
+              <span>เลือกสโมสร</span><span>➔</span>
+            </button>
+          </div>
+
+          <!-- Mode 4: Fantasy Draft -->
+          <div class="bg-[#070d1a] border border-[#2b2716] hover:border-amber-500/60 rounded-2xl p-4 flex flex-col justify-between gap-4 shadow-xl relative transition">
+            <div>
+              <div class="w-12 h-12 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-2xl mb-2">
+                ✨
+              </div>
+              <h3 class="font-black text-white text-base">โหมดดราฟต์ผู้เล่นเอง</h3>
+              <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+                รับงบประมาณตั้งต้น <b>$2,000,000</b> เข้าสู่ตลาดซื้อขายเพื่อดราฟต์ซูเปอร์สตาร์ 5 คนที่คุณต้องการสร้างเป็นทีมในฝันลงแข่งขันในลีก VCT
+              </p>
+            </div>
+            <button onclick="promptNewCareerMode()" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-amber-600 to-yellow-600 hover:from-amber-500 hover:to-yellow-500 text-slate-950 font-black text-xs transition shadow-lg shadow-amber-600/20 flex items-center justify-center gap-1.5 cursor-pointer">
+              <span>เริ่มดราฟต์ทีม</span><span>➔</span>
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- SECTION: GAME DETAILS & HIGHLIGHTS -->
+      <div class="bg-[#070c18] border border-[#17253f] rounded-2xl p-5 shadow-xl flex flex-col gap-4">
+        <div class="flex items-center gap-2 border-b border-[#142138] pb-3">
+          <span class="text-xl">🌟</span>
+          <h2 class="text-base md:text-lg font-black text-white tracking-wide">จุดเด่นและระบบหลักของเกม (GAME CORE SYSTEMS)</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+          <div class="bg-[#050914] p-3.5 rounded-xl border border-[#14213a] flex flex-col gap-2">
+            <span class="text-emerald-400 font-bold text-sm flex items-center gap-1.5">
+              <span>🗺️</span> 2D Live Visual Radar Simulation
+            </span>
+            <p class="text-slate-300 leading-relaxed">
+              จำลองการเคลื่อนที่ ปะทะ ดักยิง และวาง Spike บนแผนที่ทางการ 7 แมพ (Ascent, Bind, Haven, Split, Sunset, Lotus, Abyss) ด้วยพิกัดจริงและ Dynamic Waypoints ตามแผนที่วางไว้
+            </p>
+          </div>
+
+          <div class="bg-[#050914] p-3.5 rounded-xl border border-[#14213a] flex flex-col gap-2">
+            <span class="text-cyan-400 font-bold text-sm flex items-center gap-1.5">
+              <span>⚡</span> 25 Agent Abilities & Ultimates
+            </span>
+            <p class="text-slate-300 leading-relaxed">
+              ระบบสกิลและอัลติเมตเฉพาะตัว 25 ตัวละคร แบ่ง 4 ตำแหน่ง (Duelist, Initiator, Controller, Sentinel) สั่งเปิดใช้งานเมื่อสะสม Ult Points ครบเพื่อพลิกสถานการณ์การต่อสู้
+            </p>
+          </div>
+
+          <div class="bg-[#050914] p-3.5 rounded-xl border border-[#14213a] flex flex-col gap-2">
+            <span class="text-amber-400 font-bold text-sm flex items-center gap-1.5">
+              <span>⏸️</span> Live Tactical Timeout & Post-Plant
+            </span>
+            <p class="text-slate-300 leading-relaxed">
+              ขอเวลานอกเพื่อเบรกเกมฝ่ายตรงข้ามและบัฟสมาธิลูกทีม (โควตา 2 ครั้งต่อแมตช์) และสั่งเปลี่ยนกลยุทธ์ Post-Plant ทันทีที่ Spike ถูกติดตั้ง (Crossfire, Lineups, Hunt)
+            </p>
+          </div>
+
+          <div class="bg-[#050914] p-3.5 rounded-xl border border-[#14213a] flex flex-col gap-2">
+            <span class="text-rose-400 font-bold text-sm flex items-center gap-1.5">
+              <span>🛒</span> Transfer Market & Pro Scouting
+            </span>
+            <p class="text-slate-300 leading-relaxed">
+              ตลาดซื้อขายนักแข่งพร้อมระบบยื่นข้อเสนอ (Offers) ค่าฉีกสัญญา (Buyout) ค่าเหนื่อยรายสัปดาห์ และการต่อสัญญา รวมโปรเพลเยอร์กว่า 200+ คนและตำนานไทย
+            </p>
+          </div>
+
+          <div class="bg-[#050914] p-3.5 rounded-xl border border-[#14213a] flex flex-col gap-2">
+            <span class="text-purple-400 font-bold text-sm flex items-center gap-1.5">
+              <span>🏥</span> 7-Player Roster & Injury System
+            </span>
+            <p class="text-slate-300 leading-relaxed">
+              บริหารทัพ 5 ตัวจริง + 2 ตัวสำรอง จับตาดูระดับความฟิต (Energy) และอาการบาดเจ็บของนักแข่งจากความเหนื่อยล้า พร้อมระบบสลับตัวสำรองลงทำหน้าที่แทน
+            </p>
+          </div>
+
+          <div class="bg-[#050914] p-3.5 rounded-xl border border-[#14213a] flex flex-col gap-2">
+            <span class="text-teal-400 font-bold text-sm flex items-center gap-1.5">
+              <span>💰</span> Club Finances & Wage Budget Cap
+            </span>
+            <p class="text-slate-300 leading-relaxed">
+              บริหารงบดุลสโมสร รายรับจากสปอนเซอร์ ค่าตั๋ว เงินรางวัล และคุมค่าเหนื่อยรวมให้อยู่ภายใต้เพดานเงินเดือน (Wage Cap $150,000/สัปดาห์) ตามกฎ Financial Fair Play
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION: RULES & COMPETITION REGULATIONS -->
+      <div class="bg-[#070c18] border border-[#17253f] rounded-2xl p-5 shadow-xl flex flex-col gap-4">
+        <div class="flex items-center gap-2 border-b border-[#142138] pb-3">
+          <span class="text-xl">📜</span>
+          <h2 class="text-base md:text-lg font-black text-white tracking-wide">กฏ กติกา & ระบบการแข่งขันอย่างเป็นทางการ (OFFICIAL REGULATIONS)</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+          <!-- Regulation 1: Match Rules -->
+          <div class="bg-[#050914] p-4 rounded-xl border border-[#162540] flex flex-col gap-2">
+            <span class="text-emerald-400 font-bold text-sm flex items-center gap-1.5 border-b border-[#121e33] pb-1.5">
+              <span>🎯</span> 1. กติกาการแข่งขันในแมตช์เดย์ (Match Regulation)
+            </span>
+            <ul class="space-y-1.5 text-slate-300 mt-1 leading-relaxed">
+              <li>• <b>ระบบ 24 รอบ (Bo1 / Bo3):</b> แข่งขัน 24 รอบ แบ่งเป็นครึ่งแรก (รอบ 1-12) และครึ่งหลัง (รอบ 13-24) สโมสรที่ทำคะแนนถึง <b>13 รอบก่อน</b> เป็นฝ่ายชนะแมตช์</li>
+              <li>• <b>การสลับฝั่ง (Half-Time):</b> เมื่อจบครึ่งแรก (รอบ 12) ทั้งสองทีมจะสลับฝั่งระหว่างฝ่ายบุก (ATK) และฝ่ายรับ (DEF) พร้อมรีเซ็ตเงินเศรษฐกิจเป็นรอบปืนพก $800</li>
+              <li>• <b>การต่อเวลา (Overtime):</b> หากเสมอกันที่ 12-12 แมตช์จะเข้าสู่ช่วงต่อเวลา โดยต้องทำคะแนนนำห่าง 2 รอบถึงจะได้รับชัยชนะ</li>
+              <li>• <b>เป้าหมายฝั่งบุก (Attackers):</b> วาง Spike ในพื้นที่ไซต์ หรือกำจัดฝ่ายตรงข้ามให้หมดภายใน 100 วินาที</li>
+              <li>• <b>เป้าหมายฝั่งรับ (Defenders):</b> ป้องกันไซต์ไม่ให้วาง Spike หรือทำการกู้ Spike ให้สำเร็จก่อนเวลาหมด</li>
+            </ul>
+          </div>
+
+          <!-- Regulation 2: Economy & Buy Phase -->
+          <div class="bg-[#050914] p-4 rounded-xl border border-[#162540] flex flex-col gap-2">
+            <span class="text-cyan-400 font-bold text-sm flex items-center gap-1.5 border-b border-[#121e33] pb-1.5">
+              <span>💵</span> 2. ระบบเศรษฐกิจและการเงินในเกม (Economy Engine)
+            </span>
+            <ul class="space-y-1.5 text-slate-300 mt-1 leading-relaxed">
+              <li>• <b>เงินตั้งต้นรอบปืนพก (Pistol Rounds):</b> $800 ต่อคน (ในรอบ 1 และรอบ 13)</li>
+              <li>• <b>เงินรางวัลชนะรอบ (Round Win):</b> ได้รับเงินรางวัล <b>+$3,000</b> ทุกคน</li>
+              <li>• <b>เงินปลอบใจแพ้รอบ (Loss Streak Bonus):</b> แพ้รอบแรกรับ <b>+$1,900</b>, แพ้ 2 รอบติดรับ <b>+$2,400</b>, แพ้ 3 รอบติดขึ้นไปรับสูงสุด <b>+$2,900</b></li>
+              <li>• <b>โบนัสวาง Spike:</b> ฝ่ายบุกทุกคนจะได้รับโบนัสเงินเพิ่ม <b>+$300</b> ทันทีที่วาง Spike สำเร็จ</li>
+              <li>• <b>ระดับการซื้ออาวุธ:</b>
+                <span class="text-slate-400 block ml-3 mt-0.5">
+                  - <b>Pistol:</b> ปืนพก $800<br>
+                  - <b>Eco / Save:</b> ประหยัดเงินเพื่อรอฟูลบายรอบถัดไป ($1,000 - $1,500)<br>
+                  - <b>Semi / Force Buy:</b> ปืนกลเบาหรือปืนลูกซอง ($2,000 - $2,900)<br>
+                  - <b>Full Buy:</b> ปืนกลหลัก Vandal / Phantom + เกราะหนัก Heavy Shield ($3,900+)
+                </span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Regulation 3: Club Finances & Wage Cap -->
+          <div class="bg-[#050914] p-4 rounded-xl border border-[#162540] flex flex-col gap-2">
+            <span class="text-amber-400 font-bold text-sm flex items-center gap-1.5 border-b border-[#121e33] pb-1.5">
+              <span>⚖️</span> 3. การเงินสโมสร & เพดานเงินเดือน (Financial Fair Play)
+            </span>
+            <ul class="space-y-1.5 text-slate-300 mt-1 leading-relaxed">
+              <li>• <b>งบดุลเริ่มต้นสโมสร:</b> $1,500,000 (ในโหมด Career ปกติ) หรือ $2,000,000 (ในโหมด Fantasy Draft)</li>
+              <li>• <b>เพดานค่าเหนื่อย (Wage Cap):</b> ไม่เกิน <b>$150,000 ต่อสัปดาห์</b> หากค่าเหนื่อยรวมเกินเพดาน จะถูกระงับสิทธิ์ในการเซ็นสัญญานักแข่งใหม่จากตลาด</li>
+              <li>• <b>รายได้สโมสร:</b> เงินรางวัลชนะแมตช์ ($25,000), ส่วนแบ่งตั๋วเข้าชม ($15,000), และเงินสนับสนุนจากสปอนเซอร์ประจำสัปดาห์</li>
+              <li>• <b>รายจ่ายสโมสร:</b> ค่าเหนื่อยนักแข่งทุกคนในสังกัด (Starters + Bench) และค่าบำรุงรักษาแคมป์ฝึกซ้อม</li>
+            </ul>
+          </div>
+
+          <!-- Regulation 4: League Format & Champions Qualification -->
+          <div class="bg-[#050914] p-4 rounded-xl border border-[#162540] flex flex-col gap-2">
+            <span class="text-purple-400 font-bold text-sm flex items-center gap-1.5 border-b border-[#121e33] pb-1.5">
+              <span>🏆</span> 4. โครงสร้างลีกและการเลื่อนชั้น-ตกชั้น (Promotion & Relegation)
+            </span>
+            <ul class="space-y-1.5 text-slate-300 mt-1 leading-relaxed">
+              <li>• <b>ฤดูกาลแข่งขัน 11 สัปดาห์:</b> 12 สโมสรในลีก VCT Pacific แข่งขันแบบพบกันหมดเพื่อสะสมแต้ม</li>
+              <li>• <b>โควตา VALORANT Champions:</b> สโมสรอันดับ <b>1 ถึง 4</b> บนตารางคะแนนเมื่อจบฤดูกาล จะได้สิทธิ์ผ่านเข้าไปแข่งขันในทัวร์นาเมนต์ชิงแชมป์โลก Champions 2026</li>
+              <li>• <b>การตกชั้นสู่ Ascension:</b> สโมสรอันดับ <b>12 (ทีมบ๊วย)</b> จะต้องตกชั้นไปแข่งขันรอบเพลย์ออฟหนีตกชั้นกับแชมป์ลีกรอง VCL Challengers</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION: HOW TO PLAY & COACH TACTICAL GUIDE -->
+      <div class="bg-[#070c18] border border-[#17253f] rounded-2xl p-5 shadow-xl flex flex-col gap-4">
+        <div class="flex items-center gap-2 border-b border-[#142138] pb-3">
+          <span class="text-xl">📖</span>
+          <h2 class="text-base md:text-lg font-black text-white tracking-wide">วิธีการเล่น & คู่มือคำสั่งโค้ช (HOW TO PLAY GUIDE)</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-3 text-xs">
+          <!-- Step 1 -->
+          <div class="bg-[#050914] p-3.5 rounded-xl border border-[#162540] flex flex-col gap-2">
+            <div class="flex items-center justify-between">
+              <span class="text-emerald-400 font-bold">ขั้นตอนที่ 1</span>
+              <span class="text-[10px] font-mono bg-emerald-950 text-emerald-400 px-2 py-0.5 rounded font-bold">BUY PHASE</span>
+            </div>
+            <h4 class="font-bold text-white text-sm">วางแผนแท็กติก & เศรษฐกิจ</h4>
+            <p class="text-slate-300 leading-relaxed">
+              ก่อนเริ่มแต่ละรอบ โค้ชต้องเลือกระดับการซื้ออาวุธให้เหมาะกับเงินทีม และเลือกแท็กติกเดินเกม (เช่น Rush A/B, Default, Push Mid, Retake Setup) จากนั้นกดปุ่ม <b>"START ROUND"</b>
+            </p>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="bg-[#050914] p-3.5 rounded-xl border border-[#162540] flex flex-col gap-2">
+            <div class="flex items-center justify-between">
+              <span class="text-cyan-400 font-bold">ขั้นตอนที่ 2</span>
+              <span class="text-[10px] font-mono bg-cyan-950 text-cyan-400 px-2 py-0.5 rounded font-bold">COMBAT PHASE</span>
+            </div>
+            <h4 class="font-bold text-white text-sm">คุมจังหวะแข่ง & ขอเวลานอก</h4>
+            <p class="text-slate-300 leading-relaxed">
+              จับตาดูเรดาร์ 2D ปรับความเร็วการจำลอง (1x, 2x, 4x) หากตกเป็นรอง กดปุ่ม <b>"ขอเวลานอก (Timeout)"</b> เพื่อดึงสมาธิลูกทีมกลับมา และกดใช้ Ultimate เมื่อเกจพลังเต็ม
+            </p>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="bg-[#050914] p-3.5 rounded-xl border border-[#162540] flex flex-col gap-2">
+            <div class="flex items-center justify-between">
+              <span class="text-rose-400 font-bold">ขั้นตอนที่ 3</span>
+              <span class="text-[10px] font-mono bg-rose-950 text-rose-400 px-2 py-0.5 rounded font-bold">POST-PLANT</span>
+            </div>
+            <h4 class="font-bold text-white text-sm">สั่งการหลังวาง Spike</h4>
+            <p class="text-slate-300 leading-relaxed">
+              เมื่อ Spike ถูกติดตั้ง แท่นสั่งการ Post-Plant จะเปิดขึ้น ให้เลือกแผน: <b>On-site Crossfire</b> (ตั้งป้อมไขว้ปืน), <b>Fallback Lineups</b> (ถอยยิงสกิลถ่วงเวลา), หรือ <b>Aggressive Hunt</b> (ดักตัดกำลัง)
+            </p>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="bg-[#050914] p-3.5 rounded-xl border border-[#162540] flex flex-col gap-2">
+            <div class="flex items-center justify-between">
+              <span class="text-amber-400 font-bold">ขั้นตอนที่ 4</span>
+              <span class="text-[10px] font-mono bg-amber-950 text-amber-400 px-2 py-0.5 rounded font-bold">MANAGEMENT</span>
+            </div>
+            <h4 class="font-bold text-white text-sm">ฝึกซ้อม & หมุนเวียนไลน์อัป</h4>
+            <p class="text-slate-300 leading-relaxed">
+              ระหว่างสัปดาห์ ส่งผู้เล่นเข้าฝึกซ้อมเพื่อเพิ่ม Aim และ IQ จัดการสลับตัวสำรองเมื่อตัวจริงบาดเจ็บ และสเกาต์ตลาดซื้อขายเพื่อดึงนักแข่งตัวท็อปมาร่วมทีม
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </div>
 
     <!-- ==================== 1. TAB: DASHBOARD ==================== -->
     <div id="view-dashboard" class="tab-view h-full overflow-y-auto p-3 md:p-5 flex flex-col gap-4 max-w-7xl mx-auto">
@@ -1318,6 +1648,77 @@
     </div>
   </div>
 
+    <!-- ==================== FRIENDLY MATCH QUICK SETUP MODAL ==================== -->
+  <div id="friendly-setup-modal" class="fixed inset-0 modal-backdrop hidden items-center justify-center p-3 z-50">
+    <div class="bg-[#090f1d] border-2 border-cyan-500/80 rounded-2xl p-5 max-w-lg w-full shadow-2xl relative flex flex-col gap-4 text-slate-200 animate-fade-in">
+      <button onclick="closeFriendlySetupModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white font-mono text-lg cursor-pointer">✕</button>
+
+      <div class="flex items-center gap-3 border-b border-[#1b2d4f] pb-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-700 flex items-center justify-center text-xl shadow-lg">
+          ⚔️
+        </div>
+        <div>
+          <span class="text-[10px] font-mono text-cyan-400 font-bold uppercase tracking-widest bg-cyan-950 px-2 py-0.5 rounded border border-cyan-500/40">FRIENDLY QUICK MATCH SETUP</span>
+          <h3 class="text-lg font-black text-white mt-0.5">ตั้งค่าและเริ่มการแข่งขันแมตช์กระชับมิตร</h3>
+        </div>
+      </div>
+
+      <p class="text-xs text-slate-400 leading-relaxed">
+        เลือกทีมที่คุณต้องการควบคุม ทีมคู่แข่ง และสมรภูมิการแข่งขันเพื่อประลองแท็กติก 2D Radar เสมือนจริง (ไม่มีผลต่อตารางคะแนนลีกหรือการเงินสโมสร)
+      </p>
+
+      <div class="flex flex-col gap-3 text-xs">
+        <!-- Team A Picker -->
+        <div>
+          <label class="text-[11px] font-bold text-slate-300 block mb-1">1. ทีมที่คุณควบคุม (TEAM A - YOUR SQUAD):</label>
+          <select id="friendly-select-teama" class="w-full bg-[#050914] border border-[#1b2d4f] rounded-lg px-3 py-2 text-cyan-300 font-bold focus:outline-none focus:border-cyan-500">
+            <!-- Populated dynamically -->
+          </select>
+        </div>
+
+        <!-- Team B Picker -->
+        <div>
+          <label class="text-[11px] font-bold text-slate-300 block mb-1">2. ทีมคู่แข่ง (TEAM B - AI OPPONENT):</label>
+          <select id="friendly-select-teamb" class="w-full bg-[#050914] border border-[#1b2d4f] rounded-lg px-3 py-2 text-rose-300 font-bold focus:outline-none focus:border-rose-500">
+            <!-- Populated dynamically -->
+          </select>
+        </div>
+
+        <!-- Map Picker & Starting Side -->
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="text-[11px] font-bold text-slate-300 block mb-1">3. แผนที่แข่งขัน (MAP):</label>
+            <select id="friendly-select-map" class="w-full bg-[#050914] border border-[#1b2d4f] rounded-lg px-3 py-2 text-emerald-300 font-bold focus:outline-none focus:border-emerald-500">
+              <option value="Ascent" selected>Ascent</option>
+              <option value="Bind">Bind</option>
+              <option value="Haven">Haven (3 Sites)</option>
+              <option value="Split">Split</option>
+              <option value="Sunset">Sunset</option>
+              <option value="Lotus">Lotus (3 Sites)</option>
+              <option value="Abyss">Abyss</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-[11px] font-bold text-slate-300 block mb-1">4. ฝั่งเริ่มต้น (STARTING SIDE):</label>
+            <select id="friendly-select-side" class="w-full bg-[#050914] border border-[#1b2d4f] rounded-lg px-3 py-2 text-amber-300 font-bold focus:outline-none focus:border-amber-500">
+              <option value="ATK" selected>ฝ่ายบุก (ATTACKERS)</option>
+              <option value="DEF">ฝ่ายรับ (DEFENDERS)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end gap-2 border-t border-[#1b2d4f] pt-3 mt-1">
+        <button onclick="closeFriendlySetupModal()" class="px-4 py-2 rounded-xl bg-[#0f172a] hover:bg-[#18233c] text-slate-400 font-semibold text-xs border border-[#1e293b] transition">
+          ยกเลิก
+        </button>
+        <button onclick="confirmStartFriendlyMatch()" class="px-5 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-black text-xs shadow-lg shadow-cyan-500/25 transition flex items-center gap-1.5 cursor-pointer">
+          <span>⚔️</span><span>เข้าสู่สนามแข่ง (START MATCH) ➔</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- ==================== GAME MODE SELECTOR & WELCOME MODAL ==================== -->
   <div id="game-mode-modal" class="fixed inset-0 modal-backdrop hidden items-center justify-center p-3 z-50">
     <div class="bg-[#0c1424] border-2 border-emerald-500/80 rounded-2xl p-5 max-w-lg w-full shadow-2xl relative flex flex-col gap-4 text-slate-200 animate-fade-in">
@@ -1369,8 +1770,8 @@
             <h4 class="font-bold text-white text-sm mt-1.5">แมตช์กระชับมิตร</h4>
             <p class="text-[11px] text-slate-400 mt-1">แข่งขันด่วน 1 แมตช์ ทดลองแผนและสกิล Agent แบบเรียลไทม์ โดยไม่มีผลกระทบต่อสถิติลีกหรือการเงินสโมสร</p>
           </div>
-          <button onclick="selectGameMode('FRIENDLY')" class="w-full py-2 rounded-lg bg-[#14233e] hover:bg-cyan-500 hover:text-slate-950 text-cyan-300 font-bold text-xs transition cursor-pointer">
-            เล่นโหมด Friendly →
+          <button onclick="openFriendlySetupModal()" class="w-full py-2 rounded-lg bg-[#14233e] hover:bg-cyan-500 hover:text-slate-950 text-cyan-300 font-bold text-xs transition cursor-pointer">
+            ⚔️ ตั้งค่าและเริ่ม Friendly Match →
           </button>
         </div>
       </div>
@@ -2578,52 +2979,106 @@
     let spikeTimeLeft = 45;
 
 
-        // --- 3. TOP NAVIGATION & TAB SWITCHER ---
+    // --- 3. TOP NAVIGATION & TAB SWITCHER ---
+    function updateNavigationTabs(mode = currentGameMode) {
+      const tabLanding = document.getElementById('tab-landing');
+      const tabDash = document.getElementById('tab-dashboard');
+      const tabRoster = document.getElementById('tab-roster');
+      const tabTactics = document.getElementById('tab-tactics');
+      const tabMarket = document.getElementById('tab-market');
+      const tabMatch = document.getElementById('tab-match');
+      const headerCareer = document.getElementById('header-career-controls');
+      const modeLabel = document.getElementById('header-mode-label');
+      const modeIcon = document.getElementById('header-mode-icon');
+      const matchLabel = document.getElementById('tab-match-label');
+
+      if (mode === 'LANDING') {
+        if (tabLanding) tabLanding.classList.remove('hidden');
+        if (tabDash) { tabDash.classList.add('hidden'); tabDash.classList.remove('flex'); }
+        if (tabRoster) { tabRoster.classList.add('hidden'); tabRoster.classList.remove('flex'); }
+        if (tabTactics) { tabTactics.classList.add('hidden'); tabTactics.classList.remove('flex'); }
+        if (tabMarket) { tabMarket.classList.add('hidden'); tabMarket.classList.remove('flex'); }
+        if (tabMatch) { tabMatch.classList.add('hidden'); tabMatch.classList.remove('flex'); }
+        if (headerCareer) { headerCareer.classList.add('hidden'); headerCareer.classList.remove('flex'); }
+        if (modeLabel) modeLabel.innerText = 'เลือกโหมดการเล่น';
+        if (modeIcon) modeIcon.innerText = '🎮';
+      } else if (mode === 'FRIENDLY') {
+        if (tabLanding) tabLanding.classList.remove('hidden');
+        if (tabDash) { tabDash.classList.add('hidden'); tabDash.classList.remove('flex'); }
+        if (tabRoster) { tabRoster.classList.add('hidden'); tabRoster.classList.remove('flex'); }
+        if (tabTactics) { tabTactics.classList.remove('hidden'); tabTactics.classList.add('flex'); }
+        if (tabMarket) { tabMarket.classList.add('hidden'); tabMarket.classList.remove('flex'); }
+        if (tabMatch) { tabMatch.classList.remove('hidden'); tabMatch.classList.add('flex'); }
+        if (headerCareer) { headerCareer.classList.add('hidden'); headerCareer.classList.remove('flex'); }
+        if (modeLabel) modeLabel.innerText = 'FRIENDLY MATCH';
+        if (modeIcon) modeIcon.innerText = '⚔️';
+        if (matchLabel) matchLabel.innerText = '⚔️ สนามแข่ง (LIVE)';
+      } else {
+        // CAREER MODE
+        if (tabLanding) tabLanding.classList.remove('hidden');
+        if (tabDash) { tabDash.classList.remove('hidden'); tabDash.classList.add('flex'); }
+        if (tabRoster) { tabRoster.classList.remove('hidden'); tabRoster.classList.add('flex'); }
+        if (tabTactics) { tabTactics.classList.remove('hidden'); tabTactics.classList.add('flex'); }
+        if (tabMarket) { tabMarket.classList.remove('hidden'); tabMarket.classList.add('flex'); }
+        if (tabMatch) { tabMatch.classList.remove('hidden'); tabMatch.classList.add('flex'); }
+        if (headerCareer) { headerCareer.classList.remove('hidden'); headerCareer.classList.add('flex'); }
+        if (modeLabel) modeLabel.innerText = `CAREER: ${myClubName || 'FULL SENSE'}`;
+        if (modeIcon) modeIcon.innerText = '🏆';
+        if (matchLabel) matchLabel.innerText = '🎮 แมตช์เดย์ (LIVE)';
+      }
+    }
+
     function switchTab(tabId) {
       if (tabId === 'match') {
         if (!myRoster.starters || myRoster.starters.length < 5) {
-          alert(`⚠️ ไลน์อัปตัวจริงของคุณมีไม่ครบ 5 คน (ปัจจุบันมี ${myRoster.starters.length}/5 คน)!\nกรุณาจัดทัพในหน้า ROSTER หรือซื้อนักแข่งจากตลาดก่อนเข้าสู่การแข่งขัน`);
-          switchTab('roster');
+          alert(`⚠️ ไลน์อัปตัวจริงของคุณมีไม่ครบ 5 คน (ปัจจุบันมี ${myRoster.starters ? myRoster.starters.length : 0}/5 คน)!\nกรุณาจัดทัพในหน้า ROSTER หรือซื้อนักแข่งจากตลาดก่อนเข้าสู่การแข่งขัน`);
+          if (currentGameMode === 'CAREER') {
+            switchTab('roster');
+          }
           return;
         }
 
-        // Check for injured starters and offer auto-swap with healthy bench
-        const injuredStarters = myRoster.starters.filter(p => p.injured && p.injury);
-        if (injuredStarters.length > 0) {
-          const healthySubs = myRoster.bench.filter(p => !p.injured);
-          const injNames = injuredStarters.map(p => `${p.name} (${p.injury.name})`).join(', ');
-          if (healthySubs.length > 0) {
-            const doSwap = confirm(`🏥 แจ้งเตือนห้องพยาบาล:\nผู้เล่นตัวจริงมีอาการบาดเจ็บ: ${injNames}\n\nมีตัวสำรองพร้อมลงสนาม (${healthySubs.map(s => s.name).join(', ')})\nกด [ตกลง (OK)] เพื่อสลับตัวสำรองลงเล่นแทนทันที\nกด [ยกเลิก (Cancel)] เพื่อฝืนเข็นลงแข่ง (Aim/Clutch ลดลงอย่างมาก)`);
-            if (doSwap) {
-              injuredStarters.forEach(inj => {
-                const sub = myRoster.bench.find(s => !s.injured);
-                if (sub) {
-                  const sIdx = myRoster.starters.indexOf(inj);
-                  const bIdx = myRoster.bench.indexOf(sub);
-                  myRoster.starters[sIdx] = sub;
-                  myRoster.bench[bIdx] = inj;
-                  addEventLog(`🔄 สลับตัวฉุกเฉิน: ดัน ${sub.name} ขึ้นตัวจริงแทน ${inj.name} ที่บาดเจ็บ`);
-                }
-              });
-              renderRoster();
-              renderTactics();
+        // Check for injured starters in Career mode only
+        if (currentGameMode === 'CAREER') {
+          const injuredStarters = myRoster.starters.filter(p => p.injured && p.injury);
+          if (injuredStarters.length > 0) {
+            const healthySubs = myRoster.bench.filter(p => !p.injured);
+            const injNames = injuredStarters.map(p => `${p.name} (${p.injury.name})`).join(', ');
+            if (healthySubs.length > 0) {
+              const doSwap = confirm(`🏥 แจ้งเตือนห้องพยาบาล:\nผู้เล่นตัวจริงมีอาการบาดเจ็บ: ${injNames}\n\nมีตัวสำรองพร้อมลงสนาม (${healthySubs.map(s => s.name).join(', ')})\nกด [ตกลง (OK)] เพื่อสลับตัวสำรองลงเล่นแทนทันที\nกด [ยกเลิก (Cancel)] เพื่อฝืนเข็นลงแข่ง`);
+              if (doSwap) {
+                injuredStarters.forEach(inj => {
+                  const sub = myRoster.bench.find(s => !s.injured);
+                  if (sub) {
+                    const sIdx = myRoster.starters.indexOf(inj);
+                    const bIdx = myRoster.bench.indexOf(sub);
+                    myRoster.starters[sIdx] = sub;
+                    myRoster.bench[bIdx] = inj;
+                    addEventLog(`🔄 สลับตัวฉุกเฉิน: ดัน ${sub.name} ขึ้นตัวจริงแทน ${inj.name} ที่บาดเจ็บ`);
+                  }
+                });
+                renderRoster();
+                renderTactics();
+              }
             }
           }
         }
 
         syncRosterToMatchPlayers();
-        setTimeout(resizeCanvas, 50);
+        if (typeof drawMap === 'function') {
+          setTimeout(drawMap, 50);
+        }
       }
 
       currentTab = tabId;
-      const tabs = ['dashboard', 'roster', 'tactics', 'market', 'match'];
+      const tabs = ['landing', 'dashboard', 'roster', 'tactics', 'market', 'match'];
       tabs.forEach(t => {
         const v = document.getElementById(`view-${t}`);
         const b = document.getElementById(`tab-${t}`);
         if (v) {
           if (t === tabId) {
             v.classList.remove('hidden');
-            if (t === 'match' || t === 'dashboard') {
+            if (t === 'match' || t === 'dashboard' || t === 'landing') {
               v.classList.add('flex');
             }
           } else {
@@ -2633,12 +3088,16 @@
         }
         if (b) {
           if (t === tabId) {
-            b.className = 'nav-tab px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 bg-emerald-500 text-slate-950 font-bold';
+            b.classList.add('bg-emerald-500', 'text-slate-950', 'font-bold');
+            b.classList.remove('text-slate-400', 'hover:text-white', 'hover:text-slate-200');
           } else {
-            b.className = 'nav-tab px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 text-slate-400 hover:text-white';
+            b.classList.remove('bg-emerald-500', 'text-slate-950', 'font-bold');
+            b.classList.add('text-slate-400', 'hover:text-white');
           }
         }
       });
+
+      updateNavigationTabs(currentGameMode);
 
       if (tabId === 'roster') renderRoster();
       if (tabId === 'market') renderMarketPlayers();
@@ -2647,27 +3106,47 @@
         renderStandings();
         renderClubFinancesDashboard();
       }
+      if (tabId === 'landing') {
+        checkAndRenderLandingSave();
+      }
+    }
+
+    function checkAndRenderLandingSave() {
+      const raw = localStorage.getItem('TACTIX_CAREER_SAVE_v1');
+      const strip = document.getElementById('landing-save-strip');
+      const desc = document.getElementById('landing-save-detail');
+      if (raw && strip && desc) {
+        try {
+          const s = JSON.parse(raw);
+          desc.innerText = `สโมสร ${s.myClubName || 'FULL SENSE'} · Season ${s.currentSeasonNumber || 1}, Week ${s.currentSeasonWeek || 1}`;
+          strip.classList.remove('hidden');
+          strip.classList.add('flex');
+        } catch(e) {
+          strip.classList.add('hidden');
+        }
+      } else if (strip) {
+        strip.classList.add('hidden');
+      }
     }
 
     // --- 4. INITIALIZATION ---
     window.addEventListener('DOMContentLoaded', () => {
       loadDatabase();
 
-      // Check if user has an existing career save
-      const hasSave = localStorage.getItem('TACTIX_CAREER_SAVE_v1');
-      if (hasSave) {
-        loadGameFromStorage(true);
-      } else {
-        renderStandings();
-        renderClubFinancesDashboard();
-        renderRoster();
-        renderTactics();
-        updateDashboardFixtureCard();
-        // First-time visit: display Welcome & Mode Selector modal
-        setTimeout(() => {
-          openGameModeModal(true);
-        }, 350);
-      }
+      // Check if user has an existing career save to show resume option on landing
+      checkAndRenderLandingSave();
+
+      // Background setup of standings & fixtures so they are pre-rendered
+      renderStandings();
+      renderClubFinancesDashboard();
+      renderRoster();
+      renderTactics();
+      updateDashboardFixtureCard();
+
+      // Initial state is LANDING: hide career tabs, show game details, rules, how-to-play & mode selection
+      currentGameMode = 'LANDING';
+      updateNavigationTabs('LANDING');
+      switchTab('landing');
 
       initRoundHistoryStrip();
       enterBuyPhase(1);
@@ -6006,12 +6485,15 @@ function endRound(winner) {
 
     function continueFromExistingSave() {
       loadGameFromStorage(true);
+      currentGameMode = 'CAREER';
+      updateNavigationTabs('CAREER');
       closeGameModeModal();
+      switchTab('dashboard');
       addEventLog(`📂 โหลดข้อมูลเซฟเดิม: ยินดีต้อนรับกลับสู่สโมสร ${myClubName}!`);
     }
 
     function startFreshCareerFullSense() {
-      selectGameMode('CAREER');
+      currentGameMode = 'CAREER';
       myClubName = 'FULL SENSE';
       myClubId = 'fullsense';
       myClubRegion = 'pacific';
@@ -6046,20 +6528,31 @@ function endRound(winner) {
       updateDashboardFixtureCard();
       renderClubFinancesDashboard();
       saveGameToStorage(true);
+      updateNavigationTabs('CAREER');
       closeGameModeModal();
+      switchTab('dashboard');
       addEventLog('🎮 เริ่มต้นฤดูกาลใหม่: เข้ารับตำแหน่งผู้จัดการทีม FULL SENSE ใน VCT Pacific');
       alert('🎉 ยินดีต้อนรับสู่สโมสร FULL SENSE!\nเริ่มแข่งขันในศึก VCT Pacific 2026 (Week 1 / 11) เรียบร้อยแล้ว');
     }
 
     function selectGameMode(mode) {
-      currentGameMode = mode;
-      document.getElementById('header-mode-label').innerText = mode === 'CAREER' ? 'CAREER MODE' : 'FRIENDLY MATCH';
-      document.getElementById('header-mode-icon').innerText = mode === 'CAREER' ? '🏆' : '⚔️';
-      closeGameModeModal();
       if (mode === 'FRIENDLY') {
-        switchTab('match');
+        openFriendlySetupModal();
+        return;
       }
-      addEventLog(`Game Mode switched to: ${mode === 'CAREER' ? 'Career Manager Mode' : 'Friendly Match'}`);
+      if (mode === 'LANDING') {
+        currentGameMode = 'LANDING';
+        updateNavigationTabs('LANDING');
+        switchTab('landing');
+        closeGameModeModal();
+        return;
+      }
+      // CAREER
+      currentGameMode = 'CAREER';
+      updateNavigationTabs('CAREER');
+      closeGameModeModal();
+      switchTab('dashboard');
+      addEventLog(`Game Mode switched to: Career Manager Mode`);
     }
 
     function promptNewCareerMode() {
@@ -6067,6 +6560,7 @@ function endRound(winner) {
         const choice = confirm('กด [ตกลง (OK)] เพื่อเริ่มแบบ FANTASY DRAFT ($2,000,000 ดราฟต์เอง)\nหรือกด [ยกเลิก (Cancel)] เพื่อใช้ไลน์อัปทางการของสโมสร');
         if (choice) {
           // Fantasy Draft
+          currentGameMode = 'CAREER';
           clubBudget = 2000000;
           matchState.teamCredsA = 2000000;
           document.getElementById('header-budget').innerText = '$2,000,000';
@@ -6089,6 +6583,7 @@ function endRound(winner) {
           renderTactics();
           renderMarketPlayers();
           saveGameToStorage(true);
+          updateNavigationTabs('CAREER');
           switchTab('market');
           alert('🎉 เริ่มเซฟโหมด FANTASY DRAFT เรียบร้อย!\nได้รับงบตั้งต้น $2,000,000\nเชิญเลือกดราฟต์ผู้เล่น 5 คนเข้าสู่สโมสรในตลาดซื้อขายเพื่อเตรียมพร้อมลงแข่ง');
         } else {
@@ -6098,6 +6593,241 @@ function endRound(winner) {
         }
         closeGameModeModal();
       }
+    }
+
+    // --- FRIENDLY MATCH QUICK SETUP SYSTEM ---
+    function openFriendlySetupModal() {
+      closeGameModeModal();
+      populateFriendlyTeamSelects();
+      const modal = document.getElementById('friendly-setup-modal');
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
+    }
+
+    function closeFriendlySetupModal() {
+      const modal = document.getElementById('friendly-setup-modal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    }
+
+    function populateFriendlyTeamSelects() {
+      const selA = document.getElementById('friendly-select-teama');
+      const selB = document.getElementById('friendly-select-teamb');
+      if (!selA || !selB) return;
+
+      const teamList = [];
+      if (typeof REGIONAL_DATA !== 'undefined') {
+        Object.keys(REGIONAL_DATA).forEach(regKey => {
+          const reg = REGIONAL_DATA[regKey];
+          if (reg && reg.tier1) {
+            reg.tier1.forEach(t => teamList.push({ id: t.id, name: t.name, region: reg.name, ovr: t.ovr }));
+          }
+        });
+      }
+      if (teamList.length === 0 && typeof STANDINGS_VCT !== 'undefined') {
+        STANDINGS_VCT.forEach(t => teamList.push({ id: t.id || t.name.toLowerCase().replace(/\s+/g,''), name: t.name, region: 'Pacific', ovr: 92 }));
+      }
+
+      selA.innerHTML = '';
+      selB.innerHTML = '';
+
+      teamList.forEach(t => {
+        const optA = document.createElement('option');
+        optA.value = t.name;
+        optA.innerText = `${t.name} (${t.region}) · OVR ${t.ovr}`;
+        if (t.name === 'FULL SENSE') optA.selected = true;
+        selA.appendChild(optA);
+
+        const optB = document.createElement('option');
+        optB.value = t.name;
+        optB.innerText = `${t.name} (${t.region}) · OVR ${t.ovr}`;
+        if (t.name === 'Paper Rex') optB.selected = true;
+        selB.appendChild(optB);
+      });
+    }
+
+    function confirmStartFriendlyMatch() {
+      const selA = document.getElementById('friendly-select-teama');
+      const selB = document.getElementById('friendly-select-teamb');
+      const selMap = document.getElementById('friendly-select-map');
+      const selSide = document.getElementById('friendly-select-side');
+
+      const teamAName = selA ? selA.value : 'FULL SENSE';
+      const teamBName = selB ? selB.value : 'Paper Rex';
+      const mapName = selMap ? selMap.value : 'Ascent';
+      const startingSide = selSide ? selSide.value : 'ATK';
+
+      currentGameMode = 'FRIENDLY';
+      closeFriendlySetupModal();
+
+      // Set Team A & Team B in matchState
+      matchState.teamAName = teamAName;
+      matchState.teamBName = teamBName;
+      matchState.scoreA = 0;
+      matchState.scoreB = 0;
+      matchState.teamCredsA = 800 * 5; // Pistol creds
+      matchState.teamCredsB = 800 * 5;
+      matchState.isFullSenseAttacking = (startingSide === 'ATK');
+      matchState.roundHistory = [];
+
+      // Update Scoreboard UI
+      const scoreNameA = document.getElementById('score-name-a');
+      const scoreNameB = document.getElementById('score-name-b');
+      if (scoreNameA) scoreNameA.innerText = teamAName;
+      if (scoreNameB) scoreNameB.innerText = teamBName;
+
+      const scoreAEl = document.getElementById('score-a');
+      const scoreBEl = document.getElementById('score-b');
+      if (scoreAEl) scoreAEl.innerText = '0';
+      if (scoreBEl) scoreBEl.innerText = '0';
+
+      // Load Team A players into myRoster.starters
+      loadPlayersForTeam(teamAName);
+
+      // Set active Map
+      changeMap(mapName);
+
+      // Update navigation to show only Friendly-relevant tabs
+      updateNavigationTabs('FRIENDLY');
+
+      // Switch to match tab and enter pistol buy phase
+      switchTab('match');
+      enterBuyPhase(1);
+      if (typeof drawMap === 'function') {
+        setTimeout(drawMap, 50);
+      }
+
+      addEventLog(`⚔️ เริ่มต้นแมตช์กระชับมิตร (Friendly Match): ${teamAName} vs ${teamBName} ณ สนาม ${mapName}`);
+    }
+
+    function loadPlayersForTeam(teamName) {
+      const teamPlayers = allPlayers.filter(p => p.teamName === teamName || (p.teamId && p.teamId === teamName.toLowerCase().replace(/\s+/g, '')));
+      if (teamPlayers.length >= 5) {
+        myRoster.starters = teamPlayers.slice(0, 5).map(p => ({ ...p }));
+      } else {
+        const teamKey = teamName.toLowerCase().replace(/\s+/g, '');
+        if (typeof fallbackRosters !== 'undefined' && fallbackRosters[teamKey]) {
+          myRoster.starters = fallbackRosters[teamKey].slice(0, 5).map(p => ({ ...p }));
+        } else {
+          // Keep current starters if none found
+          if (!myRoster.starters || myRoster.starters.length < 5) {
+            const fallbackDefault = [
+              { id: 'p1', name: `${teamName} P1`, role: 'Duelist', agent: 'Jett', ovr: 92, aim: 93, iq: 90, clutch: 91 },
+              { id: 'p2', name: `${teamName} P2`, role: 'Initiator', agent: 'Sova', ovr: 90, aim: 89, iq: 92, clutch: 89 },
+              { id: 'p3', name: `${teamName} P3`, role: 'Controller', agent: 'Omen', ovr: 91, aim: 88, iq: 93, clutch: 92 },
+              { id: 'p4', name: `${teamName} P4`, role: 'Sentinel', agent: 'Cypher', ovr: 90, aim: 89, iq: 91, clutch: 90 },
+              { id: 'p5', name: `${teamName} P5`, role: 'Flex', agent: 'KAY/O', ovr: 89, aim: 90, iq: 88, clutch: 88 }
+            ];
+            myRoster.starters = fallbackDefault;
+          }
+        }
+      }
+      syncRosterToMatchPlayers();
+    }
+
+    // --- HELPER HANDLERS: INSPECT PLAYER, CLOSE MODAL, FILTER MARKET ---
+    function inspectPlayer(playerId) {
+      const p = allPlayers.find(x => x.id === playerId || x.name === playerId) ||
+                (myRoster.starters ? myRoster.starters.find(x => x.id === playerId || x.name === playerId) : null) ||
+                (myRoster.bench ? myRoster.bench.find(x => x.id === playerId || x.name === playerId) : null);
+      if (!p) return;
+
+      const content = document.getElementById('player-modal-content');
+      if (!content) return;
+
+      const isStarter = myRoster.starters && myRoster.starters.some(x => x.id === p.id || x.name === p.name);
+      const isBench = myRoster.bench && myRoster.bench.some(x => x.id === p.id || x.name === p.name);
+      const statusBadge = isStarter ? '<span class="text-[10px] font-mono bg-emerald-950 text-emerald-400 border border-emerald-500/40 px-2 py-0.5 rounded font-bold">STARTER ตัวจริง</span>'
+                                    : (isBench ? '<span class="text-[10px] font-mono bg-cyan-950 text-cyan-400 border border-cyan-500/40 px-2 py-0.5 rounded font-bold">BENCH ตัวสำรอง</span>'
+                                               : `<span class="text-[10px] font-mono bg-slate-800 text-slate-300 border border-slate-700 px-2 py-0.5 rounded font-bold">${p.teamName || 'Free Agent'}</span>`);
+
+      const injuryHtml = p.injured ? `<div class="bg-rose-950/80 border border-rose-500/50 p-2.5 rounded-xl text-xs text-rose-300 flex items-center gap-2 mb-2"><span>🏥 บาดเจ็บ: ${p.injury?.name || 'อาการบาดเจ็บ'} (พัก ${p.injury?.weeksLeft || 1} สัปดาห์)</span></div>` : '';
+
+      content.innerHTML = `
+        <div class="flex items-center gap-3 border-b border-[#1b2d4f] pb-3">
+          <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center font-vct text-2xl font-black text-white shadow-lg">
+            ${p.name.substring(0, 2).toUpperCase()}
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h3 class="text-lg font-black text-white">${p.name}</h3>
+              ${statusBadge}
+            </div>
+            <p class="text-xs text-slate-400 mt-0.5">Role: <b class="text-cyan-300">${p.role || 'Flex'}</b> · Signature: <b class="text-amber-300">${p.agent || 'Jett'}</b></p>
+          </div>
+        </div>
+
+        ${injuryHtml}
+
+        <div class="grid grid-cols-4 gap-2 my-3 text-center">
+          <div class="bg-[#070d18] border border-[#16253f] p-2 rounded-xl">
+            <span class="text-[10px] text-slate-400 block font-mono">OVR</span>
+            <span class="text-lg font-black text-white">${p.ovr || 90}</span>
+          </div>
+          <div class="bg-[#070d18] border border-[#16253f] p-2 rounded-xl">
+            <span class="text-[10px] text-slate-400 block font-mono">AIM</span>
+            <span class="text-lg font-black text-emerald-400">${p.aim || 90}</span>
+          </div>
+          <div class="bg-[#070d18] border border-[#16253f] p-2 rounded-xl">
+            <span class="text-[10px] text-slate-400 block font-mono">IQ</span>
+            <span class="text-lg font-black text-cyan-400">${p.iq || 90}</span>
+          </div>
+          <div class="bg-[#070d18] border border-[#16253f] p-2 rounded-xl">
+            <span class="text-[10px] text-slate-400 block font-mono">CLUTCH</span>
+            <span class="text-lg font-black text-amber-400">${p.clutch || 90}</span>
+          </div>
+        </div>
+
+        <div class="bg-[#070d18] border border-[#16253f] p-3 rounded-xl flex flex-col gap-2 text-xs">
+          <div class="flex items-center justify-between">
+            <span class="text-slate-400">มูลค่าในตลาด (Market Value):</span>
+            <span class="font-mono font-bold text-emerald-400">${formatCurrency ? formatCurrency(p.value || 350000) : '$' + (p.value || 350000).toLocaleString()}</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-slate-400">ค่าเหนื่อยรายสัปดาห์ (Weekly Wage):</span>
+            <span class="font-mono font-bold text-amber-400">${formatCurrency ? formatCurrency(p.wage || 8500) : '$' + (p.wage || 8500).toLocaleString()} / สัปดาห์</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-slate-400">ระดับความฟิต / พลังงาน (Energy):</span>
+            <span class="font-mono font-bold ${(p.energy || 100) < 75 ? 'text-amber-400' : 'text-emerald-400'}">${p.energy || 100}%</span>
+          </div>
+        </div>
+
+        <div class="mt-4 flex items-center justify-end">
+          <button onclick="closePlayerModal()" class="px-4 py-1.5 rounded-lg bg-[#142138] hover:bg-[#1d3052] text-slate-300 font-bold text-xs transition cursor-pointer">
+            ปิดหน้าต่าง
+          </button>
+        </div>
+      `;
+
+      const modal = document.getElementById('player-modal');
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
+    }
+
+    function closePlayerModal() {
+      const modal = document.getElementById('player-modal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    }
+
+    function filterMarketCategory(cat) {
+      const tierFilter = document.getElementById('market-tier-filter');
+      if (tierFilter) {
+        if (cat === 'legend') tierFilter.value = 'Legend';
+        else if (cat === 'free_agent') tierFilter.value = 'Free Agent';
+        else tierFilter.value = 'all';
+      }
+      switchTab('market');
+      renderMarketPlayers();
     }
 
     function saveGameToStorage(isAuto = false) {
@@ -7556,6 +8286,9 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
       renderFixturesList();
       saveGameToStorage(true);
 
+      currentGameMode = 'CAREER';
+      updateNavigationTabs('CAREER');
+      switchTab('dashboard');
       addEventLog(`👑 คุณได้รับการแต่งตั้งเป็นเฮดโค้ชสโมสร ${myClubName} ใน ${reg.name} เรียบร้อยแล้ว!`);
       alert(`🎉 ยินดีต้อนรับสู่สโมสร ${myClubName}!
 
