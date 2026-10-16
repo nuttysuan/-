@@ -919,12 +919,12 @@
           <!-- ==================== PRE-ROUND TACTICAL PLANNING DECK (EXPANDED IN BUY PHASE) ==================== -->
           <div id="tactical-planning-deck" class="w-full bg-[#090f1f] border border-[#1e3256] rounded-lg p-2 mt-1 shrink-0 flex flex-col gap-1.5">
             <div class="flex items-center justify-between text-xs pb-1 border-b border-[#172540]">
-              <div class="flex items-center gap-2">
-                <span class="text-emerald-400 font-bold flex items-center gap-1">
-                  <span>🎯</span> วางแผนแท็กติก & เศรษฐกิจ (ROUND <span id="deck-round-num">1</span>)
+              <div class="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+                <span class="text-emerald-400 font-bold flex items-center gap-1 whitespace-nowrap">
+                  <span>🎯</span> วางแผนแท็กติก (ROUND <span id="deck-round-num">1</span>)
                 </span>
-                <span class="text-[10px] text-slate-400 font-mono" id="current-side-label">ฝ่ายบุก (ATTACKERS)</span>
-                <button onclick="openAgentSwapModal()" id="btn-agent-swap" class="text-[10px] font-mono bg-[#0b1527] hover:bg-emerald-950 text-cyan-300 hover:text-emerald-300 border border-cyan-500/40 px-2 py-0.5 rounded transition flex items-center gap-1 cursor-pointer" title="ปรับแต่ง Agent ประจำตัวของ 5 ผู้เล่นในทีมเรา">
+                <span class="text-[10px] text-slate-400 font-mono whitespace-nowrap" id="current-side-label">ฝ่ายบุก (ATTACKERS)</span>
+                <button onclick="openAgentSwapModal()" id="btn-agent-swap" class="text-[10px] font-mono bg-[#0b1527] hover:bg-emerald-950 text-cyan-300 hover:text-emerald-300 border border-cyan-500/40 px-2 py-0.5 rounded transition flex items-center gap-1 cursor-pointer shrink-0" title="ปรับแต่ง Agent ประจำตัวของ 5 ผู้เล่นในทีมเรา">
                   <span>👥</span><span>เลือก AGENTS</span>
                 </button>
               </div>
@@ -2489,6 +2489,7 @@
     let currentPostPlantA = 'ONSITE_CROSSFIRE'; // 'ONSITE_CROSSFIRE', 'FALLBACK_LINEUPS', 'AGGRESSIVE_HUNT'
     let currentPostPlantB = 'ONSITE_CROSSFIRE';
     let mollyCooldown = 0;
+    let mollyCountRemaining = 1;
 
     const mapImage = new Image();
     mapImage.src = ASSETS.maps['Ascent'];
@@ -2520,7 +2521,12 @@
           { x: 215, y: 195, w: 55, h: 90, name: 'Market/Mid Wall' },
           { x: 365, y: 200, w: 55, h: 100, name: 'A Link/Mid Wall' },
           { x: 110, y: 125, w: 35, h: 40, name: 'B Backsite Wall' },
-          { x: 500, y: 165, w: 30, h: 35, name: 'A Generator' }
+          { x: 500, y: 165, w: 30, h: 35, name: 'A Generator' },
+          { x: 275, y: 140, w: 50, h: 45, name: 'Mid Pizza Block' },
+          { x: 440, y: 235, w: 35, h: 65, name: 'A Wine Wall' },
+          { x: 185, y: 145, w: 35, h: 60, name: 'B Lane Wall' },
+          { x: 375, y: 345, w: 55, h: 65, name: 'A Lobby Wall' },
+          { x: 225, y: 355, w: 55, h: 65, name: 'B Lobby Wall' }
         ]
       },
       Bind: {
@@ -3781,31 +3787,28 @@
         triggerHalfTimeSwap();
       }
 
-      // Killfeed Round Separator & Status Strip
+      // Killfeed Round Separator & Grouping Container
       const feed = document.getElementById('killfeed-stream');
       if (feed) {
-        if (roundNum === 1) {
-          feed.innerHTML = `
-            <div class="my-1 py-1 px-2.5 rounded-lg bg-gradient-to-r from-emerald-950 via-[#071324] to-cyan-950 border border-emerald-500/50 flex items-center justify-between text-[11px] font-mono font-bold text-emerald-300 shadow">
-              <span>⚔️ ROUND 1 · PISTOL ROUND</span>
-              <span class="text-xs text-white">0 : 0</span>
-              <span class="text-[10px] text-slate-400">1st Half</span>
-            </div>
-          `;
-        } else {
-          const roundDiv = document.createElement('div');
-          const isSecondHalf = roundNum >= 13;
-          roundDiv.className = "my-1 py-1 px-2.5 rounded-lg bg-gradient-to-r from-cyan-950 via-[#0a1526] to-blue-950 border border-cyan-500/50 flex items-center justify-between text-[11px] font-mono font-bold text-cyan-300 shadow shrink-0";
-          roundDiv.innerHTML = `
+        if (feed.children[0] && feed.children[0].innerText.includes('กำลังเตรียมพร้อม')) {
+          feed.innerHTML = '';
+        }
+        const isSecondHalf = roundNum >= 13;
+        const roundGroup = document.createElement('div');
+        roundGroup.id = `round-feed-group-${roundNum}`;
+        roundGroup.className = "flex flex-col gap-1 mb-2 shrink-0";
+        roundGroup.innerHTML = `
+          <div class="my-1 py-1 px-2.5 rounded-lg bg-gradient-to-r ${roundNum === 1 || roundNum === 13 ? 'from-emerald-950 via-[#071324] to-cyan-950 border border-emerald-500/50 text-emerald-300' : 'from-cyan-950 via-[#0a1526] to-blue-950 border border-cyan-500/50 text-cyan-300'} flex items-center justify-between text-[11px] font-mono font-bold shadow">
             <span class="flex items-center gap-1.5">
-              <span>⚔️ ROUND ${roundNum}</span>
+              <span>⚔️ ROUND ${roundNum}${roundNum === 1 || roundNum === 13 ? ' · PISTOL ROUND' : ''}</span>
               ${roundNum === 13 ? '<span class="text-[9px] bg-amber-900/80 text-amber-300 px-1 py-0.2 rounded font-bold">HALF-TIME</span>' : ''}
             </span>
             <span class="text-xs text-white">${matchState.scoreA} : ${matchState.scoreB}</span>
             <span class="text-[10px] text-slate-400 font-normal">${isSecondHalf ? '2nd Half' : '1st Half'}</span>
-          `;
-          feed.prepend(roundDiv);
-        }
+          </div>
+          <div id="round-kills-${roundNum}" class="flex flex-col gap-1"></div>
+        `;
+        feed.prepend(roundGroup);
       }
 
       const isPistol = (roundNum === 1 || roundNum === 13);
@@ -3822,6 +3825,8 @@
         matchState.lossStreakB = 0;
       }
 
+      mollyCountRemaining = 1;
+
       // Populate Tactics based on Current Side
       populateTacticsDropdown();
       populateBuyDropdown(isPistol);
@@ -3833,6 +3838,9 @@
       const ppDock = document.getElementById('postplant-dock');
       if (ppDock) { ppDock.classList.add('hidden'); ppDock.classList.remove('flex'); }
       document.getElementById('planning-watermark').classList.remove('hidden');
+
+      const spkBanner = document.getElementById('spike-banner');
+      if (spkBanner) spkBanner.classList.add('hidden');
 
       document.getElementById('deck-round-num').innerText = roundNum;
       document.getElementById('current-side-label').innerText = matchState.isFullSenseAttacking ? 'ฝ่ายบุก (ATTACKERS)' : 'ฝ่ายป้องกัน (DEFENDERS)';
@@ -3857,7 +3865,9 @@
       updateTacticPreview();
       drawMap();
 
-      addEventLog(`Buy Phase Round ${roundNum}: Full Sense (${matchState.teamCredsA}$) | PRX (${oppEcoTier})`);
+      const nameA = matchState.teamAName || 'Team A';
+      const nameB = matchState.teamBName || 'Team B';
+      addEventLog(`Buy Phase Round ${roundNum}: ${nameA} ($${matchState.teamCredsA}) | ${nameB} (${oppEcoTier})`);
     }
 
     function getLossBonus(streak) {
@@ -4036,6 +4046,7 @@
       currentPostPlantA = 'ONSITE_CROSSFIRE';
       currentPostPlantB = 'ONSITE_CROSSFIRE';
       mollyCooldown = 0;
+      mollyCountRemaining = 1;
 
       document.getElementById('tactical-planning-deck').classList.add('hidden');
       document.getElementById('live-control-dock').classList.remove('hidden');
@@ -4046,7 +4057,10 @@
       document.getElementById('round-phase-label').innerText = `ROUND ${matchState.round} · LIVE`;
       document.getElementById('spike-banner').classList.add('hidden');
       document.getElementById('spike-led').className = 'w-2 h-2 rounded-full bg-emerald-400 animate-pulse';
-      document.getElementById('spike-status-text').innerHTML = matchState.isFullSenseAttacking ? 'SPIKE CARRIER: Primmie' : 'DEFENDING SITES';
+
+      const carrier = matchPlayers.find(p => p.hasSpike) || (matchState.isFullSenseAttacking ? matchPlayers[0] : matchPlayers[5]);
+      const carrierName = carrier ? carrier.name : 'ATTACKERS';
+      document.getElementById('spike-status-text').innerHTML = matchState.isFullSenseAttacking ? `SPIKE CARRIER: ${carrierName}` : 'DEFENDING SITES';
 
       evaluateTacticalClash(currentTacticA, currentTacticB);
       updateMatchHud();
@@ -4262,12 +4276,13 @@
       // Attackers Strategy Paths
       if (atkStrat === 'RUSH_A') {
         const a = m.aSite;
+        const lobby = m.waypoints.aLobby || m.waypoints.aMain || m.aSite;
         const main = m.waypoints.aMain || m.aSite;
-        atkPlayers[0].targetX = a.x; atkPlayers[0].targetY = a.y;
-        atkPlayers[1].targetX = main.x + 8; atkPlayers[1].targetY = main.y + 15;
-        atkPlayers[2].targetX = main.x - 12; atkPlayers[2].targetY = main.y + 35;
-        atkPlayers[3].targetX = a.x - 15; atkPlayers[3].targetY = a.y + 20;
-        atkPlayers[4].targetX = a.x + 18; atkPlayers[4].targetY = a.y + 15;
+        atkPlayers[0].targetX = main.x; atkPlayers[0].targetY = main.y;
+        atkPlayers[1].targetX = lobby.x + 8; atkPlayers[1].targetY = lobby.y + 15;
+        atkPlayers[2].targetX = lobby.x - 12; atkPlayers[2].targetY = lobby.y + 35;
+        atkPlayers[3].targetX = main.x - 15; atkPlayers[3].targetY = main.y + 20;
+        atkPlayers[4].targetX = lobby.x + 18; atkPlayers[4].targetY = lobby.y + 15;
         if (m.defaultSmokes?.rushA) {
           smokes = m.defaultSmokes.rushA.map(s => ({ x: s.x, y: s.y, r: s.r, color: 'rgba(56, 189, 248, 0.45)' }));
         }
@@ -4275,12 +4290,13 @@
 
       } else if (atkStrat === 'RUSH_B') {
         const b = m.bSite;
+        const lobby = m.waypoints.bLobby || m.waypoints.bMain || m.bSite;
         const main = m.waypoints.bMain || m.bSite;
-        atkPlayers[0].targetX = b.x; atkPlayers[0].targetY = b.y;
-        atkPlayers[1].targetX = main.x + 10; atkPlayers[1].targetY = main.y + 15;
-        atkPlayers[2].targetX = main.x - 10; atkPlayers[2].targetY = main.y + 35;
-        atkPlayers[3].targetX = b.x - 12; atkPlayers[3].targetY = b.y + 18;
-        atkPlayers[4].targetX = b.x + 15; atkPlayers[4].targetY = b.y + 12;
+        atkPlayers[0].targetX = main.x; atkPlayers[0].targetY = main.y;
+        atkPlayers[1].targetX = lobby.x + 10; atkPlayers[1].targetY = lobby.y + 15;
+        atkPlayers[2].targetX = lobby.x - 10; atkPlayers[2].targetY = lobby.y + 35;
+        atkPlayers[3].targetX = main.x - 12; atkPlayers[3].targetY = main.y + 18;
+        atkPlayers[4].targetX = lobby.x + 15; atkPlayers[4].targetY = lobby.y + 12;
         if (m.defaultSmokes?.rushB) {
           smokes = m.defaultSmokes.rushB.map(s => ({ x: s.x, y: s.y, r: s.r, color: 'rgba(56, 189, 248, 0.45)' }));
         }
@@ -5073,13 +5089,29 @@
         const dy = p.targetY - p.y;
         const dist = Math.hypot(dx, dy);
 
+        // If spike is planted, defenders immediately navigate to retake and defuse
+        if (!isPlayerAtk && spikePlanted && plantedSiteCoords) {
+          const defTeam = isAtk ? 'B' : 'A';
+          const aliveDef = matchPlayers.filter(d => d.team === defTeam && d.alive);
+          aliveDef.sort((d1, d2) => Math.hypot(d1.x - plantedSiteCoords.x, d1.y - plantedSiteCoords.y) - Math.hypot(d2.x - plantedSiteCoords.x, d2.y - plantedSiteCoords.y));
+
+          if (aliveDef[0] && aliveDef[0].id === p.id) {
+            p.targetX = plantedSiteCoords.x;
+            p.targetY = plantedSiteCoords.y;
+          } else {
+            const angle = (p.id.charCodeAt(p.id.length - 1) % 4) * (Math.PI / 2);
+            p.targetX = plantedSiteCoords.x + Math.cos(angle) * 32;
+            p.targetY = plantedSiteCoords.y + Math.sin(angle) * 32;
+          }
+        }
+
         // If player is currently actively defusing, stay locked in position!
         if (defuseState.defusingPlayer && defuseState.defusingPlayer.id === p.id && plantedSiteCoords) {
           p.x = plantedSiteCoords.x;
           p.y = plantedSiteCoords.y;
         } else if (dist > 3) {
-          // Tactical, readable speed (~0.60 px/frame at 1x)
-          const speedMod = (p.status && p.status.concussed > 0) ? 0.35 : 0.60;
+          // Tactical, readable speed (~0.38 px/frame at 1x)
+          const speedMod = (p.status && p.status.concussed > 0) ? 0.22 : 0.38;
           const step = Math.min(dist, speedMod * simSpeed);
           p.x += (dx / dist) * step;
           p.y += (dy / dist) * step;
@@ -5107,23 +5139,8 @@
               p.targetY = targetSite.y + (Math.random() * 40 - 20);
             }
           } else {
-            // Defender behavior
-            if (spikePlanted && plantedSiteCoords) {
-              const defTeam = isAtk ? 'B' : 'A';
-              const aliveDef = matchPlayers.filter(d => d.team === defTeam && d.alive);
-              aliveDef.sort((a, b) => Math.hypot(a.x - plantedSiteCoords.x, a.y - plantedSiteCoords.y) - Math.hypot(b.x - plantedSiteCoords.x, b.y - plantedSiteCoords.y));
-
-              // Closest defender runs directly to the Spike to defuse!
-              if (aliveDef[0] && aliveDef[0].id === p.id) {
-                p.targetX = plantedSiteCoords.x;
-                p.targetY = plantedSiteCoords.y;
-              } else {
-                // Other defenders watch angles surrounding the site
-                const angle = (p.id.charCodeAt(p.id.length - 1) % 4) * (Math.PI / 2);
-                p.targetX = plantedSiteCoords.x + Math.cos(angle) * 32;
-                p.targetY = plantedSiteCoords.y + Math.sin(angle) * 32;
-              }
-            } else if (roundTime < 50) {
+            // Defender behavior when spike not planted
+            if (!spikePlanted && roundTime < 50) {
               // Rotate or push towards site when round is half over
               p.targetX = targetSite.x + (Math.random() * 30 - 15);
               p.targetY = targetSite.y + (Math.random() * 30 - 15);
@@ -5356,20 +5373,16 @@
         const primaryDefuser = aliveDefenders[0];
         const distToSpike = primaryDefuser ? Math.hypot(primaryDefuser.x - plantedSiteCoords.x, primaryDefuser.y - plantedSiteCoords.y) : 9999;
 
-        // Check if an alive attacker is actively contesting by direct line-of-sight within 70px
-        const isContestedByLos = aliveAttackers.some(atk => {
-          const dAtk = Math.hypot(atk.x - plantedSiteCoords.x, atk.y - plantedSiteCoords.y);
-          return (dAtk < 70 && hasLineOfSight(atk.x, atk.y, plantedSiteCoords.x, plantedSiteCoords.y, currentMap));
-        });
+        const isDefuserDisabled = primaryDefuser && primaryDefuser.status && (primaryDefuser.status.detained > 0);
 
-        if (primaryDefuser && distToSpike < 40 && (!isContestedByLos || aliveAttackers.length === 0)) {
-          // Lock defuser directly onto the Spike
-          primaryDefuser.x = plantedSiteCoords.x;
-          primaryDefuser.y = plantedSiteCoords.y;
+        if (primaryDefuser && distToSpike <= 28 && !isDefuserDisabled) {
+          primaryDefuser.targetX = plantedSiteCoords.x;
+          primaryDefuser.targetY = plantedSiteCoords.y;
 
-          if (currentActivePP === 'FALLBACK_LINEUPS' && mollyCooldown <= 0 && aliveAttackers.length > 0) {
+          if (currentActivePP === 'FALLBACK_LINEUPS' && mollyCountRemaining > 0 && mollyCooldown <= 0 && aliveAttackers.length > 0) {
+            mollyCountRemaining--;
+            mollyCooldown = 240;
             const mollyShooter = aliveAttackers.find(p => ['Brimstone', 'Viper', 'Killjoy', 'Sova', 'Gekko', 'Phoenix', 'Fade'].includes(p.agent)) || aliveAttackers[0];
-            mollyCooldown = 260;
             radarAnimations.push({
               type: 'molly_puddle',
               x: plantedSiteCoords.x,
@@ -5384,6 +5397,7 @@
             defuseState.defusingPlayer = null;
             if (defuseState.hasPassedHalf) defuseState.progress = 3.5;
             else defuseState.progress = 0;
+            updateMatchHud();
           } else {
             defuseState.defusingPlayer = primaryDefuser;
             defuseState.progress += (1.0 / 60) * simSpeed;
@@ -5414,7 +5428,7 @@
       }
 
       // 9. Gunfight Encounters with Line-of-Sight Check (No Shooting Through Walls, No Warping)
-      if (combatCooldown % 18 === 0) {
+      if (combatCooldown % 28 === 0) {
         const aliveA = matchPlayers.filter(p => p.team === 'A' && p.alive);
         const aliveB = matchPlayers.filter(p => p.team === 'B' && p.alive);
 
@@ -5589,7 +5603,38 @@
       let killer = roll < probA ? playerA : playerB;
       let victim = roll < probA ? playerB : playerA;
 
-      const isHeadshot = (killer.aim >= 92 && Math.random() < 0.65) || (killer.weapon === 'Vandal' && Math.random() < 0.45);
+      const isOneShot = (killer.weapon === 'Operator') || (['Vandal', 'Sheriff'].includes(killer.weapon) && Math.random() < 0.38) || (killer.aim >= 94 && Math.random() < 0.45);
+      const isHeadshot = isOneShot || (Math.random() < 0.25);
+
+      const weaponDmgTable = {
+        'Operator': 150,
+        'Vandal': 40,
+        'Phantom': 35,
+        'Outlaw': 125,
+        'Spectre': 26,
+        'Sheriff': 55,
+        'Ghost': 30,
+        'Classic': 25
+      };
+
+      let dmgDealt = 0;
+      if (isOneShot) {
+        dmgDealt = 150;
+      } else {
+        const base = weaponDmgTable[killer.weapon] || 35;
+        dmgDealt = Math.round(base * (0.85 + Math.random() * 0.35));
+        if (isHeadshot) dmgDealt = Math.round(dmgDealt * 2.1);
+      }
+
+      victim.hp = Math.max(0, victim.hp - dmgDealt);
+      killer.damage = (killer.damage || 0) + dmgDealt;
+
+      if (victim.hp > 0) {
+        // Survived bullet burst!
+        addFloatingText(`-${dmgDealt} HP`, victim.x, victim.y - 14, isHeadshot ? '#fb7185' : '#fbbf24');
+        updateMatchHud();
+        return;
+      }
 
       // Check Phoenix Second Life (Run It Back)
       if (victim.status && victim.status.secondLife) {
@@ -5599,6 +5644,7 @@
         victim.status.secondLife = false;
         addFloatingText('RUN IT BACK! 🔥', victim.x, victim.y - 15, '#fb923c');
         addEventLog(`🔥 ${victim.name} (Phoenix) คืนชีพกลับสู่จุดมาร์กเกอร์!`);
+        updateMatchHud();
         return;
       }
 
@@ -5606,7 +5652,8 @@
       victim.hp = 0;
       victim.deaths = (victim.deaths || 0) + 1;
       killer.kills = (killer.kills || 0) + 1;
-      killer.damage = (killer.damage || 0) + 150;
+      addFloatingText(isHeadshot ? '💥 HEADSHOT!' : 'ELIMINATED', victim.x, victim.y - 15, '#ef4444');
+      updateMatchHud();
 
       // Drop Spike if victim was carrying it
       if (victim.hasSpike) {
@@ -5695,12 +5742,36 @@
         <span class="font-bold text-xs ${!isKillerA ? 'text-emerald-400/60 line-through' : 'text-rose-400/60 line-through'}">${victim.name} <span class="text-[9px] opacity-70 font-mono">(${victim.agent})</span></span>
       `;
 
-      if (feed.children[0] && feed.children[0].innerText.includes('กำลังเตรียมพร้อม')) {
-        feed.innerHTML = '';
+      let roundKills = document.getElementById(`round-kills-${matchState.round}`);
+      if (!roundKills && feed) {
+        if (feed.children[0] && feed.children[0].innerText.includes('กำลังเตรียมพร้อม')) {
+          feed.innerHTML = '';
+        }
+        const roundGroup = document.createElement('div');
+        roundGroup.id = `round-feed-group-${matchState.round}`;
+        roundGroup.className = "flex flex-col gap-1 mb-2 shrink-0";
+        roundGroup.innerHTML = `
+          <div class="my-1 py-1 px-2.5 rounded-lg bg-gradient-to-r from-cyan-950 via-[#0a1526] to-blue-950 border border-cyan-500/50 flex items-center justify-between text-[11px] font-mono font-bold text-cyan-300 shadow">
+            <span class="flex items-center gap-1.5">
+              <span>⚔️ ROUND ${matchState.round}</span>
+            </span>
+            <span class="text-xs text-white">${matchState.scoreA} : ${matchState.scoreB}</span>
+          </div>
+          <div id="round-kills-${matchState.round}" class="flex flex-col gap-1"></div>
+        `;
+        feed.prepend(roundGroup);
+        roundKills = document.getElementById(`round-kills-${matchState.round}`);
       }
-      feed.prepend(div);
-      while (feed.children.length > 35) {
-        feed.removeChild(feed.lastChild);
+
+      const targetContainer = roundKills || feed;
+      if (targetContainer) {
+        targetContainer.appendChild(div);
+      }
+
+      if (feed) {
+        while (feed.children.length > 20) {
+          feed.removeChild(feed.lastChild);
+        }
       }
       addEventLog(`${killer.name} (${killer.agent}) eliminated ${victim.name} (${victim.agent}) with ${methodName}${isHeadshot ? ' (HEADSHOT)' : ''}`);
     }
@@ -6355,7 +6426,17 @@ function endRound(winner) {
         ? 'font-vct text-xl font-black text-white bg-rose-950/60 px-2 py-0.2 rounded border border-rose-500/40'
         : 'font-vct text-xl font-black text-white bg-cyan-950/60 px-2 py-0.2 rounded border border-cyan-500/40';
 
-      // Dot headers in Roster HUD
+      // Dot headers & Team Names in Roster HUD
+      const titleA = document.getElementById('team-title-a');
+      const titleB = document.getElementById('team-title-b');
+      if (titleA) titleA.innerText = (matchState.teamAName || 'TEAM A').toUpperCase();
+      if (titleB) titleB.innerText = (matchState.teamBName || 'TEAM B').toUpperCase();
+
+      const scoreNameA = document.getElementById('score-name-a');
+      const scoreNameB = document.getElementById('score-name-b');
+      if (scoreNameA) scoreNameA.innerText = (matchState.teamAName || 'TEAM A').toUpperCase();
+      if (scoreNameB) scoreNameB.innerText = (matchState.teamBName || 'TEAM B').toUpperCase();
+
       document.getElementById('hud-dot-a').className = isAtk ? 'w-1.5 h-1.5 rounded-full bg-rose-500' : 'w-1.5 h-1.5 rounded-full bg-cyan-400';
       document.getElementById('hud-dot-b').className = !isAtk ? 'w-1.5 h-1.5 rounded-full bg-rose-500' : 'w-1.5 h-1.5 rounded-full bg-cyan-400';
       document.getElementById('hud-header-a').className = isAtk ? 'text-[10px] font-bold text-rose-400 mb-1 flex items-center justify-between uppercase font-mono' : 'text-[10px] font-bold text-cyan-400 mb-1 flex items-center justify-between uppercase font-mono';
@@ -7668,6 +7749,8 @@ function endRound(winner) {
       // Switch to match tab and enter pistol buy phase
       switchTab('match');
       enterBuyPhase(1);
+      initMatchHud();
+      updateScoreboardUI();
       if (typeof drawMap === 'function') {
         setTimeout(drawMap, 50);
       }
@@ -7899,6 +7982,11 @@ function endRound(winner) {
 
     function updateMatchHud() {
       const isAtk = matchState.isFullSenseAttacking;
+      const titleA = document.getElementById('team-title-a');
+      const titleB = document.getElementById('team-title-b');
+      if (titleA) titleA.innerText = (matchState.teamAName || 'TEAM A').toUpperCase();
+      if (titleB) titleB.innerText = (matchState.teamBName || 'TEAM B').toUpperCase();
+
       matchPlayers.forEach(p => {
         const hpBar = document.getElementById(`hp-${p.id}`);
         const card = document.getElementById(`card-${p.id}`);
@@ -10290,6 +10378,11 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
     }
 
     function initMatchHud() {
+      const titleA = document.getElementById('team-title-a');
+      const titleB = document.getElementById('team-title-b');
+      if (titleA) titleA.innerText = (matchState.teamAName || 'TEAM A').toUpperCase();
+      if (titleB) titleB.innerText = (matchState.teamBName || 'TEAM B').toUpperCase();
+
       const ha = document.getElementById('hud-roster-a');
       const hb = document.getElementById('hud-roster-b');
       if (!ha || !hb) return;
