@@ -2470,6 +2470,9 @@
     mapImage.src = ASSETS.maps['Ascent'];
     mapImage.onerror = () => { mapImage.src = ASSETS.fallbacks['Ascent']; };
 
+    const spikeMapIcon = new Image();
+    spikeMapIcon.src = 'assets/vct/Spike.png';
+
     const MAP_DATA = {
       Ascent: {
         displayName: 'Ascent',
@@ -3866,7 +3869,7 @@
       addEventLog('HALF-TIME REACHED! Switching sides. 2nd Pistol Round.');
     }
 
-        function populateTacticsDropdown() {
+    function populateTacticsDropdown() {
       const isAtk = matchState.isFullSenseAttacking;
       const select = document.getElementById('round-tactic-select');
       const m = getActiveMap();
@@ -3876,13 +3879,16 @@
           <option value="RUSH_A" selected>⚡ Fast Skill Rush Site A (โถมเจาะ A รวดเร็ว)</option>
           <option value="RUSH_B">⚡ Fast Skill Rush Site B (โถมเจาะ B รวดเร็ว)</option>
           ${m.hasSiteC ? '<option value="RUSH_C">⚡ Fast Skill Rush Site C (โถมเจาะ C รวดเร็ว)</option>' : ''}
+          <option value="MID_TO_A">🔱 Split Attack: Mid to Site A (แยกบุก Mid + A Main หนีบสองด้าน)</option>
+          <option value="MID_TO_B">🔱 Split Attack: Mid to Site B (แยกบุก Mid + B Main ตลบหลัง)</option>
           <option value="FAKE_ROTATE">🎭 Fake โยกหลอกล่อ (หลอกล่อให้หมุนตัวแล้ววางอีกไซต์)</option>
-          <option value="SLOW_BAIT">🎣 เล่นช้า ดักรอดักคอยคนดัน (Punish Push)</option>
-          <option value="DEFAULT">⚖️ Default Map Control (คุมมิด กระจายหาข่าว)</option>
+          <option value="SLOW_BAIT">🎣 เล่นช้า ดักรอดักคอยคนดัน (Punish Push + รวมตีไซต์เบา)</option>
+          <option value="DEFAULT">⚖️ Default Map Control (คุมมิด กระจายหาข่าว + เจาะจุดอ่อน)</option>
         `;
       } else {
         select.innerHTML = `
           <option value="DEFAULT" selected>⚖️ Default Defense (${m.hasSiteC ? '2-1-2 เฝ้าสามไซต์ A/B/C' : '2-1-2 เฝ้าทุกไซต์สมดุล'})</option>
+          <option value="MID_AGGRESSION">🎯 Mid Contest / Sniper Hold (คุมมิด ตัดตัวบุกด้วยสไนเปอร์)</option>
           <option value="STACK_A">🛡️ Stack Site A (อัด 4-5 คนดักรอไซต์ A)</option>
           <option value="STACK_B">🛡️ Stack Site B (อัด 4-5 คนดักรอไซต์ B)</option>
           ${m.hasSiteC ? '<option value="STACK_C">🛡️ Stack Site C (อัด 4-5 คนดักรอไซต์ C)</option>' : ''}
@@ -3893,6 +3899,7 @@
           <option value="PASSIVE_RETAKE">🔄 Passive Retake (ถอยรวม 5 คนรอแก้ไซต์ทีเดียว)</option>
         `;
       }
+      updateTacticPreview();
     }
 
     function populateBuyDropdown(isPistol) {
@@ -3906,24 +3913,53 @@
           <option value="PISTOL_FREE">🪙 Free Classic + Full Abilities ($0/คน) [เน้นสกิล]</option>
         `;
       } else {
+        const canOpBuy = matchState.teamCredsA >= 21000;
         const canFullBuy = matchState.teamCredsA >= 17000;
         select.innerHTML = `
-          <option value="FULL_BUY" ${canFullBuy ? 'selected' : 'disabled'}>🔫 Full Buy: Vandal / Phantom + Full Armor ($3,900/คน) ${!canFullBuy ? '[เงินไม่พอ]' : ''}</option>
+          <option value="OP_FULL_BUY" ${canOpBuy ? 'selected' : (canFullBuy ? '' : 'disabled')}>🎯 Operator + Full Buy: 1x Operator ($4,700) + 4x Vandals + Heavy Shields ($4,300/คน) ${!canOpBuy ? '[เงินไม่พอ]' : ''}</option>
+          <option value="FULL_BUY" ${canFullBuy && !canOpBuy ? 'selected' : (!canFullBuy ? 'disabled' : '')}>🔫 Full Buy: Vandal / Phantom + Full Armor ($3,900/คน) ${!canFullBuy ? '[เงินไม่พอ]' : ''}</option>
           <option value="FORCE_BUY" ${!canFullBuy ? 'selected' : ''}>⚡ Force Buy: Spectre / Outlaw + Light Armor ($2,400/คน)</option>
           <option value="ECO_SAVE">🪙 Eco Save: Ghost / Sheriff ($800/คน) [เซฟเงินเพื่อรอบหน้า]</option>
-          <option value="HERO_OP" ${matchState.teamCredsA >= 10000 ? '' : 'disabled'}>🎯 Hero Sniper: Operator ($5,200) + Sheriffs</option>
+          <option value="HERO_OP" ${matchState.teamCredsA >= 10000 ? '' : 'disabled'}>🎯 Hero Sniper: Operator ($4,700) + Sheriffs/Eco ($2,200/คน)</option>
         `;
       }
+      updateBuyPreview();
     }
 
     function updateBuyPreview() {
-      // preview info
-    }
-
-        function updateTacticPreview() {
-      const tac = document.getElementById('round-tactic-select').value;
+      const buy = document.getElementById('round-buy-select')?.value;
       const hint = document.getElementById('tactic-synergy-hint');
       const tag = document.getElementById('tactical-advantage-tag');
+      if (!buy || !hint || !tag) return;
+
+      if (buy === 'OP_FULL_BUY') {
+        hint.innerHTML = '🎯 <b>Operator + Full Buy:</b> ปืนสไนเปอร์ Operator ตัดตัวระยะไกล + 4x Vandals และเกราะหนัก พร้อมชิง First Blood เด็ดขาด!';
+        tag.innerText = 'Sniper Dominance · Extreme Long-Range Pick';
+        tag.className = 'text-amber-400 font-mono font-bold';
+      } else if (buy === 'FULL_BUY') {
+        hint.innerHTML = '🔫 <b>Full Buy:</b> Vandal / Phantom ครบชุดพร้อมเกราะหนัก 50 หน่วย มาตรฐานการแข่งขันสูงสุด';
+        tag.innerText = 'Maximum Firepower · Rifles Full Shields';
+        tag.className = 'text-emerald-400 font-mono font-bold';
+      } else if (buy === 'FORCE_BUY') {
+        hint.innerHTML = '⚡ <b>Force Buy:</b> ทุ่มเงินซื้อ Spectre / Outlaw + เกราะเบา เสี่ยงดวงเพื่อพลิกสถานการณ์';
+        tag.innerText = 'Risky Force · Mid Firepower';
+        tag.className = 'text-amber-400 font-mono font-bold';
+      } else if (buy === 'ECO_SAVE') {
+        hint.innerHTML = '🪙 <b>Eco Save:</b> ประหยัดเงิน ซื้อเพียงปืนพก เพื่อเก็บเงินก้อนโตไว้ Full Buy ในรอบถัดไป';
+        tag.innerText = 'Economy Recovery · Low Firepower';
+        tag.className = 'text-slate-400 font-mono font-bold';
+      } else if (buy === 'HERO_OP') {
+        hint.innerHTML = '🎯 <b>Hero Sniper:</b> ยอมให้เพื่อนเล่นปืนพกประหยัดเงิน เพื่อทุ่มซื้อ Operator 1 กระบอกให้มือสไนเปอร์แบกทีม';
+        tag.innerText = 'Hero Sniper Pick · Vulnerable Team';
+        tag.className = 'text-cyan-400 font-mono font-bold';
+      }
+    }
+
+    function updateTacticPreview() {
+      const tac = document.getElementById('round-tactic-select')?.value;
+      const hint = document.getElementById('tactic-synergy-hint');
+      const tag = document.getElementById('tactical-advantage-tag');
+      if (!tac || !hint || !tag) return;
 
       if (tac === 'RUSH_A') {
         hint.innerHTML = '⚡ <b>Fast Rush A:</b> บุกเร็วไซต์ A ชนะทาง Passive Retake แต่แพ้ทางคน Stack A';
@@ -3937,14 +3973,26 @@
         hint.innerHTML = '⚡ <b>Fast Rush C:</b> บุกสโมคเจาะไซต์ C ทางแคบ ชนะทาง Passive Retake แต่แพ้ทางคน Stack C';
         tag.innerText = 'High Aggression · Vulnerable to Stack C';
         tag.className = 'text-purple-400 font-mono font-bold';
+      } else if (tac === 'MID_TO_A') {
+        hint.innerHTML = '🔱 <b>Split Mid to A:</b> แยก 2 คนดัน Mid ทะลวงเข้า A Short/Tree และ 3 คนบุก A Main หนีบขนาบข้างคู่แข่งสองด้าน!';
+        tag.innerText = 'Pincer Flank · High Damage against Anchors';
+        tag.className = 'text-cyan-400 font-mono font-bold';
+      } else if (tac === 'MID_TO_B') {
+        hint.innerHTML = '🔱 <b>Split Mid to B:</b> แยก 2 คนดัน Mid ทะลวง Market/Window และ 3 คนบุก B Main ประกบสองทิศทาง!';
+        tag.innerText = 'Pincer Flank · B Site Encirclement';
+        tag.className = 'text-cyan-400 font-mono font-bold';
       } else if (tac === 'FAKE_ROTATE') {
         hint.innerHTML = '🎭 <b>Fake โยกหลอกล่อ:</b> ส่ง 2 คนหลอกล่อที่ไซต์หนึ่ง ดึงตัวรับให้หมุน แล้ว 3 คนแอบวาง Spike อีกไซต์';
         tag.innerText = 'High IQ Mindgame · Counters Stack Defense';
         tag.className = 'text-emerald-400 font-mono font-bold';
       } else if (tac === 'SLOW_BAIT') {
-        hint.innerHTML = '🎣 <b>Slow Bait:</b> ดักรอฝั่งรับดันออกมา ชนะทาง Aggressive Push แต่แพ้ Default';
+        hint.innerHTML = '🎣 <b>Slow Bait:</b> ดักรอฝั่งรับดันออกมา ชนะทาง Aggressive Push แล้วดูลู่ทางรวมตีไซต์ที่บางกว่า';
         tag.innerText = 'Patience Bait · Counters Push';
         tag.className = 'text-cyan-400 font-mono font-bold';
+      } else if (tac === 'MID_AGGRESSION') {
+        hint.innerHTML = '🎯 <b>Mid Contest / Sniper Hold:</b> ใช้สไนเปอร์/อาวุธระยะไกลปักหลักคุม Mid เพื่อตัดตัวบุกที่พยายาม Split หรือ Default!';
+        tag.innerText = 'Mid Lockdown · High First Blood';
+        tag.className = 'text-amber-400 font-mono font-bold';
       } else if (tac === 'STACK_A') {
         hint.innerHTML = '🛡️ <b>Stack A:</b> ดัก 4-5 คนไซต์ A ชนะ Rush A เด็ดขาด แต่เสียพื้นที่ไซต์อื่น';
         tag.innerText = 'Heavy Defense · Counters Rush A';
@@ -3982,7 +4030,7 @@
         tag.innerText = 'Retake Setup · Needs Utility';
         tag.className = 'text-indigo-400 font-mono font-bold';
       } else {
-        hint.innerHTML = '⚖️ <b>Default:</b> เฝ้าระวังอย่างสมดุล ป้องกันการหลอกล่อได้ดีที่สุด';
+        hint.innerHTML = '⚖️ <b>Default:</b> เฝ้าระวังอย่างสมดุล กระจายเก็บข้อมูลแล้วสั่งหมุนเข้าเจาะไซต์ที่แนวรับบาง';
         tag.innerText = 'Balanced Info · Low Risk';
         tag.className = 'text-slate-300 font-mono font-bold';
       }
@@ -3997,7 +4045,7 @@
       const curM = getActiveMap();
       if (matchState.isFullSenseAttacking) {
         // AI is Defending
-        const oppTactics = ['DEFAULT', 'STACK_A', 'STACK_B', 'PUSH_A', 'PUSH_MID', 'PUSH_B', 'PASSIVE_RETAKE'];
+        const oppTactics = ['DEFAULT', 'STACK_A', 'STACK_B', 'PUSH_A', 'PUSH_MID', 'PUSH_B', 'MID_AGGRESSION', 'PASSIVE_RETAKE'];
         if (curM.hasSiteC) {
           oppTactics.push('STACK_C');
           oppTactics.push('PUSH_C');
@@ -4005,12 +4053,16 @@
         currentTacticB = oppTactics[Math.floor(Math.random() * oppTactics.length)];
       } else {
         // AI is Attacking
-        const oppTactics = ['RUSH_A', 'RUSH_B', 'FAKE_ROTATE', 'SLOW_BAIT', 'DEFAULT'];
+        const oppTactics = ['RUSH_A', 'RUSH_B', 'MID_TO_A', 'MID_TO_B', 'FAKE_ROTATE', 'SLOW_BAIT', 'DEFAULT'];
         if (curM.hasSiteC) oppTactics.push('RUSH_C');
         currentTacticB = oppTactics[Math.floor(Math.random() * oppTactics.length)];
       }
 
-      currentBuyB = matchState.teamCredsB >= 18000 ? 'FULL_BUY' : (matchState.teamCredsB >= 10000 ? 'FORCE_BUY' : 'ECO_SAVE');
+      if (matchState.teamCredsB >= 22000 && Math.random() < 0.45) {
+        currentBuyB = 'OP_FULL_BUY';
+      } else {
+        currentBuyB = matchState.teamCredsB >= 18000 ? 'FULL_BUY' : (matchState.teamCredsB >= 10000 ? 'FORCE_BUY' : 'ECO_SAVE');
+      }
 
       applyEconomyDeductions();
       setupDynamicWaypoints(currentTacticA, currentTacticB);
@@ -4053,16 +4105,27 @@
         else if (currentBuyA === 'PISTOL_SHERIFF') { costPerPlayerA = 800; assignTeamWeapons('A', 'Sheriff', 0); }
         else { costPerPlayerA = 0; assignTeamWeapons('A', 'Classic', 0); }
       } else {
-        if (currentBuyA === 'FULL_BUY') { costPerPlayerA = 3900; assignTeamWeapons('A', 'Vandal', 50); }
+        if (currentBuyA === 'OP_FULL_BUY') { costPerPlayerA = 4260; assignTeamWeapons('A', 'Vandal', 50, 'Operator'); }
+        else if (currentBuyA === 'FULL_BUY') { costPerPlayerA = 3900; assignTeamWeapons('A', 'Vandal', 50); }
         else if (currentBuyA === 'FORCE_BUY') { costPerPlayerA = 2400; assignTeamWeapons('A', 'Spectre', 25); }
         else if (currentBuyA === 'ECO_SAVE') { costPerPlayerA = 800; assignTeamWeapons('A', 'Sheriff', 0); }
-        else if (currentBuyA === 'HERO_OP') { costPerPlayerA = 2200; assignTeamWeapons('A', 'Vandal', 25, 'Operator'); }
+        else if (currentBuyA === 'HERO_OP') { costPerPlayerA = 2200; assignTeamWeapons('A', 'Sheriff', 0, 'Operator'); }
       }
       matchState.teamCredsA = Math.max(0, matchState.teamCredsA - (costPerPlayerA * 5));
 
       // Deduct Team B
-      let costPerPlayerB = isPistol ? 500 : (currentBuyB === 'FULL_BUY' ? 3900 : 2000);
-      assignTeamWeapons('B', isPistol ? 'Ghost' : (currentBuyB === 'FULL_BUY' ? 'Vandal' : 'Spectre'), isPistol ? 0 : 50);
+      let costPerPlayerB = isPistol ? 500 : (currentBuyB === 'OP_FULL_BUY' ? 4260 : (currentBuyB === 'FULL_BUY' ? 3900 : (currentBuyB === 'FORCE_BUY' ? 2400 : 800)));
+      if (isPistol) {
+        assignTeamWeapons('B', 'Ghost', 0);
+      } else if (currentBuyB === 'OP_FULL_BUY') {
+        assignTeamWeapons('B', 'Vandal', 50, 'Operator');
+      } else if (currentBuyB === 'FULL_BUY') {
+        assignTeamWeapons('B', 'Vandal', 50);
+      } else if (currentBuyB === 'FORCE_BUY') {
+        assignTeamWeapons('B', 'Spectre', 25);
+      } else {
+        assignTeamWeapons('B', 'Sheriff', 0);
+      }
       matchState.teamCredsB = Math.max(0, matchState.teamCredsB - (costPerPlayerB * 5));
 
       document.getElementById('loadout-label-a').innerText = `${currentTacticA} (${currentBuyA})`;
@@ -4070,18 +4133,32 @@
     }
 
     function assignTeamWeapons(team, weaponName, armorVal, heroOpWeapon = null) {
-      matchPlayers.filter(p => p.team === team).forEach((p, idx) => {
+      const teamPlayers = matchPlayers.filter(p => p.team === team);
+      let opIdx = 0;
+      if (heroOpWeapon === 'Operator') {
+        const prefIdx = teamPlayers.findIndex(p => ['Jett', 'Chamber'].includes(p.agent));
+        if (prefIdx !== -1) {
+          opIdx = prefIdx;
+        } else {
+          let maxAim = -1;
+          teamPlayers.forEach((p, i) => {
+            if ((p.aim || 0) > maxAim) { maxAim = p.aim; opIdx = i; }
+          });
+        }
+      }
+
+      teamPlayers.forEach((p, idx) => {
         // If player survived previous round with high-tier weapon, keep it!
         if (p.weapon === 'Operator' || (p.weapon === 'Vandal' && weaponName !== 'Operator')) {
           // kept weapon free!
         } else {
-          p.weapon = (heroOpWeapon && idx === 0) ? heroOpWeapon : weaponName;
+          p.weapon = (heroOpWeapon && idx === opIdx) ? heroOpWeapon : weaponName;
         }
         p.armor = armorVal;
       });
     }
 
-        function evaluateTacticalClash(stratA, stratB) {
+    function evaluateTacticalClash(stratA, stratB) {
       tacticalModA = 1.0;
       tacticalModB = 1.0;
       let note = '';
@@ -4095,16 +4172,28 @@
         } else if ((stratA === 'RUSH_A' && stratB === 'STACK_B') || (stratA === 'RUSH_B' && stratB === 'STACK_A') || (stratA === 'RUSH_C' && (stratB === 'STACK_A' || stratB === 'STACK_B'))) {
           tacticalModA = 1.55; tacticalModB = 0.55;
           note = '🎯 TACTICAL MASTERMIND: เจาะไซต์ว่างเปล่าเพราะคู่แข่ง Stack ไซต์ตรงข้าม! (+55%)';
-        } else if (stratA === 'SLOW_BAIT' && isDefPush) {
+        } else if ((stratA === 'MID_TO_A' && stratB === 'STACK_A') || (stratA === 'MID_TO_B' && stratB === 'STACK_B')) {
+          tacticalModA = 1.30; tacticalModB = 0.80;
+          note = `🎯 SPLIT PINCER: แผน Split ${stratA === 'MID_TO_A' ? 'A' : 'B'} หนีบไซต์สองทิศทาง ทลายแนวรับ Stack ของคู่แข่งสำเร็จ! (+30%)`;
+        } else if ((stratA === 'MID_TO_A' && stratB === 'STACK_B') || (stratA === 'MID_TO_B' && stratB === 'STACK_A')) {
+          tacticalModA = 1.55; tacticalModB = 0.55;
+          note = '🎯 CLEAR SITE EXPLOIT: แผน Split บุกเข้าไซต์ที่ว่างเปล่า คู่แข่ง Stack ผิดไซต์! (+55%)';
+        } else if ((stratA === 'MID_TO_A' || stratA === 'MID_TO_B') && (stratB === 'PUSH_MID' || stratB === 'MID_AGGRESSION')) {
+          tacticalModA = 0.70; tacticalModB = 1.35;
+          note = '⚠️ MID FLANK INTERCEPT: คู่แข่งดันคุม Mid ดักสกัดตัว Split ของเราก่อนจะรวมตัวเข้าไซต์! (-30%)';
+        } else if (stratA === 'SLOW_BAIT' && (isDefPush || stratB === 'MID_AGGRESSION')) {
           tacticalModA = 1.60; tacticalModB = 0.50;
-          note = `🎯 TACTICAL COUNTER: เราตั้งรับ Slow Bait ดักยิงผู้เล่นรับที่ ${stratB.replace('PUSH_','ดัน ')} สวนออกมาหาข่าวได้สำเร็จ! (+60%)`;
+          note = `🎯 TACTICAL COUNTER: เราตั้งรับ Slow Bait ดักยิงผู้เล่นรับที่ดันออกมาหาข่าวได้สำเร็จ! (+60%)`;
+        } else if (stratA === 'DEFAULT' && (stratB === 'STACK_A' || stratB === 'STACK_B' || stratB === 'STACK_C')) {
+          tacticalModA = 1.35; tacticalModB = 0.75;
+          note = '🎯 SMART PROBE: แผน Default กระจายคุมพื้นที่ ตรวจพบการ Stack แล้วสั่ง Rotate เจาะไซต์เบา! (+35%)';
         } else if ((stratA === 'RUSH_A' && stratB === 'PUSH_A') || (stratA === 'RUSH_B' && stratB === 'PUSH_B') || (stratA === 'RUSH_C' && stratB === 'PUSH_C')) {
           tacticalModA = 1.05; tacticalModB = 1.10;
           note = `⚔️ HEAD-ON CONTEST: ดวลเดือดปะทะตรง! เราโถม ${stratA.replace('RUSH_','')} ชนกับคู่แข่งที่ดันสวนหน้าไซต์!`;
         } else if ((stratA === 'RUSH_A' && stratB === 'PUSH_B') || (stratA === 'RUSH_B' && stratB === 'PUSH_A') || (stratA === 'RUSH_C' && (stratB === 'PUSH_A' || stratB === 'PUSH_B'))) {
           tacticalModA = 1.45; tacticalModB = 0.65;
           note = '🎯 CROSS-MAP EXPLOIT: คู่แข่งดันผิดไซต์ เราทะลวงเข้าไซต์เป้าหมายที่ไร้ตัวรับ! (+45%)';
-        } else if (stratA === 'FAKE_ROTATE' && stratB === 'PUSH_MID') {
+        } else if (stratA === 'FAKE_ROTATE' && (stratB === 'PUSH_MID' || stratB === 'MID_AGGRESSION')) {
           tacticalModA = 0.75; tacticalModB = 1.35;
           note = '⚠️ MID FLANK INTERCEPT: คู่แข่งดันคุม Mid ดักตัดเส้นทางโยกหลอกล่อของเราได้สำเร็จ! (-25%)';
         } else if (stratA === 'FAKE_ROTATE' && (stratB === 'STACK_B' || stratB === 'STACK_C' || stratB === 'DEFAULT')) {
@@ -4122,15 +4211,24 @@
         if ((stratA === 'STACK_A' && stratB === 'RUSH_A') || (stratA === 'STACK_B' && stratB === 'RUSH_B') || (stratA === 'STACK_C' && stratB === 'RUSH_C')) {
           tacticalModA = 1.50; tacticalModB = 0.60;
           note = `🛡️ TACTICAL TRAP: เราดัก Stack ไซต์ ${stratB.replace('RUSH_','')} ที่อีกฝั่ง Rush เข้ามาได้อย่างแม่นยำ! (+50%)`;
+        } else if ((stratA === 'MID_AGGRESSION' || stratA === 'PUSH_MID') && (stratB === 'MID_TO_A' || stratB === 'MID_TO_B')) {
+          tacticalModA = 1.45; tacticalModB = 0.65;
+          note = '🎯 MID LOCKDOWN: เราคุม Mid เด็ดขาด สกัดแผน Split Attack ของคู่แข่งกระเจิง! (+45%)';
+        } else if (stratA === 'MID_AGGRESSION' && (stratB === 'RUSH_A' || stratB === 'RUSH_B' || stratB === 'RUSH_C')) {
+          tacticalModA = 0.70; tacticalModB = 1.30;
+          note = '⚠️ OVER-COMMITTED MID: เราเทน้ำหนักคุม Mid มากไป อีกฝั่ง Rush เข้าไซต์หลักก่อนเราหมุนกลับทัน! (-30%)';
+        } else if ((stratA === 'STACK_A' && stratB === 'MID_TO_A') || (stratA === 'STACK_B' && stratB === 'MID_TO_B')) {
+          tacticalModA = 0.85; tacticalModB = 1.25;
+          note = `⚠️ PINCER PRESSURE: อีกฝั่ง Split เข้าประกบไซต์ที่เรา Stack ไว้จากสองมุม โดน Crossfire บีบพื้นที่!`;
         } else if (isWePush && stratB === 'SLOW_BAIT') {
           tacticalModA = 0.50; tacticalModB = 1.60;
           note = '⚠️ CAUGHT OUT: เราดันสวนเข้าไปติดกับดัก Slow Bait ของคู่แข่ง! (-50%)';
         } else if ((stratA === 'PUSH_A' && stratB === 'RUSH_A') || (stratA === 'PUSH_B' && stratB === 'RUSH_B') || (stratA === 'PUSH_C' && stratB === 'RUSH_C')) {
           tacticalModA = 1.15; tacticalModB = 1.05;
           note = `⚔️ EARLY PICK SUCCESS: เราดันหน้าไซต์ ${stratA.replace('PUSH_','')} สวนชนแนวหน้าของอีกฝั่งเพื่อชิง First Blood!`;
-        } else if (stratA === 'PUSH_MID' && stratB === 'FAKE_ROTATE') {
+        } else if ((stratA === 'PUSH_MID' || stratA === 'MID_AGGRESSION') && stratB === 'FAKE_ROTATE') {
           tacticalModA = 1.45; tacticalModB = 0.70;
-          note = '🎯 ROTATION CUT: เราดัน Mid ดักตัดตัวผู้เล่นคู่แข่งที่กำลังโยกหลอกล่อสำเร็จ! (+45%)';
+          note = '🎯 ROTATION CUT: เราดักคุม Mid ตัดตัวผู้เล่นคู่แข่งที่กำลังโยกหลอกล่อสำเร็จ! (+45%)';
         } else if ((stratA === 'PUSH_A' && stratB === 'RUSH_B') || (stratA === 'PUSH_B' && stratB === 'RUSH_A')) {
           tacticalModA = 0.75; tacticalModB = 1.30;
           note = '⚠️ SITE OVERRUN: เราดันอีกไซต์ อีกฝั่งบุกเจาะไซต์ตรงข้ามที่ไร้คนเฝ้า! ต้องเร่ง Flank!';
@@ -4240,13 +4338,18 @@
       reconScans = [];
 
       // Determine Primary Target Site
-      if (atkStrat === 'RUSH_B') {
+      if (atkStrat === 'RUSH_B' || atkStrat === 'MID_TO_B') {
         matchState.targetAttackSite = m.bSite;
       } else if (atkStrat === 'RUSH_C' && m.hasSiteC) {
         matchState.targetAttackSite = m.cSite;
-      } else {
+      } else if (atkStrat === 'RUSH_A' || atkStrat === 'MID_TO_A') {
         matchState.targetAttackSite = m.aSite;
+      } else {
+        // DEFAULT, SLOW_BAIT, FAKE_ROTATE: Dynamically choose target, NOT always Site A!
+        const sites = m.hasSiteC ? [m.aSite, m.bSite, m.cSite] : [m.aSite, m.bSite];
+        matchState.targetAttackSite = sites[Math.floor(Math.random() * sites.length)];
       }
+      matchState.hasRotatedMidRound = false;
 
       // Attackers Strategy Paths
       if (atkStrat === 'RUSH_A') {
@@ -4290,6 +4393,42 @@
         }
         reconScans.push({ x: c.x, y: c.y - 10, currentR: 5, maxR: 35, alpha: 0.8 });
 
+      } else if (atkStrat === 'MID_TO_A') {
+        const a = m.aSite;
+        const midWay = m.waypoints.midCatwalk || m.waypoints.midMarket || m.waypoints.midVent || m.mid;
+        const aMain = m.waypoints.aMain || m.waypoints.aLong || m.aSite;
+        const aLobby = m.waypoints.aLobby || aMain;
+        // 2 players push Mid into A Site
+        atkPlayers[1].targetX = midWay.x; atkPlayers[1].targetY = midWay.y;
+        atkPlayers[3].targetX = midWay.x + 12; atkPlayers[3].targetY = midWay.y + 15;
+        // 3 players push A Main into A Site
+        atkPlayers[0].targetX = aMain.x; atkPlayers[0].targetY = aMain.y;
+        atkPlayers[2].targetX = aLobby.x - 10; atkPlayers[2].targetY = aLobby.y + 15;
+        atkPlayers[4].targetX = aMain.x - 15; atkPlayers[4].targetY = aMain.y + 20;
+        smokes = [
+          { x: a.x - 20, y: a.y - 15, r: 24, color: 'rgba(56, 189, 248, 0.45)' },
+          { x: midWay.x, y: midWay.y - 30, r: 24, color: 'rgba(56, 189, 248, 0.45)' }
+        ];
+        reconScans.push({ x: a.x, y: a.y - 10, currentR: 5, maxR: 35, alpha: 0.8 });
+
+      } else if (atkStrat === 'MID_TO_B') {
+        const b = m.bSite;
+        const midWay = m.waypoints.midMarket || m.waypoints.midTiles || m.waypoints.midDoors || m.mid;
+        const bMain = m.waypoints.bMain || m.waypoints.bLong || m.bSite;
+        const bLobby = m.waypoints.bLobby || bMain;
+        // 2 players push Mid into B Site
+        atkPlayers[1].targetX = midWay.x; atkPlayers[1].targetY = midWay.y;
+        atkPlayers[3].targetX = midWay.x - 12; atkPlayers[3].targetY = midWay.y + 15;
+        // 3 players push B Main into B Site
+        atkPlayers[0].targetX = bMain.x; atkPlayers[0].targetY = bMain.y;
+        atkPlayers[2].targetX = bLobby.x + 10; atkPlayers[2].targetY = bLobby.y + 15;
+        atkPlayers[4].targetX = bMain.x + 15; atkPlayers[4].targetY = bMain.y + 20;
+        smokes = [
+          { x: b.x + 20, y: b.y - 15, r: 24, color: 'rgba(56, 189, 248, 0.45)' },
+          { x: midWay.x, y: midWay.y - 30, r: 24, color: 'rgba(56, 189, 248, 0.45)' }
+        ];
+        reconScans.push({ x: b.x, y: b.y - 10, currentR: 5, maxR: 35, alpha: 0.8 });
+
       } else if (atkStrat === 'FAKE_ROTATE') {
         const a = m.aSite;
         const b = m.bSite;
@@ -4326,7 +4465,17 @@
       }
 
       // Defender Strategy Targets
-      if (defStrat === 'STACK_A') {
+      if (defStrat === 'MID_AGGRESSION') {
+        const midPt = m.mid;
+        const midCat = m.waypoints.midCatwalk || m.waypoints.midMarket || midPt;
+        defPlayers[0].targetX = midPt.x; defPlayers[0].targetY = midPt.y;
+        defPlayers[1].targetX = midCat.x; defPlayers[1].targetY = midCat.y - 15;
+        defPlayers[2].targetX = m.aSite.x; defPlayers[2].targetY = m.aSite.y;
+        defPlayers[3].targetX = m.bSite.x; defPlayers[3].targetY = m.bSite.y;
+        defPlayers[4].targetX = midPt.x + 18; defPlayers[4].targetY = midPt.y + 12;
+        reconScans.push({ x: midPt.x, y: midPt.y + 30, currentR: 5, maxR: 45, alpha: 0.8 });
+
+      } else if (defStrat === 'STACK_A') {
         const a = m.aSite;
         defPlayers[0].targetX = a.x; defPlayers[0].targetY = a.y;
         defPlayers[1].targetX = a.x - 18; defPlayers[1].targetY = a.y + 12;
@@ -5010,6 +5159,39 @@
       const isAtk = matchState.isFullSenseAttacking;
       const targetSite = matchState.targetAttackSite || activeMap.aSite;
 
+      // Dynamic Mid-Round IGL Site Selection for Default / Slow Bait (Prevents Always A Site)
+      const currentAtkStrat = isAtk ? currentTacticA : currentTacticB;
+      if ((currentAtkStrat === 'DEFAULT' || currentAtkStrat === 'SLOW_BAIT') && !spikePlanted && roundTime <= 72 && !matchState.hasRotatedMidRound) {
+        const defTeam = isAtk ? 'B' : 'A';
+        const aliveDefs = matchPlayers.filter(p => p.alive && p.team === defTeam);
+        const countA = aliveDefs.filter(d => Math.hypot(d.x - activeMap.aSite.x, d.y - activeMap.aSite.y) < 135).length;
+        const countB = aliveDefs.filter(d => Math.hypot(d.x - activeMap.bSite.x, d.y - activeMap.bSite.y) < 135).length;
+        let countC = 999;
+        if (activeMap.hasSiteC && activeMap.cSite) {
+          countC = aliveDefs.filter(d => Math.hypot(d.x - activeMap.cSite.x, d.y - activeMap.cSite.y) < 135).length;
+        }
+
+        let bestSite = activeMap.aSite;
+        let bestName = 'Site A';
+        let minCount = countA;
+
+        if (countB < minCount || (countB === minCount && Math.random() < 0.5)) {
+          bestSite = activeMap.bSite;
+          bestName = 'Site B';
+          minCount = countB;
+        }
+        if (activeMap.hasSiteC && (countC < minCount || (countC === minCount && Math.random() < 0.33))) {
+          bestSite = activeMap.cSite;
+          bestName = 'Site C';
+          minCount = countC;
+        }
+
+        matchState.targetAttackSite = bestSite;
+        matchState.hasRotatedMidRound = true;
+        addFloatingText(`CALL: ROTATE ${bestName}! 📢`, 320, 200, '#38bdf8');
+        addEventLog(`📢 [IGL Mid-Round Call] ฝ่ายบุกอ่านเกมพบ ${bestName} มีตัวรับเพียง ${minCount} คน! สั่งเพื่อนร่วมทีมเปลี่ยนทิศทางบุกไป ${bestName}!`);
+      }
+
       // 1. Spike Carrier & Dropped Spike Tracking
       let currentCarrier = matchPlayers.find(p => p.alive && p.hasSpike);
 
@@ -5060,6 +5242,7 @@
       matchPlayers.forEach(p => {
         if (!p.alive) return;
         const isPlayerAtk = isAtk ? (p.team === 'A') : (p.team === 'B');
+        const currentDstSite = matchState.targetAttackSite || targetSite;
         const dx = p.targetX - p.x;
         const dy = p.targetY - p.y;
         const dist = Math.hypot(dx, dy);
@@ -5085,8 +5268,9 @@
           p.x = plantedSiteCoords.x;
           p.y = plantedSiteCoords.y;
         } else if (dist > 3) {
-          // Tactical, readable speed (~0.38 px/frame at 1x)
-          const speedMod = (p.status && p.status.concussed > 0) ? 0.22 : 0.38;
+          // Dynamic, snappy movement speed (~0.65 px/frame at 1x)
+          let speedMod = (p.status && p.status.concussed > 0) ? 0.35 : 0.65;
+          if (p.agent === 'Neon' && p.ultActive) speedMod *= 1.35;
           const step = Math.min(dist, speedMod * simSpeed);
           p.x += (dx / dist) * step;
           p.y += (dy / dist) * step;
@@ -5095,8 +5279,8 @@
           if (isPlayerAtk) {
             if (p.hasSpike && !spikePlanted) {
               // Carrier heads directly to site
-              p.targetX = targetSite.x;
-              p.targetY = targetSite.y;
+              p.targetX = currentDstSite.x;
+              p.targetY = currentDstSite.y;
             } else if (spikeDropped && spikeDropCoords) {
               // Closest alive attacker goes to get the dropped spike
               const aliveAtk = matchPlayers.filter(a => a.alive && a.team === p.team);
@@ -5105,20 +5289,20 @@
                 p.targetX = spikeDropCoords.x;
                 p.targetY = spikeDropCoords.y;
               } else {
-                p.targetX = targetSite.x + (Math.random() * 30 - 15);
-                p.targetY = targetSite.y + (Math.random() * 30 - 15);
+                p.targetX = currentDstSite.x + (Math.random() * 30 - 15);
+                p.targetY = currentDstSite.y + (Math.random() * 30 - 15);
               }
             } else if (!spikePlanted) {
               // Advance towards target site to secure site or hunt defenders
-              p.targetX = targetSite.x + (Math.random() * 40 - 20);
-              p.targetY = targetSite.y + (Math.random() * 40 - 20);
+              p.targetX = currentDstSite.x + (Math.random() * 40 - 20);
+              p.targetY = currentDstSite.y + (Math.random() * 40 - 20);
             }
           } else {
             // Defender behavior when spike not planted
             if (!spikePlanted && roundTime < 50) {
               // Rotate or push towards site when round is half over
-              p.targetX = targetSite.x + (Math.random() * 30 - 15);
-              p.targetY = targetSite.y + (Math.random() * 30 - 15);
+              p.targetX = currentDstSite.x + (Math.random() * 30 - 15);
+              p.targetY = currentDstSite.y + (Math.random() * 30 - 15);
             }
           }
         }
@@ -5469,7 +5653,7 @@
       }
 
       // 9. Gunfight Encounters with Line-of-Sight Check (No Shooting Through Walls, No Warping)
-      if (combatCooldown % 24 === 0) {
+      if (combatCooldown % 22 === 0) {
         const aliveA = matchPlayers.filter(p => p.team === 'A' && p.alive);
         const aliveB = matchPlayers.filter(p => p.team === 'B' && p.alive);
 
@@ -5478,9 +5662,11 @@
           for (let b of aliveB) {
             if (!b.alive) continue;
             const dist = Math.hypot(a.x - b.x, a.y - b.y);
-            // Gunfight occurs if within 150px AND line of sight is clear (not blocked by walls)!
-            if (dist < 150 && hasLineOfSight(a.x, a.y, b.x, b.y, currentMap)) {
-              resolveGunfight(a, b);
+            const isSniperDuel = (a.weapon === 'Operator' || b.weapon === 'Operator' || a.weapon === 'Outlaw' || b.weapon === 'Outlaw');
+            // Snipers hold long sightlines up to 230px, while regular rifles engage at up to 145px
+            const maxEngagementDist = isSniperDuel ? 230 : 145;
+            if (dist < maxEngagementDist && hasLineOfSight(a.x, a.y, b.x, b.y, currentMap)) {
+              resolveGunfight(a, b, dist);
               break;
             }
           }
@@ -5520,7 +5706,7 @@
     }
 
     const WEAPON_POWER = {
-      'Operator': 98,
+      'Operator': 120,
       'Vandal': 94,
       'Phantom': 92,
       'Outlaw': 84,
@@ -5564,7 +5750,8 @@
       return mod;
     }
 
-    function resolveGunfight(playerA, playerB) {
+    function resolveGunfight(playerA, playerB, dist = undefined) {
+      if (dist === undefined) dist = Math.hypot(playerA.x - playerB.x, playerA.y - playerB.y);
       const pwrA = WEAPON_POWER[playerA.weapon] || 85;
       const pwrB = WEAPON_POWER[playerB.weapon] || 85;
 
@@ -5613,8 +5800,28 @@
       if (playerA.ultActive) utilModA *= 1.40;
       if (playerB.ultActive) utilModB *= 1.40;
 
-      let scoreA = ((playerA.aim + timeoutAimA + formModA.aim - injAimA - fatAimA) * 0.40 + (playerA.iq + timeoutIqA) * 0.25 + pwrA * 0.35) * tacticalModA * compModA * streakModA * masteryA * utilModA;
-      let scoreB = ((playerB.aim + formModB.aim - injAimB - fatAimB) * 0.40 + playerB.iq * 0.25 + pwrB * 0.35) * tacticalModB * compModB * streakModB * masteryB * utilModB;
+      // Operator Long-Range Sniper Dynamics (Opening Picks & Sightline Control)
+      let opBonusA = 1.0;
+      let opBonusB = 1.0;
+      if (playerA.weapon === 'Operator') {
+        if (dist >= 95) {
+          // Massive advantage holding long sightlines (A Long, C Long, Mid)
+          opBonusA = 1.70 + Math.min(0.65, (dist - 95) / 120);
+        } else if (dist < 45) {
+          // Sluggish close quarters hipfire penalty
+          opBonusA = 0.60;
+        }
+      }
+      if (playerB.weapon === 'Operator') {
+        if (dist >= 95) {
+          opBonusB = 1.70 + Math.min(0.65, (dist - 95) / 120);
+        } else if (dist < 45) {
+          opBonusB = 0.60;
+        }
+      }
+
+      let scoreA = ((playerA.aim + timeoutAimA + formModA.aim - injAimA - fatAimA) * 0.40 + (playerA.iq + timeoutIqA) * 0.25 + pwrA * 0.35) * tacticalModA * compModA * streakModA * masteryA * utilModA * opBonusA;
+      let scoreB = ((playerB.aim + formModB.aim - injAimB - fatAimB) * 0.40 + playerB.iq * 0.25 + pwrB * 0.35) * tacticalModB * compModB * streakModB * masteryB * utilModB * opBonusB;
 
       if (statA.decay > 0) scoreA *= 0.4;
       if (statB.decay > 0) scoreB *= 0.4;
@@ -5704,7 +5911,14 @@
       victim.hp = 0;
       victim.deaths = (victim.deaths || 0) + 1;
       killer.kills = (killer.kills || 0) + 1;
-      addFloatingText(isHeadshot ? '💥 HEADSHOT!' : 'ELIMINATED', victim.x, victim.y - 15, '#ef4444');
+
+      // Operator Long Range Pick announcement
+      if (killer.weapon === 'Operator' && dist >= 90) {
+        addFloatingText('🎯 OPERATOR PICK! 💀', killer.x, killer.y - 18, '#fbbf24');
+        addEventLog(`🎯 [OPERATOR SNIPER PICK] ${killer.name} ใช้ Operator ดักส่องเก็บ ${victim.name} ร่วงจากระยะไกล (${Math.round(dist)}m)! ตัดกำลังสำคัญทันที!`);
+      } else {
+        addFloatingText(isHeadshot ? '💥 HEADSHOT!' : 'ELIMINATED', victim.x, victim.y - 15, '#ef4444');
+      }
       updateMatchHud();
 
       // Drop Spike if victim was carrying it
@@ -5735,7 +5949,13 @@
       if (!currentRoundFirstBlood) {
         killer.firstBloods = (killer.firstBloods || 0) + 1;
         currentRoundFirstBlood = true;
-        addEventLog(`🩸 FIRST BLOOD: ${killer.name} เปิดสกอร์แรกของรอบ! (+1 Ult Point)`);
+        if (killer.weapon === 'Operator') {
+          addFloatingText('🎯 FIRST BLOOD SNIPER! 🥇', killer.x, killer.y - 28, '#f59e0b');
+          addEventLog(`🥇 FIRST BLOOD OPERATOR: ${killer.name} ส่อง Operator เก็บ First Blood นัดเดียวจอด เปิดความได้เปรียบให้ทีม! (+1 Ult Point)`);
+        } else {
+          addFloatingText('💥 FIRST BLOOD! 🥇', killer.x, killer.y - 28, '#f43f5e');
+          addEventLog(`🩸 FIRST BLOOD: ${killer.name} เปิดสกอร์แรกของรอบ! (+1 Ult Point)`);
+        }
       }
 
       // Random Assist from alive teammate
@@ -6019,43 +6239,114 @@
         if (r.currentR > r.maxR) r.currentR = 5;
       });
 
-      // Spike Beacon (Planted or Dropped)
+      // Spike Beacon (Planted or Dropped) - Authentic Valorant Objective Device Render
       if (spikePlanted && plantedSiteCoords) {
+        // Accelerating audio-visual pulse as countdown approaches 0
+        const pulseCycle = spikeTimeLeft < 10 ? 250 : (spikeTimeLeft < 20 ? 450 : 800);
+        const pulse = (Date.now() % pulseCycle) / pulseCycle;
+        
+        // Outer Expanding Detonation Beacon Wave
         ctx.beginPath();
-        ctx.arc(plantedSiteCoords.x, plantedSiteCoords.y, 9, 0, Math.PI * 2);
-        ctx.fillStyle = '#f43f5e';
-        ctx.fill();
-        ctx.strokeStyle = '#ffffff';
-        ctx.lineWidth = 2;
+        ctx.arc(plantedSiteCoords.x, plantedSiteCoords.y, 14 + pulse * 24, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(239, 68, 68, ${(1 - pulse) * 0.85})`;
+        ctx.lineWidth = 2.0;
         ctx.stroke();
 
+        // Secondary inner warning halo
         ctx.beginPath();
-        ctx.arc(plantedSiteCoords.x, plantedSiteCoords.y, 14 + (Date.now() % 1000) / 100, 0, Math.PI * 2);
-        ctx.strokeStyle = 'rgba(244, 63, 94, 0.6)';
-        ctx.lineWidth = 1.5;
+        ctx.arc(plantedSiteCoords.x, plantedSiteCoords.y, 16, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(239, 68, 68, 0.18)';
+        ctx.fill();
+        ctx.strokeStyle = '#ef4444';
+        ctx.lineWidth = 1.0;
         ctx.stroke();
+
+        // Defusal Progress Ring (if someone is currently defusing)
+        if (defuseState.defusingPlayer) {
+          const defusePct = defuseState.progress / defuseState.maxProgress;
+          ctx.beginPath();
+          ctx.arc(plantedSiteCoords.x, plantedSiteCoords.y, 20, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * defusePct);
+          ctx.strokeStyle = '#38bdf8';
+          ctx.lineWidth = 3.5;
+          ctx.stroke();
+        }
+
+        // Distinct High-Tech Spike Base & Icon
+        const sz = 13;
+        ctx.save();
+        ctx.translate(plantedSiteCoords.x, plantedSiteCoords.y);
+        
+        // Base plate (Dark Cyber Circle with Gold Hazard Border)
+        ctx.beginPath();
+        ctx.arc(0, 0, sz + 2, 0, Math.PI * 2);
+        ctx.fillStyle = '#090d16';
+        ctx.fill();
+        ctx.strokeStyle = '#fbbf24'; // Gold hazard border
+        ctx.lineWidth = 2.0;
+        ctx.stroke();
+
+        // Draw Official Spike Graphic if loaded
+        if (spikeMapIcon.complete && spikeMapIcon.naturalWidth > 0) {
+          ctx.drawImage(spikeMapIcon, -sz, -sz, sz * 2, sz * 2);
+        } else {
+          // Vector Spike Silhouette Fallback
+          ctx.fillStyle = '#f59e0b';
+          ctx.beginPath();
+          ctx.moveTo(0, -sz + 2);
+          ctx.lineTo(sz - 3, sz - 2);
+          ctx.lineTo(-sz + 3, sz - 2);
+          ctx.closePath();
+          ctx.fill();
+          ctx.fillStyle = '#ef4444';
+          ctx.beginPath();
+          ctx.arc(0, 1, 4, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.restore();
+
+        // Spike Status Badge & Remaining Timer Label
+        ctx.save();
+        ctx.font = 'bold 9px "JetBrains Mono", monospace';
+        ctx.fillStyle = spikeTimeLeft < 10 ? '#f43f5e' : '#fbbf24';
+        ctx.textAlign = 'center';
+        ctx.fillText(`💣 SPIKE (${Math.ceil(spikeTimeLeft)}s)`, plantedSiteCoords.x, plantedSiteCoords.y - 18);
+        ctx.restore();
+
       } else if (spikeDropped && spikeDropCoords) {
         const pulse = (Date.now() % 800) / 800;
         ctx.beginPath();
-        ctx.arc(spikeDropCoords.x, spikeDropCoords.y, 10 + pulse * 6, 0, Math.PI * 2);
-        ctx.strokeStyle = 'rgba(251, 191, 36, 0.8)';
+        ctx.arc(spikeDropCoords.x, spikeDropCoords.y, 10 + pulse * 10, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(251, 191, 36, ${(1 - pulse) * 0.85})`;
         ctx.lineWidth = 2;
         ctx.stroke();
 
+        const sz = 11;
+        ctx.save();
+        ctx.translate(spikeDropCoords.x, spikeDropCoords.y);
         ctx.beginPath();
-        ctx.arc(spikeDropCoords.x, spikeDropCoords.y, 7, 0, Math.PI * 2);
-        ctx.fillStyle = '#f59e0b';
+        ctx.arc(0, 0, sz + 2, 0, Math.PI * 2);
+        ctx.fillStyle = '#0f172a';
         ctx.fill();
-        ctx.strokeStyle = '#ffffff';
+        ctx.strokeStyle = '#f59e0b';
         ctx.lineWidth = 1.5;
         ctx.stroke();
 
-        ctx.font = 'bold 8px monospace';
-        ctx.fillStyle = '#ffffff';
-        ctx.fillText('📦', spikeDropCoords.x - 5, spikeDropCoords.y + 3);
-        ctx.font = 'bold 7px "JetBrains Mono", monospace';
+        if (spikeMapIcon.complete && spikeMapIcon.naturalWidth > 0) {
+          ctx.drawImage(spikeMapIcon, -sz, -sz, sz * 2, sz * 2);
+        } else {
+          ctx.font = 'bold 11px monospace';
+          ctx.fillStyle = '#ffffff';
+          ctx.textAlign = 'center';
+          ctx.fillText('📦', 0, 4);
+        }
+        ctx.restore();
+
+        ctx.save();
+        ctx.font = 'bold 8px "JetBrains Mono", monospace';
         ctx.fillStyle = '#fcd34d';
-        ctx.fillText('SPIKE', spikeDropCoords.x - 10, spikeDropCoords.y + 14);
+        ctx.textAlign = 'center';
+        ctx.fillText('SPIKE (DROPPED)', spikeDropCoords.x, spikeDropCoords.y + 18);
+        ctx.restore();
       }
 
       // Active Radar Animations (Ults, Shockwaves, Beams for all 25 Agents)
@@ -6337,12 +6628,19 @@
         // Spike Carrier Indicator Ring & Icon
         if (p.hasSpike && !spikePlanted) {
           ctx.beginPath();
-          ctx.arc(p.x, p.y, 12, 0, Math.PI * 2);
+          ctx.arc(p.x, p.y, 14, 0, Math.PI * 2);
           ctx.strokeStyle = '#fbbf24';
+          ctx.setLineDash([3, 3]);
           ctx.lineWidth = 2.0;
           ctx.stroke();
-          ctx.font = '9px sans-serif';
-          ctx.fillText('📦', p.x + 6, p.y - 7);
+          ctx.setLineDash([]);
+          
+          if (spikeMapIcon.complete && spikeMapIcon.naturalWidth > 0) {
+            ctx.drawImage(spikeMapIcon, p.x + 5, p.y - 16, 12, 12);
+          } else {
+            ctx.font = '9px sans-serif';
+            ctx.fillText('💣', p.x + 6, p.y - 7);
+          }
         }
 
         // Ult Ready Pulsing Ring
