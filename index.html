@@ -200,36 +200,55 @@
         </button>
       </div>
 
-      <!-- SECTION: CHOOSE GAME MODE (4 CARDS) -->
+      <!-- SECTION: CHOOSE GAME MODE (3 BALANCED NEUTRAL CARDS) -->
       <div id="section-game-modes" class="w-full shrink-0 min-h-fit">
         <div class="flex items-center gap-2 mb-3">
           <span class="text-xl">🎮</span>
           <h2 class="text-lg md:text-xl font-black text-white tracking-wide">เลือกโหมดการเล่น (SELECT GAME MODE)</h2>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           
-          <!-- Mode 1: Full Sense Career -->
-          <div class="bg-[#070d1a] border-2 border-emerald-500/80 rounded-2xl p-4 flex flex-col justify-between gap-4 shadow-xl relative overflow-hidden group hover:border-emerald-400 transition">
+          <!-- Mode 1: Career Mode (4 Regions & Ascension) -->
+          <div class="bg-[#070d1a] border-2 border-emerald-500/70 hover:border-emerald-400 rounded-2xl p-4 flex flex-col justify-between gap-4 shadow-xl relative overflow-hidden group transition">
             <div class="absolute top-0 right-0 bg-emerald-500 text-slate-950 text-[10px] font-black px-2.5 py-0.5 rounded-bl-lg font-mono">
-              RECOMMENDED
+              CAREER MODE
             </div>
             <div>
               <div class="w-12 h-12 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-2xl mb-2">
                 🏆
               </div>
-              <h3 class="font-black text-white text-base">คุมทีม FULL SENSE</h3>
+              <h3 class="font-black text-white text-base">โหมดผู้จัดการทีมอาชีพ (CAREER MODE)</h3>
               <p class="text-xs text-slate-300 mt-1 leading-relaxed">
-                นำทัพยอดทีมตัวแทนไทยเข้าสู่สังเวียน <b>VCT Pacific 2026</b> สัปดาห์ที่ 1 กับสตาร์ตัวจริง Primmie, killua, Crws, seph1roth, JitboyS เพื่อเป้าหมายตั๋ว Champions!
+                เลือกคุมสโมสรใดก็ได้ใน 4 ลีกใหญ่ระดับโลก <b>Pacific, Americas, EMEA, China</b> (เช่น PRX, DRX, Gen.G, Sentinels, Fnatic, EDG) หรือเลือกทีมลีกรองเพื่อแข่งขันในทัวร์นาเมนต์ <b>Ascension Tier 2</b> แย่งตั๋วเลื่อนชั้น
               </p>
             </div>
-            <button onclick="startFreshCareerFullSense()" class="w-full py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs transition shadow-lg shadow-emerald-500/25 flex items-center justify-center gap-1.5 cursor-pointer">
-              <span>เริ่มคุมทีมทันที</span><span>➔</span>
+            <button onclick="openClubSelectionModal('career')" class="w-full py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs transition shadow-lg shadow-emerald-500/25 flex items-center justify-center gap-1.5 cursor-pointer">
+              <span>เลือกสโมสร & เริ่มคุมทีม</span><span>➔</span>
             </button>
           </div>
 
-          <!-- Mode 2: Friendly Quick Match -->
-          <div class="bg-[#070d1a] border-2 border-cyan-500/80 rounded-2xl p-4 flex flex-col justify-between gap-4 shadow-xl relative overflow-hidden group hover:border-cyan-400 transition">
+          <!-- Mode 2: Fantasy Draft -->
+          <div class="bg-[#070d1a] border-2 border-amber-500/70 hover:border-amber-400 rounded-2xl p-4 flex flex-col justify-between gap-4 shadow-xl relative overflow-hidden group transition">
+            <div class="absolute top-0 right-0 bg-amber-500 text-slate-950 text-[10px] font-black px-2.5 py-0.5 rounded-bl-lg font-mono">
+              FANTASY DRAFT
+            </div>
+            <div>
+              <div class="w-12 h-12 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-2xl mb-2">
+                ✨
+              </div>
+              <h3 class="font-black text-white text-base">โหมดสร้างทีมในฝัน (FANTASY DRAFT)</h3>
+              <p class="text-xs text-slate-300 mt-1 leading-relaxed">
+                เลือกสโมสรและลีกที่คุณต้องการคุม จากนั้นรับงบประมาณตั้งต้น <b>$2,000,000</b> เพื่อเข้าสู่ตลาดซื้อขายและดราฟต์ผู้เล่นซูเปอร์สตาร์ 5 คนที่คุณต้องการสร้างเป็นทีมในฝันลงแข่งขัน
+              </p>
+            </div>
+            <button onclick="startFantasyDraftFlow()" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 font-black text-xs transition shadow-lg shadow-amber-500/25 flex items-center justify-center gap-1.5 cursor-pointer">
+              <span>เลือกทีม & ดราฟต์ผู้เล่น</span><span>➔</span>
+            </button>
+          </div>
+
+          <!-- Mode 3: Friendly Quick Match -->
+          <div class="bg-[#070d1a] border-2 border-cyan-500/70 hover:border-cyan-400 rounded-2xl p-4 flex flex-col justify-between gap-4 shadow-xl relative overflow-hidden group transition">
             <div class="absolute top-0 right-0 bg-cyan-500 text-slate-950 text-[10px] font-black px-2.5 py-0.5 rounded-bl-lg font-mono">
               QUICK MATCH
             </div>
@@ -237,45 +256,13 @@
               <div class="w-12 h-12 rounded-xl bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center text-2xl mb-2">
                 ⚔️
               </div>
-              <h3 class="font-black text-white text-base">แมตช์กระชับมิตร</h3>
+              <h3 class="font-black text-white text-base">แมตช์กระชับมิตร (FRIENDLY MATCH)</h3>
               <p class="text-xs text-slate-300 mt-1 leading-relaxed">
-                แข่งขันด่วน 1 แมตช์ตามกติกา 24 รอบ เลือกระหว่างสองสโมสรใดก็ได้ในโลก และเลือกแผนที่แข่งขันอิสระ เหมาะสำหรับการทดลองแท็กติกและสกิลแบบสดๆ
+                แข่งขันด่วน 1 แมตช์ตามกติกา 24 รอบ เลือกระหว่างสองสโมสรใดก็ได้ในโลก และเลือกแผนที่แข่งขันอิสระ เหมาะสำหรับการทดลองแท็กติกและจำลองแมตช์สดทันที
               </p>
             </div>
             <button onclick="openFriendlySetupModal()" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-black text-xs transition shadow-lg shadow-cyan-500/25 flex items-center justify-center gap-1.5 cursor-pointer">
               <span>ตั้งค่า & แข่งด่วน</span><span>➔</span>
-            </button>
-          </div>
-
-          <!-- Mode 3: 4 VCT Regions Club Manager -->
-          <div class="bg-[#070d1a] border border-[#1b2f52] hover:border-cyan-500/60 rounded-2xl p-4 flex flex-col justify-between gap-4 shadow-xl relative transition">
-            <div>
-              <div class="w-12 h-12 rounded-xl bg-blue-500/20 border border-blue-500/40 flex items-center justify-center text-2xl mb-2">
-                🌐
-              </div>
-              <h3 class="font-black text-white text-base">เลือกสโมสรอื่นจาก 4 ภูมิภาค</h3>
-              <p class="text-xs text-slate-400 mt-1 leading-relaxed">
-                เลือกคุมสโมสรระดับโลกใน 4 ลีกใหญ่ <b>Pacific, Americas, EMEA, China</b> เช่น Paper Rex, DRX, Gen.G, Sentinels, Fnatic หรือ EDward Gaming
-              </p>
-            </div>
-            <button onclick="openClubSelectionModal()" class="w-full py-2.5 rounded-xl bg-[#121f38] hover:bg-cyan-500 hover:text-slate-950 text-cyan-300 font-bold text-xs transition border border-cyan-500/30 flex items-center justify-center gap-1.5 cursor-pointer">
-              <span>เลือกสโมสร</span><span>➔</span>
-            </button>
-          </div>
-
-          <!-- Mode 4: Fantasy Draft -->
-          <div class="bg-[#070d1a] border border-[#2b2716] hover:border-amber-500/60 rounded-2xl p-4 flex flex-col justify-between gap-4 shadow-xl relative transition">
-            <div>
-              <div class="w-12 h-12 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-2xl mb-2">
-                ✨
-              </div>
-              <h3 class="font-black text-white text-base">โหมดดราฟต์ผู้เล่นเอง</h3>
-              <p class="text-xs text-slate-400 mt-1 leading-relaxed">
-                รับงบประมาณตั้งต้น <b>$2,000,000</b> เข้าสู่ตลาดซื้อขายเพื่อดราฟต์ซูเปอร์สตาร์ 5 คนที่คุณต้องการสร้างเป็นทีมในฝันลงแข่งขันในลีก VCT
-              </p>
-            </div>
-            <button onclick="promptNewCareerMode()" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-amber-600 to-yellow-600 hover:from-amber-500 hover:to-yellow-500 text-slate-950 font-black text-xs transition shadow-lg shadow-amber-600/20 flex items-center justify-center gap-1.5 cursor-pointer">
-              <span>เริ่มดราฟต์ทีม</span><span>➔</span>
             </button>
           </div>
 
@@ -551,7 +538,7 @@
           </div>
           <div class="my-2 flex items-center justify-between text-center">
             <div class="flex-1">
-              <div class="text-sm font-bold text-emerald-400">FULL SENSE</div>
+              <div class="text-sm font-bold text-emerald-400 truncate" id="dash-my-team-fixture-name">FULL SENSE</div>
               <div class="text-[10px] text-slate-500" id="dash-score-preview">แข่งต่อเนื่อง 13-24 รอบ</div>
             </div>
             <div class="px-2 font-vct text-xl font-black text-slate-500">VS</div>
@@ -825,17 +812,9 @@
         <!-- Left: Match Info & Map Selector & Reset Match Button -->
         <div class="flex items-center gap-2">
           <span class="text-[10px] font-mono bg-emerald-950 text-emerald-400 border border-emerald-500/40 px-1.5 py-0.5 rounded font-bold">VCT REGULATION</span>
-          <div class="flex items-center gap-1 bg-[#050914] px-2 py-0.5 rounded border border-[#17253f]">
+          <div class="flex items-center gap-1.5 bg-[#050914] px-2.5 py-1 rounded border border-[#17253f]">
             <span class="text-[10px] text-slate-400 font-mono">MAP:</span>
-            <select id="match-map-select" onchange="changeMap(this.value)" class="bg-transparent text-emerald-300 font-bold text-xs focus:outline-none cursor-pointer">
-              <option value="Ascent" selected class="bg-[#090f1d] text-slate-200">Ascent</option>
-              <option value="Bind" class="bg-[#090f1d] text-slate-200">Bind</option>
-              <option value="Haven" class="bg-[#090f1d] text-slate-200">Haven</option>
-              <option value="Split" class="bg-[#090f1d] text-slate-200">Split</option>
-              <option value="Sunset" class="bg-[#090f1d] text-slate-200">Sunset</option>
-              <option value="Lotus" class="bg-[#090f1d] text-slate-200">Lotus</option>
-              <option value="Abyss" class="bg-[#090f1d] text-slate-200">Abyss</option>
-            </select>
+            <span id="match-map-name-label" class="text-emerald-300 font-mono font-bold text-xs uppercase tracking-wider">ASCENT</span>
           </div>
           <button onclick="openVctPreMatchModal()" title="เริ่มขั้นตอนการแข่งขัน VCT (Ban/Pick Map & Draft Agent)" class="text-[10px] font-mono bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-slate-950 font-black px-2.5 py-1 rounded shadow-md shadow-emerald-950/30 transition flex items-center gap-1 cursor-pointer">
             <span>⚔️</span><span>เริ่มแมตช์ VCT (BAN/DRAFT)</span>
@@ -924,9 +903,6 @@
                   <span>🎯</span> วางแผนแท็กติก (ROUND <span id="deck-round-num">1</span>)
                 </span>
                 <span class="text-[10px] text-slate-400 font-mono whitespace-nowrap" id="current-side-label">ฝ่ายบุก (ATTACKERS)</span>
-                <button onclick="openAgentSwapModal()" id="btn-agent-swap" class="text-[10px] font-mono bg-[#0b1527] hover:bg-emerald-950 text-cyan-300 hover:text-emerald-300 border border-cyan-500/40 px-2 py-0.5 rounded transition flex items-center gap-1 cursor-pointer shrink-0" title="ปรับแต่ง Agent ประจำตัวของ 5 ผู้เล่นในทีมเรา">
-                  <span>👥</span><span>เลือก AGENTS</span>
-                </button>
               </div>
               <div class="flex items-center gap-3 text-[10px] font-mono">
                 <span class="text-slate-400">เงินทีมคงเหลือ: <b class="text-emerald-400" id="team-creds-display">$4,000</b></span>
@@ -1408,19 +1384,16 @@
 
       <!-- Action Buttons Footer -->
       <div class="flex items-center justify-between gap-2 border-t border-[#1b2d4f] pt-3 flex-wrap">
-        <button onclick="returnToDashboardFromMatch()" class="py-2 px-3 rounded-xl bg-[#101b30] hover:bg-[#182847] text-slate-200 border border-[#1e3256] font-bold text-xs transition flex items-center gap-1.5">
-          <span>📊</span><span>กลับสู่หน้าภาพรวมสโมสร</span>
+        <button onclick="returnToDashboardFromMatch()" class="py-2.5 px-5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 font-black text-xs shadow-lg shadow-emerald-500/25 transition flex items-center gap-2 cursor-pointer">
+          <span>📊</span><span>กลับสู่หน้าภาพรวมสโมสร (RETURN TO DASHBOARD) ➔</span>
         </button>
 
         <div class="flex items-center gap-2">
           <button id="modal-btn-champions-bracket" onclick="document.getElementById('match-over-modal').classList.add('hidden'); openChampionsTournamentModal();" class="py-2 px-3 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/50 font-bold text-xs transition flex items-center gap-1.5 cursor-pointer hidden">
             <span>🏆</span><span>สายการแข่งชิงแชมป์โลก (Champions)</span>
           </button>
-          <button onclick="restartFullMatch()" class="py-2 px-3 rounded-xl bg-[#0e172a] hover:bg-[#152340] text-slate-300 border border-[#1e3256] font-bold text-xs transition flex items-center gap-1">
+          <button onclick="restartFullMatch()" class="py-2 px-3 rounded-xl bg-[#0e172a] hover:bg-[#152340] text-slate-300 border border-[#1e3256] font-bold text-xs transition flex items-center gap-1 cursor-pointer">
             <span>🔄</span><span>รีแมตช์แผนที่เดิม</span>
-          </button>
-          <button onclick="openVctPreMatchModal()" class="py-2 px-4 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 font-black text-xs shadow-lg transition flex items-center gap-1.5 cursor-pointer">
-            <span>⚔️</span><span>แข่งขันแมตช์ถัดไป (NEXT MATCH - BAN/DRAFT) ➔</span>
           </button>
         </div>
       </div>
@@ -1785,56 +1758,45 @@
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <!-- Card 1: Default Full Sense Career -->
+        <!-- Card 1: Career Mode (4 Regions & Ascension) -->
         <div class="bg-[#050814] p-3.5 rounded-xl border-2 border-emerald-500/60 flex flex-col justify-between gap-2.5 shadow-lg">
           <div>
             <div class="flex items-center justify-between">
               <span class="text-2xl">🏆</span>
-              <span class="text-[10px] font-mono bg-emerald-950 text-emerald-400 border border-emerald-500/40 px-2 py-0.5 rounded font-bold">RECOMMENDED</span>
+              <span class="text-[10px] font-mono bg-emerald-950 text-emerald-400 border border-emerald-500/40 px-2 py-0.5 rounded font-bold">CAREER MODE</span>
             </div>
-            <h4 class="font-bold text-white text-sm mt-1.5">คุมทีม FULL SENSE</h4>
-            <p class="text-[11px] text-slate-400 mt-1">เริ่มต้นฤดูกาลใหม่ (Week 1) ในลีก VCT Pacific กับยอดทีมไทย นำทัพโดย Primmie, killua, Crws, seph1roth, JitboyS</p>
+            <h4 class="font-bold text-white text-sm mt-1.5">โหมดผู้จัดการทีมอาชีพ</h4>
+            <p class="text-[11px] text-slate-400 mt-1">เลือกคุมสโมสรใดก็ได้ใน 4 ลีกใหญ่ VCT (Pacific, Americas, EMEA, China) หรือเลือกทีมลีกรองเพื่อแข่งในทัวร์นาเมนต์ Ascension Tier 2</p>
           </div>
-          <button onclick="startFreshCareerFullSense()" class="w-full py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs transition cursor-pointer shadow">
-            เริ่มคุมทีม FULL SENSE →
+          <button onclick="closeGameModeModal(); openClubSelectionModal('career');" class="w-full py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs transition cursor-pointer shadow">
+            เลือกสโมสร & ลีก →
           </button>
         </div>
 
-        <!-- Card 2: Friendly Match -->
-        <div class="bg-[#050814] p-3.5 rounded-xl border border-[#1e3256] hover:border-cyan-500/60 flex flex-col justify-between gap-2.5 shadow-lg transition">
+        <!-- Card 2: Fantasy Draft -->
+        <div class="bg-[#050814] p-3.5 rounded-xl border border-amber-500/60 hover:border-amber-400 flex flex-col justify-between gap-2.5 shadow-lg transition">
           <div>
             <div class="flex items-center justify-between">
-              <span class="text-2xl">⚔️</span>
-              <span class="text-[10px] font-mono bg-cyan-950 text-cyan-400 border border-cyan-500/40 px-2 py-0.5 rounded font-bold">QUICK MATCH</span>
+              <span class="text-2xl">✨</span>
+              <span class="text-[10px] font-mono bg-amber-950 text-amber-400 border border-amber-500/40 px-2 py-0.5 rounded font-bold">FANTASY DRAFT</span>
             </div>
-            <h4 class="font-bold text-white text-sm mt-1.5">แมตช์กระชับมิตร</h4>
-            <p class="text-[11px] text-slate-400 mt-1">แข่งขันด่วน 1 แมตช์ ทดลองแผนและสกิล Agent แบบเรียลไทม์ โดยไม่มีผลกระทบต่อสถิติลีกหรือการเงินสโมสร</p>
+            <h4 class="font-bold text-white text-sm mt-1.5">โหมดสร้างทีมในฝัน</h4>
+            <p class="text-[11px] text-slate-400 mt-1">เลือกสโมสรต้นสังกัด จากนั้นรับงบ $2,000,000 เพื่อดราฟต์ผู้เล่น 5 คนจากตลาดซื้อขายเข้าสู่ทีมของคุณเอง</p>
           </div>
-          <button onclick="openFriendlySetupModal()" class="w-full py-2 rounded-lg bg-[#14233e] hover:bg-cyan-500 hover:text-slate-950 text-cyan-300 font-bold text-xs transition cursor-pointer">
-            ⚔️ ตั้งค่าและเริ่ม Friendly Match →
+          <button onclick="closeGameModeModal(); startFantasyDraftFlow();" class="w-full py-2 rounded-lg bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 font-bold text-xs transition cursor-pointer shadow">
+            เลือกทีม & เริ่มดราฟต์ →
           </button>
         </div>
       </div>
 
-      <!-- Option 3: Choose Other Club from 4 VCT Regions -->
+      <!-- Option 3: Friendly Quick Match -->
       <div class="bg-[#050914] p-3 rounded-xl border border-cyan-500/40 flex items-center justify-between gap-3 text-xs">
         <div>
-          <span class="font-bold text-white block">เลือกสโมสรอื่นจาก 4 ภูมิภาค (4 VCT REGIONS)</span>
-          <span class="text-[11px] text-slate-400">เลือกคุมทีมระดับโลกใน Pacific, Americas, EMEA หรือ China (เช่น PRX, Sentinels, Fnatic, EDG)</span>
+          <span class="font-bold text-white block">แมตช์กระชับมิตร (FRIENDLY QUICK MATCH)</span>
+          <span class="text-[11px] text-slate-400">แข่งขันด่วน 1 แมตช์ 24 รอบ ทดลองแท็กติกและแผนการเล่นสดโดยไม่มีผลต่อสถิติลีก</span>
         </div>
-        <button onclick="closeGameModeModal(); openClubSelectionModal();" class="px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-700 hover:from-cyan-500 hover:to-blue-600 text-white font-bold text-xs transition shrink-0 cursor-pointer shadow">
-          🌐 เลือกสโมสร →
-        </button>
-      </div>
-
-      <!-- Option 4: Fantasy Draft -->
-      <div class="bg-[#050914] p-3 rounded-xl border border-amber-500/30 flex items-center justify-between gap-3 text-xs">
-        <div>
-          <span class="font-bold text-white block">โหมดดราฟต์ผู้เล่นเอง (FANTASY DRAFT)</span>
-          <span class="text-[11px] text-slate-400">สร้างทีมในฝันด้วยงบ $2,000,000 เข้าสู่ตลาดซื้อขายเพื่อดราฟต์นักแข่ง 5 คนด้วยตัวเอง</span>
-        </div>
-        <button onclick="promptNewCareerMode()" class="px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-amber-600 to-yellow-600 hover:from-amber-500 hover:to-yellow-500 text-slate-950 font-bold text-xs transition shrink-0 cursor-pointer shadow">
-          ✨ Fantasy Draft →
+        <button onclick="openFriendlySetupModal()" class="px-3.5 py-1.5 rounded-lg bg-[#14233e] hover:bg-cyan-500 hover:text-slate-950 text-cyan-300 font-bold text-xs transition shrink-0 cursor-pointer shadow border border-cyan-500/30">
+          ⚔️ แข่งขันด่วน →
         </button>
       </div>
     </div>
@@ -1851,8 +1813,8 @@
             🌐
           </div>
           <div>
-            <span class="text-[10px] font-mono text-cyan-400 font-bold uppercase tracking-widest bg-cyan-950 px-2 py-0.5 rounded border border-cyan-500/40">VCT GLOBAL CLUB MANAGER</span>
-            <h3 class="text-lg font-black text-white mt-0.5">เลือกสโมสรและลีกภูมิภาคที่คุณต้องการคุมทีม</h3>
+            <span class="text-[10px] font-mono text-cyan-400 font-bold uppercase tracking-widest bg-cyan-950 px-2 py-0.5 rounded border border-cyan-500/40" id="club-modal-badge">VCT GLOBAL CLUB MANAGER</span>
+            <h3 class="text-lg font-black text-white mt-0.5" id="club-modal-title">เลือกสโมสรและลีกภูมิภาคที่คุณต้องการคุมทีม</h3>
           </div>
         </div>
       </div>
@@ -1873,6 +1835,19 @@
         </button>
       </div>
 
+      <!-- Tier Tabs (All, Tier 1 VCT, Tier 2 Ascension) -->
+      <div class="flex items-center gap-2 border-b border-[#142035] pb-2 flex-wrap">
+        <button onclick="filterClubSelectionTier('all')" id="tab-tier-all" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-cyan-500 text-slate-950 transition cursor-pointer">
+          🌐 แสดงทุกเทียร์ (All Teams)
+        </button>
+        <button onclick="filterClubSelectionTier('tier1')" id="tab-tier-1" class="px-2.5 py-1 rounded-lg text-xs font-bold text-slate-400 hover:text-white hover:bg-[#121e35] transition cursor-pointer">
+          🏆 ลีกสูงสุด VCT Tier 1
+        </button>
+        <button onclick="filterClubSelectionTier('tier2')" id="tab-tier-2" class="px-2.5 py-1 rounded-lg text-xs font-bold text-slate-400 hover:text-white hover:bg-[#121e35] transition cursor-pointer">
+          🔥 ลีกรอง Ascension / Challengers Tier 2
+        </button>
+      </div>
+
       <!-- Regional Info Banner -->
       <div id="club-select-region-info" class="p-3 rounded-xl border border-cyan-500/30 bg-[#060b17] text-xs text-slate-300">
         <!-- Populated dynamically -->
@@ -1885,7 +1860,7 @@
 
       <!-- Footer Info -->
       <div class="flex items-center justify-between border-t border-[#1b2d4f] pt-3 text-xs flex-wrap gap-2">
-        <span class="text-slate-400 text-[11px]">💡 ทุกภูมิภาคมีระบบเลื่อนชั้น-ตกชั้นกับลีก Ascension Tier 2 และได้โควต้า Top 3 สู่ VALORANT Champions เหมือนกันทั้งหมด</span>
+        <span class="text-slate-400 text-[11px]">💡 หากเลือกสโมสร Tier 2 จะต้องลงแข่งขันในทัวร์นาเมนต์ Ascension เพื่อชิงตั๋วเลื่อนชั้นสู่ VCT Tier 1</span>
         <button onclick="closeClubSelectionModal()" class="px-4 py-2 rounded-xl bg-[#0e172a] hover:bg-[#18233a] text-slate-300 font-semibold border border-[#1e293b] transition cursor-pointer">
           ปิดหน้าต่าง
         </button>
@@ -6475,8 +6450,8 @@ function endRound(winner) {
       const scoreB = matchState.scoreB;
       const totalRounds = scoreA + scoreB;
 
-      // 1. Title & Details
-      document.getElementById('modal-match-winner').innerText = isWin ? 'FULL SENSE คว้าชัยชนะในการแข่งขัน VCT!' : 'PAPER REX คว้าชัยชนะในแมตช์นี้!';
+      const winTeamName = isWin ? (matchState.teamAName || myClubName || 'สโมสรของคุณ') : (matchState.teamBName || 'คู่แข่ง');
+      document.getElementById('modal-match-winner').innerText = `${winTeamName} คว้าชัยชนะในการแข่งขัน!`;
       document.getElementById('modal-match-winner').className = `text-xl sm:text-2xl font-black ${isWin ? 'text-emerald-400' : 'text-rose-400'} mt-0.5`;
       document.getElementById('modal-final-score').innerText = `${scoreA} - ${scoreB}`;
       document.getElementById('report-map-name').innerText = `MAP: ${currentMap.toUpperCase()}`;
@@ -6587,7 +6562,7 @@ function endRound(winner) {
         const oppName = activeFix ? activeFix.opponentName : 'Paper Rex';
 
         // Update User & Opponent Standings with Round Differential
-        const myTeam = STANDINGS_VCT.find(t => t.name.includes('FULL SENSE')) || STANDINGS_VCL.find(t => t.name.includes('FULL SENSE'));
+        const myTeam = STANDINGS_VCT.find(t => t.name.includes(myClubName)) || STANDINGS_VCL.find(t => t.name.includes(myClubName)) || STANDINGS_VCT[0];
         const oppTeam = STANDINGS_VCT.find(t => t.name === oppName) || STANDINGS_VCL.find(t => t.name === oppName);
 
         if (myTeam) {
@@ -6618,58 +6593,109 @@ function endRound(winner) {
           if (oppTeam.form.length > 5) oppTeam.form.pop();
         }
 
-        // Simulate remaining 5 Tier 1 matches
-        const otherTeamsVCT = STANDINGS_VCT.filter(t => !t.name.includes('FULL SENSE') && t.name !== oppName);
-        const shuffledVCT = [...otherTeamsVCT].sort(() => Math.random() - 0.5);
+        // Simulate remaining matches for Tier 1 & Tier 2
+        const isUserInTier1 = STANDINGS_VCT.some(t => t.name.includes(myClubName));
         const leagueWeekResults = [];
 
-        for (let i = 0; i < shuffledVCT.length; i += 2) {
-          if (shuffledVCT[i+1]) {
-            const t1 = shuffledVCT[i];
-            const t2 = shuffledVCT[i+1];
-            const t1Wins = Math.random() > 0.5;
-            const wScore = 13 + (Math.random() < 0.2 ? 1 : 0);
-            const lScore = Math.floor(Math.random() * 8) + 4;
-            const s1 = t1Wins ? wScore : lScore;
-            const s2 = t1Wins ? lScore : wScore;
-
-            t1.mp += 1; t2.mp += 1;
-            const d1 = (parseInt(t1.diff) || 0) + (s1 - s2);
-            const d2 = (parseInt(t2.diff) || 0) + (s2 - s1);
-            t1.diff = (d1 >= 0 ? '+' : '') + d1;
-            t2.diff = (d2 >= 0 ? '+' : '') + d2;
-
-            if (t1Wins) {
-              t1.w += 1; t1.form.unshift('W'); if (t1.form.length > 5) t1.form.pop();
-              t2.l += 1; t2.form.unshift('L'); if (t2.form.length > 5) t2.form.pop();
-            } else {
-              t2.w += 1; t2.form.unshift('W'); if (t2.form.length > 5) t2.form.pop();
-              t1.l += 1; t1.form.unshift('L'); if (t1.form.length > 5) t1.form.pop();
+        if (isUserInTier1) {
+          const otherTeamsVCT = STANDINGS_VCT.filter(t => !t.name.includes(myClubName) && t.name !== oppName);
+          const shuffledVCT = [...otherTeamsVCT].sort(() => Math.random() - 0.5);
+          for (let i = 0; i < shuffledVCT.length; i += 2) {
+            if (shuffledVCT[i+1]) {
+              const t1 = shuffledVCT[i];
+              const t2 = shuffledVCT[i+1];
+              const t1Wins = Math.random() > 0.5;
+              const wScore = 13 + (Math.random() < 0.2 ? 1 : 0);
+              const lScore = Math.floor(Math.random() * 8) + 4;
+              const s1 = t1Wins ? wScore : lScore;
+              const s2 = t1Wins ? lScore : wScore;
+              t1.mp += 1; t2.mp += 1;
+              const d1 = (parseInt(t1.diff) || 0) + (s1 - s2);
+              const d2 = (parseInt(t2.diff) || 0) + (s2 - s1);
+              t1.diff = (d1 >= 0 ? '+' : '') + d1;
+              t2.diff = (d2 >= 0 ? '+' : '') + d2;
+              if (t1Wins) {
+                t1.w += 1; t1.form.unshift('W'); if (t1.form.length > 5) t1.form.pop();
+                t2.l += 1; t2.form.unshift('L'); if (t2.form.length > 5) t2.form.pop();
+              } else {
+                t2.w += 1; t2.form.unshift('W'); if (t2.form.length > 5) t2.form.pop();
+                t1.l += 1; t1.form.unshift('L'); if (t1.form.length > 5) t1.form.pop();
+              }
+              leagueWeekResults.push({ t1: t1.name, s1, t2: t2.name, s2 });
             }
-            leagueWeekResults.push({ t1: t1.name, s1, t2: t2.name, s2 });
           }
-        }
 
-        // Simulate 4 Tier 2 (VCL) matches
-        const shuffledVCL = [...STANDINGS_VCL].sort(() => Math.random() - 0.5);
-        for (let i = 0; i < shuffledVCL.length; i += 2) {
-          if (shuffledVCL[i+1]) {
-            const t1 = shuffledVCL[i];
-            const t2 = shuffledVCL[i+1];
-            const t1Wins = Math.random() > 0.5;
-            const s1 = t1Wins ? 13 : Math.floor(Math.random() * 7) + 5;
-            const s2 = t1Wins ? Math.floor(Math.random() * 7) + 5 : 13;
-            t1.mp += 1; t2.mp += 1;
-            const d1 = (parseInt(t1.diff) || 0) + (s1 - s2);
-            const d2 = (parseInt(t2.diff) || 0) + (s2 - s1);
-            t1.diff = (d1 >= 0 ? '+' : '') + d1;
-            t2.diff = (d2 >= 0 ? '+' : '') + d2;
-            if (t1Wins) {
-              t1.w += 1; t1.form.unshift('W'); if (t1.form.length > 5) t1.form.pop();
-              t2.l += 1; t2.form.unshift('L'); if (t2.form.length > 5) t2.form.pop();
-            } else {
-              t2.w += 1; t2.form.unshift('W'); if (t2.form.length > 5) t2.form.pop();
-              t1.l += 1; t1.form.unshift('L'); if (t1.form.length > 5) t1.form.pop();
+          const shuffledVCL = [...STANDINGS_VCL].sort(() => Math.random() - 0.5);
+          for (let i = 0; i < shuffledVCL.length; i += 2) {
+            if (shuffledVCL[i+1]) {
+              const t1 = shuffledVCL[i];
+              const t2 = shuffledVCL[i+1];
+              const t1Wins = Math.random() > 0.5;
+              const s1 = t1Wins ? 13 : Math.floor(Math.random() * 7) + 5;
+              const s2 = t1Wins ? Math.floor(Math.random() * 7) + 5 : 13;
+              t1.mp += 1; t2.mp += 1;
+              const d1 = (parseInt(t1.diff) || 0) + (s1 - s2);
+              const d2 = (parseInt(t2.diff) || 0) + (s2 - s1);
+              t1.diff = (d1 >= 0 ? '+' : '') + d1;
+              t2.diff = (d2 >= 0 ? '+' : '') + d2;
+              if (t1Wins) {
+                t1.w += 1; t1.form.unshift('W'); if (t1.form.length > 5) t1.form.pop();
+                t2.l += 1; t2.form.unshift('L'); if (t2.form.length > 5) t2.form.pop();
+              } else {
+                t2.w += 1; t2.form.unshift('W'); if (t2.form.length > 5) t2.form.pop();
+                t1.l += 1; t1.form.unshift('L'); if (t1.form.length > 5) t1.form.pop();
+              }
+            }
+          }
+        } else {
+          // User is in Tier 2 (Ascension)
+          const otherTeamsVCL = STANDINGS_VCL.filter(t => !t.name.includes(myClubName) && t.name !== oppName);
+          const shuffledVCL = [...otherTeamsVCL].sort(() => Math.random() - 0.5);
+          for (let i = 0; i < shuffledVCL.length; i += 2) {
+            if (shuffledVCL[i+1]) {
+              const t1 = shuffledVCL[i];
+              const t2 = shuffledVCL[i+1];
+              const t1Wins = Math.random() > 0.5;
+              const s1 = t1Wins ? 13 : Math.floor(Math.random() * 7) + 5;
+              const s2 = t1Wins ? Math.floor(Math.random() * 7) + 5 : 13;
+              t1.mp += 1; t2.mp += 1;
+              const d1 = (parseInt(t1.diff) || 0) + (s1 - s2);
+              const d2 = (parseInt(t2.diff) || 0) + (s2 - s1);
+              t1.diff = (d1 >= 0 ? '+' : '') + d1;
+              t2.diff = (d2 >= 0 ? '+' : '') + d2;
+              if (t1Wins) {
+                t1.w += 1; t1.form.unshift('W'); if (t1.form.length > 5) t1.form.pop();
+                t2.l += 1; t2.form.unshift('L'); if (t2.form.length > 5) t2.form.pop();
+              } else {
+                t2.w += 1; t2.form.unshift('W'); if (t2.form.length > 5) t2.form.pop();
+                t1.l += 1; t1.form.unshift('L'); if (t1.form.length > 5) t1.form.pop();
+              }
+              leagueWeekResults.push({ t1: t1.name, s1, t2: t2.name, s2 });
+            }
+          }
+
+          const shuffledVCT = [...STANDINGS_VCT].sort(() => Math.random() - 0.5);
+          for (let i = 0; i < shuffledVCT.length; i += 2) {
+            if (shuffledVCT[i+1]) {
+              const t1 = shuffledVCT[i];
+              const t2 = shuffledVCT[i+1];
+              const t1Wins = Math.random() > 0.5;
+              const wScore = 13 + (Math.random() < 0.2 ? 1 : 0);
+              const lScore = Math.floor(Math.random() * 8) + 4;
+              const s1 = t1Wins ? wScore : lScore;
+              const s2 = t1Wins ? lScore : wScore;
+              t1.mp += 1; t2.mp += 1;
+              const d1 = (parseInt(t1.diff) || 0) + (s1 - s2);
+              const d2 = (parseInt(t2.diff) || 0) + (s2 - s1);
+              t1.diff = (d1 >= 0 ? '+' : '') + d1;
+              t2.diff = (d2 >= 0 ? '+' : '') + d2;
+              if (t1Wins) {
+                t1.w += 1; t1.form.unshift('W'); if (t1.form.length > 5) t1.form.pop();
+                t2.l += 1; t2.form.unshift('L'); if (t2.form.length > 5) t2.form.pop();
+              } else {
+                t2.w += 1; t2.form.unshift('W'); if (t2.form.length > 5) t2.form.pop();
+                t1.l += 1; t1.form.unshift('L'); if (t1.form.length > 5) t1.form.pop();
+              }
             }
           }
         }
@@ -6844,9 +6870,18 @@ function endRound(winner) {
     }
 
     function returnToDashboardFromMatch() {
-      document.getElementById('match-over-modal').classList.add('hidden');
-      document.getElementById('match-over-modal').classList.remove('flex');
+      const modal = document.getElementById('match-over-modal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+      updateDashboardFixtureCard();
+      renderRoster();
+      renderTactics();
+      renderStandings();
+      renderClubFinancesDashboard();
       switchTab('dashboard');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function startTimer() {
@@ -7467,44 +7502,13 @@ function endRound(winner) {
       addEventLog(`Game Mode switched to: Career Manager Mode`);
     }
 
+    function startFantasyDraftFlow() {
+      closeGameModeModal();
+      openClubSelectionModal('draft');
+    }
+
     function promptNewCareerMode() {
-      if (confirm('คุณต้องการเริ่มเซฟ Career ใหม่หรือไม่? คุณสามารถเลือกดราฟต์ผู้เล่น 5 คนเองด้วยงบ $2,000,000 หรือเริ่มด้วยไลน์อัปจริง')) {
-        const choice = confirm('กด [ตกลง (OK)] เพื่อเริ่มแบบ FANTASY DRAFT ($2,000,000 ดราฟต์เอง)\nหรือกด [ยกเลิก (Cancel)] เพื่อใช้ไลน์อัปทางการของสโมสร');
-        if (choice) {
-          // Fantasy Draft
-          currentGameMode = 'CAREER';
-          clubBudget = 2000000;
-          matchState.teamCredsA = 2000000;
-          document.getElementById('header-budget').innerText = '$2,000,000';
-          document.getElementById('dash-budget').innerText = '$2,000,000';
-          document.getElementById('market-budget').innerText = '$2,000,000';
-
-          // Release previous Full Sense starters and bench into Free Agents
-          myRoster.starters.forEach(p => {
-            const found = allPlayers.find(x => x.id === p.id || x.name === p.name);
-            if (found) { found.teamId = 'free_agent'; found.teamName = 'Free Agent'; }
-          });
-          myRoster.bench.forEach(p => {
-            const found = allPlayers.find(x => x.id === p.id || x.name === p.name);
-            if (found) { found.teamId = 'free_agent'; found.teamName = 'Free Agent'; }
-          });
-
-          myRoster.starters = [];
-          myRoster.bench = [];
-          renderRoster();
-          renderTactics();
-          renderMarketPlayers();
-          saveGameToStorage(true);
-          updateNavigationTabs('CAREER');
-          switchTab('market');
-          alert('🎉 เริ่มเซฟโหมด FANTASY DRAFT เรียบร้อย!\nได้รับงบตั้งต้น $2,000,000\nเชิญเลือกดราฟต์ผู้เล่น 5 คนเข้าสู่สโมสรในตลาดซื้อขายเพื่อเตรียมพร้อมลงแข่ง');
-        } else {
-          // Authentic Reset
-          localStorage.removeItem('TACTIX_CAREER_SAVE_v1');
-          location.reload();
-        }
-        closeGameModeModal();
-      }
+      startFantasyDraftFlow();
     }
 
     // --- FRIENDLY MATCH QUICK SETUP SYSTEM ---
@@ -7972,8 +7976,10 @@ function endRound(winner) {
       mapImage.onerror = () => {
         if (ASSETS.fallbacks[mapName]) mapImage.src = ASSETS.fallbacks[mapName];
       };
-      document.getElementById('canvas-map-title').innerText = `${mapName.toUpperCase()} · ${m.hasSiteC ? '3 SITES (A/B/C)' : '2 SITES'}`;
-      document.getElementById('match-map-select').value = mapName;
+      const mapLbl = document.getElementById('match-map-name-label');
+      if (mapLbl) mapLbl.innerText = mapName.toUpperCase();
+      const mapSel = document.getElementById('match-map-select');
+      if (mapSel) mapSel.value = mapName;
       document.getElementById('tactics-map-select').value = mapName;
       addEventLog(`Switched map to ${mapName} (${m.location}). Waypoints recalibrated.`);
       populateTacticsDropdown();
@@ -8422,6 +8428,8 @@ function endRound(winner) {
     function updateDashboardFixtureCard() {
       const f = getCurrentFixture();
       if (!f) return;
+      const myTeamEl = document.getElementById('dash-my-team-fixture-name');
+      if (myTeamEl) myTeamEl.innerText = (myClubName || 'MY TEAM').toUpperCase();
       const oppTitle = document.getElementById('dash-opp-name');
       const roundDesc = document.getElementById('dash-score-preview');
       const weekBadge = document.getElementById('dash-week-badge');
@@ -9162,6 +9170,33 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
       }
     }
 
+    // --- CLUB & REGION SELECTION ENGINE ---
+    let clubSelectionFlowMode = 'career'; // 'career' or 'draft'
+    let activeFilterRegion = 'pacific';
+    let activeFilterTier = 'all'; // 'all', 'tier1', 'tier2'
+    let myClubIsTier2 = false;
+
+    function openClubSelectionModal(flowMode = 'career') {
+      clubSelectionFlowMode = flowMode;
+      const bBadge = document.getElementById('club-modal-badge');
+      const bTitle = document.getElementById('club-modal-title');
+      if (flowMode === 'draft') {
+        if (bBadge) bBadge.innerText = '✨ FANTASY DRAFT · STAGE 1: CHOOSE CLUB & LEAGUE';
+        if (bTitle) bTitle.innerText = 'เลือกสโมสรและลีกที่คุณต้องการสร้างทีมในฝัน (FANTASY DRAFT)';
+      } else {
+        if (bBadge) bBadge.innerText = '🏆 VCT & ASCENSION CAREER MODE';
+        if (bTitle) bTitle.innerText = 'เลือกสโมสรและลีกภูมิภาคที่คุณต้องการคุมทีม (CAREER MODE)';
+      }
+
+      activeFilterTier = 'all';
+      filterClubSelectionRegion(myClubRegion || 'pacific');
+      const modal = document.getElementById('club-selection-modal');
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
+    }
+
     function closeClubSelectionModal() {
       const modal = document.getElementById('club-selection-modal');
       if (modal) {
@@ -9170,7 +9205,21 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
       }
     }
 
-    let activeFilterRegion = 'pacific';
+    function filterClubSelectionTier(tierKey) {
+      activeFilterTier = tierKey;
+      ['all', 'tier1', 'tier2'].forEach(t => {
+        const tab = document.getElementById(`tab-tier-${t}`);
+        if (tab) {
+          if (t === tierKey) {
+            tab.className = 'px-2.5 py-1 rounded-lg text-xs font-bold bg-cyan-500 text-slate-950 transition cursor-pointer';
+          } else {
+            tab.className = 'px-2.5 py-1 rounded-lg text-xs font-bold text-slate-400 hover:text-white hover:bg-[#121e35] transition cursor-pointer';
+          }
+        }
+      });
+      renderClubSelectionGrid();
+    }
+
     function filterClubSelectionRegion(regKey) {
       activeFilterRegion = regKey;
       ['pacific', 'americas', 'emea', 'china'].forEach(r => {
@@ -9187,15 +9236,24 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
       const regInfo = document.getElementById('club-select-region-info');
       const reg = REGIONAL_DATA[regKey];
       if (regInfo && reg) {
+        const isDraft = (clubSelectionFlowMode === 'draft');
         regInfo.innerHTML = `
           <div class="flex items-center justify-between flex-wrap gap-2">
             <div>
-              <span class="font-bold text-white text-sm">${reg.name} (Tier 1)</span>
-              <span class="text-[11px] text-slate-400 block mt-0.5">ลีกสูงสุด 12 สโมสร · อันดับ 1-3 ได้สิทธิ์เข้าแข่งขัน VALORANT Champions</span>
+              <div class="flex items-center gap-2">
+                <span class="font-bold text-white text-sm">${reg.name}</span>
+                <span class="text-[10px] font-mono px-1.5 py-0.2 rounded bg-cyan-950 text-cyan-300 border border-cyan-500/40 font-bold">ภูมิภาค ${regKey.toUpperCase()}</span>
+                ${isDraft ? '<span class="text-[10px] font-mono px-2 py-0.2 rounded bg-amber-950 text-amber-300 border border-amber-500/40 font-bold">✨ FANTASY DRAFT</span>' : ''}
+              </div>
+              <span class="text-[11px] text-slate-400 block mt-0.5">
+                ${isDraft
+                  ? 'เลือกสโมสรที่คุณต้องการเป็นต้นสังกัด จากนั้นระบบจะมอบงบประมาณ $2,000,000 เพื่อดราฟต์ผู้เล่น 5 คน'
+                  : 'เลือกสโมสรเพื่อเข้ารับตำแหน่งเฮดโค้ช หากเลือกทีม Tier 2 จะต้องแข่งใน Ascension เพื่อชิงตั๋วเลื่อนชั้น'}
+              </span>
             </div>
-            <div class="text-right">
-              <span class="text-xs text-rose-300 font-mono font-bold block">🔻 ตกชั้นสู่: ${reg.tier2Name}</span>
-              <span class="text-[10px] text-emerald-400 font-mono">🔼 เลื่อนชั้น 2 ทีมสู่ ${reg.name}</span>
+            <div class="text-right text-xs">
+              <span class="text-emerald-400 font-mono font-bold block">🏆 ลีกสูงสุด: ${reg.name} (12 ทีม)</span>
+              <span class="text-amber-400 font-mono block">🔥 ลีกรองเลื่อนชั้น: ${reg.tier2Name} (${reg.tier2 ? reg.tier2.length : 0} ทีม)</span>
             </div>
           </div>
         `;
@@ -9212,52 +9270,97 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
       const reg = REGIONAL_DATA[activeFilterRegion];
       if (!reg) return;
 
-      reg.tier1.forEach(c => {
-        const isCurrentClub = (c.name === myClubName);
-        const fallbacks = (typeof fallbackRosters !== 'undefined' && fallbackRosters[c.id]) ? fallbackRosters[c.id] : [];
-        const starNames = fallbacks.slice(0, 3).map(p => p.name).join(', ') || 'Pro Stars';
+      const isDraft = (clubSelectionFlowMode === 'draft');
 
-        container.innerHTML += `
-          <div class="bg-[#050814] border ${isCurrentClub ? 'border-emerald-500 bg-emerald-950/20' : 'border-[#15233c] hover:border-cyan-500/60'} p-3 rounded-xl flex flex-col justify-between gap-2.5 transition">
-            <div>
-              <div class="flex items-center justify-between">
-                <span class="font-vct font-black text-sm text-cyan-300">${c.name}</span>
-                <span class="text-[10px] font-mono px-2 py-0.5 rounded font-bold ${isCurrentClub ? 'bg-emerald-950 text-emerald-400 border border-emerald-500/40' : 'bg-slate-900 text-slate-300 border border-slate-700'}">
-                  ${isCurrentClub ? 'CURRENT' : `OVR ${c.ovr}`}
-                </span>
+      // 1. Tier 1 Clubs
+      if (activeFilterTier === 'all' || activeFilterTier === 'tier1') {
+        reg.tier1.forEach(c => {
+          const isCurrentClub = (c.name === myClubName);
+          const fallbacks = (typeof fallbackRosters !== 'undefined' && fallbackRosters[c.id]) ? fallbackRosters[c.id] : [];
+          const starNames = fallbacks.slice(0, 3).map(p => p.name).join(', ') || 'Pro Stars';
+
+          container.innerHTML += `
+            <div class="bg-[#050814] border ${isCurrentClub ? 'border-emerald-500 bg-emerald-950/20' : 'border-[#15233c] hover:border-cyan-500/60'} p-3 rounded-xl flex flex-col justify-between gap-2.5 transition">
+              <div>
+                <div class="flex items-center justify-between">
+                  <span class="font-vct font-black text-sm text-cyan-300">${c.name}</span>
+                  <div class="flex items-center gap-1">
+                    <span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-500/40 font-bold">VCT T1</span>
+                    <span class="text-[10px] font-mono px-1.5 py-0.5 rounded font-bold ${isCurrentClub ? 'bg-emerald-950 text-emerald-400 border border-emerald-500/40' : 'bg-slate-900 text-slate-300 border border-slate-700'}">
+                      ${isCurrentClub ? 'CURRENT' : `OVR ${c.ovr}`}
+                    </span>
+                  </div>
+                </div>
+                <div class="text-[10px] text-slate-400 mt-1 truncate">
+                  ${isDraft ? '<span class="text-amber-400 font-mono font-bold">งบดราฟต์: $2,000,000</span> · ลีก ' + reg.name : 'ดาวเด่น: <span class="text-slate-300 font-medium">' + starNames + '</span>'}
+                </div>
               </div>
-              <div class="text-[10px] text-slate-400 mt-1 truncate">
-                ดาวเด่น: <span class="text-slate-300 font-medium">${starNames}</span>
-              </div>
+              <button onclick="selectUserClub('${c.id}', '${activeFilterRegion}', false)" class="w-full py-1.5 rounded-lg ${isCurrentClub ? 'bg-emerald-500 text-slate-950 font-bold' : (isDraft ? 'bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 font-bold' : 'bg-[#101c33] hover:bg-cyan-500 hover:text-slate-950 text-cyan-300 font-semibold')} text-xs transition cursor-pointer">
+                ${isCurrentClub ? '✓ สโมสรปัจจุบันของคุณ' : (isDraft ? 'เลือกทีมนี้ดราฟต์ผู้เล่น ➔' : 'เลือกคุมสโมสรนี้ (VCT) ➔')}
+              </button>
             </div>
-            <button onclick="selectUserClub('${c.id}', '${activeFilterRegion}')" class="w-full py-1.5 rounded-lg ${isCurrentClub ? 'bg-emerald-500 text-slate-950 font-bold' : 'bg-[#101c33] hover:bg-cyan-500 hover:text-slate-950 text-cyan-300 font-semibold'} text-xs transition cursor-pointer">
-              ${isCurrentClub ? '✓ สโมสรปัจจุบันของคุณ' : 'เลือกคุมสโมสรนี้ ➔'}
-            </button>
-          </div>
-        `;
-      });
+          `;
+        });
+      }
+
+      // 2. Tier 2 Clubs (Ascension / Challengers)
+      if (activeFilterTier === 'all' || activeFilterTier === 'tier2') {
+        const tier2List = reg.tier2 || [];
+        tier2List.forEach(c => {
+          const isCurrentClub = (c.name === myClubName);
+          const fallbacks = (typeof fallbackRosters !== 'undefined' && fallbackRosters[c.id]) ? fallbackRosters[c.id] : [];
+          const starNames = fallbacks.slice(0, 3).map(p => p.name).join(', ') || 'Challengers Stars';
+
+          container.innerHTML += `
+            <div class="bg-[#050814] border ${isCurrentClub ? 'border-amber-500 bg-amber-950/20' : 'border-[#261f14] hover:border-amber-500/60'} p-3 rounded-xl flex flex-col justify-between gap-2.5 transition">
+              <div>
+                <div class="flex items-center justify-between">
+                  <span class="font-vct font-black text-sm text-amber-300">${c.name}</span>
+                  <div class="flex items-center gap-1">
+                    <span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-amber-950 text-amber-400 border border-amber-500/40 font-bold">ASCENSION T2</span>
+                    <span class="text-[10px] font-mono px-1.5 py-0.5 rounded font-bold ${isCurrentClub ? 'bg-amber-950 text-amber-400 border border-amber-500/40' : 'bg-slate-900 text-slate-300 border border-slate-700'}">
+                      ${isCurrentClub ? 'CURRENT' : `OVR ${c.ovr}`}
+                    </span>
+                  </div>
+                </div>
+                <div class="text-[10px] text-slate-400 mt-1 truncate">
+                  ${isDraft ? '<span class="text-amber-400 font-mono font-bold">งบดราฟต์: $2,000,000</span> · แข่งใน ' + reg.tier2Name : 'ดาวเด่น: <span class="text-slate-300 font-medium">' + starNames + '</span> (ชิงตั๋วเลื่อนชั้น)'}
+                </div>
+              </div>
+              <button onclick="selectUserClub('${c.id}', '${activeFilterRegion}', true)" class="w-full py-1.5 rounded-lg ${isCurrentClub ? 'bg-amber-500 text-slate-950 font-bold' : (isDraft ? 'bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 font-bold' : 'bg-[#1e1910] hover:bg-amber-500 hover:text-slate-950 text-amber-300 font-semibold border border-amber-500/30')} text-xs transition cursor-pointer">
+                ${isCurrentClub ? '✓ สโมสรปัจจุบันของคุณ' : (isDraft ? 'เลือกทีมนี้ดราฟต์ผู้เล่น (Ascension) ➔' : 'เลือกคุมสโมสรนี้ (เริ่มใน Ascension) ➔')}
+              </button>
+            </div>
+          `;
+        });
+      }
     }
 
-    function selectUserClub(clubId, regionKey) {
+    function selectUserClub(clubId, regionKey, isTier2 = false) {
       const reg = REGIONAL_DATA[regionKey];
       if (!reg) return;
-      const club = reg.tier1.find(c => c.id === clubId);
+      const clubList = isTier2 ? (reg.tier2 || []) : reg.tier1;
+      let club = clubList.find(c => c.id === clubId);
+      if (!club) {
+        club = reg.tier1.find(c => c.id === clubId);
+        if (!club) club = (reg.tier2 || []).find(c => c.id === clubId);
+      }
       if (!club) return;
 
-      if (!confirm(`คุณต้องการเลือกเข้ารับตำแหน่งผู้จัดการทีม "${club.name}" (${reg.name}) หรือไม่?
+      const isDraft = (clubSelectionFlowMode === 'draft');
+      const leagueName = isTier2 ? reg.tier2Name : reg.name;
+      const leagueTier = isTier2 ? 'Ascension Tier 2' : 'VCT Tier 1';
 
-• ลีกแข่งขันจะเปลี่ยนเป็น ${reg.name} (12 สโมสร)
-• มีระบบเลื่อนชั้น-ตกชั้นกับ ${reg.tier2Name}
-• นักแข่งตัวจริงของสโมสรจะถูกดึงเข้าไลน์อัป
-• สุ่มตารางการแข่งขัน 11 สัปดาห์ใหม่`)) {
-        return;
-      }
+      const confirmMsg = isDraft
+        ? `คุณต้องการเลือกสโมสร "${club.name}" ในลีก ${leagueName} (${leagueTier}) เพื่อสร้างทีมในฝันหรือไม่?\n\n• งบประมาณสโมสร: $2,000,000\n• คุณจะได้เข้าสู่ตลาดซื้อขายเพื่อดราฟต์ผู้เล่น 5 คนด้วยตัวเอง\n• ลีกที่จะแข่งขัน: ${leagueName} (${isTier2 ? 'เริ่มใน Ascension ลีกรองเพื่อชิงตั๋วเลื่อนชั้น' : 'ลีกสูงสุด VCT'})`
+        : `คุณต้องการเข้ารับตำแหน่งผู้จัดการทีม "${club.name}" ในลีก ${leagueName} (${leagueTier}) หรือไม่?\n\n• ลีกแข่งขัน: ${leagueName}\n• ${isTier2 ? 'คุณจะเริ่มต้นในลีก Ascension Tier 2 เพื่อแข่งขันแย่งชิงตั๋วเลื่อนชั้นสู่ VCT!' : 'แข่งขันใน VCT Tier 1 มีโควต้าสู่ศึกชิงแชมป์โลก Champions!'}\n• นักแข่งทางการของสโมสรจะถูกดึงเข้าไลน์อัป\n• สุ่มตารางการแข่งขัน 11 สัปดาห์ใหม่`;
+
+      if (!confirm(confirmMsg)) return;
 
       myClubName = club.name;
       myClubId = club.id;
       myClubRegion = regionKey;
-      clubBudget = 1500000;
-      matchState.teamCredsA = 1500000;
+      myClubIsTier2 = !!isTier2;
 
       // 1. Setup Active Tier 1 Standings
       STANDINGS_VCT = reg.tier1.map((t, idx) => ({
@@ -9272,7 +9375,7 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
       }));
 
       // 2. Setup Active Tier 2 Standings
-      STANDINGS_VCL = reg.tier2.map((t, idx) => ({
+      STANDINGS_VCL = (reg.tier2 || []).map((t, idx) => ({
         pos: idx + 1,
         name: t.name,
         id: t.id,
@@ -9283,47 +9386,68 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
         form: []
       }));
 
-      // 3. Load Club Players into myRoster
-      const clubPlayers = allPlayers.filter(p => p.teamId === club.id);
-      const fallbacks = (typeof fallbackRosters !== 'undefined' && fallbackRosters[club.id]) ? fallbackRosters[club.id] : [];
+      if (isDraft) {
+        clubBudget = 2000000;
+        matchState.teamCredsA = 2000000;
 
-      myRoster.starters = [];
-      myRoster.bench = [];
-
-      for (let i = 0; i < 5; i++) {
-        const cp = clubPlayers[i] || fallbacks[i] || { name: `${club.name} P${i+1}`, role: 'Flex', aim: 90, iq: 90, clutch: 90, ovr: 90 };
-        myRoster.starters.push({
-          id: cp.id || `p_starter_${i+1}`,
-          name: cp.name,
-          role: cp.role || 'Duelist',
-          agent: cp.agent || 'Jett',
-          ovr: cp.overall || cp.ovr || 90,
-          aim: cp.stats?.aim || cp.aim || 90,
-          iq: cp.stats?.iq || cp.iq || 90,
-          clutch: cp.stats?.clutch || cp.clutch || 90,
-          form: 'normal',
-          stamina: 100,
-          injured: false,
-          injury: null
+        // Release existing players to free agents for clean draft
+        myRoster.starters.forEach(p => {
+          const found = allPlayers.find(x => x.id === p.id || x.name === p.name);
+          if (found) { found.teamId = 'free_agent'; found.teamName = 'Free Agent'; }
         });
-      }
-
-      for (let i = 5; i < 7; i++) {
-        const cp = clubPlayers[i] || fallbacks[i] || { name: `${club.name} Sub ${i-4}`, role: 'Flex', aim: 88, iq: 88, clutch: 88, ovr: 88 };
-        myRoster.bench.push({
-          id: cp.id || `p_bench_${i+1}`,
-          name: cp.name,
-          role: cp.role || 'Flex',
-          agent: cp.agent || 'Omen',
-          ovr: cp.overall || cp.ovr || 88,
-          aim: cp.stats?.aim || cp.aim || 88,
-          iq: cp.stats?.iq || cp.iq || 88,
-          clutch: cp.stats?.clutch || cp.clutch || 88,
-          form: 'normal',
-          stamina: 100,
-          injured: false,
-          injury: null
+        myRoster.bench.forEach(p => {
+          const found = allPlayers.find(x => x.id === p.id || x.name === p.name);
+          if (found) { found.teamId = 'free_agent'; found.teamName = 'Free Agent'; }
         });
+
+        myRoster.starters = [];
+        myRoster.bench = [];
+      } else {
+        clubBudget = isTier2 ? 1000000 : 1500000;
+        matchState.teamCredsA = clubBudget;
+
+        // Load Club Players into myRoster
+        const clubPlayers = allPlayers.filter(p => p.teamId === club.id);
+        const fallbacks = (typeof fallbackRosters !== 'undefined' && fallbackRosters[club.id]) ? fallbackRosters[club.id] : [];
+
+        myRoster.starters = [];
+        myRoster.bench = [];
+
+        for (let i = 0; i < 5; i++) {
+          const cp = clubPlayers[i] || fallbacks[i] || { name: `${club.name} Star ${i+1}`, role: 'Flex', aim: isTier2 ? 88 : 91, iq: isTier2 ? 88 : 91, clutch: isTier2 ? 88 : 91, ovr: isTier2 ? 88 : 91 };
+          myRoster.starters.push({
+            id: cp.id || `p_starter_${i+1}`,
+            name: cp.name,
+            role: cp.role || 'Duelist',
+            agent: cp.agent || getFallbackAgentByRole(cp.role || 'Duelist', i),
+            ovr: cp.overall || cp.ovr || (isTier2 ? 88 : 91),
+            aim: cp.stats?.aim || cp.aim || (isTier2 ? 88 : 91),
+            iq: cp.stats?.iq || cp.iq || (isTier2 ? 88 : 91),
+            clutch: cp.stats?.clutch || cp.clutch || (isTier2 ? 88 : 91),
+            form: 'normal',
+            stamina: 100,
+            injured: false,
+            injury: null
+          });
+        }
+
+        for (let i = 5; i < 7; i++) {
+          const cp = clubPlayers[i] || fallbacks[i] || { name: `${club.name} Sub ${i-4}`, role: 'Flex', aim: isTier2 ? 85 : 88, iq: isTier2 ? 85 : 88, clutch: isTier2 ? 85 : 88, ovr: isTier2 ? 85 : 88 };
+          myRoster.bench.push({
+            id: cp.id || `p_bench_${i+1}`,
+            name: cp.name,
+            role: cp.role || 'Flex',
+            agent: cp.agent || 'Omen',
+            ovr: cp.overall || cp.ovr || (isTier2 ? 85 : 88),
+            aim: cp.stats?.aim || cp.aim || (isTier2 ? 85 : 88),
+            iq: cp.stats?.iq || cp.iq || (isTier2 ? 85 : 88),
+            clutch: cp.stats?.clutch || cp.clutch || (isTier2 ? 85 : 88),
+            form: 'normal',
+            stamina: 100,
+            injured: false,
+            injury: null
+          });
+        }
       }
 
       // 4. Reset Season Week and generate randomized fixtures for this league
@@ -9336,14 +9460,18 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
       const hName = document.getElementById('header-club-name');
       if (hName) hName.innerText = myClubName;
       const hBadge = document.getElementById('header-league-badge');
-      if (hBadge) hBadge.innerText = reg.name.toUpperCase();
+      if (hBadge) hBadge.innerText = (isTier2 ? reg.tier2Name : reg.name).toUpperCase();
       const hBudget = document.getElementById('header-budget');
       if (hBudget) hBudget.innerText = `$${clubBudget.toLocaleString()}`;
       const dBudget = document.getElementById('dash-budget');
       if (dBudget) dBudget.innerText = `$${clubBudget.toLocaleString()}`;
+      const mBudget = document.getElementById('market-budget');
+      if (mBudget) mBudget.innerText = `$${clubBudget.toLocaleString()}`;
 
       const dTeam = document.getElementById('dash-my-team-name');
       if (dTeam) dTeam.innerText = myClubName.toUpperCase();
+      const dFixTeam = document.getElementById('dash-my-team-fixture-name');
+      if (dFixTeam) dFixTeam.innerText = myClubName.toUpperCase();
 
       closeClubSelectionModal();
       closeGameModeModal();
@@ -9353,17 +9481,22 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
       renderStandings();
       updateDashboardFixtureCard();
       renderFixturesList();
+      renderClubFinancesDashboard();
       saveGameToStorage(true);
 
       currentGameMode = 'CAREER';
       updateNavigationTabs('CAREER');
-      switchTab('dashboard');
-      addEventLog(`👑 คุณได้รับการแต่งตั้งเป็นเฮดโค้ชสโมสร ${myClubName} ใน ${reg.name} เรียบร้อยแล้ว!`);
-      alert(`🎉 ยินดีต้อนรับสู่สโมสร ${myClubName}!
 
-🌍 ลีกการแข่งขัน: ${reg.name} (Tier 1)
-🔻 ลีกรองตกชั้น: ${reg.tier2Name} (Tier 2)
-📋 ตารางการแข่งขัน 11 สัปดาห์ถูกสุ่มสร้างเรียบร้อยแล้ว`);
+      if (isDraft) {
+        switchTab('market');
+        renderMarketPlayers();
+        addEventLog(`✨ FANTASY DRAFT: คุณได้เลือกสโมสร ${myClubName} ในลีก ${leagueName} (${leagueTier}) ได้รับงบ $2,000,000 เชิญเลือกดราฟต์ผู้เล่น!`);
+        alert(`🎉 ยินดีต้อนรับสู่สโมสร ${myClubName}!\n\n🌍 ลีกการแข่งขัน: ${leagueName} (${leagueTier})\n💰 ได้รับงบประมาณ: $2,000,000\n👥 เชิญเข้าสู่ตลาดซื้อขายเพื่อดราฟต์ผู้เล่น 5 คนเข้าสู่ทีมของคุณ!`);
+      } else {
+        switchTab('dashboard');
+        addEventLog(`👑 คุณได้รับการแต่งตั้งเป็นเฮดโค้ชสโมสร ${myClubName} ใน ${leagueName} (${leagueTier}) เรียบร้อยแล้ว!`);
+        alert(`🎉 ยินดีต้อนรับสู่สโมสร ${myClubName}!\n\n🌍 ลีกการแข่งขัน: ${leagueName} (${leagueTier})\n${isTier2 ? '🔥 คุณจะเริ่มแข่งขันใน Ascension เพื่อคว้าตั๋วเลื่อนชั้นสู่ VCT!' : '🏆 แข่งขันใน VCT ลีกสูงสุดเพื่อคว้าตั๋วไป VALORANT Champions!'}\n📋 ตารางการแข่งขัน 11 สัปดาห์ถูกสุ่มสร้างเรียบร้อยแล้ว`);
+      }
     }
 
     // --- 11.8 PLAYER TRAINING & FATIGUE SYSTEM ENGINE ---
