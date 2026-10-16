@@ -548,14 +548,14 @@
             </div>
           </div>
           <div class="text-[11px] text-slate-400 bg-[#060a14] p-2 rounded-lg border border-[#14213a] flex items-center justify-between">
-            <span>แผนที่: <b class="text-slate-200" id="dash-map-badge">ASCENT</b></span>
+            <span>แผนที่: <b class="text-amber-400 font-mono" id="dash-map-badge">TBD (รอ VETO & DRAFT)</b></span>
             <span>กติกา: <b class="text-emerald-400">First to 13 (VCT)</b></span>
           </div>
           <div class="flex items-center gap-1.5 mt-2">
-            <button onclick="switchTab('match')" class="flex-1 py-1.5 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 text-xs font-bold rounded-lg transition text-center shadow">
-              แมตช์เดย์ ⚡
+            <button onclick="startCareerMatchDay()" class="flex-1 py-1.5 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 text-xs font-black rounded-lg transition text-center shadow cursor-pointer">
+              แมตช์เดย์ ⚡ (BAN/PICK & แข่งขัน)
             </button>
-            <button onclick="openFixturesModal()" class="px-2.5 py-1.5 bg-[#101b30] hover:bg-[#182947] text-cyan-300 text-xs font-bold rounded-lg border border-[#1e3256] transition text-center" title="ดูตารางแข่งขันทั้งฤดูกาล">
+            <button onclick="openFixturesModal()" class="px-2.5 py-1.5 bg-[#101b30] hover:bg-[#182947] text-cyan-300 text-xs font-bold rounded-lg border border-[#1e3256] transition text-center cursor-pointer" title="ดูตารางแข่งขันทั้งฤดูกาล">
               📅 ตารางแข่ง
             </button>
           </div>
@@ -1497,7 +1497,7 @@
           <!-- Left 7 cols: My Team Agent Draft -->
           <div class="lg:col-span-7 bg-[#050812] border border-[#17253f] rounded-xl p-3 flex flex-col gap-2.5">
             <div class="flex items-center justify-between border-b border-[#17253f] pb-1.5">
-              <span class="text-xs font-bold text-emerald-400 font-mono">1. กำหนดตัวละครให้ผู้เล่น FULL SENSE</span>
+              <span class="text-xs font-bold text-emerald-400 font-mono" id="draft-my-club-title">1. กำหนดตัวละครให้ผู้เล่น FULL SENSE</span>
               <span class="text-[10px] text-slate-400 font-mono" id="draft-map-indicator">MAP: ASCENT</span>
             </div>
             <div id="draft-players-container" class="flex flex-col gap-2">
@@ -1524,7 +1524,7 @@
             <!-- Bot AI Meta Comp Card -->
             <div class="bg-[#050812] border border-[#17253f] rounded-xl p-3 flex flex-col gap-2 text-xs">
               <div class="flex items-center justify-between border-b border-[#17253f] pb-1.5">
-                <span class="font-bold text-rose-400 font-mono">3. คู่แข่ง (PAPER REX META COMP)</span>
+                <span class="font-bold text-rose-400 font-mono" id="draft-opp-club-title">3. คู่แข่ง (PAPER REX META COMP)</span>
                 <span class="text-[10px] text-slate-400 font-mono">AI AUTO-LOCKED</span>
               </div>
               <div id="draft-bot-comp" class="flex flex-wrap gap-1.5 py-1">
@@ -5354,19 +5354,38 @@
           primaryDefuser.targetX = plantedSiteCoords.x;
           primaryDefuser.targetY = plantedSiteCoords.y;
 
+          // Sound alert: Attackers hear the defuse tap sound and actively react / peek!
+          if (aliveAttackers.length > 0) {
+            aliveAttackers.forEach(atk => {
+              if (currentActivePP === 'FALLBACK_LINEUPS') {
+                // Advance towards bomb site line-of-sight to challenge the tap
+                atk.targetX = plantedSiteCoords.x + (Math.random() * 32 - 16);
+                atk.targetY = plantedSiteCoords.y + (Math.random() * 32 - 16);
+              } else if (currentActivePP === 'ONSITE_CROSSFIRE') {
+                // Swing directly to look at the defuser
+                atk.targetX = plantedSiteCoords.x + (Math.random() * 16 - 8);
+                atk.targetY = plantedSiteCoords.y + (Math.random() * 16 - 8);
+              } else if (currentActivePP === 'AGGRESSIVE_HUNT') {
+                atk.targetX = plantedSiteCoords.x;
+                atk.targetY = plantedSiteCoords.y;
+              }
+            });
+          }
+
+          // Lineup Utility Denial (Molly / Shock Darts) in FALLBACK_LINEUPS
           if (currentActivePP === 'FALLBACK_LINEUPS' && mollyCountRemaining > 0 && mollyCooldown <= 0 && aliveAttackers.length > 0) {
             mollyCountRemaining--;
-            mollyCooldown = 240;
+            mollyCooldown = 120; // 2 seconds tactical cooldown so consecutive taps can be contested
             const mollyShooter = aliveAttackers.find(p => ['Brimstone', 'Viper', 'Killjoy', 'Sova', 'Gekko', 'Phoenix', 'Fade'].includes(p.agent)) || aliveAttackers[0];
             radarAnimations.push({
               type: 'molly_puddle',
               x: plantedSiteCoords.x,
               y: plantedSiteCoords.y,
               r: 28,
-              life: 180,
-              maxLife: 180
+              life: 140,
+              maxLife: 140
             });
-            primaryDefuser.hp = Math.max(1, primaryDefuser.hp - 25);
+            primaryDefuser.hp = Math.max(1, primaryDefuser.hp - 35);
             addFloatingText('🔥 MOLLY LINEUP! DEFUSE BLOCKED!', plantedSiteCoords.x, plantedSiteCoords.y - 20, '#fb923c');
             addEventLog(`🧪 ${mollyShooter.name} (${mollyShooter.agent}) ยิง Molly Lineup ขัดขวางการกู้ Spike สำเร็จ!`);
             defuseState.defusingPlayer = null;
@@ -5374,22 +5393,69 @@
             else defuseState.progress = 0;
             updateMatchHud();
           } else {
-            defuseState.defusingPlayer = primaryDefuser;
-            defuseState.progress += (1.0 / 60) * simSpeed;
+            // Check if any alive attacker can peek & shoot the defusing player
+            let defuserShotThisFrame = false;
+            for (let atk of aliveAttackers) {
+              if (!atk.alive) continue;
+              const dToDefuser = Math.hypot(atk.x - primaryDefuser.x, atk.y - primaryDefuser.y);
+              // In post-plant, open site sightlines allow shooting up to 210px
+              if (dToDefuser < 210 && hasLineOfSight(atk.x, atk.y, primaryDefuser.x, primaryDefuser.y, currentMap)) {
+                // Attacker catches defuser! Defuser cannot fire back while hands are on the kit
+                defuserShotThisFrame = true;
+                const isHeadshot = Math.random() < 0.40;
+                const dmg = isHeadshot ? 85 : Math.floor(40 + Math.random() * 30);
+                primaryDefuser.hp = Math.max(0, primaryDefuser.hp - dmg);
+                atk.damage = (atk.damage || 0) + dmg;
 
-            if (defuseState.progress >= 3.5) {
-              defuseState.hasPassedHalf = true;
+                bulletTracers.push({
+                  x1: atk.x, y1: atk.y,
+                  x2: primaryDefuser.x, y2: primaryDefuser.y,
+                  color: isAtk ? '#ef4444' : '#06b6d4',
+                  life: 18
+                });
+
+                // Defusal is interrupted! Defuser takes damage and releases spike
+                defuseState.defusingPlayer = null;
+                if (defuseState.hasPassedHalf) defuseState.progress = 3.5;
+                else defuseState.progress = 0;
+
+                if (primaryDefuser.hp === 0) {
+                  primaryDefuser.alive = false;
+                  primaryDefuser.deaths = (primaryDefuser.deaths || 0) + 1;
+                  atk.kills = (atk.kills || 0) + 1;
+                  atk.ultPoints = Math.min(atk.ultMax || 7, (atk.ultPoints || 0) + 1);
+                  if (atk.ultPoints >= (atk.ultMax || 7)) atk.ultReady = true;
+                  addFloatingText('💥 DEFUSER ELIMINATED!', primaryDefuser.x, primaryDefuser.y - 16, '#ef4444');
+                  addEventLog(`💥 ${atk.name} (${atk.agent}) ยิงสังหาร ${primaryDefuser.name} ที่กำลังกู้ Spike!`);
+                  addKillfeed(atk, primaryDefuser, 'weapon', atk.weapon, isHeadshot);
+                } else {
+                  addFloatingText(`PEEK DEFUSER! -${dmg} HP 🎯`, primaryDefuser.x, primaryDefuser.y - 14, '#ef4444');
+                  addEventLog(`🎯 ${atk.name} (${atk.agent}) พีคยิงใส่ ${primaryDefuser.name} จนต้องหยุดกู้ Spike (-${dmg} HP)!`);
+                }
+                updateMatchHud();
+                break;
+              }
             }
 
-            if (defuseState.progress >= defuseState.maxProgress) {
-              primaryDefuser.ultPoints = Math.min(primaryDefuser.ultMax || 7, (primaryDefuser.ultPoints || 0) + 1);
-              if (primaryDefuser.ultPoints >= (primaryDefuser.ultMax || 7)) primaryDefuser.ultReady = true;
-              addFloatingText('SPIKE DEFUSED! 🛡️', primaryDefuser.x, primaryDefuser.y - 18, '#34d399');
-              const defWinTeam = isAtk ? 'B' : 'A';
-              const defTeamName = isAtk ? (matchState.teamBName || 'DEFENDERS') : (matchState.teamAName || 'DEFENDERS');
-              addEventLog(`🛡️ ${primaryDefuser.name} ปลดชนวน SPIKE สำเร็จ! ${defTeamName} WIN ROUND ${matchState.round}!`);
-              endRound(defWinTeam);
-              return;
+            if (!defuserShotThisFrame) {
+              // Uncontested defusal progress this tick
+              defuseState.defusingPlayer = primaryDefuser;
+              defuseState.progress += (1.0 / 60) * simSpeed;
+
+              if (defuseState.progress >= 3.5) {
+                defuseState.hasPassedHalf = true;
+              }
+
+              if (defuseState.progress >= defuseState.maxProgress) {
+                primaryDefuser.ultPoints = Math.min(primaryDefuser.ultMax || 7, (primaryDefuser.ultPoints || 0) + 1);
+                if (primaryDefuser.ultPoints >= (primaryDefuser.ultMax || 7)) primaryDefuser.ultReady = true;
+                addFloatingText('SPIKE DEFUSED! 🛡️', primaryDefuser.x, primaryDefuser.y - 18, '#34d399');
+                const defWinTeam = isAtk ? 'B' : 'A';
+                const defTeamName = isAtk ? (matchState.teamBName || 'DEFENDERS') : (matchState.teamAName || 'DEFENDERS');
+                addEventLog(`🛡️ ${primaryDefuser.name} ปลดชนวน SPIKE สำเร็จ! ${defTeamName} WIN ROUND ${matchState.round}!`);
+                endRound(defWinTeam);
+                return;
+              }
             }
           }
         } else {
@@ -5403,7 +5469,7 @@
       }
 
       // 9. Gunfight Encounters with Line-of-Sight Check (No Shooting Through Walls, No Warping)
-      if (combatCooldown % 28 === 0) {
+      if (combatCooldown % 24 === 0) {
         const aliveA = matchPlayers.filter(p => p.team === 'A' && p.alive);
         const aliveB = matchPlayers.filter(p => p.team === 'B' && p.alive);
 
@@ -5412,8 +5478,8 @@
           for (let b of aliveB) {
             if (!b.alive) continue;
             const dist = Math.hypot(a.x - b.x, a.y - b.y);
-            // Gunfight ONLY occurs if within 115px AND line of sight is clear (not blocked by walls)!
-            if (dist < 115 && hasLineOfSight(a.x, a.y, b.x, b.y, currentMap)) {
+            // Gunfight occurs if within 150px AND line of sight is clear (not blocked by walls)!
+            if (dist < 150 && hasLineOfSight(a.x, a.y, b.x, b.y, currentMap)) {
               resolveGunfight(a, b);
               break;
             }
@@ -5553,6 +5619,10 @@
       if (statA.decay > 0) scoreA *= 0.4;
       if (statB.decay > 0) scoreB *= 0.4;
 
+      // Defusing player penalty (vulnerable while defusing)
+      if (defuseState.defusingPlayer === playerA) scoreA *= 0.15;
+      if (defuseState.defusingPlayer === playerB) scoreB *= 0.15;
+
       // Post-Plant Tactical Synergy Bonuses
       if (spikePlanted && plantedSiteCoords) {
         const isAtk = matchState.isFullSenseAttacking;
@@ -5606,6 +5676,13 @@
 
       if (victim.hp > 0) {
         // Survived bullet burst!
+        if (defuseState.defusingPlayer === victim) {
+          defuseState.defusingPlayer = null;
+          if (defuseState.hasPassedHalf) defuseState.progress = 3.5;
+          else defuseState.progress = 0;
+          addFloatingText('DEFUSE ABORTED! 🛑', victim.x, victim.y - 18, '#fbbf24');
+          addEventLog(`⚠️ ${victim.name} โดนยิงขัดขวางจนต้องหยุดกู้ Spike!`);
+        }
         addFloatingText(`-${dmgDealt} HP`, victim.x, victim.y - 14, isHeadshot ? '#fb7185' : '#fbbf24');
         updateMatchHud();
         return;
@@ -5673,10 +5750,11 @@
       if (killer.team === 'A') matchState.teamCredsA += 200;
       else matchState.teamCredsB += 200;
 
+      const isKillerAtk = (killer.team === 'A' && matchState.isFullSenseAttacking) || (killer.team === 'B' && !matchState.isFullSenseAttacking);
       bulletTracers.push({
         x1: killer.x, y1: killer.y,
         x2: victim.x, y2: victim.y,
-        color: killer.team === 'A' ? '#10b981' : '#f43f5e',
+        color: isKillerAtk ? '#ef4444' : '#06b6d4',
         life: 18
       });
 
@@ -5696,9 +5774,26 @@
       }
       if (!methodName) methodName = methodType || 'Eliminated';
 
+      // 1. Instant Radar Death Marker Synchronization (Issue 2)
+      const isVictimUser = (victim.team === 'A');
+      const isVictimAtk = (victim.team === 'A' && matchState.isFullSenseAttacking) || (victim.team === 'B' && !matchState.isFullSenseAttacking);
+      radarAnimations.push({
+        type: 'death_marker',
+        x: victim.x,
+        y: victim.y,
+        name: victim.name,
+        agent: victim.agent,
+        team: victim.team,
+        isAtk: isVictimAtk,
+        isUser: isVictimUser,
+        life: 85,
+        maxLife: 85
+      });
+
       const feed = document.getElementById('killfeed-stream');
       const div = document.createElement('div');
-      const isKillerA = killer.team === 'A';
+      const isKillerUser = (killer.team === 'A');
+      const isKillerAtk = (killer.team === 'A' && matchState.isFullSenseAttacking) || (killer.team === 'B' && !matchState.isFullSenseAttacking);
 
       let iconHtml = '';
       if (ASSETS.weapons[methodName]) {
@@ -5707,14 +5802,24 @@
         iconHtml = `<span class="text-[9px] text-slate-300 font-mono font-bold">${methodName}</span>`;
       }
 
+      // Dynamic side colors: Attackers = Rose/Red, Defenders = Cyan/Blue
+      const killerColorClass = isKillerAtk ? 'text-rose-400' : 'text-cyan-400';
+      const victimColorClass = isVictimAtk ? 'text-rose-400/60 line-through' : 'text-cyan-400/60 line-through';
+      const killerBadge = isKillerUser 
+        ? '<span class="text-[8px] bg-slate-800 text-white border border-slate-600 px-1 py-0.2 rounded font-mono font-bold mr-1">YOU</span>' 
+        : '<span class="text-[8px] bg-black/60 text-slate-400 border border-slate-700 px-1 py-0.2 rounded font-mono font-bold mr-1">OPP</span>';
+      const victimBadge = isVictimUser 
+        ? '<span class="text-[8px] bg-slate-800 text-white/70 border border-slate-600 px-1 py-0.2 rounded font-mono font-bold ml-1">YOU</span>' 
+        : '<span class="text-[8px] bg-black/60 text-slate-400 border border-slate-700 px-1 py-0.2 rounded font-mono font-bold ml-1">OPP</span>';
+
       div.className = "flex items-center justify-between bg-[#060a14] px-2 py-1 rounded border border-[#14213a] shadow transition-all";
       div.innerHTML = `
-        <span class="font-bold text-xs ${isKillerA ? 'text-emerald-400' : 'text-rose-400'}">${killer.name} <span class="text-[9px] opacity-70 font-mono">(${killer.agent})</span></span>
+        <span class="font-bold text-xs ${killerColorClass}">${killerBadge}${killer.name} <span class="text-[9px] opacity-70 font-mono">(${killer.agent})</span></span>
         <div class="flex items-center gap-1 px-1.5 bg-black/50 rounded py-0.5">
           ${iconHtml}
           ${isHeadshot ? '<span class="text-xs text-rose-500 font-bold" title="Headshot">🎯</span>' : ''}
         </div>
-        <span class="font-bold text-xs ${!isKillerA ? 'text-emerald-400/60 line-through' : 'text-rose-400/60 line-through'}">${victim.name} <span class="text-[9px] opacity-70 font-mono">(${victim.agent})</span></span>
+        <span class="font-bold text-xs ${victimColorClass}">${victim.name} <span class="text-[9px] opacity-70 font-mono">(${victim.agent})</span>${victimBadge}</span>
       `;
 
       let roundKills = document.getElementById(`round-kills-${matchState.round}`);
@@ -6172,6 +6277,33 @@
           ctx.font = '11px sans-serif';
           ctx.fillText('🔥', anim.x - 6, anim.y + 4);
           ctx.restore();
+        } else if (anim.type === 'death_marker') {
+          const pLife = anim.life / anim.maxLife; // 1 -> 0
+          const markerColor = anim.isAtk ? '#ef4444' : '#06b6d4';
+          ctx.save();
+          // Expanding death pulse ring
+          ctx.beginPath();
+          ctx.arc(anim.x, anim.y, 8 + (1 - pLife) * 18, 0, Math.PI * 2);
+          ctx.strokeStyle = `rgba(${anim.isAtk ? '239, 68, 68' : '6, 182, 212'}, ${pLife * 0.7})`;
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
+
+          // Crisp "✖" death cross
+          ctx.beginPath();
+          const sz = 6;
+          ctx.moveTo(anim.x - sz, anim.y - sz);
+          ctx.lineTo(anim.x + sz, anim.y + sz);
+          ctx.moveTo(anim.x + sz, anim.y - sz);
+          ctx.lineTo(anim.x - sz, anim.y + sz);
+          ctx.strokeStyle = markerColor;
+          ctx.lineWidth = 2.5;
+          ctx.stroke();
+
+          // Struck-through victim label
+          ctx.font = 'bold 8px "JetBrains Mono", monospace';
+          ctx.fillStyle = `rgba(226, 232, 240, ${pLife})`;
+          ctx.fillText(`☠️ ${anim.name}`, anim.x - 14, anim.y - 9);
+          ctx.restore();
         }
 
         if (anim.life <= 0) radarAnimations.splice(i, 1);
@@ -6189,19 +6321,25 @@
         if (t.life <= 0) bulletTracers.splice(i, 1);
       }
 
-      // Draw Player Dots
+      // Draw Player Dots with Dynamic Side Colors (Issue 4) and Distinct Symbols (Issue 3)
       matchPlayers.forEach(p => {
         if (!p.alive) return;
-        const isFS = (p.team === 'A');
-        const color = isFS ? '#10b981' : '#f43f5e';
-        const ringColor = isFS ? '#34d399' : '#fb7185';
+        const isUserTeam = (p.team === 'A');
+        const isPlayerAtk = (p.team === 'A' && matchState.isFullSenseAttacking) || (p.team === 'B' && !matchState.isFullSenseAttacking);
+
+        // Attackers = Red (#ef4444), Defenders = Blue/Cyan (#06b6d4)
+        // When user team attacks: user = Red, opponent = Blue
+        // When user team defends: user = Blue, opponent = Red
+        const color = isPlayerAtk ? '#ef4444' : '#06b6d4';
+        const ringColor = isPlayerAtk ? '#f87171' : '#38bdf8';
+        const pingFill = isPlayerAtk ? 'rgba(239, 68, 68, 0.20)' : 'rgba(6, 182, 212, 0.20)';
 
         // Spike Carrier Indicator Ring & Icon
         if (p.hasSpike && !spikePlanted) {
           ctx.beginPath();
-          ctx.arc(p.x, p.y, 11, 0, Math.PI * 2);
+          ctx.arc(p.x, p.y, 12, 0, Math.PI * 2);
           ctx.strokeStyle = '#fbbf24';
-          ctx.lineWidth = 1.8;
+          ctx.lineWidth = 2.0;
           ctx.stroke();
           ctx.font = '9px sans-serif';
           ctx.fillText('📦', p.x + 6, p.y - 7);
@@ -6217,36 +6355,102 @@
           ctx.stroke();
         }
 
-        // Ping Indicator
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, 12, 0, Math.PI * 2);
-        ctx.fillStyle = isFS ? 'rgba(16, 185, 129, 0.18)' : 'rgba(244, 63, 94, 0.18)';
-        ctx.fill();
+        // Distinct Symbols: Team A (Friendly) = Circle with halo & center core | Team B (Enemy) = Diamond (◆)
+        if (isUserTeam) {
+          // --- FRIENDLY ALLY: Tactical Circle with White Border Halo ---
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, 12, 0, Math.PI * 2);
+          ctx.fillStyle = pingFill;
+          ctx.fill();
 
-        // Main Dot
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, 7, 0, Math.PI * 2);
-        ctx.fillStyle = color;
-        ctx.fill();
-        ctx.strokeStyle = ringColor;
-        ctx.lineWidth = 1.5;
-        ctx.stroke();
+          // Outer friendly border ring (white outline)
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, 8.5, 0, Math.PI * 2);
+          ctx.strokeStyle = '#ffffff';
+          ctx.lineWidth = 1.4;
+          ctx.stroke();
+
+          // Main dot
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, 6.5, 0, Math.PI * 2);
+          ctx.fillStyle = color;
+          ctx.fill();
+          ctx.strokeStyle = ringColor;
+          ctx.lineWidth = 1.2;
+          ctx.stroke();
+
+          // Friendly inner white core dot
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+          ctx.fillStyle = '#ffffff';
+          ctx.fill();
+
+        } else {
+          // --- OPPONENT ENEMY: Tactical Diamond (◆) ---
+          ctx.save();
+          ctx.translate(p.x, p.y);
+
+          // Enemy ping aura
+          ctx.beginPath();
+          ctx.moveTo(0, -13);
+          ctx.lineTo(13, 0);
+          ctx.lineTo(0, 13);
+          ctx.lineTo(-13, 0);
+          ctx.closePath();
+          ctx.fillStyle = pingFill;
+          ctx.fill();
+
+          // Main Diamond
+          ctx.beginPath();
+          ctx.moveTo(0, -8);
+          ctx.lineTo(8, 0);
+          ctx.lineTo(0, 8);
+          ctx.lineTo(-8, 0);
+          ctx.closePath();
+          ctx.fillStyle = color;
+          ctx.fill();
+          ctx.strokeStyle = ringColor;
+          ctx.lineWidth = 2.0;
+          ctx.stroke();
+
+          // Dark core
+          ctx.beginPath();
+          ctx.arc(0, 0, 2, 0, Math.PI * 2);
+          ctx.fillStyle = '#060a14';
+          ctx.fill();
+          ctx.restore();
+        }
 
         // Sightline / Facing Arrow
         const targetAngle = Math.atan2(p.targetY - p.y, p.targetX - p.x);
+        const pointerLen = isUserTeam ? 15 : 13;
+        const pxEnd = p.x + Math.cos(targetAngle) * pointerLen;
+        const pyEnd = p.y + Math.sin(targetAngle) * pointerLen;
         ctx.beginPath();
         ctx.moveTo(p.x, p.y);
-        ctx.lineTo(p.x + Math.cos(targetAngle) * 14, p.y + Math.sin(targetAngle) * 14);
-        ctx.strokeStyle = ringColor;
+        ctx.lineTo(pxEnd, pyEnd);
+        ctx.strokeStyle = isUserTeam ? '#ffffff' : ringColor;
+        ctx.lineWidth = 1.8;
+        ctx.stroke();
+
+        // Arrowhead
+        const headLen = 4;
+        ctx.beginPath();
+        ctx.moveTo(pxEnd, pyEnd);
+        ctx.lineTo(pxEnd - headLen * Math.cos(targetAngle - Math.PI / 6), pyEnd - headLen * Math.sin(targetAngle - Math.PI / 6));
+        ctx.moveTo(pxEnd, pyEnd);
+        ctx.lineTo(pxEnd - headLen * Math.cos(targetAngle + Math.PI / 6), pyEnd - headLen * Math.sin(targetAngle + Math.PI / 6));
+        ctx.strokeStyle = isUserTeam ? '#ffffff' : ringColor;
         ctx.lineWidth = 1.5;
         ctx.stroke();
 
         // Name & Agent Label
         ctx.font = 'bold 9px "JetBrains Mono", monospace';
-        ctx.fillStyle = '#ffffff';
-        ctx.fillText(p.name, p.x - 12, p.y - 12);
+        ctx.fillStyle = isUserTeam ? '#ffffff' : '#cbd5e1';
+        const labelTag = isUserTeam ? '★ ' : '▲ ';
+        ctx.fillText(labelTag + p.name, p.x - 14, p.y - 12);
         ctx.font = '8px "Prompt", sans-serif';
-        ctx.fillStyle = '#94a3b8';
+        ctx.fillStyle = isUserTeam ? (isPlayerAtk ? '#fca5a5' : '#7dd3fc') : '#94a3b8';
         ctx.fillText(p.agent, p.x - 10, p.y + 16);
 
         // Status Icons
@@ -6956,12 +7160,18 @@ function endRound(winner) {
       }
       syncRosterToMatchPlayers();
 
+      const fixture = getCurrentFixture();
+      const oppName = (fixture && fixture.opponentName ? fixture.opponentName : (matchState.teamBName || 'PAPER REX')).toUpperCase();
+      const myName = (myClubName || 'MY TEAM').toUpperCase();
+
       vetoState = {
         pool: ['Ascent', 'Bind', 'Haven', 'Split', 'Sunset', 'Lotus', 'Abyss'],
         banned: [],
         turn: 'USER',
         deciderMap: null,
-        startingSideIsAttacker: true
+        startingSideIsAttacker: true,
+        oppName: oppName,
+        myName: myName
       };
 
       document.getElementById('vct-phase-badge').innerText = 'PHASE 1: MAP VETO';
@@ -6970,6 +7180,14 @@ function endRound(winner) {
       document.getElementById('vct-step-agent-draft').classList.add('hidden');
       document.getElementById('vct-decider-banner').classList.add('hidden');
       document.getElementById('vct-decider-banner').classList.remove('flex');
+
+      const myClubTitleEl = document.getElementById('draft-my-club-title');
+      if (myClubTitleEl) myClubTitleEl.innerText = `1. กำหนดตัวละครให้ผู้เล่น ${myName}`;
+      const oppClubTitleEl = document.getElementById('draft-opp-club-title');
+      if (oppClubTitleEl) oppClubTitleEl.innerText = `3. คู่แข่ง (${oppName} META COMP)`;
+
+      document.getElementById('vct-turn-indicator').innerText = `👉 รอบของคุณ (${myName}): เลือกแบน 1 แผนที่`;
+      document.getElementById('vct-turn-indicator').className = 'font-bold text-amber-400 font-mono animate-pulse';
 
       renderVctMapCards();
       document.getElementById('vct-pre-match-modal').classList.remove('hidden');
@@ -7027,12 +7245,12 @@ function endRound(winner) {
     function userBanMap(mapName) {
       if (vetoState.turn !== 'USER' || vetoState.banned.includes(mapName)) return;
       vetoState.banned.push(mapName);
-      addEventLog(`🚫 Full Sense แบนแผนที่: ${mapName}`);
+      addEventLog(`🚫 ${vetoState.myName} แบนแผนที่: ${mapName}`);
       checkVetoStatus();
 
       if (!vetoState.deciderMap) {
         vetoState.turn = 'BOT';
-        document.getElementById('vct-turn-indicator').innerText = '⏳ รอบของ Paper Rex: บอท AI กำลังวิเคราะห์และแบนแผนที่...';
+        document.getElementById('vct-turn-indicator').innerText = `⏳ รอบของ ${vetoState.oppName}: บอท AI กำลังวิเคราะห์และแบนแผนที่...`;
         document.getElementById('vct-turn-indicator').className = 'font-bold text-rose-400 font-mono animate-pulse';
         renderVctMapCards();
 
@@ -7052,12 +7270,12 @@ function endRound(winner) {
       // Bot smart ban: Bans maps favoring User or picks
       const botPick = remaining[Math.floor(Math.random() * remaining.length)];
       vetoState.banned.push(botPick);
-      addEventLog(`🚫 Paper Rex แบนแผนที่: ${botPick}`);
+      addEventLog(`🚫 ${vetoState.oppName} แบนแผนที่: ${botPick}`);
       checkVetoStatus();
 
       if (!vetoState.deciderMap) {
         vetoState.turn = 'USER';
-        document.getElementById('vct-turn-indicator').innerText = '👉 รอบของคุณ (FULL SENSE): เลือกแบน 1 แผนที่';
+        document.getElementById('vct-turn-indicator').innerText = `👉 รอบของคุณ (${vetoState.myName}): เลือกแบน 1 แผนที่`;
         document.getElementById('vct-turn-indicator').className = 'font-bold text-amber-400 font-mono animate-pulse';
       }
       renderVctMapCards();
@@ -7074,12 +7292,12 @@ function endRound(winner) {
         vetoState.startingSideIsAttacker = botWantsDef; // If bot wants DEF, user starts ATK
 
         document.getElementById('vct-decider-title').innerText = `${vetoState.deciderMap.toUpperCase()} (${(MAP_DATA[vetoState.deciderMap] || {}).location || ''})`;
-        document.getElementById('vct-side-choice-text').innerHTML = `Paper Rex เลือกเริ่มเป็น <b>ฝ่าย${botWantsDef ? 'ป้องกัน (DEFENDERS)' : 'บุก (ATTACKERS)'}</b> ก่อนตามความได้เปรียบของแผนที่! (Full Sense เริ่มต้นเป็นฝ่าย${botWantsDef ? 'บุก' : 'ป้องกัน'})`;
+        document.getElementById('vct-side-choice-text').innerHTML = `${vetoState.oppName} เลือกเริ่มเป็น <b>ฝ่าย${botWantsDef ? 'ป้องกัน (DEFENDERS)' : 'บุก (ATTACKERS)'}</b> ก่อนตามความได้เปรียบของแผนที่! (${vetoState.myName} เริ่มต้นเป็นฝ่าย${botWantsDef ? 'บุก' : 'ป้องกัน'})`;
         document.getElementById('vct-decider-banner').classList.remove('hidden');
         document.getElementById('vct-decider-banner').classList.add('flex');
         document.getElementById('vct-turn-indicator').innerText = `✅ DECIDER FOUND: ${vetoState.deciderMap.toUpperCase()}`;
         document.getElementById('vct-turn-indicator').className = 'font-bold text-emerald-400 font-mono';
-        addEventLog(`🏆 DECIDER MAP: ${vetoState.deciderMap}! PRX starts on ${botWantsDef ? 'DEF' : 'ATK'}`);
+        addEventLog(`🏆 DECIDER MAP: ${vetoState.deciderMap}! ${vetoState.oppName} starts on ${botWantsDef ? 'DEF' : 'ATK'}`);
       }
     }
 
@@ -7257,9 +7475,16 @@ function endRound(winner) {
     function lockCompAndStartMatch() {
       // 1. Set Decider Map
       changeMap(vetoState.deciderMap);
+      const fixture = getCurrentFixture();
+      if (fixture) {
+        fixture.map = vetoState.deciderMap;
+      }
+      updateDashboardFixtureCard();
 
-      // 2. Set Starting Side
+      // 2. Set Starting Side & Team Names
       matchState.isFullSenseAttacking = vetoState.startingSideIsAttacker;
+      matchState.teamAName = vetoState.myName || (myClubName || 'MY TEAM').toUpperCase();
+      matchState.teamBName = vetoState.oppName || 'OPPONENT';
 
       // 3. Reset Match to Round 1 (0-0)
       matchState.round = 1;
@@ -7285,9 +7510,10 @@ function endRound(winner) {
 
       closeVctPreMatchModal();
       document.getElementById('btn-timeout').innerHTML = '<span>⏳ เวลานอก (2/2)</span>';
+      switchTab('match');
       initMatchHud();
       enterBuyPhase(1);
-      addEventLog(`VCT Match Started! Map: ${vetoState.deciderMap} | FS: ${matchState.isFullSenseAttacking ? 'ATK' : 'DEF'} | PRX: ${!matchState.isFullSenseAttacking ? 'ATK' : 'DEF'}`);
+      addEventLog(`VCT Match Started! Map: ${vetoState.deciderMap} | ${matchState.teamAName}: ${matchState.isFullSenseAttacking ? 'ATK' : 'DEF'} | ${matchState.teamBName}: ${!matchState.isFullSenseAttacking ? 'ATK' : 'DEF'}`);
     }
 
     // =========================================================================
@@ -8379,7 +8605,7 @@ function endRound(winner) {
           week: w,
           opponentId: getTeamIdFromName(opp.name),
           opponentName: opp.name,
-          map: map,
+          map: 'TBD (รอ VETO & DRAFT)',
           played: false,
           userScore: null,
           oppScore: null,
@@ -8407,22 +8633,41 @@ function endRound(winner) {
     let currentSeasonWeek = 1;
 
     let SEASON_FIXTURES = [
-      { week: 1, opponentId: 'paperrex', opponentName: 'Paper Rex', map: 'Ascent', played: false, userScore: null, oppScore: null, otherResults: [] },
-      { week: 2, opponentId: 'talonesports', opponentName: 'Talon Esports', map: 'Split', played: false, userScore: null, oppScore: null, otherResults: [] },
-      { week: 3, opponentId: 'drx', opponentName: 'DRX', map: 'Haven', played: false, userScore: null, oppScore: null, otherResults: [] },
-      { week: 4, opponentId: 'gengesports', opponentName: 'Gen.G Esports', map: 'Bind', played: false, userScore: null, oppScore: null, otherResults: [] },
-      { week: 5, opponentId: 'teamsecret', opponentName: 'Team Secret', map: 'Sunset', played: false, userScore: null, oppScore: null, otherResults: [] },
-      { week: 6, opponentId: 'rexregumqeon', opponentName: 'Rex Regum Qeon', map: 'Lotus', played: false, userScore: null, oppScore: null, otherResults: [] },
-      { week: 7, opponentId: 't1', opponentName: 'T1', map: 'Abyss', played: false, userScore: null, oppScore: null, otherResults: [] },
-      { week: 8, opponentId: 'zetadivision', opponentName: 'ZETA DIVISION', map: 'Ascent', played: false, userScore: null, oppScore: null, otherResults: [] },
-      { week: 9, opponentId: 'detonationfocusme', opponentName: 'DetonatioN FocusMe', map: 'Split', played: false, userScore: null, oppScore: null, otherResults: [] },
-      { week: 10, opponentId: 'globalesports', opponentName: 'Global Esports', map: 'Haven', played: false, userScore: null, oppScore: null, otherResults: [] },
-      { week: 11, opponentId: 'bleedesports', opponentName: 'Bleed Esports', map: 'Sunset', played: false, userScore: null, oppScore: null, otherResults: [] }
+      { week: 1, opponentId: 'paperrex', opponentName: 'Paper Rex', map: 'TBD (รอ VETO & DRAFT)', played: false, userScore: null, oppScore: null, otherResults: [] },
+      { week: 2, opponentId: 'talonesports', opponentName: 'Talon Esports', map: 'TBD (รอ VETO & DRAFT)', played: false, userScore: null, oppScore: null, otherResults: [] },
+      { week: 3, opponentId: 'drx', opponentName: 'DRX', map: 'TBD (รอ VETO & DRAFT)', played: false, userScore: null, oppScore: null, otherResults: [] },
+      { week: 4, opponentId: 'gengesports', opponentName: 'Gen.G Esports', map: 'TBD (รอ VETO & DRAFT)', played: false, userScore: null, oppScore: null, otherResults: [] },
+      { week: 5, opponentId: 'teamsecret', opponentName: 'Team Secret', map: 'TBD (รอ VETO & DRAFT)', played: false, userScore: null, oppScore: null, otherResults: [] },
+      { week: 6, opponentId: 'rexregumqeon', opponentName: 'Rex Regum Qeon', map: 'TBD (รอ VETO & DRAFT)', played: false, userScore: null, oppScore: null, otherResults: [] },
+      { week: 7, opponentId: 't1', opponentName: 'T1', map: 'TBD (รอ VETO & DRAFT)', played: false, userScore: null, oppScore: null, otherResults: [] },
+      { week: 8, opponentId: 'zetadivision', opponentName: 'ZETA DIVISION', map: 'TBD (รอ VETO & DRAFT)', played: false, userScore: null, oppScore: null, otherResults: [] },
+      { week: 9, opponentId: 'detonationfocusme', opponentName: 'DetonatioN FocusMe', map: 'TBD (รอ VETO & DRAFT)', played: false, userScore: null, oppScore: null, otherResults: [] },
+      { week: 10, opponentId: 'globalesports', opponentName: 'Global Esports', map: 'TBD (รอ VETO & DRAFT)', played: false, userScore: null, oppScore: null, otherResults: [] },
+      { week: 11, opponentId: 'bleedesports', opponentName: 'Bleed Esports', map: 'TBD (รอ VETO & DRAFT)', played: false, userScore: null, oppScore: null, otherResults: [] }
     ];
 
     function getCurrentFixture() {
       if (currentSeasonWeek > 11) return SEASON_FIXTURES[10];
       return SEASON_FIXTURES[currentSeasonWeek - 1] || SEASON_FIXTURES[0];
+    }
+
+    function startCareerMatchDay() {
+      closeFixturesModal();
+      if (currentSeasonWeek > 11) {
+        alert('🏆 ฤดูกาลปกติสิ้นสุดแล้ว! สโมสรของคุณได้สิทธิ์เข้าสู่รอบ VCT Playoffs & Champions');
+        return;
+      }
+      const f = getCurrentFixture();
+      if (!f) return;
+      if (f.played) {
+        alert(`แมตช์ประจำสัปดาห์ที่ ${f.week} ได้แข่งขันเสร็จสิ้นแล้ว (${f.userScore} - ${f.oppScore})!`);
+        return;
+      }
+
+      // Sync team names for Map Veto & Agent Draft
+      matchState.teamAName = (myClubName || 'MY TEAM').toUpperCase();
+      matchState.teamBName = f.opponentName.toUpperCase();
+      openVctPreMatchModal();
     }
 
     function updateDashboardFixtureCard() {
@@ -8445,9 +8690,15 @@ function endRound(winner) {
 
       if (oppTitle) oppTitle.innerText = f.opponentName.toUpperCase();
       if (weekBadge) weekBadge.innerText = `WEEK ${currentSeasonWeek} / 11`;
-      if (mapBadge) mapBadge.innerText = f.map.toUpperCase();
+      if (mapBadge) {
+        if (!f.played && (!f.map || f.map.includes('TBD'))) {
+          mapBadge.innerHTML = '<span class="text-amber-400 font-mono">TBD (รอ VETO & DRAFT)</span>';
+        } else {
+          mapBadge.innerText = f.map.toUpperCase();
+        }
+      }
       if (roundDesc) {
-        roundDesc.innerText = f.played ? `จบแมตช์: ${myClubName} ${f.userScore} - ${f.oppScore} ${f.opponentName}` : 'แข่งขันทางการ VCT First to 13';
+        roundDesc.innerText = f.played ? `จบแมตช์: ${myClubName} ${f.userScore} - ${f.oppScore} ${f.opponentName}` : 'เข้าสู่ขั้นตอน Ban/Pick Map & Draft Agent ก่อนแข่ง';
       }
     }
 
@@ -8486,13 +8737,15 @@ function endRound(winner) {
           `;
         } else if (isCurrent) {
           statusHtml = `
-            <button onclick="closeFixturesModal(); switchTab('match');" class="px-3 py-1 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 font-bold text-xs rounded-lg shadow transition cursor-pointer">
-              ลงแข่งแมตช์นี้ ➔
+            <button onclick="closeFixturesModal(); startCareerMatchDay();" class="px-3 py-1 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 font-black text-xs rounded-lg shadow transition cursor-pointer">
+              ลงแข่งแมตช์นี้ (BAN/PICK) ➔
             </button>
           `;
         } else {
           statusHtml = `<span class="text-slate-500 text-xs font-mono">🔒 รอการแข่งขัน</span>`;
         }
+
+        const mapDisplay = f.played ? f.map.toUpperCase() : (f.map && !f.map.includes('TBD') ? f.map.toUpperCase() : '<span class="text-amber-400 font-bold">TBD (รอ BAN/PICK)</span>');
 
         container.innerHTML += `
           <div class="bg-[#050812] border ${isCurrent ? 'border-cyan-500/80 bg-cyan-950/20 shadow-cyan-950/40' : (isPast ? 'border-[#17253f]' : 'border-[#10192b] opacity-80')} p-3 rounded-xl flex items-center justify-between flex-wrap gap-2 transition">
@@ -8507,7 +8760,7 @@ function endRound(winner) {
                   <span class="text-xs font-bold ${isCurrent ? 'text-cyan-300' : 'text-slate-300'}">${f.opponentName}</span>
                 </div>
                 <div class="text-[10px] text-slate-400 font-mono mt-0.5">
-                  <span>แผนที่: <b>${f.map}</b></span> · <span>VCT Regular Season</span>
+                  <span>แผนที่: <b>${mapDisplay}</b></span> · <span>VCT Regular Season</span>
                 </div>
               </div>
             </div>
