@@ -87,8 +87,8 @@
         </span>
       </div>
       <div class="hidden md:flex items-center text-xs text-slate-400 border-l border-[#1b2d4f] pl-3 gap-2">
-        <span class="text-slate-300 font-semibold" id="header-club-name">FULL SENSE</span>
-        <span class="text-[10px] bg-slate-800 text-slate-300 px-1.5 py-0.5 rounded">VCL TH / APAC</span>
+        <span class="text-slate-300 font-semibold" id="header-club-name">MY CLUB</span>
+        <span class="text-[10px] bg-slate-800 text-slate-300 px-1.5 py-0.5 rounded" id="header-league-badge">VCT PACIFIC</span>
       </div>
     </div>
 
@@ -195,7 +195,7 @@
           <span class="text-2xl animate-pulse">💾</span>
           <div>
             <span class="text-xs font-bold text-emerald-400 block" id="landing-save-title">พบข้อมูลความคืบหน้าที่บันทึกไว้ในเครื่อง</span>
-            <span class="text-[11px] text-slate-300" id="landing-save-detail">สโมสร FULL SENSE · Season 1, Week 1</span>
+            <span class="text-[11px] text-slate-300" id="landing-save-detail">สโมสรของคุณ · Season 1, Week 1</span>
           </div>
         </div>
         <div class="flex items-center gap-2 shrink-0">
@@ -476,16 +476,16 @@
       <div class="bg-gradient-to-r from-[#0c162b] via-[#091122] to-[#0d1a33] border border-[#1b2d4f] rounded-2xl p-4 md:p-6 shadow-xl flex flex-wrap items-center justify-between gap-4">
         <div class="flex items-center gap-4">
           <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-700 p-0.5 shadow-lg shadow-emerald-500/20">
-            <div class="w-full h-full bg-[#090f1d] rounded-2xl flex items-center justify-center font-vct text-3xl font-black text-emerald-400">
+            <div id="dash-club-logo" class="w-full h-full bg-[#090f1d] rounded-2xl flex items-center justify-center font-vct text-3xl font-black text-emerald-400">
               FS
             </div>
           </div>
           <div>
             <div class="flex items-center gap-2">
-              <h1 class="text-xl md:text-2xl font-black text-white tracking-wide">FULL SENSE ESPORTS</h1>
-              <span class="text-[10px] font-mono bg-emerald-950 text-emerald-400 border border-emerald-500/40 px-2 py-0.5 rounded font-bold">PRO LEAGUE</span>
+              <h1 id="dash-club-name" class="text-xl md:text-2xl font-black text-white tracking-wide">สโมสรของคุณ</h1>
+              <span id="dash-club-tier" class="text-[10px] font-mono bg-emerald-950 text-emerald-400 border border-emerald-500/40 px-2 py-0.5 rounded font-bold">PRO LEAGUE</span>
             </div>
-            <p class="text-xs text-slate-400 mt-1">โค้ชผู้จัดการทีม: <span class="text-emerald-300 font-semibold">Head Coach</span> · สังกัด: <span class="text-slate-300">VCT Pacific / VCL Thailand Split 2</span></p>
+            <p class="text-xs text-slate-400 mt-1">โค้ชผู้จัดการทีม: <span id="dash-manager-name" class="text-emerald-300 font-semibold">Head Coach</span> · สังกัด: <span id="dash-club-league" class="text-slate-300">VCT Pacific</span></p>
           </div>
         </div>
 
@@ -546,7 +546,7 @@
           </div>
           <div class="my-2 flex items-center justify-between text-center">
             <div class="flex-1">
-              <div class="text-sm font-bold text-emerald-400 truncate" id="dash-my-team-fixture-name">FULL SENSE</div>
+              <div class="text-sm font-bold text-emerald-400 truncate" id="dash-my-team-fixture-name">MY CLUB</div>
               <div class="text-[10px] text-slate-500" id="dash-score-preview">แข่งต่อเนื่อง 13-24 รอบ</div>
             </div>
             <div class="px-2 font-vct text-xl font-black text-slate-500">VS</div>
@@ -852,7 +852,7 @@
         <div class="flex flex-col items-center">
           <div class="flex items-center gap-3">
             <div class="flex items-center gap-1.5">
-              <span class="font-bold text-xs tracking-wide" id="score-name-a">FULL SENSE</span>
+              <span class="font-bold text-xs tracking-wide" id="score-name-a">TEAM A</span>
               <span class="text-[10px] px-1 py-0.2 rounded font-mono font-bold" id="side-tag-a">ATK</span>
               <span class="font-vct text-xl font-black text-white px-2 py-0.2 rounded border" id="score-a">0</span>
             </div>
@@ -1051,7 +1051,7 @@
                 <div class="text-[10px] font-bold mb-0.5 flex items-center justify-between uppercase font-mono" id="hud-header-a">
                   <span class="flex items-center gap-1">
                     <span class="w-1.5 h-1.5 rounded-full" id="hud-dot-a"></span>
-                    <span id="team-title-a">FULL SENSE</span>
+                    <span id="team-title-a">TEAM A</span>
                   </span>
                   <span class="text-slate-400 font-mono text-[9px]" id="loadout-label-a">Pistol Round</span>
                 </div>
@@ -1125,7 +1125,7 @@
               <span class="text-[10px] font-mono text-emerald-400 font-bold uppercase tracking-widest bg-emerald-950 px-2 py-0.5 rounded border border-emerald-500/40">VCT PACIFIC 2026 · OFFICIAL MATCH REPORT</span>
               <span class="text-[10px] font-mono text-slate-400" id="report-map-name">MAP: ASCENT</span>
             </div>
-            <h2 class="text-xl sm:text-2xl font-black text-white mt-0.5" id="modal-match-winner">FULL SENSE คว้าชัยชนะในการแข่งขัน!</h2>
+            <h2 class="text-xl sm:text-2xl font-black text-white mt-0.5" id="modal-match-winner">สรุปผลการแข่งขัน</h2>
             <div class="text-xs text-slate-400 flex items-center gap-2 mt-0.5 font-mono" id="report-sub-details">
               <span>22 Rounds Played</span> · <span>1st Half: 7-5</span> · <span>2nd Half: 6-4</span>
             </div>
@@ -1135,7 +1135,7 @@
         <!-- Final Score Pill -->
         <div class="flex items-center gap-3 bg-[#050812] border border-[#17253f] px-4 py-2 rounded-xl shadow-inner">
           <div class="text-right">
-            <span class="text-xs font-bold text-white block" id="report-team-a-name">FULL SENSE</span>
+            <span class="text-xs font-bold text-white block" id="report-team-a-name">TEAM A</span>
             <span class="text-[9px] font-mono text-emerald-400 font-bold" id="report-team-a-badge">WINNER</span>
           </div>
           <div class="text-2xl sm:text-3xl font-vct font-black text-emerald-400 px-2 border-x border-[#17253f]" id="modal-final-score">
@@ -1200,7 +1200,7 @@
         <!-- Team A Table -->
         <div class="bg-[#050812] rounded-xl border border-[#17253f] overflow-hidden">
           <div class="bg-gradient-to-r from-emerald-950/60 to-[#091120] px-3 py-1.5 border-b border-[#17253f] flex items-center justify-between text-xs font-bold text-emerald-400">
-            <span class="flex items-center gap-1.5" id="boxscore-title-a"><span>🛡️</span> FULL SENSE (TEAM A)</span>
+            <span class="flex items-center gap-1.5" id="boxscore-title-a"><span>🛡️</span> TEAM A</span>
             <span class="text-[10px] font-mono text-slate-400" id="boxscore-score-a">13 ROUNDS WON</span>
           </div>
           <div class="overflow-x-auto">
@@ -1494,7 +1494,7 @@
         <div class="bg-[#050812] p-2.5 rounded-xl border border-[#17253f] flex items-center justify-between flex-wrap gap-2 text-xs">
           <div class="flex items-center gap-2">
             <span class="text-slate-400 font-mono">STATUS:</span>
-            <span id="vct-turn-indicator" class="font-bold text-amber-400 font-mono animate-pulse">👉 รอบของคุณ (FULL SENSE): เลือกแบน 1 แผนที่</span>
+            <span id="vct-turn-indicator" class="font-bold text-amber-400 font-mono animate-pulse">👉 รอบของคุณ: เลือกแบน 1 แผนที่</span>
           </div>
           <div class="flex items-center gap-3 text-[11px] font-mono text-slate-400">
             <span>BANNED: <b id="vct-ban-count" class="text-rose-400">0/6</b></span>
@@ -1511,7 +1511,7 @@
         <div id="vct-decider-banner" class="hidden bg-gradient-to-r from-emerald-950/80 via-[#0e1e36] to-emerald-950/80 border-2 border-amber-400/80 p-3.5 rounded-xl text-center flex-col items-center gap-2">
           <span class="text-[10px] font-mono uppercase tracking-widest bg-amber-400 text-slate-950 font-black px-2.5 py-0.5 rounded">DECIDER MAP LOCKED</span>
           <div class="text-lg font-black text-white" id="vct-decider-title">ASCENT (VENICE)</div>
-          <div class="text-xs text-amber-300 font-mono" id="vct-side-choice-text">Paper Rex เลือกเริ่มเป็นฝ่ายป้องกัน (DEFENDERS) ก่อนตามความได้เปรียบของแผนที่!</div>
+          <div class="text-xs text-amber-300 font-mono" id="vct-side-choice-text">คู่แข่งเลือกเริ่มเป็นฝ่ายป้องกัน (DEFENDERS) ก่อนตามความได้เปรียบของแผนที่!</div>
           <button onclick="goToAgentDraftPhase()" class="mt-1 px-4 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs shadow-lg transition">
             ถัดไป: ดราฟต์ Agent และประเมินคอมป์ (AGENT DRAFT) ➔
           </button>
@@ -1524,7 +1524,7 @@
           <!-- Left 7 cols: My Team Agent Draft -->
           <div class="lg:col-span-7 bg-[#050812] border border-[#17253f] rounded-xl p-3 flex flex-col gap-2.5">
             <div class="flex items-center justify-between border-b border-[#17253f] pb-1.5">
-              <span class="text-xs font-bold text-emerald-400 font-mono" id="draft-my-club-title">1. กำหนดตัวละครให้ผู้เล่น FULL SENSE</span>
+              <span class="text-xs font-bold text-emerald-400 font-mono" id="draft-my-club-title">1. กำหนดตัวละครให้ผู้เล่นสโมสรของคุณ</span>
               <span class="text-[10px] text-slate-400 font-mono" id="draft-map-indicator">MAP: ASCENT</span>
             </div>
             <div id="draft-players-container" class="flex flex-col gap-2">
@@ -1777,7 +1777,7 @@
           <span class="font-bold text-white block flex items-center gap-1.5">
             <span>💾</span> <span>พบเซฟเดิมในเครื่อง</span>
           </span>
-          <span class="text-[11px] text-emerald-300 block" id="save-banner-desc">สโมสร FULL SENSE · Season 1, Week 1</span>
+          <span class="text-[11px] text-emerald-300 block" id="save-banner-desc">สโมสรของคุณ · Season 1, Week 1</span>
         </div>
         <div class="flex items-center gap-2 shrink-0">
           <button onclick="continueFromExistingSave()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs transition shadow cursor-pointer">
@@ -2134,60 +2134,63 @@
             🏋️
           </div>
           <div>
-            <span class="text-[10px] font-mono text-emerald-400 font-bold uppercase tracking-widest bg-emerald-950 px-2 py-0.5 rounded border border-emerald-500/40">FULL SENSE TRAINING & PHYSIO FACILITY</span>
+            <span id="training-facility-badge" class="text-[10px] font-mono text-emerald-400 font-bold uppercase tracking-widest bg-emerald-950 px-2 py-0.5 rounded border border-emerald-500/40">CLUB TRAINING & PHYSIO FACILITY</span>
             <h3 class="text-xl font-black text-white mt-0.5">ศูนย์ฝึกซ้อมและพัฒนาฟอร์มสโมสร</h3>
           </div>
         </div>
-        <div class="flex items-center gap-2">
-          <button onclick="executeTeamRegimen('vod')" class="px-3 py-1.5 rounded-lg bg-cyan-950 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/40 font-bold text-xs transition flex items-center gap-1 cursor-pointer">
-            <span>🧠 ซ้อมแผนทั้งทีม</span>
-          </button>
-          <button onclick="executeTeamRegimen('rest')" class="px-3 py-1.5 rounded-lg bg-emerald-950 hover:bg-emerald-900 text-emerald-300 border border-emerald-500/40 font-bold text-xs transition flex items-center gap-1 cursor-pointer">
-            <span>🧘 พักฟื้นทั้งทีม</span>
+        <div class="flex items-center gap-2 flex-wrap" id="training-header-actions">
+          <span id="training-mode-badge" class="px-2.5 py-1 rounded-lg bg-purple-950/80 text-purple-300 border border-purple-500/40 text-xs font-bold font-mono">
+            🧘 พักฟื้น (RECOVERY)
+          </span>
+          <span id="training-quota-badge" class="px-2.5 py-1 rounded-lg bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 text-xs font-bold font-mono">
+            🟢 โควตา: พร้อมซ้อม (1/1)
+          </span>
+          <button onclick="setClubRestMode()" class="px-3 py-1.5 rounded-lg bg-purple-950 hover:bg-purple-900 text-purple-200 border border-purple-500/50 font-bold text-xs transition flex items-center gap-1 cursor-pointer">
+            <span>🧘 เลือกสถานะพักฟื้น</span>
           </button>
         </div>
       </div>
 
       <!-- Training Regimens Explanation Cards -->
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
-        <div class="bg-[#050812] p-2.5 rounded-xl border border-[#17253f] flex flex-col justify-between">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 text-xs">
+        <div class="bg-[#050812] p-2.5 rounded-xl border border-purple-500/40 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-1 text-purple-300 font-bold">
+              <span>🧘</span><span>สถานะพักฟื้น (Recovery)</span>
+            </div>
+            <div class="text-[10px] text-slate-300 mt-1">ผู้เล่นหยุดพัฒนาทักษะชั่วคราว ฟื้นฟู Stamina เต็ม 100% ไร้ความเหนื่อยล้า และไร้ความเสี่ยงบาดเจ็บ (0%)</div>
+          </div>
+          <div class="text-[9px] font-mono text-purple-400 mt-2 font-bold">ร่างกายสดชื่น · ปลอดภัย 100%</div>
+        </div>
+
+        <div class="bg-[#050812] p-2.5 rounded-xl border border-emerald-500/40 flex flex-col justify-between">
           <div>
             <div class="flex items-center gap-1 text-emerald-400 font-bold">
-              <span>🎯</span><span>Aim Lab Flick</span>
+              <span>🎯</span><span>ซ้อม Aim & ปฏิกิริยา</span>
             </div>
-            <div class="text-[10px] text-slate-400 mt-1">ขัดเกลาความคม เพิ่ม Aim (+1-2) และขยับฟอร์ม</div>
+            <div class="text-[10px] text-slate-400 mt-1">ขัดเกลาความคม ยิงคมขึ้น (+1-2 Aim) แลกด้วยความเหนื่อยล้าสะสม (-25⚡)</div>
           </div>
-          <div class="text-[9px] font-mono text-rose-400 mt-2">-15 Stamina</div>
+          <div class="text-[9px] font-mono text-emerald-400 mt-2 font-bold">พัฒนา Aim · เสียความสดชื่น</div>
         </div>
 
-        <div class="bg-[#050812] p-2.5 rounded-xl border border-[#17253f] flex flex-col justify-between">
+        <div class="bg-[#050812] p-2.5 rounded-xl border border-cyan-500/40 flex flex-col justify-between">
           <div>
             <div class="flex items-center gap-1 text-cyan-400 font-bold">
-              <span>🧠</span><span>VOD & Scrim</span>
+              <span>🧠</span><span>ซ้อม VOD & แท็กติก</span>
             </div>
-            <div class="text-[10px] text-slate-400 mt-1">วิเคราะห์เทป เพิ่ม IQ (+1-2) และเคมีทีม</div>
+            <div class="text-[10px] text-slate-400 mt-1">ติวเข้มแท็กติกและเคมีทีม (+1-2 IQ) แลกด้วยความเหนื่อยล้าสะสม (-20⚡)</div>
           </div>
-          <div class="text-[9px] font-mono text-rose-400 mt-2">-10 Stamina</div>
+          <div class="text-[9px] font-mono text-cyan-400 mt-2 font-bold">พัฒนา IQ · เสียความสดชื่น</div>
         </div>
 
-        <div class="bg-[#050812] p-2.5 rounded-xl border border-[#17253f] flex flex-col justify-between">
+        <div class="bg-[#050812] p-2.5 rounded-xl border border-amber-500/40 flex flex-col justify-between">
           <div>
             <div class="flex items-center gap-1 text-amber-400 font-bold">
-              <span>⚡</span><span>1v1 Clutch Arena</span>
+              <span>⚠️</span><span>กฎโควตา & ความเสี่ยงเจ็บ</span>
             </div>
-            <div class="text-[10px] text-slate-400 mt-1">ฝึกจังหวะกดดัน เพิ่ม Clutch (+1-2)</div>
+            <div class="text-[10px] text-slate-400 mt-1">ซ้อมได้ <b>1 ครั้ง/แมตช์</b> เท่านั้น! หากล้าสะสม (Stamina < 60%) มีโอกาสเกิดอาการบาดเจ็บ</div>
           </div>
-          <div class="text-[9px] font-mono text-rose-400 mt-2">-12 Stamina</div>
-        </div>
-
-        <div class="bg-[#050812] p-2.5 rounded-xl border border-[#17253f] flex flex-col justify-between">
-          <div>
-            <div class="flex items-center gap-1 text-purple-400 font-bold">
-              <span>🧘</span><span>Ice Bath & Rest</span>
-            </div>
-            <div class="text-[10px] text-slate-400 mt-1">แช่น้ำแข็ง ฟื้นฟู Stamina +35% ลดเวลาเจ็บ</div>
-          </div>
-          <div class="text-[9px] font-mono text-emerald-400 mt-2">ฟื้นฟูร่างกายฟรี</div>
+          <div class="text-[9px] font-mono text-rose-400 mt-2 font-bold">จำกัด 1 ครั้ง · ต้องแข่งให้จบจึงปลดล็อค</div>
         </div>
       </div>
 
@@ -2217,7 +2220,7 @@
             🏦
           </div>
           <div>
-            <span class="text-[10px] font-mono text-emerald-400 font-bold uppercase tracking-widest bg-emerald-950 px-2 py-0.5 rounded border border-emerald-500/40">FULL SENSE TREASURY & FINANCIAL AUDIT</span>
+            <span id="finance-facility-badge" class="text-[10px] font-mono text-emerald-400 font-bold uppercase tracking-widest bg-emerald-950 px-2 py-0.5 rounded border border-emerald-500/40">CLUB TREASURY & FINANCIAL AUDIT</span>
             <h3 class="text-xl font-black text-white mt-0.5">ระบบการเงิน & เพดานค่าเหนื่อยสโมสร</h3>
           </div>
         </div>
@@ -2437,6 +2440,15 @@
         'Lotus': 'wallpaper%20map/Lotus.jpg',
         'Abyss': 'wallpaper%20map/Abyss.webp'
       },
+      mapThumbnails: {
+        'Ascent': 'wallpaper%20map/thumbs/Ascent.webp',
+        'Bind': 'wallpaper%20map/thumbs/Bind.webp',
+        'Haven': 'wallpaper%20map/thumbs/Haven.webp',
+        'Split': 'wallpaper%20map/thumbs/Split.webp',
+        'Sunset': 'wallpaper%20map/thumbs/Sunset.webp',
+        'Lotus': 'wallpaper%20map/thumbs/Lotus.webp',
+        'Abyss': 'wallpaper%20map/thumbs/Abyss.webp'
+      },
       agents: {
         'Jett': 'assets/vct/agents/Jett.png',
         'Reyna': 'assets/vct/agents/Reyna.png',
@@ -2490,8 +2502,8 @@
 
     let matchState = {
       round: 1,                 // 1 to 24+
-      scoreA: 0,                // Full Sense
-      scoreB: 0,                // Paper Rex
+      scoreA: 0,                // Team A
+      scoreB: 0,                // Team B
       isFullSenseAttacking: true, // True in 1st half (R1-12), False in 2nd half (R13-24)
       lossStreakA: 0,           // 0, 1, 2, 3+
       lossStreakB: 0,
@@ -2499,7 +2511,14 @@
       teamCredsB: 4000,
       roundHistory: [],         // Array of { round: 1, winner: 'A'|'B', method: '...' }
       matchOver: false,
-      isOvertime: false
+      isOvertime: false,
+      isMatchInProgress: false  // Locks agent selection during live match
+    };
+
+    let clubTrainingState = {
+      mode: 'REST',             // 'REST' (พักฟื้น) หรือ 'TRAIN' (ฝึกซ้อม)
+      hasTrainedThisMatchCycle: false, // จำกัดซ้อม 1 ครั้งต่อ 1 แมตช์
+      lastTrainingType: null
     };
 
     // Full Sense Active Starters
@@ -6468,7 +6487,7 @@
     }
 
     function getSquadForTeam(teamName) {
-      if (!teamName) teamName = 'FULL SENSE';
+      if (!teamName) teamName = myClubName || 'สโมสรของคุณ';
       const teamKey = (typeof getTeamIdFromName === 'function') ? getTeamIdFromName(teamName) : teamName.toLowerCase().replace(/\s+/g, '');
 
       // Set of player names/IDs already on User's team to STRICTLY PREVENT DUPLICATION
@@ -6904,6 +6923,58 @@
     let spikeTimeLeft = 45;
 
 
+    function updateClubHeaderUI() {
+      const reg = (typeof REGIONAL_DATA !== 'undefined' && REGIONAL_DATA[myClubRegion || 'pacific']) ? REGIONAL_DATA[myClubRegion || 'pacific'] : null;
+      const leagueName = myClubIsTier2 ? (reg?.tier2Name || 'VCL Ascension') : (reg?.name || 'VCT Pacific');
+      const leagueTier = myClubIsTier2 ? 'TIER 2 (ASCENSION)' : 'TIER 1 (VCT)';
+      const clubDisplayName = (myClubName || 'MY CLUB').toUpperCase();
+
+      // Top Navigation Header
+      const hName = document.getElementById('header-club-name');
+      if (hName) hName.innerText = myClubName || 'MY CLUB';
+      const hBadge = document.getElementById('header-league-badge');
+      if (hBadge) hBadge.innerText = leagueName.toUpperCase();
+
+      // Dashboard Club Identity Card
+      const dLogo = document.getElementById('dash-club-logo');
+      if (dLogo) {
+        const initials = (myClubName || 'MC')
+          .split(' ')
+          .filter(Boolean)
+          .map(w => w[0])
+          .join('')
+          .substring(0, 3)
+          .toUpperCase();
+        dLogo.innerText = initials || 'MC';
+      }
+      const dClubName = document.getElementById('dash-club-name');
+      if (dClubName) dClubName.innerText = clubDisplayName;
+      const dTeam = document.getElementById('dash-my-team-name');
+      if (dTeam) dTeam.innerText = clubDisplayName;
+      const dFixTeam = document.getElementById('dash-my-team-fixture-name');
+      if (dFixTeam) dFixTeam.innerText = clubDisplayName;
+      const dTier = document.getElementById('dash-club-tier');
+      if (dTier) dTier.innerText = leagueTier;
+      const dLeague = document.getElementById('dash-club-league');
+      if (dLeague) dLeague.innerText = leagueName.toUpperCase();
+
+      // Facility Badges on Dashboard
+      const trainBadge = document.getElementById('training-facility-badge');
+      if (trainBadge) trainBadge.innerText = `${myClubName || 'สโมสร'} TRAINING CENTER`;
+      const finBadge = document.getElementById('finance-facility-badge');
+      if (finBadge) finBadge.innerText = `${myClubName || 'สโมสร'} FINANCES`;
+
+      // Live match team header if match not started or friendly
+      const scoreNameA = document.getElementById('score-name-a');
+      if (scoreNameA && !matchState.isMatchInProgress) {
+        scoreNameA.innerText = (matchState.teamAName || myClubName || 'TEAM A').toUpperCase();
+      }
+      const teamTitleA = document.getElementById('team-title-a');
+      if (teamTitleA && !matchState.isMatchInProgress) {
+        teamTitleA.innerText = (matchState.teamAName || myClubName || 'TEAM A').toUpperCase();
+      }
+    }
+
     // --- 3. TOP NAVIGATION & TAB SWITCHER ---
     function updateNavigationTabs(mode = currentGameMode) {
       const tabLanding = document.getElementById('tab-landing');
@@ -6946,10 +7017,10 @@
         if (tabTactics) { tabTactics.classList.remove('hidden'); tabTactics.classList.add('flex'); }
         if (tabMarket) { tabMarket.classList.remove('hidden'); tabMarket.classList.add('flex'); }
         if (tabMatch) { tabMatch.classList.remove('hidden'); tabMatch.classList.add('flex'); }
-        if (headerCareer) { headerCareer.classList.remove('hidden'); headerCareer.classList.add('flex'); }
-        if (modeLabel) modeLabel.innerText = `CAREER: ${myClubName || 'FULL SENSE'}`;
+        if (modeLabel) modeLabel.innerText = `CAREER: ${myClubName || 'สโมสรของคุณ'}`;
         if (modeIcon) modeIcon.innerText = '🏆';
         if (matchLabel) matchLabel.innerText = '🎮 แมตช์เดย์ (LIVE)';
+        updateClubHeaderUI();
       }
     }
 
@@ -6963,30 +7034,9 @@
           return;
         }
 
-        // Check for injured starters in Career mode only
+        // Rule 4: Injured players cannot play. Automatically substitute healthy bench player, or play shorthanded 4v5 if no bench players!
         if (currentGameMode === 'CAREER') {
-          const injuredStarters = myRoster.starters.filter(p => p.injured && p.injury);
-          if (injuredStarters.length > 0) {
-            const healthySubs = myRoster.bench.filter(p => !p.injured);
-            const injNames = injuredStarters.map(p => `${p.name} (${p.injury.name})`).join(', ');
-            if (healthySubs.length > 0) {
-              const doSwap = confirm(`🏥 แจ้งเตือนห้องพยาบาล:\nผู้เล่นตัวจริงมีอาการบาดเจ็บ: ${injNames}\n\nมีตัวสำรองพร้อมลงสนาม (${healthySubs.map(s => s.name).join(', ')})\nกด [ตกลง (OK)] เพื่อสลับตัวสำรองลงเล่นแทนทันที\nกด [ยกเลิก (Cancel)] เพื่อฝืนเข็นลงแข่ง`);
-              if (doSwap) {
-                injuredStarters.forEach(inj => {
-                  const sub = myRoster.bench.find(s => !s.injured);
-                  if (sub) {
-                    const sIdx = myRoster.starters.indexOf(inj);
-                    const bIdx = myRoster.bench.indexOf(sub);
-                    myRoster.starters[sIdx] = sub;
-                    myRoster.bench[bIdx] = inj;
-                    addEventLog(`🔄 สลับตัวฉุกเฉิน: ดัน ${sub.name} ขึ้นตัวจริงแทน ${inj.name} ที่บาดเจ็บ`);
-                  }
-                });
-                renderRoster();
-                renderTactics();
-              }
-            }
-          }
+          enforceInjuredPlayerRules();
         }
 
         syncRosterToMatchPlayers();
@@ -7028,6 +7078,8 @@
       if (tabId === 'market') renderMarketPlayers();
       if (tabId === 'tactics') renderTactics();
       if (tabId === 'dashboard') {
+        updateClubHeaderUI();
+        updateDashboardFixtureCard();
         renderStandings();
         renderClubFinancesDashboard();
       }
@@ -7043,7 +7095,7 @@
       if (raw && strip && desc) {
         try {
           const s = JSON.parse(raw);
-          desc.innerText = `สโมสร ${s.myClubName || 'FULL SENSE'} · Season ${s.currentSeasonNumber || 1}, Week ${s.currentSeasonWeek || 1}`;
+          desc.innerText = `สโมสร ${s.myClubName || 'สโมสรของคุณ'} · Season ${s.currentSeasonNumber || 1}, Week ${s.currentSeasonWeek || 1}`;
           strip.classList.remove('hidden');
           strip.classList.add('flex');
         } catch(e) {
@@ -7060,6 +7112,7 @@
 
       // Check if user has an existing career save to show resume option on landing
       checkAndRenderLandingSave();
+      updateClubHeaderUI();
 
       // Background setup of standings & fixtures so they are pre-rendered
       renderStandings();
@@ -7219,6 +7272,16 @@
       if (isPistol) {
         // Reset player economy on Pistol Rounds
         matchPlayers.forEach(p => {
+          if (p.isAbsent) {
+            p.weapon = 'None';
+            p.armor = 0;
+            p.creds = 0;
+            p.savedWeapon = null;
+            p.savedArmor = 0;
+            p.alive = false;
+            p.hp = 0;
+            return;
+          }
           p.weapon = 'Classic';
           p.armor = 0;
           p.creds = 800;
@@ -7232,6 +7295,15 @@
       } else {
         // Non-pistol rounds: Players who survived retain their weapons for free!
         matchPlayers.forEach(p => {
+          if (p.isAbsent) {
+            p.weapon = 'None';
+            p.armor = 0;
+            p.savedWeapon = null;
+            p.savedArmor = 0;
+            p.alive = false;
+            p.hp = 0;
+            return;
+          }
           if (p.savedWeapon) {
             p.weapon = p.savedWeapon;
             p.armor = p.savedArmor || 0;
@@ -7633,6 +7705,13 @@
 
       if (isPistol) {
         teamPlayers.forEach(p => {
+          if (p.isAbsent) {
+            p.weapon = 'None';
+            p.armor = 0;
+            p.savedWeapon = null;
+            p.savedArmor = 0;
+            return;
+          }
           p.savedWeapon = null;
           p.savedArmor = 0;
           let wep = 'Classic';
@@ -7687,6 +7766,13 @@
       }
 
       teamPlayers.forEach((p, idx) => {
+        if (p.isAbsent) {
+          p.weapon = 'None';
+          p.armor = 0;
+          p.savedWeapon = null;
+          p.savedArmor = 0;
+          return;
+        }
         const hasSavedWep = !!p.savedWeapon;
         const savedRank = p.savedWeapon ? (WEAPON_TIER_RANK[p.savedWeapon] || 0) : 0;
         let chosenWep = p.weapon || 'Classic';
@@ -7814,7 +7900,7 @@
         const isDefPush = stratB.startsWith('PUSH_') || stratB === 'AGGRESSIVE_PUSH';
         if ((stratA === 'RUSH_A' && stratB === 'STACK_A') || (stratA === 'RUSH_B' && stratB === 'STACK_B') || (stratA === 'RUSH_C' && stratB === 'STACK_C')) {
           tacticalModA = 0.65; tacticalModB = 1.45;
-          note = `⚠️ TACTICAL LOSS: บุกเข้าดงกระสุน Stack ${stratA.replace('RUSH_','')} ของคู่แข่ง! (Full Sense เสียเปรียบ -35%)`;
+          note = `⚠️ TACTICAL LOSS: บุกเข้าดงกระสุน Stack ${stratA.replace('RUSH_','')} ของคู่แข่ง! (${matchState.teamAName || myClubName || 'สโมสรของเรา'} เสียเปรียบ -35%)`;
         } else if ((stratA === 'RUSH_A' && stratB === 'STACK_B') || (stratA === 'RUSH_B' && stratB === 'STACK_A') || (stratA === 'RUSH_C' && (stratB === 'STACK_A' || stratB === 'STACK_B'))) {
           tacticalModA = 1.55; tacticalModB = 0.55;
           note = '🎯 TACTICAL MASTERMIND: เจาะไซต์ว่างเปล่าเพราะคู่แข่ง Stack ไซต์ตรงข้าม! (+55%)';
@@ -7952,14 +8038,28 @@
       plantedSiteCoords = null;
       spawnUltOrbs();
 
+      const firstAliveAtk = matchPlayers.find(p => p.team === (isAtk ? 'A' : 'B') && !p.isAbsent);
+
       matchPlayers.forEach((p, idx) => {
+        if (p.isAbsent) {
+          p.alive = false;
+          p.hp = 0;
+          p.x = -9999;
+          p.y = -9999;
+          p.targetX = -9999;
+          p.targetY = -9999;
+          p.hasSpike = false;
+          const card = document.getElementById(`card-${p.id}`);
+          if (card) card.classList.add('opacity-30', 'line-through');
+          return;
+        }
         p.alive = true;
         p.hp = 100;
         p.tpCooldown = 0;
         p.ultActive = false;
         p.utilityCharges = 2;
         p.utilityCooldown = 0;
-        p.hasSpike = isAtk ? (idx === 0) : (idx === 5);
+        p.hasSpike = !!(firstAliveAtk && p.id === firstAliveAtk.id);
         p.status = { blinded: 0, revealed: 0, concussed: 0, detained: 0, decay: 0, secondLife: false };
         if (p.ultPoints === undefined) p.ultPoints = 2;
         const agInfo = AGENT_SKILLS_DATA[p.agent] || {};
@@ -10508,8 +10608,8 @@ function endRound(winner) {
         scoreB: matchState.scoreB + (winner === 'B' ? 1 : 0)
       });
 
-      const teamAName = matchState.teamAName || 'FULL SENSE';
-      const teamBName = matchState.teamBName || 'PAPER REX';
+      const teamAName = matchState.teamAName || myClubName || 'สโมสรของคุณ';
+      const teamBName = matchState.teamBName || 'OPPONENT';
 
       if (winner === 'A') {
         matchState.scoreA++;
@@ -10676,14 +10776,16 @@ function endRound(winner) {
     }
 
     function showMatchOverModal(winner) {
+      matchState.isMatchInProgress = false;
+      clubTrainingState.hasTrainedThisMatchCycle = false;
       const modal = document.getElementById('match-over-modal');
       const isWin = (winner === 'A');
       const scoreA = matchState.scoreA;
       const scoreB = matchState.scoreB;
       const totalRounds = scoreA + scoreB;
 
-      const teamAName = matchState.teamAName || myClubName || 'FULL SENSE';
-      const teamBName = matchState.teamBName || 'PAPER REX';
+      const teamAName = matchState.teamAName || myClubName || 'สโมสรของคุณ';
+      const teamBName = matchState.teamBName || 'OPPONENT';
 
       const winTeamName = isWin ? teamAName : teamBName;
       document.getElementById('modal-match-winner').innerText = `${winTeamName} คว้าชัยชนะในการแข่งขัน!`;
@@ -11087,7 +11189,7 @@ function endRound(winner) {
       // Key Moments
       const momentsContainer = document.getElementById('report-key-moments');
       momentsContainer.innerHTML = `
-        <div class="flex items-center gap-2"><span class="text-emerald-400">🎯</span> Round 1: Full Sense ชนะรอบปืนพกตั้งต้น กุมความได้เปรียบด้านเงิน</div>
+        <div class="flex items-center gap-2"><span class="text-emerald-400">🎯</span> Round 1: ${matchState.teamAName || myClubName || 'สโมสรของเรา'} ชนะรอบปืนพกตั้งต้น กุมความได้เปรียบด้านเงิน</div>
         <div class="flex items-center gap-2"><span class="text-amber-400">💥</span> Round 6: Eco Round Upset ดักเก็บด้วยปืนพกสร้างจุดเปลี่ยน</div>
         <div class="flex items-center gap-2"><span class="text-cyan-400">🔄</span> Round 13: Half-Time Swap สลับฝั่งแข่งขัน คว้าชัยรอบปืนพกที่สอง</div>
         <div class="flex items-center gap-2"><span class="text-rose-400">💣</span> Round ${totalRounds}: ปิดฉากชัยชนะรอบสุดท้ายได้อย่างสมบูรณ์แบบ</div>
@@ -11101,6 +11203,7 @@ function endRound(winner) {
       matchState.isOvertime = false;
       matchState.hasHalftimeSwapped = false;
       matchState.matchOver = false;
+      matchState.isMatchInProgress = false;
       matchState.lossStreakA = 0;
       matchState.lossStreakB = 0;
       matchState.teamCredsA = 4000;
@@ -11126,11 +11229,6 @@ function endRound(winner) {
         p.damage = 0;
         p.firstBloods = 0;
         p.headshots = 0;
-        p.hp = 100;
-        p.alive = true;
-        p.weapon = 'Classic';
-        p.armor = 0;
-        p.creds = 800;
         p.savedWeapon = null;
         p.savedArmor = 0;
         p.ultPoints = 2;
@@ -11139,6 +11237,20 @@ function endRound(winner) {
         p.utilityCharges = 2;
         p.utilityCooldown = 0;
         p.status = { blinded: 0, revealed: 0, concussed: 0, detained: 0, decay: 0, secondLife: false };
+
+        if (p.isAbsent) {
+          p.hp = 0;
+          p.alive = false;
+          p.weapon = 'None';
+          p.armor = 0;
+          p.creds = 0;
+        } else {
+          p.hp = 100;
+          p.alive = true;
+          p.weapon = 'Classic';
+          p.armor = 0;
+          p.creds = 800;
+        }
       });
 
       // Clear previous match killfeed stream completely!
@@ -11176,11 +11288,14 @@ function endRound(winner) {
     }
 
     function returnToDashboardFromMatch() {
+      matchState.isMatchInProgress = false;
+      clubTrainingState.hasTrainedThisMatchCycle = false;
       const modal = document.getElementById('match-over-modal');
       if (modal) {
         modal.classList.add('hidden');
         modal.classList.remove('flex');
       }
+      updateClubHeaderUI();
       updateDashboardFixtureCard();
       renderRoster();
       renderTactics();
@@ -11254,6 +11369,9 @@ function endRound(winner) {
     // VCT PRE-MATCH PROTOCOL (MAP VETO, SIDE SELECTION & AGENT DRAFT)
     // =========================================================================
     function openVctPreMatchModal() {
+      if (currentGameMode === 'CAREER') {
+        enforceInjuredPlayerRules();
+      }
       if (!myRoster.starters || myRoster.starters.length < 5) {
         alert(`⚠️ ไลน์อัปตัวจริงของคุณมีไม่ครบ 5 คน (ปัจจุบันมี ${myRoster.starters.length}/5 คน)!
 กรุณาจัดทัพในหน้า ROSTER หรือซื้อนักแข่งจากตลาดก่อนเริ่มการแข่งขัน`);
@@ -11311,7 +11429,7 @@ function endRound(winner) {
         const isDecider = (vetoState.deciderMap === mapName);
         const mapInfo = MAP_DATA[mapName] || { location: 'VCT Arena', hasSiteC: false };
         const meta = MAP_META[mapName] || { favors: 'DEF' };
-        const wpUrl = (ASSETS.mapWallpapers && ASSETS.mapWallpapers[mapName]) ? ASSETS.mapWallpapers[mapName] : `wallpaper%20map/${mapName}.jpg`;
+        const wpUrl = (ASSETS.mapThumbnails && ASSETS.mapThumbnails[mapName]) ? ASSETS.mapThumbnails[mapName] : ((ASSETS.mapWallpapers && ASSETS.mapWallpapers[mapName]) ? ASSETS.mapWallpapers[mapName] : `wallpaper%20map/${mapName}.jpg`);
 
         container.innerHTML += `
           <div class="relative rounded-xl border ${isDecider ? 'border-amber-400 bg-amber-950/30 ring-2 ring-amber-400' : (isBanned ? 'border-rose-900/60 bg-[#070b16] opacity-40' : 'border-[#17253f] bg-[#0c1424] hover:border-emerald-500/60')} p-2.5 flex flex-col justify-between gap-2 overflow-hidden transition">
@@ -11428,6 +11546,31 @@ function endRound(winner) {
       const container = document.getElementById('draft-players-container');
       container.innerHTML = '';
       myRoster.starters.forEach((p, idx) => {
+        const isInj = (p.injured && p.injury && p.injury.matchesLeft > 0);
+        if (isInj) {
+          container.innerHTML += `
+            <div class="flex flex-col bg-[#150a0a] p-2.5 rounded-lg border border-rose-900/60 gap-1.5 opacity-60">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                  <div class="w-7 h-7 rounded-full bg-rose-950 border border-rose-500/50 flex items-center justify-center font-vct text-xs font-bold text-rose-400">
+                    #${idx+1}
+                  </div>
+                  <div>
+                    <div class="text-xs font-bold text-rose-300 flex items-center gap-1.5">
+                      <span>${p.name}</span>
+                      <span class="text-[9px] font-mono px-1 rounded bg-rose-950 text-rose-400 border border-rose-700/50 font-bold">🩹 บาดเจ็บ (${p.injury.name})</span>
+                    </div>
+                    <div class="text-[9px] text-rose-400/80 font-mono">พักรักษาตัวอีก ${p.injury.matchesLeft} นัด · ไม่มีตัวสำรอง (ลงแข่งไม่ได้: 4v5)</div>
+                  </div>
+                </div>
+                <div class="text-[10px] font-mono text-rose-400 font-bold bg-rose-950/80 px-2 py-1 rounded border border-rose-500/30">
+                  🚫 ไม่สามารถเลือก Agent
+                </div>
+              </div>
+            </div>
+          `;
+          return;
+        }
         const currentAgent = p.agent || 'Jett';
         const mastery = calculateAgentMastery(p.role, currentAgent);
         const agInfo = AGENT_SKILLS_DATA[currentAgent] || {};
@@ -11590,12 +11733,15 @@ function endRound(winner) {
         vetoState.oppName || 'OPPONENT',
         vetoState.startingSideIsAttacker ? 'ATK' : 'DEF'
       );
+      matchState.isMatchInProgress = true;
 
       // 3. Synchronize Full Roster to Match Engine & Bot Meta Comp
       syncRosterToMatchPlayers();
       const meta = MAP_META[vetoState.deciderMap] || { comp: ['Jett', 'Sova', 'Omen', 'Killjoy', 'Breach'] };
       for (let i = 0; i < 5; i++) {
-        matchPlayers[i].agent = myRoster.starters[i].agent;
+        if (!matchPlayers[i].isAbsent) {
+          matchPlayers[i].agent = (myRoster.starters[i] && myRoster.starters[i].agent) ? myRoster.starters[i].agent : 'Jett';
+        }
         matchPlayers[5 + i].agent = meta.comp[i] || matchPlayers[5 + i].agent || 'Jett';
       }
 
@@ -11717,7 +11863,7 @@ function endRound(winner) {
             banner.classList.remove('hidden');
             banner.classList.add('flex');
             const desc = document.getElementById('save-banner-desc');
-            if (desc) desc.innerText = `สโมสร ${s.myClubName || 'FULL SENSE'} · Season ${s.currentSeasonNumber || 1}, Week ${s.currentSeasonWeek || 1} · เงินสด: $${(s.budget || 1450000).toLocaleString()}`;
+            if (desc) desc.innerText = `สโมสร ${s.myClubName || 'สโมสรของคุณ'} · Season ${s.currentSeasonNumber || 1}, Week ${s.currentSeasonWeek || 1} · เงินสด: $${(s.budget || 1450000).toLocaleString()}`;
           }
         } catch(e) {}
       } else {
@@ -11860,6 +12006,10 @@ function endRound(winner) {
     }
 
     function openAgentSwapModal() {
+      if (matchState.isMatchInProgress) {
+        alert('🔒 ขณะนี้การแข่งขันกำลังดำเนินอยู่ ตามกฎกติกาการแข่งขัน VCT ไม่สามารถปรับเปลี่ยน Agent ได้จนกว่าจะจบแมตช์');
+        return;
+      }
       const modal = document.getElementById('agent-swap-modal');
       const container = document.getElementById('agent-swap-list');
       if (!modal || !container) return;
@@ -11954,7 +12104,7 @@ function endRound(winner) {
         const optA = document.createElement('option');
         optA.value = t.name;
         optA.innerText = `${t.name} (${t.region}) · OVR ${t.ovr}`;
-        if (t.name === 'FULL SENSE') optA.selected = true;
+        if (t.name === (myClubName || 'FULL SENSE')) optA.selected = true;
         selA.appendChild(optA);
 
         const optB = document.createElement('option');
@@ -12012,7 +12162,7 @@ function endRound(winner) {
       const selMap = document.getElementById('friendly-select-map');
       const selSide = document.getElementById('friendly-select-side');
 
-      const teamAName = selA ? selA.value : 'FULL SENSE';
+      const teamAName = selA ? selA.value : (myClubName || 'TEAM A');
       const teamBName = selB ? selB.value : 'Paper Rex';
       const mapName = selMap ? selMap.value : 'Ascent';
       const startingSide = selSide ? selSide.value : 'ATK';
@@ -12194,9 +12344,10 @@ function endRound(winner) {
       try {
         const saveData = {
           gameMode: currentGameMode,
-          myClubName: myClubName || 'FULL SENSE',
-          myClubId: myClubId || 'fullsense',
+          myClubName: myClubName || 'MY CLUB',
+          myClubId: myClubId || 'myclub',
           myClubRegion: myClubRegion || 'pacific',
+          myClubIsTier2: !!myClubIsTier2,
           currentSeasonNumber: currentSeasonNumber || 1,
           currentSeasonWeek: currentSeasonWeek,
           standingsVCT: STANDINGS_VCT,
@@ -12205,6 +12356,7 @@ function endRound(winner) {
           championsTournament: championsTournamentState,
           budget: matchState.teamCredsA,
           clubFinances: clubFinances,
+          clubTrainingState: clubTrainingState,
           myRoster: myRoster,
           allPlayers: allPlayers,
           currentMap: currentMap,
@@ -12253,18 +12405,12 @@ function endRound(winner) {
         }
         if (data.myClubName) {
           myClubName = data.myClubName;
-          const hn = document.getElementById('header-club-name');
-          if (hn) hn.innerText = myClubName;
-          const dt = document.getElementById('dash-my-team-name');
-          if (dt) dt.innerText = myClubName.toUpperCase();
         }
         if (data.myClubId) myClubId = data.myClubId;
-        if (data.myClubRegion) {
-          myClubRegion = data.myClubRegion;
-          const hb = document.getElementById('header-league-badge');
-          const reg = REGIONAL_DATA[myClubRegion];
-          if (hb && reg) hb.innerText = reg.name.toUpperCase();
-        }
+        if (data.myClubRegion) myClubRegion = data.myClubRegion;
+        if (data.myClubIsTier2 !== undefined) myClubIsTier2 = data.myClubIsTier2;
+        if (data.clubTrainingState) clubTrainingState = data.clubTrainingState;
+
         if (data.currentSeasonNumber) {
           currentSeasonNumber = data.currentSeasonNumber;
           const headerSeason = document.getElementById('header-season-label');
@@ -12277,6 +12423,8 @@ function endRound(winner) {
         if (data.championsTournament) championsTournamentState = data.championsTournament;
         if (data.currentMap) changeMap(data.currentMap);
 
+        updateClubHeaderUI();
+        if (typeof updateTrainingStatusBadges === 'function') updateTrainingStatusBadges();
         updateDashboardFixtureCard();
         renderRoster();
         renderTactics();
@@ -12320,6 +12468,13 @@ function endRound(winner) {
       if (titleB) titleB.innerText = (matchState.teamBName || 'TEAM B').toUpperCase();
 
       matchPlayers.forEach(p => {
+        if (p.isAbsent) {
+          const card = document.getElementById(`card-${p.id}`);
+          if (card) card.classList.add('opacity-40');
+          const hpVal = document.getElementById(`hp-val-${p.id}`);
+          if (hpVal) hpVal.innerHTML = `<span class="text-rose-500/70 text-[8px] font-mono">ABSENT</span>`;
+          return;
+        }
         const hpBar = document.getElementById(`hp-${p.id}`);
         const card = document.getElementById(`card-${p.id}`);
         const wep = document.getElementById(`wep-${p.id}`);
@@ -13069,7 +13224,10 @@ function endRound(winner) {
         return;
       }
 
-      // Sync team names for Map Veto & Agent Draft
+      // 1. Enforce Injury & Substitution Rules (Auto-substitute or play 4v5)
+      enforceInjuredPlayerRules();
+
+      // 2. Sync team names for Map Veto & Agent Draft
       matchState.teamAName = (myClubName || 'MY TEAM').toUpperCase();
       matchState.teamBName = f.opponentName.toUpperCase();
       openVctPreMatchModal();
@@ -13857,15 +14015,6 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
 🔻 ตกชั้นลงไป: ${relegated.map(t=>t.name).join(', ')}`);
     }
 
-    // --- CLUB & REGION SELECTION ENGINE ---
-    function openClubSelectionModal() {
-      filterClubSelectionRegion(myClubRegion || 'pacific');
-      const modal = document.getElementById('club-selection-modal');
-      if (modal) {
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-      }
-    }
 
     // --- CLUB & REGION SELECTION ENGINE ---
     let clubSelectionFlowMode = 'career'; // 'career' or 'draft'
@@ -14168,6 +14317,7 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
       closeClubSelectionModal();
       closeGameModeModal();
 
+      updateClubHeaderUI();
       renderRoster();
       renderTactics();
       renderStandings();
@@ -14207,34 +14357,64 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
       saveGameToStorage(true);
     }
 
+    function updateTrainingStatusBadges() {
+      const modeBadge = document.getElementById('training-mode-badge');
+      const quotaBadge = document.getElementById('training-quota-badge');
+      if (modeBadge) {
+        if (clubTrainingState.mode === 'REST') {
+          modeBadge.className = "px-2.5 py-1 rounded-lg bg-purple-950/80 text-purple-300 border border-purple-500/40 text-xs font-bold font-mono";
+          modeBadge.innerHTML = "🧘 พักฟื้น (RECOVERY: ไม่ล้า / หยุดพัฒนา)";
+        } else {
+          modeBadge.className = "px-2.5 py-1 rounded-lg bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 text-xs font-bold font-mono";
+          modeBadge.innerHTML = "🏋️ ซ้อมพัฒนา (TRAINING MODE)";
+        }
+      }
+      if (quotaBadge) {
+        if (clubTrainingState.hasTrainedThisMatchCycle) {
+          quotaBadge.className = "px-2.5 py-1 rounded-lg bg-amber-950/80 text-amber-300 border border-amber-500/40 text-xs font-bold font-mono";
+          quotaBadge.innerHTML = "🔒 โควตาซ้อม: ใช้แล้ว (0/1) · รอแข่งจบ";
+        } else {
+          quotaBadge.className = "px-2.5 py-1 rounded-lg bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 text-xs font-bold font-mono";
+          quotaBadge.innerHTML = "🟢 โควตาซ้อม: พร้อมใช้งาน (1/1)";
+        }
+      }
+    }
+
     function renderTrainingSquad() {
+      updateTrainingStatusBadges();
       const container = document.getElementById('training-squad-container');
       if (!container) return;
       container.innerHTML = '';
 
       const squad = [...myRoster.starters, ...myRoster.bench];
+      const hasTrained = clubTrainingState.hasTrainedThisMatchCycle;
+
       squad.forEach((p, idx) => {
-        p.stamina = (p.stamina !== undefined) ? p.stamina : 100;
+        p.stamina = (p.stamina !== undefined) ? p.stamina : (clubTrainingState.mode === 'REST' ? 100 : 85);
         p.form = p.form || 'normal';
 
         let fatigueBadge = '';
         if (p.stamina >= 80) fatigueBadge = '<span class="text-[9px] font-mono font-bold text-emerald-400 bg-emerald-950 px-1.5 py-0.2 rounded border border-emerald-500/40">🟢 สดชื่น (Fresh)</span>';
-        else if (p.stamina >= 50) fatigueBadge = '<span class="text-[9px] font-mono font-bold text-cyan-400 bg-cyan-950 px-1.5 py-0.2 rounded border border-cyan-500/40">🟡 ปกติ (Fit)</span>';
-        else if (p.stamina >= 30) fatigueBadge = '<span class="text-[9px] font-mono font-bold text-amber-400 bg-amber-950 px-1.5 py-0.2 rounded border border-amber-500/40">🟠 เริ่มล้า (-3 Aim)</span>';
-        else fatigueBadge = '<span class="text-[9px] font-mono font-bold text-rose-400 bg-rose-950 px-1.5 py-0.2 rounded border border-rose-500/40 animate-pulse">🔴 ล้าวิกฤต (-6 Aim/Clutch)</span>';
+        else if (p.stamina >= 55) fatigueBadge = '<span class="text-[9px] font-mono font-bold text-cyan-400 bg-cyan-950 px-1.5 py-0.2 rounded border border-cyan-500/40">🟡 ปกติ (Fit)</span>';
+        else if (p.stamina >= 35) fatigueBadge = '<span class="text-[9px] font-mono font-bold text-amber-400 bg-amber-950 px-1.5 py-0.2 rounded border border-amber-500/40">🟠 เริ่มล้า (เสี่ยงเจ็บ)</span>';
+        else fatigueBadge = '<span class="text-[9px] font-mono font-bold text-rose-400 bg-rose-950 px-1.5 py-0.2 rounded border border-rose-500/40 animate-pulse">🔴 ล้าวิกฤต (เสี่ยงเจ็บสูง)</span>';
+
+        const isInj = (p.injured && p.injury && p.injury.matchesLeft > 0);
+        const lockTrain = hasTrained || isInj;
 
         container.innerHTML += `
-          <div class="bg-[#050812] border border-[#17253f] p-3 rounded-xl flex items-center justify-between flex-wrap gap-3">
+          <div class="bg-[#050812] border ${isInj ? 'border-rose-900/80 bg-rose-950/10' : 'border-[#17253f]'} p-3 rounded-xl flex items-center justify-between flex-wrap gap-3">
             <div class="flex items-center gap-3">
-              <div class="w-10 h-10 rounded-lg bg-[#0b1322] border border-[#17253f] flex items-center justify-center font-vct text-emerald-400 text-base font-bold">
-                ${p.ovr}
+              <div class="w-10 h-10 rounded-lg bg-[#0b1322] border border-[#17253f] flex items-center justify-center font-vct ${isInj ? 'text-rose-400' : 'text-emerald-400'} text-base font-bold">
+                ${p.ovr || p.overall || 90}
               </div>
               <div>
                 <div class="flex items-center gap-2">
-                  <span class="text-xs font-bold text-white">${p.name}</span>
+                  <span class="text-xs font-bold ${isInj ? 'text-rose-300' : 'text-white'}">${p.name}</span>
                   <span class="text-[10px] text-slate-400 font-mono">(${p.role})</span>
                   ${getFormBadge(p.form)}
                   ${fatigueBadge}
+                  ${isInj ? '<span class="text-[9px] font-mono font-bold text-rose-400 bg-rose-950 px-1.5 py-0.2 rounded border border-rose-500/40">🩹 บาดเจ็บ (ลงแข่งไม่ได้)</span>' : ''}
                 </div>
                 <div class="flex items-center gap-2 mt-1 text-[11px] font-mono text-slate-300">
                   <span>Aim: <b class="text-emerald-400">${p.aim}</b></span> · 
@@ -14242,21 +14422,21 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
                   <span>Clutch: <b class="text-amber-400">${p.clutch}</b></span> · 
                   <span>Stamina: <b class="${p.stamina >= 50 ? 'text-emerald-400' : 'text-rose-400'}">${p.stamina}%</b></span>
                 </div>
-                ${p.injured && p.injury ? `<div class="text-[10px] font-mono text-rose-300 mt-0.5">🩹 บาดเจ็บ: ${p.injury.name} (พัก ${p.injury.matchesLeft} นัด)</div>` : ''}
+                ${isInj ? `<div class="text-[10px] font-mono text-rose-300 mt-0.5">🩹 อาการบาดเจ็บ: ${p.injury.name} (ต้องพักรักษาตัวอีก ${p.injury.matchesLeft} นัด)</div>` : ''}
               </div>
             </div>
 
             <div class="flex items-center gap-1.5 flex-wrap">
-              <button onclick="trainPlayer('${p.id || p.name}', 'aim')" class="px-2 py-1 bg-[#101b30] hover:bg-emerald-950 text-emerald-300 text-[11px] font-bold rounded border border-emerald-500/40 transition">
-                🎯 ซ้อม Aim (-15⚡)
+              <button onclick="trainPlayer('${p.id || p.name}', 'aim')" ${lockTrain ? 'disabled title="โควตาซ้อมถูกล็อคแล้ว หรือผู้เล่นบาดเจ็บ"' : ''} class="px-2 py-1 ${lockTrain ? 'bg-slate-900 text-slate-500 border-slate-800 cursor-not-allowed opacity-50' : 'bg-[#101b30] hover:bg-emerald-950 text-emerald-300 border-emerald-500/40 cursor-pointer'} text-[11px] font-bold rounded border transition">
+                🎯 ซ้อม Aim (-25⚡)
               </button>
-              <button onclick="trainPlayer('${p.id || p.name}', 'vod')" class="px-2 py-1 bg-[#101b30] hover:bg-cyan-950 text-cyan-300 text-[11px] font-bold rounded border border-cyan-500/40 transition">
-                🧠 ซ้อม IQ (-10⚡)
+              <button onclick="trainPlayer('${p.id || p.name}', 'vod')" ${lockTrain ? 'disabled title="โควตาซ้อมถูกล็อคแล้ว หรือผู้เล่นบาดเจ็บ"' : ''} class="px-2 py-1 ${lockTrain ? 'bg-slate-900 text-slate-500 border-slate-800 cursor-not-allowed opacity-50' : 'bg-[#101b30] hover:bg-cyan-950 text-cyan-300 border-cyan-500/40 cursor-pointer'} text-[11px] font-bold rounded border transition">
+                🧠 ซ้อม IQ (-20⚡)
               </button>
-              <button onclick="trainPlayer('${p.id || p.name}', 'clutch')" class="px-2 py-1 bg-[#101b30] hover:bg-amber-950 text-amber-300 text-[11px] font-bold rounded border border-amber-500/40 transition">
-                ⚡ คลัตช์ (-12⚡)
+              <button onclick="trainPlayer('${p.id || p.name}', 'clutch')" ${lockTrain ? 'disabled title="โควตาซ้อมถูกล็อคแล้ว หรือผู้เล่นบาดเจ็บ"' : ''} class="px-2 py-1 ${lockTrain ? 'bg-slate-900 text-slate-500 border-slate-800 cursor-not-allowed opacity-50' : 'bg-[#101b30] hover:bg-amber-950 text-amber-300 border-amber-500/40 cursor-pointer'} text-[11px] font-bold rounded border transition">
+                ⚡ คลัตช์ (-22⚡)
               </button>
-              <button onclick="trainPlayer('${p.id || p.name}', 'rest')" class="px-2.5 py-1 bg-purple-950/80 hover:bg-purple-900 text-purple-300 text-[11px] font-bold rounded border border-purple-500/40 transition">
+              <button onclick="trainPlayer('${p.id || p.name}', 'rest')" class="px-2.5 py-1 bg-purple-950/80 hover:bg-purple-900 text-purple-300 text-[11px] font-bold rounded border border-purple-500/40 transition cursor-pointer">
                 🧘 พักฟื้น (+35⚡)
               </button>
             </div>
@@ -14265,77 +14445,228 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
       });
     }
 
-    function trainPlayer(playerId, regimen) {
-      const p = myRoster.starters.find(x => x.id === playerId || x.name === playerId) ||
-                myRoster.bench.find(x => x.id === playerId || x.name === playerId);
-      if (!p) return;
-      p.stamina = (p.stamina !== undefined) ? p.stamina : 100;
-
-      if (regimen === 'aim') {
-        if (p.stamina < 15) return alert(`${p.name} เหนื่อยล้าเกินไป (Stamina < 15%) กรุณาให้ผู้เล่นพักผ่อน (Ice Bath & Rest) ก่อน`);
-        p.stamina = Math.max(0, p.stamina - 15);
-        const gain = Math.floor(Math.random() * 2) + 1;
-        p.aim = Math.min(99, (p.aim || 90) + gain);
-        if (p.form === 'slump') p.form = 'cold';
-        else if (p.form === 'cold') p.form = 'normal';
-        else if (p.form === 'normal' && Math.random() < 0.4) p.form = 'good';
-        addEventLog(`🎯 ศูนย์ฝึกซ้อม: ${p.name} ซ้อม Aim Lab สำเร็จ! Aim +${gain} (ปัจจุบัน ${p.aim})`);
-      } else if (regimen === 'vod') {
-        if (p.stamina < 10) return alert(`${p.name} เหนื่อยล้าเกินไป กรุณาให้ผู้เล่นพักผ่อนก่อน`);
-        p.stamina = Math.max(0, p.stamina - 10);
-        const gain = Math.floor(Math.random() * 2) + 1;
-        p.iq = Math.min(99, (p.iq || 90) + gain);
-        addEventLog(`🧠 ศูนย์ฝึกซ้อม: ${p.name} วิเคราะห์เทป VOD Scrim! IQ +${gain} (ปัจจุบัน ${p.iq})`);
-      } else if (regimen === 'clutch') {
-        if (p.stamina < 12) return alert(`${p.name} เหนื่อยล้าเกินไป กรุณาให้ผู้เล่นพักผ่อนก่อน`);
-        p.stamina = Math.max(0, p.stamina - 12);
-        const gain = Math.floor(Math.random() * 2) + 1;
-        p.clutch = Math.min(99, (p.clutch || 90) + gain);
-        addEventLog(`⚡ ศูนย์ฝึกซ้อม: ${p.name} ผ่านการฝึก 1v1 Clutch Arena! Clutch +${gain} (ปัจจุบัน ${p.clutch})`);
-      } else if (regimen === 'rest') {
-        p.stamina = Math.min(100, p.stamina + 35);
+    function setClubRestMode() {
+      clubTrainingState.mode = 'REST';
+      const squad = [...myRoster.starters, ...myRoster.bench];
+      squad.forEach(p => {
+        p.stamina = 100;
         if (p.injured && p.injury) {
           p.injury.matchesLeft = Math.max(0, p.injury.matchesLeft - 1);
           if (p.injury.matchesLeft === 0) {
             p.injured = false;
             p.injury = null;
-            addEventLog(`✅ ข่าวดี: ${p.name} หายจากอาการบาดเจ็บหลังทำกายภาพบำบัด`);
+            addEventLog(`✅ ข่าวดีห้องพยาบาล: ${p.name} ฟื้นฟูสภาพร่างกายหายจากอาการบาดเจ็บเรียบร้อยแล้ว`);
           }
         }
-        if (p.form === 'slump') p.form = 'cold';
-        addEventLog(`🧘 ศูนย์ฝึกซ้อม: ${p.name} แช่น้ำแข็ง Ice Bath & ทำกายภาพ! Stamina ฟื้นคืนเป็น ${p.stamina}%`);
-      }
-
+      });
+      addEventLog(`🧘 สโมสรเลือกสถานะพักฟื้น: นักแข่งทุกคนฟื้นฟูร่างกายเต็ม 100% ไม่มีความเหนื่อยล้า และหยุดการพัฒนาทักษะชั่วคราว`);
+      alert(`🧘 ปรับสถานะเป็น "พักฟื้นร่างกาย" (Recovery Mode) เรียบร้อยแล้ว!\n\n• ผู้เล่นทุกคนฟื้นฟูสภาพร่างกายเต็ม 100% (ไร้ความเหนื่อยล้า)\n• ความเสี่ยงเกิดอาการบาดเจ็บ = 0%\n• นักแข่งจะหยุดการพัฒนาทักษะชั่วคราว จนกว่าผู้จัดการทีมจะกดฝึกซ้อม`);
       renderTrainingSquad();
       renderRoster();
       saveGameToStorage(true);
     }
 
-    function executeTeamRegimen(type) {
-      const squad = [...myRoster.starters, ...myRoster.bench];
-      if (type === 'vod') {
-        let count = 0;
-        squad.forEach(p => {
-          p.stamina = (p.stamina !== undefined) ? p.stamina : 100;
-          if (p.stamina >= 10) {
-            p.stamina -= 10;
-            p.iq = Math.min(99, (p.iq || 90) + 1);
-            count++;
-          }
-        });
-        addEventLog(`🧠 ซ้อมแผนทั้งทีม: นักแข่ง ${count} คนผ่านการติวเข้มแท็กติก IQ +1 ทุกคน`);
-      } else if (type === 'rest') {
-        squad.forEach(p => {
-          p.stamina = Math.min(100, (p.stamina !== undefined ? p.stamina : 100) + 35);
-          if (p.injured && p.injury) {
-            p.injury.matchesLeft = Math.max(0, p.injury.matchesLeft - 1);
-            if (p.injury.matchesLeft === 0) { p.injured = false; p.injury = null; }
-          }
-        });
-        addEventLog(`🧘 พักผ่อนทั้งทีม: สมาชิกสโมสรทำกายภาพและแช่น้ำแข็ง ฟื้นฟู Stamina +35% ทุกคน`);
+    function executeTeamTrainingSession(regimenType = 'aim') {
+      if (clubTrainingState.hasTrainedThisMatchCycle) {
+        alert(`🔒 สโมสรได้ทำการฝึกซ้อมในรอบนี้ไปแล้ว (จำกัด 1 ครั้งต่อแมตช์)!\n\nกรุณาลงแข่งขันแมตช์ถัดไปให้เสร็จสิ้นก่อน จึงจะสามารถเปิดรอบการฝึกซ้อมใหม่ได้`);
+        return;
       }
+
+      const squad = [...myRoster.starters, ...myRoster.bench];
+      const healthySquad = squad.filter(p => !p.injured || !p.injury || p.injury.matchesLeft <= 0);
+
+      if (healthySquad.length === 0) {
+        alert(`⚠️ นักแข่งทุกคนได้รับบาดเจ็บ ไม่สามารถทำการฝึกซ้อมได้`);
+        return;
+      }
+
+      clubTrainingState.hasTrainedThisMatchCycle = true;
+      clubTrainingState.mode = 'TRAIN';
+      clubTrainingState.lastTrainingType = regimenType;
+
+      let trainedCount = 0;
+      let injuredNotes = [];
+
+      healthySquad.forEach(p => {
+        p.stamina = (p.stamina !== undefined) ? p.stamina : 100;
+        let staminaDeduction = 25;
+        let aimGain = 0, iqGain = 0, clutchGain = 0;
+
+        if (regimenType === 'aim') {
+          staminaDeduction = 25;
+          aimGain = Math.floor(Math.random() * 2) + 1;
+        } else if (regimenType === 'vod') {
+          staminaDeduction = 20;
+          iqGain = Math.floor(Math.random() * 2) + 1;
+        } else if (regimenType === 'clutch') {
+          staminaDeduction = 22;
+          clutchGain = Math.floor(Math.random() * 2) + 1;
+        } else {
+          staminaDeduction = 28;
+          aimGain = 1; iqGain = 1; clutchGain = 1;
+        }
+
+        p.stamina = Math.max(0, p.stamina - staminaDeduction);
+        p.aim = Math.min(99, (p.aim || 90) + aimGain);
+        p.iq = Math.min(99, (p.iq || 90) + iqGain);
+        p.clutch = Math.min(99, (p.clutch || 90) + clutchGain);
+        p.ovr = Math.min(99, Math.round((p.aim + p.iq + p.clutch) / 3));
+
+        if (p.form === 'slump') p.form = 'cold';
+        else if (p.form === 'cold') p.form = 'normal';
+        else if (p.form === 'normal' && Math.random() < 0.35) p.form = 'good';
+
+        trainedCount++;
+
+        // Fatigue & Injury Risk: If stamina < 60%, higher chance of injury!
+        let injuryProb = 0;
+        if (p.stamina <= 35) {
+          injuryProb = 0.35; // 35% chance if exhausted
+        } else if (p.stamina <= 55) {
+          injuryProb = 0.18; // 18% chance if fatigued
+        }
+
+        if (injuryProb > 0 && Math.random() < injuryProb) {
+          const injType = INJURY_TYPES[Math.floor(Math.random() * INJURY_TYPES.length)];
+          p.injured = true;
+          p.injury = {
+            name: injType.name,
+            icon: injType.icon,
+            matchesLeft: injType.duration,
+            aimDebuff: injType.aimDebuff,
+            clutchDebuff: injType.clutchDebuff,
+            desc: injType.desc
+          };
+          injuredNotes.push(`${p.name} เกิดอาการ "${injType.name}" (พัก ${injType.duration} นัด)`);
+        }
+      });
+
+      let alertMsg = `🏋️ สโมสรเสร็จสิ้นการฝึกซ้อม (${regimenType.toUpperCase()})!\n• นักแข่ง ${trainedCount} คนได้รับการพัฒนาทักษะฝีมือ\n• ความเหนื่อยล้าเพิ่มขึ้น (-⚡ Stamina)\n• โควตาการฝึกซ้อมถูกล็อคแล้ว (ต้องลงแข่งแมตช์ถัดไปให้จบจึงจะซ้อมใหม่ได้)`;
+      if (injuredNotes.length > 0) {
+        alertMsg += `\n\n⚠️ คำเตือนจากทีมแพทย์สโมสร (เกิดอาการบาดเจ็บจากความล้า):\n• ${injuredNotes.join('\n• ')}\n\n(ผู้เล่นที่บาดเจ็บจะไม่สามารถลงทำการแข่งขันได้ จะต้องส่งตัวสำรองลงสนามแทน)`;
+        addEventLog(`⚠️ อาการบาดเจ็บจากการฝึกซ้อม: ${injuredNotes.join(', ')}`);
+      }
+      alert(alertMsg);
+      addEventLog(`🏋️ การฝึกซ้อมทีม (${regimenType}): นักแข่ง ${trainedCount} คนพัฒนาทักษะ (โควตาซ้อมถูกล็อคจนกว่าจะแข่งเสร็จ)`);
+
       renderTrainingSquad();
       renderRoster();
+      renderTactics();
+      saveGameToStorage(true);
+    }
+
+    function trainPlayer(playerId, regimen) {
+      if (regimen === 'rest') {
+        const p = myRoster.starters.find(x => x.id === playerId || x.name === playerId) ||
+                  myRoster.bench.find(x => x.id === playerId || x.name === playerId);
+        if (p) {
+          p.stamina = Math.min(100, (p.stamina || 100) + 35);
+          if (p.injured && p.injury) {
+            p.injury.matchesLeft = Math.max(0, p.injury.matchesLeft - 1);
+            if (p.injury.matchesLeft === 0) {
+              p.injured = false;
+              p.injury = null;
+              addEventLog(`✅ ข่าวดี: ${p.name} หายจากอาการบาดเจ็บ`);
+            }
+          }
+          alert(`🧘 ${p.name} ได้รับการฟื้นฟูร่างกายและทำกายภาพบำบัด! Stamina ฟื้นคืนเป็น ${p.stamina}%`);
+          renderTrainingSquad();
+          renderRoster();
+          saveGameToStorage(true);
+        }
+        return;
+      }
+
+      if (clubTrainingState.hasTrainedThisMatchCycle) {
+        alert(`🔒 สโมสรได้ทำการฝึกซ้อมในรอบนี้ไปแล้ว (จำกัด 1 ครั้งต่อแมตช์)!\n\nกรุณาลงแข่งขันแมตช์ถัดไปให้เสร็จสิ้นก่อน จึงจะสามารถเปิดรอบการฝึกซ้อมใหม่ได้`);
+        return;
+      }
+
+      const p = myRoster.starters.find(x => x.id === playerId || x.name === playerId) ||
+                myRoster.bench.find(x => x.id === playerId || x.name === playerId);
+      if (!p) return;
+      if (p.injured && p.injury && p.injury.matchesLeft > 0) {
+        alert(`⚠️ ${p.name} อยู่ในระหว่างพักฟื้นอาการบาดเจ็บ (${p.injury.name}) ไม่สามารถลงฝึกซ้อมได้!`);
+        return;
+      }
+
+      clubTrainingState.hasTrainedThisMatchCycle = true;
+      clubTrainingState.mode = 'TRAIN';
+      p.stamina = (p.stamina !== undefined) ? p.stamina : 100;
+
+      let gain = Math.floor(Math.random() * 2) + 1;
+      let cost = 25;
+      if (regimen === 'aim') {
+        cost = 25;
+        p.aim = Math.min(99, (p.aim || 90) + gain);
+        addEventLog(`🎯 ศูนย์ฝึกซ้อม: ${p.name} ซ้อม Aim Lab สำเร็จ! Aim +${gain} (ปัจจุบัน ${p.aim})`);
+      } else if (regimen === 'vod') {
+        cost = 20;
+        p.iq = Math.min(99, (p.iq || 90) + gain);
+        addEventLog(`🧠 ศูนย์ฝึกซ้อม: ${p.name} วิเคราะห์เทป VOD Scrim! IQ +${gain} (ปัจจุบัน ${p.iq})`);
+      } else if (regimen === 'clutch') {
+        cost = 22;
+        p.clutch = Math.min(99, (p.clutch || 90) + gain);
+        addEventLog(`⚡ ศูนย์ฝึกซ้อม: ${p.name} ผ่านการฝึก 1v1 Clutch! Clutch +${gain} (ปัจจุบัน ${p.clutch})`);
+      }
+
+      p.stamina = Math.max(0, p.stamina - cost);
+      p.ovr = Math.min(99, Math.round((p.aim + p.iq + p.clutch) / 3));
+
+      // Fatigue Injury Check
+      let injuryProb = (p.stamina <= 35) ? 0.35 : ((p.stamina <= 55) ? 0.18 : 0);
+      let injNotice = '';
+      if (injuryProb > 0 && Math.random() < injuryProb) {
+        const injType = INJURY_TYPES[Math.floor(Math.random() * INJURY_TYPES.length)];
+        p.injured = true;
+        p.injury = {
+          name: injType.name,
+          icon: injType.icon,
+          matchesLeft: injType.duration,
+          aimDebuff: injType.aimDebuff,
+          clutchDebuff: injType.clutchDebuff,
+          desc: injType.desc
+        };
+        injNotice = `\n\n⚠️ บาดเจ็บจากการโหมซ้อมหนัก!\n${p.name} มีอาการ "${injType.name}" ต้องพัก ${injType.duration} นัด และไม่สามารถลงแข่งได้`;
+        addEventLog(`⚠️ ${p.name} บาดเจ็บจากการฝึกซ้อม: ${injType.name}`);
+      }
+
+      alert(`🏋️ การฝึกซ้อมเสร็จสิ้น!\n• ${p.name} พัฒนาทักษะขึ้น (${regimen.toUpperCase()} +${gain})\n• Stamina เหลือ ${p.stamina}%\n• โควตาการฝึกซ้อมถูกล็อคแล้ว จนกว่าจะแข่งแมตช์ถัดไปเสร็จ${injNotice}`);
+      renderTrainingSquad();
+      renderRoster();
+      renderTactics();
+      saveGameToStorage(true);
+    }
+
+    function executeTeamRegimen(type) {
+      if (type === 'rest') {
+        setClubRestMode();
+      } else {
+        executeTeamTrainingSession(type || 'aim');
+      }
+    }
+
+    function enforceInjuredPlayerRules() {
+      if (!myRoster || !myRoster.starters) return;
+      for (let i = 0; i < myRoster.starters.length; i++) {
+        const p = myRoster.starters[i];
+        if (p && p.injured && p.injury && p.injury.matchesLeft > 0) {
+          // Look for healthy bench player
+          const healthyBenchIdx = myRoster.bench.findIndex(b => !b.injured || !b.injury || b.injury.matchesLeft <= 0);
+          if (healthyBenchIdx !== -1) {
+            const sub = myRoster.bench[healthyBenchIdx];
+            myRoster.starters[i] = sub;
+            myRoster.bench[healthyBenchIdx] = p;
+            alert(`⚠️ นักแข่งบาดเจ็บไม่สามารถลงทำการแข่งขันได้!\n\n${p.name} มีอาการบาดเจ็บ "${p.injury.name}" (พักอีก ${p.injury.matchesLeft} นัด)\n\n🔄 สโมสรได้ทำการส่งตัวสำรอง ${sub.name} (${sub.role} OVR ${sub.ovr || sub.overall || 90}) ลงสนามในไลน์อัปหลักแทนเรียบร้อยแล้ว`);
+            addEventLog(`🔄 ส่งตัวสำรอง: ${sub.name} ลงเล่นแทน ${p.name} ที่มีอาการบาดเจ็บ (${p.injury.name})`);
+          } else {
+            alert(`⚠️ วิกฤตสโมสร! ขาดแคลนตัวสำรอง!\n\n${p.name} มีอาการบาดเจ็บ "${p.injury.name}" (พัก ${p.injury.matchesLeft} นัด) และสโมสรไม่มีตัวสำรองพร้อมใช้งาน!\n\n⚡ สโมสรจำเป็นต้องลงแข่งขันด้วยผู้เล่นเพียง 4 คน (4 vs 5)!`);
+            addEventLog(`⚠️ สโมสรขาดแคลนตัวสำรอง! ต้องลงทำการแข่งขันด้วยผู้เล่น 4 คนเนื่องจาก ${p.name} บาดเจ็บ`);
+          }
+        }
+      }
+      renderRoster();
+      renderTactics();
       saveGameToStorage(true);
     }
 
@@ -14477,7 +14808,7 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
         const otherClubPlayers = allPlayers.filter(x => 
           x.teamId && 
           x.teamId !== buyer.id && 
-          x.teamId !== 'fullsense' && 
+          x.teamId !== (myClubId || 'fullsense') && 
           x.teamId !== 'free_agent' && 
           x.teamId !== 'retired_legend' && 
           !isPlayerInSquad(x.id) && 
@@ -14563,6 +14894,7 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
           optionsHtml += `<option value="${ag}" ${isSelected}>${ag} (${agRole})</option>`;
         });
 
+        const isLocked = !!matchState.isMatchInProgress;
         card.innerHTML = `
           <div class="flex items-center gap-2.5 min-w-[140px]">
             <div class="w-7 h-7 rounded bg-[#0d1627] border border-[#1e3256] flex items-center justify-center font-bold text-slate-200">
@@ -14575,9 +14907,10 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
           </div>
 
           <div class="flex-1 max-w-[220px]">
-            <select onchange="updatePlayerAgent(${idx}, this.value)" class="w-full bg-[#090f1e] border border-[#1e3256] rounded px-2 py-1 text-slate-200 text-xs font-mono focus:outline-none focus:border-emerald-500">
+            <select ${isLocked ? 'disabled title="🔒 ไม่สามารถเปลี่ยน Agent ขณะแข่งขันได้จนกว่าจะจบแมตช์"' : `onchange="updatePlayerAgent(${idx}, this.value)"`} class="w-full bg-[#090f1e] ${isLocked ? 'opacity-60 cursor-not-allowed border-rose-500/40 text-slate-400' : 'border-[#1e3256] text-slate-200 focus:outline-none focus:border-emerald-500 cursor-pointer'} border rounded px-2 py-1 text-xs font-mono">
               ${optionsHtml}
             </select>
+            ${isLocked ? '<div class="text-[9px] text-rose-400 font-mono mt-0.5 font-bold">🔒 ล็อคระหว่างแข่ง (VCT Rule)</div>' : ''}
           </div>
 
           <div class="flex items-center gap-2">
@@ -14596,6 +14929,10 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
     }
 
     function updatePlayerAgent(starterIndex, newAgent) {
+      if (matchState.isMatchInProgress) {
+        alert('🔒 ขณะนี้การแข่งขันกำลังดำเนินอยู่ ตามกฎกติกาการแข่งขัน VCT ไม่สามารถปรับเปลี่ยน Agent ได้จนกว่าจะจบแมตช์');
+        return;
+      }
       if (myRoster && myRoster.starters && myRoster.starters[starterIndex]) {
         myRoster.starters[starterIndex].agent = newAgent;
         syncRosterToMatchPlayers();
@@ -14733,6 +15070,10 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
     }
 
     function swapToBench(starterIndex) {
+      if (matchState.isMatchInProgress) {
+        alert('🔒 ขณะนี้การแข่งขันกำลังดำเนินอยู่ ตามกฎกติกาการแข่งขัน VCT ไม่สามารถปรับเปลี่ยนตัวผู้เล่นระหว่างแมตช์ได้');
+        return;
+      }
       if (myRoster.bench.length === 0) return alert('ไม่มีตัวสำรองให้สลับ กรุณาเซ็นสัญญานักแข่งเพิ่มจากตลาด');
       const player = myRoster.starters.splice(starterIndex, 1)[0];
       const promoted = myRoster.bench.shift();
@@ -14745,6 +15086,10 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
     }
 
     function promoteToStarter(benchIndex) {
+      if (matchState.isMatchInProgress) {
+        alert('🔒 ขณะนี้การแข่งขันกำลังดำเนินอยู่ ตามกฎกติกาการแข่งขัน VCT ไม่สามารถปรับเปลี่ยนตัวผู้เล่นระหว่างแมตช์ได้');
+        return;
+      }
       if (myRoster.starters.length >= 5) {
         const promoted = myRoster.bench.splice(benchIndex, 1)[0];
         const demoted = myRoster.starters.pop();
@@ -14767,6 +15112,10 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
     ];
 
     function promptSellPlayer(playerId, isStarter, rosterIndex) {
+      if (matchState.isMatchInProgress) {
+        alert('🔒 ขณะนี้การแข่งขันกำลังดำเนินอยู่ ไม่สามารถขายผู้เล่นระหว่างแมตช์ได้');
+        return;
+      }
       const p = isStarter ? myRoster.starters[rosterIndex] : myRoster.bench[rosterIndex];
       if (!p) return;
 
@@ -14887,6 +15236,10 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
     }
 
     function promptReleasePlayer(playerId, benchIndex) {
+      if (matchState.isMatchInProgress) {
+        alert('🔒 ขณะนี้การแข่งขันกำลังดำเนินอยู่ ไม่สามารถยกเลิกสัญญาปล่อยตัวผู้เล่นระหว่างแมตช์ได้');
+        return;
+      }
       const p = myRoster.bench[benchIndex];
       if (!p) return;
       if (!confirm(`คุณต้องการยกเลิกสัญญาและปล่อยตัว ${p.name} ให้กลายเป็น Free Agent หรือไม่?
@@ -15100,6 +15453,10 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
 
     // --- SIGN PLAYER WITH UNIQUE PLAYER CONSTRAINT & AI REPLACEMENT ---
     function signPlayer(playerId) {
+      if (matchState.isMatchInProgress) {
+        alert('🔒 ขณะนี้การแข่งขันกำลังดำเนินอยู่ ไม่สามารถเซ็นสัญญาซื้อนักแข่งใหม่ได้จนกว่าจะจบแมตช์');
+        return;
+      }
       const p = allPlayers.find(x => x.id === playerId);
       if (!p) return;
 
@@ -15166,11 +15523,11 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
       }
 
       // Update current player ownership to user's active club
-      p.teamId = myClubId || 'fullsense';
-      p.teamName = myClubName || 'FULL SENSE';
+      p.teamId = myClubId || 'myclub';
+      p.teamName = myClubName || 'สโมสรของคุณ';
 
       // --- AI AUTO-REPLACEMENT MECHANISM (POACH FROM CLUBS OR FREE AGENTS) ---
-      if (formerTeamId && formerTeamId !== 'free_agent' && formerTeamId !== 'retired_legend' && formerTeamId !== 'fullsense') {
+      if (formerTeamId && formerTeamId !== 'free_agent' && formerTeamId !== 'retired_legend' && formerTeamId !== (myClubId || 'fullsense')) {
         let replacement = null;
         let poachedClubName = null;
         let poachedClubId = null;
@@ -15180,7 +15537,7 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
           const clubCandidates = allPlayers.filter(x => 
             x.teamId && 
             x.teamId !== formerTeamId && 
-            x.teamId !== 'fullsense' && 
+            x.teamId !== (myClubId || 'fullsense') && 
             x.teamId !== 'free_agent' && 
             x.teamId !== 'retired_legend' && 
             !isPlayerInSquad(x.id) && 
@@ -15265,9 +15622,40 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
         return false;
       }
 
-      // 1. Synchronize Team A (Full Sense or Friendly Team A)
+      // 1. Synchronize Team A (User Club or Friendly Team A)
       for (let i = 0; i < 5; i++) {
         const s = myRoster.starters[i];
+        if (!s || (s.injured && s.injury && s.injury.matchesLeft > 0)) {
+          // Injured player who could not be substituted -> Shorthanded 4-player team!
+          matchPlayers[i].id = s ? s.id : `injured_empty_${i+1}`;
+          matchPlayers[i].team = 'A';
+          matchPlayers[i].name = s ? `${s.name} [บาดเจ็บ]` : '(ขาดผู้เล่น 4v5)';
+          matchPlayers[i].role = s ? s.role : 'Duelist';
+          matchPlayers[i].agent = 'Jett';
+          matchPlayers[i].aim = 0;
+          matchPlayers[i].iq = 0;
+          matchPlayers[i].clutch = 0;
+          matchPlayers[i].form = 'slump';
+          matchPlayers[i].injured = true;
+          matchPlayers[i].injury = s ? s.injury : { name: 'บาดเจ็บ', matchesLeft: 1 };
+          matchPlayers[i].isAbsent = true; // Key flag: absent from match
+          matchPlayers[i].alive = false;
+          matchPlayers[i].hp = 0;
+          matchPlayers[i].shield = 0;
+          matchPlayers[i].weapon = 'None';
+          matchPlayers[i].savedWeapon = null;
+          matchPlayers[i].savedArmor = 0;
+          matchPlayers[i].ultMax = 7;
+          matchPlayers[i].ultPoints = 0;
+          matchPlayers[i].ultReady = false;
+          matchPlayers[i].ultActive = false;
+          matchPlayers[i].utilityCharges = 0;
+          matchPlayers[i].utilityCooldown = 0;
+          matchPlayers[i].status = { blinded: 0, revealed: 0, concussed: 0, detained: 0, decay: 0, secondLife: false };
+          continue;
+        }
+
+        matchPlayers[i].isAbsent = false;
         matchPlayers[i].id = s.id || `p${i+1}`;
         matchPlayers[i].team = 'A';
         matchPlayers[i].name = s.name;
@@ -15277,8 +15665,8 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
         matchPlayers[i].iq = s.iq || s.stats?.iq || s.ovr || 90;
         matchPlayers[i].clutch = s.clutch || s.stats?.clutch || s.ovr || 90;
         matchPlayers[i].form = s.form || 'normal';
-        matchPlayers[i].injured = s.injured || false;
-        matchPlayers[i].injury = s.injury || null;
+        matchPlayers[i].injured = false;
+        matchPlayers[i].injury = null;
         const agInfo = AGENT_SKILLS_DATA[matchPlayers[i].agent] || {};
         matchPlayers[i].ultMax = agInfo.ultCost || 7;
         if (matchPlayers[i].ultPoints === undefined) matchPlayers[i].ultPoints = 2;
@@ -15296,7 +15684,7 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
       } else if (activeChampionsMatchId && championsTournamentState) {
         const champMatch = championsTournamentState.matches.find(m => m.id === activeChampionsMatchId);
         if (champMatch) {
-          const isUserT1 = champMatch.t1.includes('FULL SENSE');
+          const isUserT1 = champMatch.t1.includes(myClubName || 'สโมสรของคุณ');
           oppTeamName = isUserT1 ? champMatch.t2 : champMatch.t1;
         }
       } else {
@@ -15309,7 +15697,7 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
 
       // Update live Match Day scoreboard with Opponent Name
       const nameA = document.getElementById('score-name-a');
-      if (nameA) nameA.innerText = (matchState.teamAName || 'FULL SENSE').toUpperCase();
+      if (nameA) nameA.innerText = (matchState.teamAName || myClubName || 'TEAM A').toUpperCase();
       const nameB = document.getElementById('score-name-b');
       if (nameB) nameB.innerText = oppTeamName.toUpperCase();
 
@@ -15384,6 +15772,21 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
       hb.innerHTML = '';
 
       matchPlayers.filter(p => p.team === 'A').forEach(p => {
+        if (p.isAbsent) {
+          ha.innerHTML += `
+            <div id="card-${p.id}" class="flex items-center justify-between bg-[#150a0a] px-2 py-1 rounded border border-rose-900/60 opacity-60">
+              <div class="flex items-center gap-1.5 min-w-0">
+                <span class="font-bold text-rose-300 text-xs truncate max-w-[90px]">${p.name}</span>
+                <span class="text-[9px] font-mono px-1 rounded bg-rose-950 text-rose-400 border border-rose-700/50 shrink-0 font-bold">🩹 บาดเจ็บ (4v5)</span>
+              </div>
+              <div class="flex items-center gap-1.5 shrink-0">
+                <span class="font-mono text-[10px] text-slate-500">ลงแข่งไม่ได้</span>
+                <span id="hp-val-${p.id}" class="font-mono text-[10px] font-bold text-rose-500 w-6 text-right">0</span>
+              </div>
+            </div>
+          `;
+          return;
+        }
         const agInfo = AGENT_SKILLS_DATA[p.agent] || { ultName: 'Ult', ultIcon: '⚡', ultCost: 7 };
         const mastery = calculateAgentMastery(p.role, p.agent);
         ha.innerHTML += `
