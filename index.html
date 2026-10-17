@@ -2458,6 +2458,16 @@
         'Ghost': 'https://media.valorant-api.com/weapons/1baa85b4-4c70-1284-64bb-6481dfc3bb4e/killstreamicon.png',
         'Classic': 'https://media.valorant-api.com/weapons/29a0cfab-485b-f5d5-779a-b59f85e204a8/killstreamicon.png',
         'Outlaw': 'https://media.valorant-api.com/weapons/5f0aaf38-4b73-41e7-957b-05a471921f86/killstreamicon.png',
+        'Bulldog': 'https://media.valorant-api.com/weapons/ae3de142-4d85-253a-726f-e8b4e97f0fd7/killstreamicon.png',
+        'Guardian': 'https://media.valorant-api.com/weapons/4ade7dba-4d56-77e7-383c-e45e4e11370e/killstreamicon.png',
+        'Marshal': 'https://media.valorant-api.com/weapons/c4883e50-4494-202c-3ec3-6b8a9284f00b/killstreamicon.png',
+        'Judge': 'https://media.valorant-api.com/weapons/ec842303-41bf-3359-35aa-ab577c77f077/killstreamicon.png',
+        'Stinger': 'https://media.valorant-api.com/weapons/f7e1b454-4ad4-1609-38b8-6e8237f61fb3/killstreamicon.png',
+        'Frenzy': 'https://media.valorant-api.com/weapons/44d4e956-43e1-874b-e373-ee17f72fb299/killstreamicon.png',
+        'Shorty': 'https://media.valorant-api.com/weapons/42da8cee-42fc-2e85-93b6-35f52c106824/killstreamicon.png',
+        'Odin': 'https://media.valorant-api.com/weapons/63e6c2b6-4a88-4656-277d-30e7eddedec9/killstreamicon.png',
+        'Ares': 'https://media.valorant-api.com/weapons/55d8d0e7-4674-ad63-760c-4caae03ce1d7/killstreamicon.png',
+        'Bucky': 'https://media.valorant-api.com/weapons/910be174-449b-c412-ab22-d0873436b21b/killstreamicon.png',
         'Showstopper': 'https://media.valorant-api.com/agents/f94c3b30-42be-e959-889c-5aa313dba261/abilities/ultimate/displayicon.png',
         'Shock Bolt': 'https://media.valorant-api.com/agents/320b2a48-4d9b-a075-30f1-1f93a9b638fa/abilities/ability1/displayicon.png',
         'Ascent': 'https://media.valorant-api.com/maps/7eaecc1b-4337-bbf6-6ab9-04b8f06b3319/displayicon.png'
@@ -6461,24 +6471,23 @@
       if (!teamName) teamName = 'FULL SENSE';
       const teamKey = (typeof getTeamIdFromName === 'function') ? getTeamIdFromName(teamName) : teamName.toLowerCase().replace(/\s+/g, '');
 
-      if (fallbackRosters && fallbackRosters[teamKey]) {
-        return fallbackRosters[teamKey].map((p, idx) => ({
-          id: p.id || `${teamKey}_${idx+1}`,
-          name: p.name,
-          role: p.role || 'Duelist',
-          agent: p.agent || getFallbackAgentByRole(p.role, idx),
-          aim: p.aim || 92,
-          iq: p.iq || 90,
-          clutch: p.clutch || 91,
-          form: 'normal',
-          injured: false,
-          injury: null
-        }));
+      // Set of player names/IDs already on User's team to STRICTLY PREVENT DUPLICATION
+      const userPlayerNames = new Set();
+      const userPlayerIds = new Set();
+      if (typeof myRoster !== 'undefined') {
+        if (myRoster.starters) {
+          myRoster.starters.forEach(p => {
+            if (p.name) userPlayerNames.add(p.name.toLowerCase());
+            if (p.id) userPlayerIds.add(p.id.toString());
+          });
+        }
+        if (myRoster.bench) {
+          myRoster.bench.forEach(p => {
+            if (p.name) userPlayerNames.add(p.name.toLowerCase());
+            if (p.id) userPlayerIds.add(p.id.toString());
+          });
+        }
       }
-
-      // Check allPlayers
-      const dbPlayers = allPlayers.filter(p => p.teamName === teamName || (p.teamId && p.teamId === teamKey) || (p.teamName && p.teamName.toLowerCase().includes(teamKey)));
-      const pool = [...dbPlayers];
 
       // Pro stars & legends to fill any empty spots so generic P1..P5 is NEVER shown
       const proStandins = [
@@ -6494,14 +6503,55 @@
         { name: 'ChAlalala', role: 'Sentinel', agent: 'Killjoy', aim: 90, iq: 91, clutch: 91 }
       ];
 
+      // 1. Check allPlayers for active players assigned to this club
+      let pool = [];
+      if (typeof allPlayers !== 'undefined' && allPlayers.length > 0) {
+        pool = allPlayers.filter(p => 
+          (p.teamId === teamKey || p.teamName === teamName || (p.teamName && p.teamName.toLowerCase().includes(teamKey))) &&
+          !userPlayerNames.has(p.name.toLowerCase()) &&
+          !userPlayerIds.has(p.id ? p.id.toString() : '')
+        );
+      }
+
+      // 2. If fewer than 5, pull from fallbackRosters[teamKey] (skipping any player in user roster)
+      if (pool.length < 5 && typeof fallbackRosters !== 'undefined' && fallbackRosters[teamKey]) {
+        fallbackRosters[teamKey].forEach(fb => {
+          if (!userPlayerNames.has(fb.name.toLowerCase()) && 
+              !userPlayerIds.has(fb.id ? fb.id.toString() : '') && 
+              !pool.some(p => p.name.toLowerCase() === fb.name.toLowerCase())) {
+            pool.push(fb);
+          }
+        });
+      }
+
+      // 3. If still fewer than 5, recruit top Free Agents (skipping any player in user roster)
+      if (pool.length < 5 && typeof allPlayers !== 'undefined') {
+        const freeAgents = allPlayers.filter(p => 
+          (p.teamId === 'free_agent' || p.teamName === 'Free Agent' || !p.teamId) &&
+          !userPlayerNames.has(p.name.toLowerCase()) &&
+          !userPlayerIds.has(p.id ? p.id.toString() : '') &&
+          !pool.some(x => x.name.toLowerCase() === p.name.toLowerCase())
+        );
+        freeAgents.sort((a, b) => (b.overall || 88) - (a.overall || 88));
+        for (let fa of freeAgents) {
+          if (pool.length >= 5) break;
+          pool.push(fa);
+        }
+      }
+
+      // 4. Fill from Pro Standins if needed
+      for (let ps of proStandins) {
+        if (pool.length >= 5) break;
+        if (!userPlayerNames.has(ps.name.toLowerCase()) && !pool.some(x => x.name.toLowerCase() === ps.name.toLowerCase())) {
+          pool.push(ps);
+        }
+      }
+
       const usedAgents = new Set();
       const squad = [];
 
       for (let i = 0; i < 5; i++) {
-        let p = pool[i];
-        if (!p) {
-          p = proStandins[i % proStandins.length];
-        }
+        let p = pool[i] || proStandins[i % proStandins.length];
         let chosenAgent = p.agent;
         if (!chosenAgent && p.agentPool && p.agentPool.length > 0) {
           chosenAgent = p.agentPool.find(ag => !usedAgents.has(ag)) || p.agentPool[0];
@@ -7101,20 +7151,26 @@
         }
       }
 
+      // Round 1 Safety: Clean Overtime & Halftime states
+      if (roundNum === 1) {
+        matchState.isOvertime = false;
+        matchState.hasHalftimeSwapped = false;
+      }
+
       // Half-Time Check at Round 13 (after 12 rounds played in regulation)
-      if (roundNum === 13 && !matchState.isOvertime) {
+      if (roundNum === 13 && !matchState.hasHalftimeSwapped) {
+        matchState.hasHalftimeSwapped = true;
+        matchState.isOvertime = false;
         matchState.isFullSenseAttacking = !matchState.isFullSenseAttacking;
         triggerHalfTimeSwap();
       }
 
       // Overtime side-swap and economy check (Round 25+)
-      if (matchState.isOvertime) {
-        if (roundNum > 24) {
-          matchState.isFullSenseAttacking = !matchState.isFullSenseAttacking;
-          const otRoundIndex = roundNum - 24;
-          const otSideName = matchState.isFullSenseAttacking ? (matchState.teamAName || 'TEAM A') : (matchState.teamBName || 'TEAM B');
-          addEventLog(`⚡ OVERTIME ROUND ${otRoundIndex}: สลับฝั่งแข่งขัน! (${otSideName} เป็นฝ่ายบุก)`);
-        }
+      if (matchState.isOvertime && roundNum > 24) {
+        matchState.isFullSenseAttacking = !matchState.isFullSenseAttacking;
+        const otRoundIndex = roundNum - 24;
+        const otSideName = matchState.isFullSenseAttacking ? (matchState.teamAName || 'TEAM A') : (matchState.teamBName || 'TEAM B');
+        addEventLog(`⚡ OVERTIME ROUND ${otRoundIndex}: สลับฝั่งแข่งขัน! (${otSideName} เป็นฝ่ายบุก)`);
         // Overtime economy grants $5,000 per player ($25,000 team)
         matchState.teamCredsA = 25000;
         matchState.teamCredsB = 25000;
@@ -7124,8 +7180,8 @@
 
       // Killfeed Round Separator & Grouping Container
       const feed = document.getElementById('killfeed-stream');
-      const isOT = matchState.isOvertime;
-      const isPistol = (roundNum === 1 || roundNum === 13) && !isOT;
+      const isOT = matchState.isOvertime && roundNum > 24;
+      const isPistol = (roundNum === 1 || roundNum === 13);
       const isSecondHalf = roundNum >= 13 && !isOT;
 
       if (feed) {
@@ -7140,7 +7196,7 @@
           roundHeaderTitle = `⚡ OVERTIME ${otNum} (รอบพิเศษ ${otDisplayRound})`;
           roundSubText = 'Overtime (Win by 2)';
         } else if (isPistol) {
-          roundHeaderTitle += ' · PISTOL ROUND';
+          roundHeaderTitle += (roundNum === 1 ? ' · 1ST PISTOL ROUND' : ' · 2ND PISTOL ROUND (HALF-TIME)');
         }
 
         const roundGroup = document.createElement('div');
@@ -7150,7 +7206,7 @@
           <div class="my-1 py-1 px-2.5 rounded-lg bg-gradient-to-r ${isOT ? 'from-amber-950 via-[#181507] to-yellow-950 border border-amber-500/50 text-amber-300' : (roundNum === 1 || roundNum === 13 ? 'from-emerald-950 via-[#071324] to-cyan-950 border border-emerald-500/50 text-emerald-300' : 'from-cyan-950 via-[#0a1526] to-blue-950 border border-cyan-500/50 text-cyan-300')} flex items-center justify-between text-[11px] font-mono font-bold shadow">
             <span class="flex items-center gap-1.5">
               <span>${roundHeaderTitle}</span>
-              ${roundNum === 13 && !isOT ? '<span class="text-[9px] bg-amber-900/80 text-amber-300 px-1 py-0.2 rounded font-bold">HALF-TIME</span>' : ''}
+              ${roundNum === 13 && !isOT ? '<span class="text-[9px] bg-amber-900/80 text-amber-300 px-1 py-0.2 rounded font-bold">HALF-TIME SWAP</span>' : ''}
             </span>
             <span class="text-xs text-white">${matchState.scoreA} : ${matchState.scoreB}</span>
             <span class="text-[10px] text-slate-400 font-normal">${roundSubText}</span>
@@ -7166,11 +7222,21 @@
           p.weapon = 'Classic';
           p.armor = 0;
           p.creds = 800;
+          p.savedWeapon = null;
+          p.savedArmor = 0;
         });
         matchState.teamCredsA = 4000;
         matchState.teamCredsB = 4000;
         matchState.lossStreakA = 0;
         matchState.lossStreakB = 0;
+      } else {
+        // Non-pistol rounds: Players who survived retain their weapons for free!
+        matchPlayers.forEach(p => {
+          if (p.savedWeapon) {
+            p.weapon = p.savedWeapon;
+            p.armor = p.savedArmor || 0;
+          }
+        });
       }
 
       mollyCountRemaining = 1;
@@ -7192,7 +7258,7 @@
 
       document.getElementById('deck-round-num').innerText = isOT ? `OT ${Math.max(1, roundNum - 24)}` : roundNum;
       document.getElementById('current-side-label').innerText = matchState.isFullSenseAttacking ? 'ฝ่ายบุก (ATTACKERS)' : 'ฝ่ายป้องกัน (DEFENDERS)';
-      document.getElementById('round-phase-label').innerText = isOT ? `OVERTIME ROUND ${Math.max(1, roundNum - 24)} · FULL BUY` : `ROUND ${roundNum} · ${isPistol ? 'PISTOL BUY' : 'BUY PHASE'}`;
+      document.getElementById('round-phase-label').innerText = isOT ? `OVERTIME ROUND ${Math.max(1, roundNum - 24)} · FULL BUY` : `ROUND ${roundNum} · ${isPistol ? 'PISTOL BUY ($800)' : 'BUY PHASE'}`;
       document.getElementById('round-timer').innerText = '01:40';
       document.getElementById('spike-status-text').innerText = 'BUY PHASE PREPARATION';
       document.getElementById('spike-led').className = 'w-2 h-2 rounded-full bg-emerald-400 animate-pulse';
@@ -7251,8 +7317,12 @@
         p.armor = 0;
         p.hp = 100;
         p.alive = true;
+        p.savedWeapon = null;
+        p.savedArmor = 0;
       });
 
+      updateScoreboardUI();
+      repositionSpawns();
       addEventLog('🔄 HALF-TIME REACHED! สลับฝั่งบุก/รับเรียบร้อย เริ่มต้นรอบปืนพกที่ 2 (Round 13)');
     }
 
@@ -7297,17 +7367,18 @@
           <option value="PISTOL_ARMOR" selected>🛡️ Classic + Light Armor ($400/คน) [สมดุล]</option>
           <option value="PISTOL_GHOST">👻 Ghost + สกิล ($500/คน) [เน้นความคม]</option>
           <option value="PISTOL_SHERIFF">🤠 Sheriff Heavy ($800/คน) [วันแท็ปปืนพก]</option>
-          <option value="PISTOL_FREE">🪙 Free Classic + Full Abilities ($0/คน) [เน้นสกิล]</option>
+          <option value="PISTOL_FRENZY">🔥 Frenzy Spray ($450/คน) [สายวิ่งยิงประชิด]</option>
+          <option value="PISTOL_FREE">🪙 Free Classic + Full Abilities ($0/คน) [เซฟเงิน 100%]</option>
         `;
       } else {
         const canOpBuy = matchState.teamCredsA >= 21000;
-        const canFullBuy = matchState.teamCredsA >= 17000;
+        const canFullBuy = matchState.teamCredsA >= 15000;
         select.innerHTML = `
-          <option value="OP_FULL_BUY" ${canOpBuy ? 'selected' : (canFullBuy ? '' : 'disabled')}>🎯 Operator + Full Buy: 1x Operator ($4,700) + 4x Vandals + Heavy Shields ($4,300/คน) ${!canOpBuy ? '[เงินไม่พอ]' : ''}</option>
-          <option value="FULL_BUY" ${canFullBuy && !canOpBuy ? 'selected' : (!canFullBuy ? 'disabled' : '')}>🔫 Full Buy: Vandal / Phantom + Full Armor ($3,900/คน) ${!canFullBuy ? '[เงินไม่พอ]' : ''}</option>
-          <option value="FORCE_BUY" ${!canFullBuy ? 'selected' : ''}>⚡ Force Buy: Spectre / Outlaw + Light Armor ($2,400/คน)</option>
-          <option value="ECO_SAVE">🪙 Eco Save: Ghost / Sheriff ($800/คน) [เซฟเงินเพื่อรอบหน้า]</option>
-          <option value="HERO_OP" ${matchState.teamCredsA >= 10000 ? '' : 'disabled'}>🎯 Hero Sniper: Operator ($4,700) + Sheriffs/Eco ($2,200/คน)</option>
+          <option value="OP_FULL_BUY" ${canOpBuy ? 'selected' : (canFullBuy ? '' : 'disabled')}>🎯 Operator + Full Buy: 1x Operator ($4,700) + 4x Vandals/Phantoms + Heavy Shields ${!canOpBuy ? '[เงินไม่พอ]' : ''}</option>
+          <option value="FULL_BUY" ${canFullBuy && !canOpBuy ? 'selected' : (!canFullBuy ? 'disabled' : '')}>🔫 Full Buy: Vandal / Phantom + Full Armor ($3,900/คน) [รอดชีวิตเก็บปืนเดิมไว้ฟรี] ${!canFullBuy ? '[เงินไม่พอ]' : ''}</option>
+          <option value="FORCE_BUY" ${!canFullBuy ? 'selected' : ''}>⚡ Force Buy: Spectre / Bulldog / Outlaw / Marshal / Judge + Armor [รอดชีวิตเก็บปืนเดิมไว้ฟรี]</option>
+          <option value="ECO_SAVE">🪙 Eco Save: Ghost / Sheriff / Classic ($0-$800/คน) [รอดชีวิตเก็บปืนเดิมไว้ฟรี]</option>
+          <option value="HERO_OP" ${matchState.teamCredsA >= 9000 ? '' : 'disabled'}>🎯 Hero Sniper: 1x Operator ($4,700) + เพื่อน Eco/Pistols</option>
         `;
       }
       updateBuyPreview();
@@ -7320,25 +7391,45 @@
       if (!buy || !hint || !tag) return;
 
       if (buy === 'OP_FULL_BUY') {
-        hint.innerHTML = '🎯 <b>Operator + Full Buy:</b> ปืนสไนเปอร์ Operator ตัดตัวระยะไกล + 4x Vandals และเกราะหนัก พร้อมชิง First Blood เด็ดขาด!';
-        tag.innerText = 'Sniper Dominance · Extreme Long-Range Pick';
+        hint.innerHTML = '🎯 <b>Operator + Full Buy:</b> การันตีมือสไนเปอร์หลักถือ Operator ตัดตัวระยะไกล + 4x Vandals/Phantoms และเกราะหนัก (ผู้เล่นที่รอดชีวิตเก็บปืนเดิมไว้ฟรี ไม่เสียเงินซ้ำ)';
+        tag.innerText = 'Sniper Dominance · Operator Guaranteed';
         tag.className = 'text-amber-400 font-mono font-bold';
       } else if (buy === 'FULL_BUY') {
-        hint.innerHTML = '🔫 <b>Full Buy:</b> Vandal / Phantom ครบชุดพร้อมเกราะหนัก 50 หน่วย มาตรฐานการแข่งขันสูงสุด';
+        hint.innerHTML = '🔫 <b>Full Buy:</b> Vandal / Phantom ครบชุดพร้อมเกราะหนัก 50 หน่วย (ผู้เล่นที่รอดชีวิตเก็บปืนเดิมไว้ฟรี ไม่ต้องซื้อใหม่)';
         tag.innerText = 'Maximum Firepower · Rifles Full Shields';
         tag.className = 'text-emerald-400 font-mono font-bold';
       } else if (buy === 'FORCE_BUY') {
-        hint.innerHTML = '⚡ <b>Force Buy:</b> ทุ่มเงินซื้อ Spectre / Outlaw + เกราะเบา เสี่ยงดวงเพื่อพลิกสถานการณ์';
-        tag.innerText = 'Risky Force · Mid Firepower';
+        hint.innerHTML = '⚡ <b>Force Buy หลากหลาย:</b> ผสมผสาน Bulldog, Spectre, Outlaw, Marshal, Judge + เกราะเบา (ผู้เล่นที่รอดชีวิตถือปืนเดิมต่อเพื่อประหยัดเงิน)';
+        tag.innerText = 'Diverse Weapon Arsenal · Mid Firepower';
         tag.className = 'text-amber-400 font-mono font-bold';
       } else if (buy === 'ECO_SAVE') {
-        hint.innerHTML = '🪙 <b>Eco Save:</b> ประหยัดเงิน ซื้อเพียงปืนพก เพื่อเก็บเงินก้อนโตไว้ Full Buy ในรอบถัดไป';
-        tag.innerText = 'Economy Recovery · Low Firepower';
+        hint.innerHTML = '🪙 <b>Eco Save:</b> ซื้อเพียง Ghost, Sheriff หรือ Classic เพื่อเก็บเงินก้อนโตไว้ Full Buy รอบหน้า (ผู้เล่นที่รอดชีวิตถือปืนใหญ่เดิมไว้สู้ต่อได้ฟรี!)';
+        tag.innerText = 'Economy Recovery · Save Guns Retained';
         tag.className = 'text-slate-400 font-mono font-bold';
       } else if (buy === 'HERO_OP') {
-        hint.innerHTML = '🎯 <b>Hero Sniper:</b> ยอมให้เพื่อนเล่นปืนพกประหยัดเงิน เพื่อทุ่มซื้อ Operator 1 กระบอกให้มือสไนเปอร์แบกทีม';
-        tag.innerText = 'Hero Sniper Pick · Vulnerable Team';
+        hint.innerHTML = '🎯 <b>Hero Sniper:</b> ทุ่มเงินซื้อ Operator 1 กระบอกให้มือสไนเปอร์หลักแบกเกม ส่วนเพื่อนคนอื่นเล่นปืนพก/ปืนที่รอดชีวิตมา';
+        tag.innerText = 'Hero Sniper Pick · High Risk / Reward';
         tag.className = 'text-cyan-400 font-mono font-bold';
+      } else if (buy === 'PISTOL_ARMOR') {
+        hint.innerHTML = '🛡️ <b>Classic + Light Armor:</b> สมดุล มีเกราะช่วยลดความเสียหายและมีเงินเหลือซื้อสกิล';
+        tag.innerText = 'Pistol Round · Balanced Shields';
+        tag.className = 'text-emerald-400 font-mono font-bold';
+      } else if (buy === 'PISTOL_GHOST') {
+        hint.innerHTML = '👻 <b>Ghost Precision:</b> ปืนพกเก็บเสียง ดาเมจหัวคมกริบ วันแท็ปได้ในระยะประชิด-กลาง';
+        tag.innerText = 'Pistol Round · High Precision';
+        tag.className = 'text-cyan-400 font-mono font-bold';
+      } else if (buy === 'PISTOL_SHERIFF') {
+        hint.innerHTML = '🤠 <b>Sheriff Heavy:</b> ทุ่มเงิน 800 ทั้งหมดซื้อปืนพกหนัก ยิงหัวนัดเดียวจอด';
+        tag.innerText = 'Pistol Round · Heavy One-Tap';
+        tag.className = 'text-amber-400 font-mono font-bold';
+      } else if (buy === 'PISTOL_FRENZY') {
+        hint.innerHTML = '🔥 <b>Frenzy Spray:</b> ปืนพกกลอัตโนมัติ วิ่งยิงเจาะไซต์ในระยะประชิด';
+        tag.innerText = 'Pistol Round · Rapid Spray';
+        tag.className = 'text-rose-400 font-mono font-bold';
+      } else if (buy === 'PISTOL_FREE') {
+        hint.innerHTML = '🪙 <b>Free Classic:</b> ไม่ซื้อปืนพก ใช้ Classic ฟรี ทุ่มเงินซื้อสกิลทั้งหมด';
+        tag.innerText = 'Pistol Round · Full Utility';
+        tag.className = 'text-slate-400 font-mono font-bold';
       }
     }
 
@@ -7425,8 +7516,14 @@
 
     // --- 7. LOCK PLAN & START ROUND ---
     function lockPlanAndStart() {
+      const isPistol = (matchState.round === 1 || matchState.round === 13);
       currentTacticA = document.getElementById('round-tactic-select').value;
       currentBuyA = document.getElementById('round-buy-select').value;
+
+      // Strict enforcement of pistol options on rounds 1 and 13
+      if (isPistol && !currentBuyA.startsWith('PISTOL_')) {
+        currentBuyA = 'PISTOL_ARMOR';
+      }
 
       // Opponent AI dynamically chooses tactic & buy based on its economy and role
       const curM = getActiveMap();
@@ -7445,10 +7542,15 @@
         currentTacticB = oppTactics[Math.floor(Math.random() * oppTactics.length)];
       }
 
-      if (matchState.teamCredsB >= 22000 && Math.random() < 0.45) {
-        currentBuyB = 'OP_FULL_BUY';
+      if (isPistol) {
+        const aiPistols = ['PISTOL_ARMOR', 'PISTOL_GHOST', 'PISTOL_SHERIFF', 'PISTOL_FRENZY'];
+        currentBuyB = aiPistols[Math.floor(Math.random() * aiPistols.length)];
       } else {
-        currentBuyB = matchState.teamCredsB >= 18000 ? 'FULL_BUY' : (matchState.teamCredsB >= 10000 ? 'FORCE_BUY' : 'ECO_SAVE');
+        if (matchState.teamCredsB >= 22000 && Math.random() < 0.45) {
+          currentBuyB = 'OP_FULL_BUY';
+        } else {
+          currentBuyB = matchState.teamCredsB >= 17000 ? 'FULL_BUY' : (matchState.teamCredsB >= 10000 ? 'FORCE_BUY' : 'ECO_SAVE');
+        }
       }
 
       applyEconomyDeductions();
@@ -7481,68 +7583,225 @@
       startTimer();
     }
 
-    function applyEconomyDeductions() {
+    // Weapon prices and rank tiers for realistic economy and gun retention
+    const WEAPON_PRICE = {
+      'Operator': 4700,
+      'Odin': 3200,
+      'Vandal': 2900,
+      'Phantom': 2900,
+      'Guardian': 2250,
+      'Outlaw': 2400,
+      'Bulldog': 2050,
+      'Judge': 1850,
+      'Spectre': 1600,
+      'Stinger': 1100,
+      'Marshal': 950,
+      'Bucky': 850,
+      'Ares': 1600,
+      'Sheriff': 800,
+      'Ghost': 500,
+      'Frenzy': 450,
+      'Shorty': 300,
+      'Classic': 0
+    };
+
+    const WEAPON_TIER_RANK = {
+      'Operator': 5,
+      'Odin': 4.5,
+      'Vandal': 4,
+      'Phantom': 4,
+      'Guardian': 3.5,
+      'Outlaw': 3.2,
+      'Bulldog': 3,
+      'Judge': 2.6,
+      'Spectre': 2.5,
+      'Marshal': 2.2,
+      'Stinger': 2.0,
+      'Bucky': 1.8,
+      'Ares': 2.4,
+      'Sheriff': 1.2,
+      'Ghost': 1.0,
+      'Frenzy': 0.9,
+      'Shorty': 0.7,
+      'Classic': 0
+    };
+
+    function applyTeamEquipment(team, buyTier) {
       const isPistol = (matchState.round === 1 || matchState.round === 13);
-      
-      // Deduct Team A
-      let costPerPlayerA = 0;
-      if (isPistol) {
-        if (currentBuyA === 'PISTOL_ARMOR') { costPerPlayerA = 400; assignTeamWeapons('A', 'Classic', 25); }
-        else if (currentBuyA === 'PISTOL_GHOST') { costPerPlayerA = 500; assignTeamWeapons('A', 'Ghost', 0); }
-        else if (currentBuyA === 'PISTOL_SHERIFF') { costPerPlayerA = 800; assignTeamWeapons('A', 'Sheriff', 0); }
-        else { costPerPlayerA = 0; assignTeamWeapons('A', 'Classic', 0); }
-      } else {
-        if (currentBuyA === 'OP_FULL_BUY') { costPerPlayerA = 4260; assignTeamWeapons('A', 'Vandal', 50, 'Operator'); }
-        else if (currentBuyA === 'FULL_BUY') { costPerPlayerA = 3900; assignTeamWeapons('A', 'Vandal', 50); }
-        else if (currentBuyA === 'FORCE_BUY') { costPerPlayerA = 2400; assignTeamWeapons('A', 'Spectre', 25); }
-        else if (currentBuyA === 'ECO_SAVE') { costPerPlayerA = 800; assignTeamWeapons('A', 'Sheriff', 0); }
-        else if (currentBuyA === 'HERO_OP') { costPerPlayerA = 2200; assignTeamWeapons('A', 'Sheriff', 0, 'Operator'); }
-      }
-      matchState.teamCredsA = Math.max(0, matchState.teamCredsA - (costPerPlayerA * 5));
+      const teamPlayers = matchPlayers.filter(p => p.team === team);
+      let totalSpent = 0;
 
-      // Deduct Team B
-      let costPerPlayerB = isPistol ? 500 : (currentBuyB === 'OP_FULL_BUY' ? 4260 : (currentBuyB === 'FULL_BUY' ? 3900 : (currentBuyB === 'FORCE_BUY' ? 2400 : 800)));
       if (isPistol) {
-        assignTeamWeapons('B', 'Ghost', 0);
-      } else if (currentBuyB === 'OP_FULL_BUY') {
-        assignTeamWeapons('B', 'Vandal', 50, 'Operator');
-      } else if (currentBuyB === 'FULL_BUY') {
-        assignTeamWeapons('B', 'Vandal', 50);
-      } else if (currentBuyB === 'FORCE_BUY') {
-        assignTeamWeapons('B', 'Spectre', 25);
-      } else {
-        assignTeamWeapons('B', 'Sheriff', 0);
-      }
-      matchState.teamCredsB = Math.max(0, matchState.teamCredsB - (costPerPlayerB * 5));
+        teamPlayers.forEach(p => {
+          p.savedWeapon = null;
+          p.savedArmor = 0;
+          let wep = 'Classic';
+          let arm = 0;
+          let cost = 0;
 
+          if (buyTier === 'PISTOL_GHOST') {
+            wep = 'Ghost'; cost = 500; arm = 0;
+          } else if (buyTier === 'PISTOL_SHERIFF') {
+            wep = 'Sheriff'; cost = 800; arm = 0;
+          } else if (buyTier === 'PISTOL_FRENZY') {
+            wep = 'Frenzy'; cost = 450; arm = 0;
+          } else if (buyTier === 'PISTOL_ARMOR') {
+            wep = 'Classic'; cost = 400; arm = 25;
+          } else {
+            wep = 'Classic'; cost = 0; arm = 0;
+          }
+          p.weapon = wep;
+          p.armor = arm;
+          totalSpent += cost;
+        });
+
+        if (team === 'A') {
+          matchState.teamCredsA = Math.max(0, matchState.teamCredsA - totalSpent);
+        } else {
+          matchState.teamCredsB = Math.max(0, matchState.teamCredsB - totalSpent);
+        }
+        return;
+      }
+
+      // Non-Pistol Rounds (Gun Retention & Weapon Diversity)
+      let designatedOpIdx = -1;
+      if (buyTier === 'OP_FULL_BUY' || buyTier === 'HERO_OP') {
+        // Priority 1: Did an alive player already hold an Operator from the previous round?
+        const existingOpIdx = teamPlayers.findIndex(p => p.savedWeapon === 'Operator');
+        if (existingOpIdx !== -1) {
+          designatedOpIdx = existingOpIdx;
+        } else {
+          // Priority 2: Chamber or Jett
+          const prefIdx = teamPlayers.findIndex(p => ['Jett', 'Chamber'].includes(p.agent));
+          if (prefIdx !== -1) {
+            designatedOpIdx = prefIdx;
+          } else {
+            // Priority 3: Duelist or highest aim
+            let bestAim = -1;
+            teamPlayers.forEach((p, i) => {
+              const aimScore = (p.role === 'Duelist' ? 10 : 0) + (p.aim || 90);
+              if (aimScore > bestAim) { bestAim = aimScore; designatedOpIdx = i; }
+            });
+          }
+        }
+      }
+
+      teamPlayers.forEach((p, idx) => {
+        const hasSavedWep = !!p.savedWeapon;
+        const savedRank = p.savedWeapon ? (WEAPON_TIER_RANK[p.savedWeapon] || 0) : 0;
+        let chosenWep = p.weapon || 'Classic';
+        let chosenArmor = p.armor || 0;
+        let cost = 0;
+
+        if (buyTier === 'OP_FULL_BUY') {
+          if (idx === designatedOpIdx) {
+            chosenWep = 'Operator';
+            chosenArmor = 50;
+            if (p.savedWeapon === 'Operator') {
+              cost = (p.savedArmor >= 50) ? 0 : 400;
+            } else {
+              cost = 4700 + ((p.savedArmor >= 50) ? 0 : 400);
+            }
+          } else {
+            if (hasSavedWep && savedRank >= 4) {
+              chosenWep = p.savedWeapon;
+              chosenArmor = 50;
+              cost = (p.savedArmor >= 50) ? 0 : 400;
+            } else {
+              const isSmoker = ['Controller'].includes(p.role) || ['Omen', 'Viper', 'Astra', 'Brimstone', 'Clove'].includes(p.agent);
+              chosenWep = isSmoker ? (Math.random() < 0.7 ? 'Phantom' : 'Vandal') : (Math.random() < 0.25 ? 'Phantom' : 'Vandal');
+              chosenArmor = 50;
+              cost = 2900 + ((p.savedArmor >= 50) ? 0 : 400);
+            }
+          }
+        } else if (buyTier === 'FULL_BUY') {
+          if (hasSavedWep && savedRank >= 4) {
+            chosenWep = p.savedWeapon;
+            chosenArmor = 50;
+            cost = (p.savedArmor >= 50) ? 0 : 400;
+          } else {
+            const isSmoker = ['Controller'].includes(p.role) || ['Omen', 'Viper', 'Astra', 'Brimstone', 'Clove'].includes(p.agent);
+            chosenWep = isSmoker ? (Math.random() < 0.7 ? 'Phantom' : 'Vandal') : (Math.random() < 0.25 ? 'Phantom' : 'Vandal');
+            chosenArmor = 50;
+            cost = 2900 + ((p.savedArmor >= 50) ? 0 : 400);
+          }
+        } else if (buyTier === 'FORCE_BUY') {
+          if (hasSavedWep && savedRank >= 3) {
+            // Player saved a rifle/sniper from previous round! Keep it for free!
+            chosenWep = p.savedWeapon;
+            chosenArmor = Math.max(p.savedArmor || 0, 25);
+            cost = (p.savedArmor >= 25) ? 0 : 400;
+          } else {
+            // Diverse SMGs / shotguns / mid-tier rifles
+            if (p.agent === 'Jett' || p.agent === 'Chamber') {
+              chosenWep = Math.random() < 0.5 ? 'Marshal' : 'Outlaw';
+            } else if (['Duelist', 'Initiator'].includes(p.role)) {
+              const pool = ['Bulldog', 'Spectre', 'Outlaw', 'Guardian'];
+              chosenWep = pool[idx % pool.length];
+            } else {
+              const pool = ['Spectre', 'Bulldog', 'Judge', 'Guardian', 'Stinger'];
+              chosenWep = pool[idx % pool.length];
+            }
+            chosenArmor = 25;
+            cost = (WEAPON_PRICE[chosenWep] || 1600) + ((p.savedArmor >= 25) ? 0 : 400);
+          }
+        } else if (buyTier === 'ECO_SAVE') {
+          if (hasSavedWep && savedRank >= 2.5) {
+            chosenWep = p.savedWeapon;
+            chosenArmor = p.savedArmor || 0;
+            cost = 0;
+          } else {
+            if ((p.aim || 90) >= 92 && Math.random() < 0.55) {
+              chosenWep = 'Sheriff'; cost = 800;
+            } else {
+              const ecoPool = ['Ghost', 'Ghost', 'Frenzy', 'Classic'];
+              chosenWep = ecoPool[idx % ecoPool.length];
+              cost = WEAPON_PRICE[chosenWep] || 0;
+            }
+            chosenArmor = 0;
+          }
+        } else if (buyTier === 'HERO_OP') {
+          if (idx === designatedOpIdx) {
+            chosenWep = 'Operator';
+            chosenArmor = 25;
+            cost = (p.savedWeapon === 'Operator') ? 0 : 4700;
+          } else {
+            if (hasSavedWep && savedRank >= 2.5) {
+              chosenWep = p.savedWeapon;
+              chosenArmor = p.savedArmor || 0;
+              cost = 0;
+            } else {
+              chosenWep = Math.random() < 0.5 ? 'Sheriff' : 'Ghost';
+              chosenArmor = 0;
+              cost = WEAPON_PRICE[chosenWep] || 500;
+            }
+          }
+        }
+
+        p.weapon = chosenWep;
+        p.armor = chosenArmor;
+        totalSpent += cost;
+      });
+
+      if (team === 'A') {
+        matchState.teamCredsA = Math.max(0, matchState.teamCredsA - totalSpent);
+      } else {
+        matchState.teamCredsB = Math.max(0, matchState.teamCredsB - totalSpent);
+      }
+    }
+
+    function applyEconomyDeductions() {
+      applyTeamEquipment('A', currentBuyA);
+      applyTeamEquipment('B', currentBuyB);
+
+      document.getElementById('team-creds-display').innerText = `$${matchState.teamCredsA.toLocaleString()}`;
+      document.getElementById('team-creds-badge').innerText = `$${matchState.teamCredsA.toLocaleString()}`;
       document.getElementById('loadout-label-a').innerText = `${currentTacticA} (${currentBuyA})`;
       document.getElementById('loadout-label-b').innerText = `${currentTacticB} (${currentBuyB})`;
     }
 
     function assignTeamWeapons(team, weaponName, armorVal, heroOpWeapon = null) {
-      const teamPlayers = matchPlayers.filter(p => p.team === team);
-      let opIdx = 0;
-      if (heroOpWeapon === 'Operator') {
-        const prefIdx = teamPlayers.findIndex(p => ['Jett', 'Chamber'].includes(p.agent));
-        if (prefIdx !== -1) {
-          opIdx = prefIdx;
-        } else {
-          let maxAim = -1;
-          teamPlayers.forEach((p, i) => {
-            if ((p.aim || 0) > maxAim) { maxAim = p.aim; opIdx = i; }
-          });
-        }
-      }
-
-      teamPlayers.forEach((p, idx) => {
-        // If player survived previous round with high-tier weapon, keep it!
-        if (p.weapon === 'Operator' || (p.weapon === 'Vandal' && weaponName !== 'Operator')) {
-          // kept weapon free!
-        } else {
-          p.weapon = (heroOpWeapon && idx === opIdx) ? heroOpWeapon : weaponName;
-        }
-        p.armor = armorVal;
-      });
+      applyTeamEquipment(team, weaponName);
     }
 
     function evaluateTacticalClash(stratA, stratB) {
@@ -9049,7 +9308,7 @@
           for (let b of aliveB) {
             if (!b.alive) continue;
             const dist = Math.hypot(a.x - b.x, a.y - b.y);
-            const isSniperDuel = (a.weapon === 'Operator' || b.weapon === 'Operator' || a.weapon === 'Outlaw' || b.weapon === 'Outlaw');
+            const isSniperDuel = (a.weapon === 'Operator' || b.weapon === 'Operator' || a.weapon === 'Outlaw' || b.weapon === 'Outlaw' || a.weapon === 'Marshal' || b.weapon === 'Marshal');
             // Snipers hold long sightlines up to 230px, while regular rifles engage at up to 145px
             const maxEngagementDist = isSniperDuel ? 230 : 145;
             if (dist < maxEngagementDist && hasLineOfSight(a.x, a.y, b.x, b.y, currentMap)) {
@@ -9094,12 +9353,22 @@
 
     const WEAPON_POWER = {
       'Operator': 120,
+      'Odin': 98,
       'Vandal': 94,
       'Phantom': 92,
+      'Guardian': 88,
       'Outlaw': 84,
+      'Bulldog': 82,
+      'Judge': 78,
+      'Ares': 76,
+      'Marshal': 75,
       'Spectre': 74,
+      'Stinger': 70,
+      'Bucky': 68,
       'Sheriff': 72,
       'Ghost': 58,
+      'Frenzy': 56,
+      'Shorty': 52,
       'Classic': 50
     };
 
@@ -9242,17 +9511,27 @@
       let killer = roll < probA ? playerA : playerB;
       let victim = roll < probA ? playerB : playerA;
 
-      const isOneShot = (killer.weapon === 'Operator') || (['Vandal', 'Sheriff'].includes(killer.weapon) && Math.random() < 0.36) || (killer.aim >= 94 && Math.random() < 0.32);
-      const isHeadshot = (killer.weapon !== 'Operator' && isOneShot) || (killer.weapon === 'Vandal' && Math.random() < 0.32) || (killer.weapon === 'Phantom' && Math.random() < 0.26) || (killer.weapon === 'Sheriff' && Math.random() < 0.34) || (killer.aim >= 95 && Math.random() < 0.22);
+      const isOneShot = (killer.weapon === 'Operator') || (['Vandal', 'Sheriff', 'Guardian', 'Marshal'].includes(killer.weapon) && Math.random() < 0.36) || (killer.aim >= 94 && Math.random() < 0.32);
+      const isHeadshot = (killer.weapon !== 'Operator' && isOneShot) || (killer.weapon === 'Vandal' && Math.random() < 0.32) || (killer.weapon === 'Phantom' && Math.random() < 0.26) || (killer.weapon === 'Sheriff' && Math.random() < 0.34) || (killer.weapon === 'Guardian' && Math.random() < 0.38) || (killer.aim >= 95 && Math.random() < 0.22);
 
       const weaponDmgTable = {
         'Operator': 150,
+        'Odin': 38,
         'Vandal': 40,
         'Phantom': 35,
+        'Guardian': 65,
+        'Bulldog': 35,
         'Outlaw': 125,
+        'Judge': 50,
         'Spectre': 26,
+        'Marshal': 101,
+        'Stinger': 27,
+        'Bucky': 45,
+        'Ares': 30,
         'Sheriff': 55,
         'Ghost': 30,
+        'Frenzy': 26,
+        'Shorty': 44,
         'Classic': 25
       };
 
@@ -10259,18 +10538,47 @@ function endRound(winner) {
       updateScoreboardUI();
       updateRoundHistoryPips();
 
-      // Check Overtime Trigger (both teams reach >= 12) & Match Victory Conditions
+      // Record surviving players' weapons & armor for Gun Retention (Save Gun)
+      matchPlayers.forEach(p => {
+        if (p.alive && p.hp > 0) {
+          p.savedWeapon = p.weapon || 'Classic';
+          p.savedArmor = p.armor || 0;
+        } else {
+          p.savedWeapon = null;
+          p.savedArmor = 0;
+          p.weapon = 'Classic';
+          p.armor = 0;
+        }
+      });
+
+      // Check Halftime Completion at Round 12
+      if (matchState.round === 12) {
+        // Clear saved weapons across halftime - both teams restart with pistols ($800)
+        matchPlayers.forEach(p => {
+          p.savedWeapon = null;
+          p.savedArmor = 0;
+          p.weapon = 'Classic';
+          p.armor = 0;
+        });
+        const rStatus = document.getElementById('round-status');
+        if (rStatus) {
+          rStatus.innerHTML = `🔄 <b class="text-amber-400">จบครึ่งแรก (12 รอบ) สกอร์ ${matchState.scoreA}:${matchState.scoreB}! กำลังสลับฝั่งแข่งขันสำหรับครึ่งหลัง (HALF-TIME SWAP)</b>`;
+        }
+        addEventLog(`🔄 จบการแข่งขันครึ่งแรก (12 รอบ) สกอร์ ${matchState.scoreA} : ${matchState.scoreB} · เตรียมสลับฝั่งแข่งขันสำหรับรอบปืนพกที่ 2`);
+      }
+
+      // Check Overtime Trigger (both teams reach >= 12 and 24 rounds regulation complete) & Match Victory Conditions
       const scoreA = matchState.scoreA;
       const scoreB = matchState.scoreB;
 
-      // 1. Enter Overtime if both teams reach at least 12
-      const isOvertimeMatch = matchState.isOvertime || (scoreA >= 12 && scoreB >= 12);
+      // 1. Enter Overtime strictly if both teams reach at least 12 (12-12)
+      const isOvertimeMatch = (scoreA >= 12 && scoreB >= 12 && (scoreA + scoreB >= 24));
       if (isOvertimeMatch && !matchState.isOvertime) {
         matchState.isOvertime = true;
-        addEventLog(`🚨 สกอร์เข้าสู่ช่วงต่อเวลาพิเศษ (OVERTIME)! ทั้งสองทีมต้องผลัดกันบุก/รับ และชนะนำ 2 รอบเพื่อคว้าชัย`);
+        addEventLog(`🚨 สกอร์เสมอกันที่ 12-12 เข้าสู่ช่วงต่อเวลาพิเศษ (OVERTIME)! ทั้งสองทีมต้องผลัดกันบุก/รับ และชนะนำ 2 รอบเพื่อคว้าชัย`);
         const rStatus = document.getElementById('round-status');
         if (rStatus) {
-          rStatus.innerHTML = `⚡ <b class="text-amber-400">เข้าสู่ช่วงต่อเวลาพิเศษ OVERTIME (ต้องนำห่าง 2 รอบเพื่อชนะ)</b>`;
+          rStatus.innerHTML = `⚡ <b class="text-amber-400">เข้าสู่ช่วงต่อเวลาพิเศษ OVERTIME (12-12 · ต้องนำห่าง 2 รอบเพื่อชนะ)</b>`;
         }
       }
 
@@ -10786,21 +11094,29 @@ function endRound(winner) {
       `;
     }
 
-    function restartFullMatch() {
-      document.getElementById('match-over-modal').classList.add('hidden');
-      document.getElementById('match-over-modal').classList.remove('flex');
-      matchState = {
-        round: 1,
-        scoreA: 0,
-        scoreB: 0,
-        isFullSenseAttacking: true,
-        lossStreakA: 0,
-        lossStreakB: 0,
-        teamCredsA: 4000,
-        teamCredsB: 4000,
-        roundHistory: [],
-        matchOver: false
-      };
+    function resetMatchState(teamAName = null, teamBName = null, startingSide = 'ATK') {
+      matchState.round = 1;
+      matchState.scoreA = 0;
+      matchState.scoreB = 0;
+      matchState.isOvertime = false;
+      matchState.hasHalftimeSwapped = false;
+      matchState.matchOver = false;
+      matchState.lossStreakA = 0;
+      matchState.lossStreakB = 0;
+      matchState.teamCredsA = 4000;
+      matchState.teamCredsB = 4000;
+      matchState.roundHistory = [];
+      matchState.isFullSenseAttacking = (startingSide === 'ATK');
+
+      if (teamAName) matchState.teamAName = teamAName;
+      if (teamBName) matchState.teamBName = teamBName;
+
+      timeoutCount = 0;
+      timeoutQueued = false;
+      activeTimeoutBuff = null;
+      winStreakA = 0;
+      winStreakB = 0;
+      currentRoundFirstBlood = false;
 
       // Reset all player match stats
       matchPlayers.forEach(p => {
@@ -10815,17 +11131,41 @@ function endRound(winner) {
         p.weapon = 'Classic';
         p.armor = 0;
         p.creds = 800;
+        p.savedWeapon = null;
+        p.savedArmor = 0;
+        p.ultPoints = 2;
+        p.ultReady = false;
+        p.ultActive = false;
+        p.utilityCharges = 2;
+        p.utilityCooldown = 0;
+        p.status = { blinded: 0, revealed: 0, concussed: 0, detained: 0, decay: 0, secondLife: false };
       });
 
-      timeoutCount = 0;
-      timeoutQueued = false;
-      activeTimeoutBuff = null;
-      winStreakA = 0;
-      winStreakB = 0;
-      currentRoundFirstBlood = false;
+      // Clear previous match killfeed stream completely!
+      const feed = document.getElementById('killfeed-stream');
+      if (feed) feed.innerHTML = '';
 
-      syncRosterToMatchPlayers();
+      // Clear any overtime/halftime banners and modals
+      const htBanner = document.getElementById('halftime-banner');
+      if (htBanner) htBanner.classList.add('hidden');
+      const moModal = document.getElementById('match-over-modal');
+      if (moModal) { moModal.classList.add('hidden'); moModal.classList.remove('flex'); }
+
+      const btnTimeout = document.getElementById('btn-timeout');
+      if (btnTimeout) btnTimeout.innerHTML = '<span>⏳ เวลานอก (2/2)</span>';
+
       initRoundHistoryStrip();
+      updateScoreboardUI();
+    }
+
+    function restartFullMatch() {
+      const moModal = document.getElementById('match-over-modal');
+      if (moModal) {
+        moModal.classList.add('hidden');
+        moModal.classList.remove('flex');
+      }
+      resetMatchState(matchState.teamAName, matchState.teamBName, 'ATK');
+      syncRosterToMatchPlayers();
       enterBuyPhase(1);
     }
 
@@ -11244,26 +11584,14 @@ function endRound(winner) {
       }
       updateDashboardFixtureCard();
 
-      // 2. Set Starting Side & Team Names
-      matchState.isFullSenseAttacking = vetoState.startingSideIsAttacker;
-      matchState.teamAName = vetoState.myName || (myClubName || 'MY TEAM').toUpperCase();
-      matchState.teamBName = vetoState.oppName || 'OPPONENT';
+      // 2. Reset Match to Round 1 (0-0) and clean all Overtime / Halftime states
+      resetMatchState(
+        vetoState.myName || (myClubName || 'MY TEAM').toUpperCase(),
+        vetoState.oppName || 'OPPONENT',
+        vetoState.startingSideIsAttacker ? 'ATK' : 'DEF'
+      );
 
-      // 3. Reset Match to Round 1 (0-0)
-      matchState.round = 1;
-      matchState.scoreA = 0;
-      matchState.scoreB = 0;
-      matchState.lossStreakA = 0;
-      matchState.lossStreakB = 0;
-      matchState.teamCredsA = 4000;
-      matchState.teamCredsB = 4000;
-      timeoutCount = 0;
-      timeoutQueued = false;
-      activeTimeoutBuff = null;
-      winStreakA = 0;
-      winStreakB = 0;
-
-      // 4. Synchronize Full Roster to Match Engine & Bot Meta Comp
+      // 3. Synchronize Full Roster to Match Engine & Bot Meta Comp
       syncRosterToMatchPlayers();
       const meta = MAP_META[vetoState.deciderMap] || { comp: ['Jett', 'Sova', 'Omen', 'Killjoy', 'Breach'] };
       for (let i = 0; i < 5; i++) {
@@ -11724,15 +12052,8 @@ function endRound(winner) {
       currentGameMode = 'FRIENDLY';
       closeFriendlySetupModal();
 
-      // Set Team A & Team B in matchState
-      matchState.teamAName = teamAName;
-      matchState.teamBName = teamBName;
-      matchState.scoreA = 0;
-      matchState.scoreB = 0;
-      matchState.teamCredsA = 800 * 5; // Pistol creds
-      matchState.teamCredsB = 800 * 5;
-      matchState.isFullSenseAttacking = (startingSide === 'ATK');
-      matchState.roundHistory = [];
+      // Reset Match State to Round 1 (0-0) and clean all Overtime / Halftime states
+      resetMatchState(teamAName, teamBName, startingSide);
 
       // Update Scoreboard UI
       const scoreNameA = document.getElementById('score-name-a');
@@ -14882,6 +15203,23 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
         if (replacement) {
           replacement.teamId = formerTeamId;
           replacement.teamName = formerTeamName;
+
+          // Update fallbackRosters[formerTeamId] if present
+          if (typeof fallbackRosters !== 'undefined' && fallbackRosters[formerTeamId]) {
+            const idxInFb = fallbackRosters[formerTeamId].findIndex(fb => (fb.name && fb.name.toLowerCase() === p.name.toLowerCase()) || fb.id === p.id);
+            if (idxInFb !== -1) {
+              fallbackRosters[formerTeamId][idxInFb] = {
+                id: replacement.id,
+                name: replacement.name,
+                role: replacement.role,
+                agent: replacement.agent || (replacement.agentPool && replacement.agentPool[0]) || 'Jett',
+                aim: replacement.stats?.aim || replacement.aim || replacement.overall || 90,
+                iq: replacement.stats?.iq || replacement.iq || replacement.overall || 90,
+                clutch: replacement.stats?.clutch || replacement.clutch || replacement.overall || 90
+              };
+            }
+          }
+
           if (poachedClubName) {
             addEventLog(`📢 ข่าวตลาดซื้อขาย: ${formerTeamName} ทุ่มงบดึงตัว "${replacement.name}" (${replacement.role}) จากสโมสร ${poachedClubName} เข้ามาทดแทน "${p.name}"!`);
             // Poached club signs a Free Agent to maintain squad
@@ -14890,6 +15228,20 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
             if (subRepl) {
               subRepl.teamId = poachedClubId;
               subRepl.teamName = poachedClubName;
+              if (typeof fallbackRosters !== 'undefined' && fallbackRosters[poachedClubId]) {
+                const idxInFb2 = fallbackRosters[poachedClubId].findIndex(fb => (fb.name && fb.name.toLowerCase() === replacement.name.toLowerCase()) || fb.id === replacement.id);
+                if (idxInFb2 !== -1) {
+                  fallbackRosters[poachedClubId][idxInFb2] = {
+                    id: subRepl.id,
+                    name: subRepl.name,
+                    role: subRepl.role,
+                    agent: subRepl.agent || (subRepl.agentPool && subRepl.agentPool[0]) || 'Jett',
+                    aim: subRepl.stats?.aim || subRepl.aim || subRepl.overall || 90,
+                    iq: subRepl.stats?.iq || subRepl.iq || subRepl.overall || 90,
+                    clutch: subRepl.stats?.clutch || subRepl.clutch || subRepl.overall || 90
+                  };
+                }
+              }
               addEventLog(`📢 ข่าวตลาดซื้อขาย: ${poachedClubName} ดึงตัว "${subRepl.name}" จาก Free Agent เข้าสู่ทีมแทน`);
             }
           } else {
@@ -14963,8 +15315,37 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
 
       const oppSquad = getSquadForTeam(oppTeamName);
 
+      // Extra safeguard: Collect Team A player names & IDs to guarantee 0 duplicates
+      const teamANames = new Set(matchPlayers.slice(0, 5).map(p => (p.name || '').toLowerCase()));
+      const teamAIds = new Set(matchPlayers.slice(0, 5).map(p => (p.id || '').toString()));
+
       for (let i = 0; i < 5; i++) {
-        const opp = oppSquad[i] || { name: `Player ${i+1}`, role: 'Flex', agent: 'Jett', aim: 91, iq: 90, clutch: 90 };
+        let opp = oppSquad[i] || { name: `Player ${i+1}`, role: 'Flex', agent: 'Jett', aim: 91, iq: 90, clutch: 90 };
+
+        // Duplicate guard: If opp player matches any player in Team A, replace from Free Agents!
+        if (teamANames.has((opp.name || '').toLowerCase()) || teamAIds.has((opp.id || '').toString())) {
+          const safeFA = (typeof allPlayers !== 'undefined') ? allPlayers.find(fa => 
+            (fa.teamId === 'free_agent' || fa.teamName === 'Free Agent' || !fa.teamId) &&
+            !teamANames.has((fa.name || '').toLowerCase()) &&
+            !teamAIds.has((fa.id || '').toString()) &&
+            !oppSquad.some((o, oIdx) => oIdx !== i && o && o.name && o.name.toLowerCase() === fa.name.toLowerCase())
+          ) : null;
+          if (safeFA) {
+            opp = {
+              id: safeFA.id,
+              name: safeFA.name,
+              role: safeFA.role || opp.role,
+              agent: opp.agent,
+              aim: safeFA.stats?.aim || safeFA.aim || safeFA.overall || 90,
+              iq: safeFA.stats?.iq || safeFA.iq || safeFA.overall || 90,
+              clutch: safeFA.stats?.clutch || safeFA.clutch || safeFA.overall || 90,
+              form: 'normal',
+              injured: false,
+              injury: null
+            };
+          }
+        }
+
         matchPlayers[5 + i].id = opp.id || `p${6+i}`;
         matchPlayers[5 + i].team = 'B';
         matchPlayers[5 + i].name = opp.name;
