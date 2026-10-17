@@ -34,10 +34,13 @@
 
   /* Killfeed & Weapon Icons */
   .icon-killfeed {
-    filter: brightness(0) invert(1) drop-shadow(0 0 2px rgba(255,255,255,0.5));
+    filter: brightness(0) invert(1) drop-shadow(0 0 1px rgba(255,255,255,0.8));
     height: 16px;
-    max-width: 50px;
+    max-width: 55px;
+    width: auto;
     object-fit: contain;
+    display: inline-block;
+    vertical-align: middle;
   }
   .icon-ability {
     filter: drop-shadow(0 0 3px rgba(16, 185, 129, 0.7));
@@ -195,9 +198,14 @@
             <span class="text-[11px] text-slate-300" id="landing-save-detail">สโมสร FULL SENSE · Season 1, Week 1</span>
           </div>
         </div>
-        <button onclick="continueFromExistingSave()" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs transition shadow cursor-pointer">
-          ▶ เล่นต่อจากเซฟเดิมทันที
-        </button>
+        <div class="flex items-center gap-2 shrink-0">
+          <button onclick="continueFromExistingSave()" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs transition shadow cursor-pointer">
+            ▶ เล่นต่อจากเซฟเดิมทันที
+          </button>
+          <button onclick="deleteCareerSave()" title="ลบข้อมูลเซฟปัจจุบันเพื่อเริ่มใหม่" class="px-3 py-2 rounded-lg bg-rose-950/80 hover:bg-rose-900 text-rose-300 border border-rose-500/40 font-bold text-xs transition shadow flex items-center gap-1 cursor-pointer">
+            <span>🗑️</span><span>ลบเซฟ</span>
+          </button>
+        </div>
       </div>
 
       <!-- SECTION: CHOOSE GAME MODE (3 BALANCED NEUTRAL CARDS) -->
@@ -552,7 +560,7 @@
             <span>กติกา: <b class="text-emerald-400">First to 13 (VCT)</b></span>
           </div>
           <div class="flex items-center gap-1.5 mt-2">
-            <button onclick="startCareerMatchDay()" class="flex-1 py-1.5 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 text-xs font-black rounded-lg transition text-center shadow cursor-pointer">
+            <button id="dash-btn-match-action" onclick="startCareerMatchDay()" class="flex-1 py-1.5 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 text-xs font-black rounded-lg transition text-center shadow cursor-pointer">
               แมตช์เดย์ ⚡ (BAN/PICK & แข่งขัน)
             </button>
             <button onclick="openFixturesModal()" class="px-2.5 py-1.5 bg-[#101b30] hover:bg-[#182947] text-cyan-300 text-xs font-bold rounded-lg border border-[#1e3256] transition text-center cursor-pointer" title="ดูตารางแข่งขันทั้งฤดูกาล">
@@ -866,8 +874,8 @@
       <!-- ZERO-SCROLL COMMAND CENTER ARENA (Height: calc(100vh - 48px - 44px)) -->
       <div class="flex-1 flex overflow-hidden p-2 gap-2.5 min-h-0">
         
-        <!-- ==================== LEFT 60%: 2D RADAR CANVAS & TACTICAL DOCK ==================== -->
-        <div class="flex-[3] flex flex-col items-center justify-between bg-[#070b16] border border-[#172642] rounded-xl p-2 relative overflow-hidden min-h-0 shadow-2xl">
+        <!-- ==================== LEFT: 2D RADAR CANVAS & TACTICAL DOCK ==================== -->
+        <div class="w-[440px] lg:w-[460px] max-w-[460px] shrink-0 flex flex-col items-center justify-between bg-[#070b16] border border-[#172642] rounded-xl p-2 relative overflow-hidden min-h-0 shadow-2xl">
           
           <!-- Tactical Canvas Container -->
           <div class="flex-1 flex items-center justify-center w-full min-h-0 relative">
@@ -1002,12 +1010,12 @@
           </div>
         </div>
 
-        <!-- ==================== RIGHT 40%: UNIFIED COMMAND HUD ==================== -->
-        <div class="flex-[2] w-[420px] max-w-[42%] flex flex-col gap-2 h-full min-h-0 overflow-hidden">
+        <!-- ==================== RIGHT: UNIFIED COMMAND HUD ==================== -->
+        <div class="flex-1 min-w-[460px] flex flex-col gap-2 h-full min-h-0 overflow-hidden">
           
-          <!-- 1. LIVE TEAMS ROSTER HUD -->
-          <div class="flex-[4] min-h-0 bg-[#090f1d] border border-[#172642] rounded-xl p-2.5 flex flex-col justify-between overflow-hidden shadow-xl">
-            <div class="flex items-center justify-between pb-1.5 border-b border-[#172642] shrink-0">
+          <!-- 1. LIVE TEAMS ROSTER HUD (10 PLAYERS COMPACT) -->
+          <div class="shrink-0 bg-[#090f1d] border border-[#172642] rounded-xl p-2 flex flex-col overflow-hidden shadow-xl">
+            <div class="flex items-center justify-between pb-1 border-b border-[#172642] shrink-0">
               <span class="text-xs font-bold text-white flex items-center gap-1.5">
                 <span>👥</span> สถานะนักแข่ง 10 คน (STAT-DRIVEN HUD)
               </span>
@@ -1018,10 +1026,10 @@
               </div>
             </div>
 
-            <div class="flex-1 overflow-y-auto min-h-0 pr-1 flex flex-col gap-2 mt-1.5">
+            <div class="flex flex-col gap-1 mt-1 overflow-y-auto max-h-[350px] pr-0.5">
               <!-- Team A -->
               <div>
-                <div class="text-[10px] font-bold mb-1 flex items-center justify-between uppercase font-mono" id="hud-header-a">
+                <div class="text-[10px] font-bold mb-0.5 flex items-center justify-between uppercase font-mono" id="hud-header-a">
                   <span class="flex items-center gap-1">
                     <span class="w-1.5 h-1.5 rounded-full" id="hud-dot-a"></span>
                     <span id="team-title-a">FULL SENSE</span>
@@ -1033,7 +1041,7 @@
 
               <!-- Team B -->
               <div class="pt-1 border-t border-[#172642]/60">
-                <div class="text-[10px] font-bold mb-1 flex items-center justify-between uppercase font-mono" id="hud-header-b">
+                <div class="text-[10px] font-bold mb-0.5 flex items-center justify-between uppercase font-mono" id="hud-header-b">
                   <span class="flex items-center gap-1">
                     <span class="w-1.5 h-1.5 rounded-full" id="hud-dot-b"></span>
                     <span id="team-title-b">PAPER REX</span>
@@ -1108,15 +1116,15 @@
         <!-- Final Score Pill -->
         <div class="flex items-center gap-3 bg-[#050812] border border-[#17253f] px-4 py-2 rounded-xl shadow-inner">
           <div class="text-right">
-            <span class="text-xs font-bold text-white block">FULL SENSE</span>
-            <span class="text-[9px] font-mono text-emerald-400">WINNER</span>
+            <span class="text-xs font-bold text-white block" id="report-team-a-name">FULL SENSE</span>
+            <span class="text-[9px] font-mono text-emerald-400 font-bold" id="report-team-a-badge">WINNER</span>
           </div>
           <div class="text-2xl sm:text-3xl font-vct font-black text-emerald-400 px-2 border-x border-[#17253f]" id="modal-final-score">
             13 - 8
           </div>
           <div class="text-left">
-            <span class="text-xs font-bold text-slate-400 block">PAPER REX</span>
-            <span class="text-[9px] font-mono text-slate-500">DEFEATED</span>
+            <span class="text-xs font-bold text-slate-400 block" id="report-team-b-name">PAPER REX</span>
+            <span class="text-[9px] font-mono text-slate-500 font-bold" id="report-team-b-badge">DEFEATED</span>
           </div>
         </div>
       </div>
@@ -1173,7 +1181,7 @@
         <!-- Team A Table -->
         <div class="bg-[#050812] rounded-xl border border-[#17253f] overflow-hidden">
           <div class="bg-gradient-to-r from-emerald-950/60 to-[#091120] px-3 py-1.5 border-b border-[#17253f] flex items-center justify-between text-xs font-bold text-emerald-400">
-            <span class="flex items-center gap-1.5"><span>🛡️</span> FULL SENSE (TEAM A)</span>
+            <span class="flex items-center gap-1.5" id="boxscore-title-a"><span>🛡️</span> FULL SENSE (TEAM A)</span>
             <span class="text-[10px] font-mono text-slate-400" id="boxscore-score-a">13 ROUNDS WON</span>
           </div>
           <div class="overflow-x-auto">
@@ -1202,7 +1210,7 @@
         <!-- Team B Table -->
         <div class="bg-[#050812] rounded-xl border border-[#17253f] overflow-hidden">
           <div class="bg-gradient-to-r from-rose-950/60 to-[#091120] px-3 py-1.5 border-b border-[#17253f] flex items-center justify-between text-xs font-bold text-rose-400">
-            <span class="flex items-center gap-1.5"><span>⚔️</span> PAPER REX (TEAM B)</span>
+            <span class="flex items-center gap-1.5" id="boxscore-title-b"><span>⚔️</span> PAPER REX (TEAM B)</span>
             <span class="text-[10px] font-mono text-slate-400" id="boxscore-score-b">8 ROUNDS WON</span>
           </div>
           <div class="overflow-x-auto">
@@ -1752,9 +1760,14 @@
           </span>
           <span class="text-[11px] text-emerald-300 block" id="save-banner-desc">สโมสร FULL SENSE · Season 1, Week 1</span>
         </div>
-        <button onclick="continueFromExistingSave()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs transition shrink-0 shadow cursor-pointer">
-          เล่นต่อจากเซฟเดิม →
-        </button>
+        <div class="flex items-center gap-2 shrink-0">
+          <button onclick="continueFromExistingSave()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs transition shadow cursor-pointer">
+            เล่นต่อจากเซฟเดิม →
+          </button>
+          <button onclick="deleteCareerSave()" title="ลบข้อมูลเซฟนี้เพื่อเริ่มเล่นใหม่" class="px-3 py-1.5 rounded-lg bg-rose-950/80 hover:bg-rose-900 text-rose-300 border border-rose-500/40 font-bold text-xs transition shadow flex items-center gap-1 cursor-pointer">
+            <span>🗑️</span><span>ลบเซฟ</span>
+          </button>
+        </div>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -1999,6 +2012,9 @@
           💡 สโมสร Top 3 จะเข้าสู่ศึก VALORANT Champions ชิงแชมป์โลก $1,000,000 ก่อนเปิดฤดูกาลถัดไป
         </div>
         <div class="flex items-center gap-2">
+          <button onclick="closeSeasonFinaleModal(); switchTab('dashboard');" class="px-3.5 py-2 rounded-xl bg-[#0e172a] hover:bg-[#18233a] text-slate-300 font-bold border border-[#1e293b] transition flex items-center gap-1.5 cursor-pointer">
+            <span>🏠</span><span>กลับสู่ภาพรวมสโมสร</span>
+          </button>
           <button id="btn-goto-champions" onclick="openChampionsTournamentModal()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-400 hover:to-yellow-500 text-slate-950 font-bold shadow-lg shadow-amber-500/25 transition flex items-center gap-1.5 cursor-pointer">
             <span>🏆</span><span>เข้าสู่ศึกชิงแชมป์โลก (VALORANT Champions)</span>
           </button>
@@ -2077,8 +2093,8 @@
           <!-- Injected dynamically upon completion -->
         </div>
         <div class="flex items-center gap-2">
-          <button onclick="closeChampionsTournamentModal()" class="px-4 py-2 rounded-xl bg-[#0e172a] hover:bg-[#18233a] text-slate-300 font-semibold border border-[#1e293b] transition cursor-pointer">
-            ปิดหน้าต่าง
+          <button onclick="closeChampionsTournamentModal(); switchTab('dashboard');" class="px-4 py-2 rounded-xl bg-[#0e172a] hover:bg-[#18233a] text-slate-300 font-bold border border-[#1e293b] transition flex items-center gap-1.5 cursor-pointer">
+            <span>🏠</span><span>กลับสู่ภาพรวมสโมสร</span>
           </button>
           <button onclick="confirmStartNextSeason()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 font-bold shadow-lg transition flex items-center gap-1 cursor-pointer">
             <span>🔄 เข้าสู่ฤดูกาลใหม่ (Next Season)</span>
@@ -2358,14 +2374,25 @@
     // --- 1. LOCAL OFFLINE ASSETS MANIFEST ---
     const ASSETS = {
       weapons: {
-        'Vandal': 'assets/vct/weapons/Vandal_killstream.png',
-        'Phantom': 'assets/vct/weapons/Phantom_killstream.png',
-        'Operator': 'assets/vct/weapons/Operator_killstream.png',
-        'Sheriff': 'assets/vct/weapons/Sheriff_killstream.png',
-        'Spectre': 'assets/vct/weapons/Spectre_killstream.png',
-        'Ghost': 'assets/vct/weapons/Ghost_killstream.png',
-        'Classic': 'assets/vct/weapons/Classic_killstream.png',
-        'Outlaw': 'assets/vct/weapons/Outlaw_killstream.png'
+        'Vandal': 'assets/vct/weapons/Vandal.png',
+        'Phantom': 'assets/vct/weapons/Phantom.png',
+        'Operator': 'assets/vct/weapons/Operator.png',
+        'Sheriff': 'assets/vct/weapons/Sheriff.png',
+        'Spectre': 'assets/vct/weapons/Spectre.png',
+        'Ghost': 'assets/vct/weapons/Ghost.png',
+        'Classic': 'assets/vct/weapons/Classic.png',
+        'Outlaw': 'assets/vct/weapons/Outlaw.png',
+        'Judge': 'assets/vct/weapons/Judge.png',
+        'Bucky': 'assets/vct/weapons/Bucky.png',
+        'Bulldog': 'assets/vct/weapons/Bulldog.png',
+        'Guardian': 'assets/vct/weapons/Guardian.png',
+        'Marshal': 'assets/vct/weapons/Marshal.png',
+        'Ares': 'assets/vct/weapons/Ares.png',
+        'Odin': 'assets/vct/weapons/Odin.png',
+        'Frenzy': 'assets/vct/weapons/Frenzy.png',
+        'Shorty': 'assets/vct/weapons/Shorty.png',
+        'Stinger': 'assets/vct/weapons/Stinger.png',
+        'Melee': 'assets/vct/weapons/Melee.png'
       },
       abilities: {
         'Showstopper': 'assets/vct/abilities/Raze_Ultimate_Showstopper.png',
@@ -2398,13 +2425,18 @@
         'Vandal': 'https://media.valorant-api.com/weapons/9c82e19d-4575-0200-1a81-3eacf00cf872/killstreamicon.png',
         'Phantom': 'https://media.valorant-api.com/weapons/ee8e8d15-496b-07ac-e5f6-8fae5d4c7b1a/killstreamicon.png',
         'Operator': 'https://media.valorant-api.com/weapons/a03b24d3-4319-996d-0f8c-94bbfba1dfc7/killstreamicon.png',
+        'Sheriff': 'https://media.valorant-api.com/weapons/e3367f0f-4215-617b-0441-2693246a482b/killstreamicon.png',
+        'Spectre': 'https://media.valorant-api.com/weapons/462080d1-4035-2937-7c09-27aa2a5c27a7/killstreamicon.png',
+        'Ghost': 'https://media.valorant-api.com/weapons/1baa85b4-4c70-1284-64bb-6481dfc3bb4e/killstreamicon.png',
+        'Classic': 'https://media.valorant-api.com/weapons/29a0cfab-485b-f5d5-779a-b59f85e204a8/killstreamicon.png',
+        'Outlaw': 'https://media.valorant-api.com/weapons/5f0aaf38-4b73-41e7-957b-05a471921f86/killstreamicon.png',
         'Showstopper': 'https://media.valorant-api.com/agents/f94c3b30-42be-e959-889c-5aa313dba261/abilities/ultimate/displayicon.png',
         'Shock Bolt': 'https://media.valorant-api.com/agents/320b2a48-4d9b-a075-30f1-1f93a9b638fa/abilities/ability1/displayicon.png',
         'Ascent': 'https://media.valorant-api.com/maps/7eaecc1b-4337-bbf6-6ab9-04b8f06b3319/displayicon.png'
       }
     };
 
-    // --- 2. MULTI-ROUND MATCH STATE & ECONOMY (13-24 ROUNDS) ---
+    // --- 2. MULTI-ROUND MATCH STATE & ECONOMY (13-24 ROUNDS + OVERTIME) ---
     let clubBudget = 1450000;
     let clubFinances = {
       wageCap: 75000,               // Weekly Wage Cap ($75,000 / week)
@@ -2428,7 +2460,8 @@
       teamCredsA: 4000,         // $800 * 5 at start
       teamCredsB: 4000,
       roundHistory: [],         // Array of { round: 1, winner: 'A'|'B', method: '...' }
-      matchOver: false
+      matchOver: false,
+      isOvertime: false
     };
 
     // Full Sense Active Starters
@@ -2472,6 +2505,15 @@
 
     const spikeMapIcon = new Image();
     spikeMapIcon.src = 'assets/vct/Spike.png';
+    spikeMapIcon.onerror = () => {
+      spikeMapIcon.src = 'assets/vct/spike.png';
+      spikeMapIcon.onerror = () => {
+        spikeMapIcon.src = 'assets/spike.png';
+        spikeMapIcon.onerror = () => {
+          spikeMapIcon.src = 'spike.png';
+        };
+      };
+    };
 
     const MAP_DATA = {
       Ascent: {
@@ -3759,37 +3801,65 @@
         }
       }
 
-      // Half-Time Check at Round 13 (after 12 rounds played)
-      if (roundNum === 13 && matchState.isFullSenseAttacking) {
-        matchState.isFullSenseAttacking = false;
+      // Half-Time Check at Round 13 (after 12 rounds played in regulation)
+      if (roundNum === 13 && !matchState.isOvertime) {
+        matchState.isFullSenseAttacking = !matchState.isFullSenseAttacking;
         triggerHalfTimeSwap();
+      }
+
+      // Overtime side-swap and economy check (Round 25+)
+      if (matchState.isOvertime) {
+        if (roundNum > 24) {
+          matchState.isFullSenseAttacking = !matchState.isFullSenseAttacking;
+          const otRoundIndex = roundNum - 24;
+          const otSideName = matchState.isFullSenseAttacking ? (matchState.teamAName || 'TEAM A') : (matchState.teamBName || 'TEAM B');
+          addEventLog(`⚡ OVERTIME ROUND ${otRoundIndex}: สลับฝั่งแข่งขัน! (${otSideName} เป็นฝ่ายบุก)`);
+        }
+        // Overtime economy grants $5,000 per player ($25,000 team)
+        matchState.teamCredsA = 25000;
+        matchState.teamCredsB = 25000;
+        matchState.lossStreakA = 0;
+        matchState.lossStreakB = 0;
       }
 
       // Killfeed Round Separator & Grouping Container
       const feed = document.getElementById('killfeed-stream');
+      const isOT = matchState.isOvertime;
+      const isPistol = (roundNum === 1 || roundNum === 13) && !isOT;
+      const isSecondHalf = roundNum >= 13 && !isOT;
+
       if (feed) {
         if (feed.children[0] && feed.children[0].innerText.includes('กำลังเตรียมพร้อม')) {
           feed.innerHTML = '';
         }
-        const isSecondHalf = roundNum >= 13;
+        let roundHeaderTitle = `⚔️ ROUND ${roundNum}`;
+        let roundSubText = isSecondHalf ? '2nd Half' : '1st Half';
+        if (isOT) {
+          const otNum = Math.max(1, roundNum - 24);
+          const otDisplayRound = roundNum <= 24 ? 13 : roundNum - 12;
+          roundHeaderTitle = `⚡ OVERTIME ${otNum} (รอบพิเศษ ${otDisplayRound})`;
+          roundSubText = 'Overtime (Win by 2)';
+        } else if (isPistol) {
+          roundHeaderTitle += ' · PISTOL ROUND';
+        }
+
         const roundGroup = document.createElement('div');
         roundGroup.id = `round-feed-group-${roundNum}`;
         roundGroup.className = "flex flex-col gap-1 mb-2 shrink-0";
         roundGroup.innerHTML = `
-          <div class="my-1 py-1 px-2.5 rounded-lg bg-gradient-to-r ${roundNum === 1 || roundNum === 13 ? 'from-emerald-950 via-[#071324] to-cyan-950 border border-emerald-500/50 text-emerald-300' : 'from-cyan-950 via-[#0a1526] to-blue-950 border border-cyan-500/50 text-cyan-300'} flex items-center justify-between text-[11px] font-mono font-bold shadow">
+          <div class="my-1 py-1 px-2.5 rounded-lg bg-gradient-to-r ${isOT ? 'from-amber-950 via-[#181507] to-yellow-950 border border-amber-500/50 text-amber-300' : (roundNum === 1 || roundNum === 13 ? 'from-emerald-950 via-[#071324] to-cyan-950 border border-emerald-500/50 text-emerald-300' : 'from-cyan-950 via-[#0a1526] to-blue-950 border border-cyan-500/50 text-cyan-300')} flex items-center justify-between text-[11px] font-mono font-bold shadow">
             <span class="flex items-center gap-1.5">
-              <span>⚔️ ROUND ${roundNum}${roundNum === 1 || roundNum === 13 ? ' · PISTOL ROUND' : ''}</span>
-              ${roundNum === 13 ? '<span class="text-[9px] bg-amber-900/80 text-amber-300 px-1 py-0.2 rounded font-bold">HALF-TIME</span>' : ''}
+              <span>${roundHeaderTitle}</span>
+              ${roundNum === 13 && !isOT ? '<span class="text-[9px] bg-amber-900/80 text-amber-300 px-1 py-0.2 rounded font-bold">HALF-TIME</span>' : ''}
             </span>
             <span class="text-xs text-white">${matchState.scoreA} : ${matchState.scoreB}</span>
-            <span class="text-[10px] text-slate-400 font-normal">${isSecondHalf ? '2nd Half' : '1st Half'}</span>
+            <span class="text-[10px] text-slate-400 font-normal">${roundSubText}</span>
           </div>
           <div id="round-kills-${roundNum}" class="flex flex-col gap-1"></div>
         `;
         feed.prepend(roundGroup);
       }
 
-      const isPistol = (roundNum === 1 || roundNum === 13);
       if (isPistol) {
         // Reset player economy on Pistol Rounds
         matchPlayers.forEach(p => {
@@ -3820,9 +3890,9 @@
       const spkBanner = document.getElementById('spike-banner');
       if (spkBanner) spkBanner.classList.add('hidden');
 
-      document.getElementById('deck-round-num').innerText = roundNum;
+      document.getElementById('deck-round-num').innerText = isOT ? `OT ${Math.max(1, roundNum - 24)}` : roundNum;
       document.getElementById('current-side-label').innerText = matchState.isFullSenseAttacking ? 'ฝ่ายบุก (ATTACKERS)' : 'ฝ่ายป้องกัน (DEFENDERS)';
-      document.getElementById('round-phase-label').innerText = `ROUND ${roundNum} · ${isPistol ? 'PISTOL BUY' : 'BUY PHASE'}`;
+      document.getElementById('round-phase-label').innerText = isOT ? `OVERTIME ROUND ${Math.max(1, roundNum - 24)} · FULL BUY` : `ROUND ${roundNum} · ${isPistol ? 'PISTOL BUY' : 'BUY PHASE'}`;
       document.getElementById('round-timer').innerText = '01:40';
       document.getElementById('spike-status-text').innerText = 'BUY PHASE PREPARATION';
       document.getElementById('spike-led').className = 'w-2 h-2 rounded-full bg-emerald-400 animate-pulse';
@@ -3834,7 +3904,7 @@
       document.getElementById('loss-bonus-display').innerText = `+$${nextLossBonus.toLocaleString()}`;
 
       // Predict Opponent Economy
-      const oppEcoTier = getOpponentEcoTier(matchState.teamCredsB);
+      const oppEcoTier = isOT ? 'OVERTIME FULL BUY ($25k)' : getOpponentEcoTier(matchState.teamCredsB);
       document.getElementById('opponent-eco-badge').innerText = oppEcoTier;
 
       updateScoreboardUI();
@@ -3862,11 +3932,28 @@
 
     function triggerHalfTimeSwap() {
       const banner = document.getElementById('halftime-banner');
-      banner.classList.remove('hidden');
-      setTimeout(() => { banner.classList.add('hidden'); }, 3500);
+      if (banner) {
+        const atkName = matchState.isFullSenseAttacking ? (matchState.teamAName || 'TEAM A') : (matchState.teamBName || 'TEAM B');
+        const defName = !matchState.isFullSenseAttacking ? (matchState.teamAName || 'TEAM A') : (matchState.teamBName || 'TEAM B');
+        banner.innerHTML = `<span>🔄 HALF-TIME! สลับฝั่ง: ${atkName} (ฝ่ายบุก) / ${defName} (ฝ่ายป้องกัน) · เริ่มต้นรอบปืนพกที่ 2</span>`;
+        banner.classList.remove('hidden');
+        setTimeout(() => { banner.classList.add('hidden'); }, 3500);
+      }
 
-      alert('🔄 HALF-TIME! สลับฝั่งแข่งขัน: FULL SENSE เป็นฝ่ายป้องกัน (Defenders) / PAPER REX เป็นฝ่ายบุก (Attackers)');
-      addEventLog('HALF-TIME REACHED! Switching sides. 2nd Pistol Round.');
+      // Reset to 2nd Pistol Round economy ($800/player = $4,000 team)
+      matchState.teamCredsA = 4000;
+      matchState.teamCredsB = 4000;
+      matchState.lossStreakA = 0;
+      matchState.lossStreakB = 0;
+
+      matchPlayers.forEach(p => {
+        p.weapon = 'Classic';
+        p.armor = 0;
+        p.hp = 100;
+        p.alive = true;
+      });
+
+      addEventLog('🔄 HALF-TIME REACHED! สลับฝั่งบุก/รับเรียบร้อย เริ่มต้นรอบปืนพกที่ 2 (Round 13)');
     }
 
     function populateTacticsDropdown() {
@@ -5855,8 +5942,8 @@
       let killer = roll < probA ? playerA : playerB;
       let victim = roll < probA ? playerB : playerA;
 
-      const isOneShot = (killer.weapon === 'Operator') || (['Vandal', 'Sheriff'].includes(killer.weapon) && Math.random() < 0.38) || (killer.aim >= 94 && Math.random() < 0.45);
-      const isHeadshot = isOneShot || (Math.random() < 0.25);
+      const isOneShot = (killer.weapon === 'Operator') || (['Vandal', 'Sheriff'].includes(killer.weapon) && Math.random() < 0.36) || (killer.aim >= 94 && Math.random() < 0.32);
+      const isHeadshot = (killer.weapon !== 'Operator' && isOneShot) || (killer.weapon === 'Vandal' && Math.random() < 0.32) || (killer.weapon === 'Phantom' && Math.random() < 0.26) || (killer.weapon === 'Sheriff' && Math.random() < 0.34) || (killer.aim >= 95 && Math.random() < 0.22);
 
       const weaponDmgTable = {
         'Operator': 150,
@@ -6016,11 +6103,13 @@
       const isKillerAtk = (killer.team === 'A' && matchState.isFullSenseAttacking) || (killer.team === 'B' && !matchState.isFullSenseAttacking);
 
       let iconHtml = '';
-      if (ASSETS.weapons[methodName]) {
-        iconHtml = `<img src="${ASSETS.weapons[methodName]}" onerror="if(ASSETS.fallbacks['${methodName}'])this.src=ASSETS.fallbacks['${methodName}']" alt="${methodName}" class="icon-killfeed">`;
-      } else {
-        iconHtml = `<span class="text-[9px] text-slate-300 font-mono font-bold">${methodName}</span>`;
-      }
+      const wep = methodName || killer.weapon || 'Classic';
+      const cleanWep = wep.trim();
+      const localFull = `assets/vct/weapons/${cleanWep}.png`;
+      const localKillstream = `assets/vct/weapons/${cleanWep}_killstream.png`;
+      const onlineFallback = (ASSETS.fallbacks && ASSETS.fallbacks[cleanWep]) ? ASSETS.fallbacks[cleanWep] : localKillstream;
+
+      iconHtml = `<img src="${localFull}" onerror="if(!this.dataset.tried1){this.dataset.tried1='1';this.src='${localKillstream}';}else if(!this.dataset.tried2){this.dataset.tried2='1';this.src='${onlineFallback}';}else{this.outerHTML='<span class=\\'text-[9px] font-mono font-bold text-amber-300 px-1 rounded bg-slate-900 border border-slate-700\\'>${cleanWep}</span>';}" alt="${cleanWep}" class="icon-killfeed">`;
 
       // Dynamic side colors: Attackers = Rose/Red, Defenders = Cyan/Blue
       const killerColorClass = isKillerAtk ? 'text-rose-400' : 'text-cyan-400';
@@ -6278,23 +6367,25 @@
         
         // Base plate (Dark Cyber Circle with Gold Hazard Border)
         ctx.beginPath();
-        ctx.arc(0, 0, sz + 2, 0, Math.PI * 2);
+        ctx.arc(0, 0, sz + 3, 0, Math.PI * 2);
         ctx.fillStyle = '#090d16';
         ctx.fill();
         ctx.strokeStyle = '#fbbf24'; // Gold hazard border
         ctx.lineWidth = 2.0;
         ctx.stroke();
 
-        // Draw Official Spike Graphic if loaded
+        // Draw Official Spike Graphic with aspect ratio preserved
         if (spikeMapIcon.complete && spikeMapIcon.naturalWidth > 0) {
-          ctx.drawImage(spikeMapIcon, -sz, -sz, sz * 2, sz * 2);
+          const h = sz * 2.2;
+          const w = (spikeMapIcon.naturalWidth / spikeMapIcon.naturalHeight) * h;
+          ctx.drawImage(spikeMapIcon, -w / 2, -h / 2, w, h);
         } else {
           // Vector Spike Silhouette Fallback
-          ctx.fillStyle = '#f59e0b';
+          ctx.fillStyle = '#fbbf24';
           ctx.beginPath();
-          ctx.moveTo(0, -sz + 2);
-          ctx.lineTo(sz - 3, sz - 2);
-          ctx.lineTo(-sz + 3, sz - 2);
+          ctx.moveTo(0, -sz);
+          ctx.lineTo(sz * 0.7, sz);
+          ctx.lineTo(-sz * 0.7, sz);
           ctx.closePath();
           ctx.fill();
           ctx.fillStyle = '#ef4444';
@@ -6332,12 +6423,14 @@
         ctx.stroke();
 
         if (spikeMapIcon.complete && spikeMapIcon.naturalWidth > 0) {
-          ctx.drawImage(spikeMapIcon, -sz, -sz, sz * 2, sz * 2);
+          const h = sz * 2.2;
+          const w = (spikeMapIcon.naturalWidth / spikeMapIcon.naturalHeight) * h;
+          ctx.drawImage(spikeMapIcon, -w / 2, -h / 2, w, h);
         } else {
+          ctx.fillStyle = '#fbbf24';
           ctx.font = 'bold 11px monospace';
-          ctx.fillStyle = '#ffffff';
           ctx.textAlign = 'center';
-          ctx.fillText('📦', 0, 4);
+          ctx.fillText('💣', 0, 4);
         }
         ctx.restore();
 
@@ -6636,9 +6729,11 @@
           ctx.setLineDash([]);
           
           if (spikeMapIcon.complete && spikeMapIcon.naturalWidth > 0) {
-            ctx.drawImage(spikeMapIcon, p.x + 5, p.y - 16, 12, 12);
+            const h = 16;
+            const w = (spikeMapIcon.naturalWidth / spikeMapIcon.naturalHeight) * h;
+            ctx.drawImage(spikeMapIcon, p.x + 5, p.y - 18, w, h);
           } else {
-            ctx.font = '9px sans-serif';
+            ctx.font = '10px sans-serif';
             ctx.fillText('💣', p.x + 6, p.y - 7);
           }
         }
@@ -6864,11 +6959,38 @@ function endRound(winner) {
       updateScoreboardUI();
       updateRoundHistoryPips();
 
-      // Check Match Victory (First to 13 rounds)
-      if (matchState.scoreA >= 13 || matchState.scoreB >= 13) {
-        matchState.matchOver = true;
-        showMatchOverModal(matchState.scoreA >= 13 ? 'A' : 'B');
-        return;
+      // Check Overtime Trigger (both teams reach >= 12) & Match Victory Conditions
+      const scoreA = matchState.scoreA;
+      const scoreB = matchState.scoreB;
+
+      // 1. Enter Overtime if both teams reach at least 12
+      const isOvertimeMatch = matchState.isOvertime || (scoreA >= 12 && scoreB >= 12);
+      if (isOvertimeMatch && !matchState.isOvertime) {
+        matchState.isOvertime = true;
+        addEventLog(`🚨 สกอร์เข้าสู่ช่วงต่อเวลาพิเศษ (OVERTIME)! ทั้งสองทีมต้องผลัดกันบุก/รับ และชนะนำ 2 รอบเพื่อคว้าชัย`);
+        const rStatus = document.getElementById('round-status');
+        if (rStatus) {
+          rStatus.innerHTML = `⚡ <b class="text-amber-400">เข้าสู่ช่วงต่อเวลาพิเศษ OVERTIME (ต้องนำห่าง 2 รอบเพื่อชนะ)</b>`;
+        }
+      }
+
+      // 2. Victory conditions
+      if (matchState.isOvertime) {
+        // In Overtime: A team must lead by 2 rounds AND have at least 13 points (e.g. 14-12, 15-13, 16-14)
+        if (Math.abs(scoreA - scoreB) >= 2 && (scoreA >= 13 || scoreB >= 13)) {
+          matchState.matchOver = true;
+          const winnerTeam = scoreA > scoreB ? 'A' : 'B';
+          showMatchOverModal(winnerTeam);
+          return;
+        }
+      } else {
+        // In Regulation: First team to reach 13 rounds wins (with opponent <= 11)
+        if (scoreA >= 13 || scoreB >= 13) {
+          matchState.matchOver = true;
+          const winnerTeam = scoreA >= 13 ? 'A' : 'B';
+          showMatchOverModal(winnerTeam);
+          return;
+        }
       }
 
       // Auto Enter Next Buy Phase after 2.8 seconds
@@ -6952,20 +7074,58 @@ function endRound(winner) {
       const scoreB = matchState.scoreB;
       const totalRounds = scoreA + scoreB;
 
-      const winTeamName = isWin ? (matchState.teamAName || myClubName || 'สโมสรของคุณ') : (matchState.teamBName || 'คู่แข่ง');
+      const teamAName = matchState.teamAName || myClubName || 'FULL SENSE';
+      const teamBName = matchState.teamBName || 'PAPER REX';
+
+      const winTeamName = isWin ? teamAName : teamBName;
       document.getElementById('modal-match-winner').innerText = `${winTeamName} คว้าชัยชนะในการแข่งขัน!`;
       document.getElementById('modal-match-winner').className = `text-xl sm:text-2xl font-black ${isWin ? 'text-emerald-400' : 'text-rose-400'} mt-0.5`;
       document.getElementById('modal-final-score').innerText = `${scoreA} - ${scoreB}`;
       document.getElementById('report-map-name').innerText = `MAP: ${currentMap.toUpperCase()}`;
 
-      // Calculate halves
-      const half1A = Math.min(scoreA, 12);
-      const half1B = Math.min(scoreB, Math.max(0, 12 - half1A));
-      const half2A = scoreA - half1A;
-      const half2B = scoreB - half1B;
-      document.getElementById('report-sub-details').innerHTML = `
-        <span>${totalRounds} Rounds Played</span> · <span>1st Half: ${half1A}-${half1B}</span> · <span>2nd Half: ${half2A}-${half2B}</span>
-      `;
+      // Team Header Names and Winner/Defeated Badges
+      const elNameA = document.getElementById('report-team-a-name');
+      const elBadgeA = document.getElementById('report-team-a-badge');
+      const elNameB = document.getElementById('report-team-b-name');
+      const elBadgeB = document.getElementById('report-team-b-badge');
+
+      if (elNameA) elNameA.innerText = teamAName.toUpperCase();
+      if (elNameB) elNameB.innerText = teamBName.toUpperCase();
+
+      if (isWin) {
+        if (elBadgeA) { elBadgeA.innerText = 'WINNER'; elBadgeA.className = 'text-[9px] font-mono text-emerald-400 font-bold'; }
+        if (elBadgeB) { elBadgeB.innerText = 'DEFEATED'; elBadgeB.className = 'text-[9px] font-mono text-slate-500 font-bold'; }
+      } else {
+        if (elBadgeA) { elBadgeA.innerText = 'DEFEATED'; elBadgeA.className = 'text-[9px] font-mono text-slate-500 font-bold'; }
+        if (elBadgeB) { elBadgeB.innerText = 'WINNER'; elBadgeB.className = 'text-[9px] font-mono text-emerald-400 font-bold'; }
+      }
+
+      // Calculate halves and OT accurately from roundHistory
+      let half1A = 0, half1B = 0, half2A = 0, half2B = 0, otA = 0, otB = 0;
+      if (matchState.roundHistory && matchState.roundHistory.length > 0) {
+        matchState.roundHistory.forEach(rh => {
+          if (rh.round <= 12) {
+            if (rh.winner === 'A') half1A++;
+            else half1B++;
+          } else if (rh.round <= 24) {
+            if (rh.winner === 'A') half2A++;
+            else half2B++;
+          } else {
+            if (rh.winner === 'A') otA++;
+            else otB++;
+          }
+        });
+      } else {
+        half1A = Math.min(scoreA, 6);
+        half1B = Math.min(scoreB, 6);
+        half2A = scoreA - half1A;
+        half2B = scoreB - half1B;
+      }
+      let subDetailsHtml = `<span>${totalRounds} Rounds Played</span> · <span>1st Half: ${half1A}-${half1B}</span> · <span>2nd Half: ${half2A}-${half2B}</span>`;
+      if (otA > 0 || otB > 0 || matchState.isOvertime) {
+        subDetailsHtml += ` · <span class="text-amber-400 font-bold">OT: ${otA}-${otB}</span>`;
+      }
+      document.getElementById('report-sub-details').innerHTML = subDetailsHtml;
 
       // 2. Award prize money & process weekly match financial statement
       const prizeMoney = isWin ? 150000 : 50000;
@@ -6986,10 +7146,14 @@ function endRound(winner) {
 
       document.getElementById('modal-mvp-name').innerText = bestPlayer.name;
       document.getElementById('modal-mvp-agent').innerText = `(${bestPlayer.agent} · ${bestPlayer.role})`;
-      const hsPct = Math.min(50, Math.max(18, Math.round(((bestPlayer.headshots || Math.floor(bestPlayer.kills * 0.35)) / Math.max(1, bestPlayer.kills)) * 100)));
+      const hsPct = bestPlayer.kills > 0 ? Math.min(55, Math.round(((bestPlayer.headshots || Math.round(bestPlayer.kills * 0.32)) / bestPlayer.kills) * 100)) : 0;
       document.getElementById('modal-mvp-stats').innerText = `ACS: ${bestPlayer.acs} · K/D/A: ${bestPlayer.kills}/${bestPlayer.deaths || 0}/${bestPlayer.assists || 0} · Rating: ${(bestPlayer.acs / 190).toFixed(2)} · HS%: ${hsPct}%`;
 
       // 4. Populate 10-Player Box Score Tables
+      const boxTitleA = document.getElementById('boxscore-title-a');
+      const boxTitleB = document.getElementById('boxscore-title-b');
+      if (boxTitleA) boxTitleA.innerHTML = `<span>🛡️</span> ${teamAName.toUpperCase()} (TEAM A)`;
+      if (boxTitleB) boxTitleB.innerHTML = `<span>⚔️</span> ${teamBName.toUpperCase()} (TEAM B)`;
       document.getElementById('boxscore-score-a').innerText = `${scoreA} ROUNDS WON`;
       document.getElementById('boxscore-score-b').innerText = `${scoreB} ROUNDS WON`;
       renderBoxScoreRows('boxscore-tbody-a', matchPlayers.slice(0, 5), bestPlayer.id);
@@ -7266,7 +7430,7 @@ function endRound(winner) {
         const a = p.assists || 0;
         const diff = k - d;
         const kd = (k / Math.max(1, d)).toFixed(2);
-        const hs = Math.min(50, Math.max(18, Math.round(((p.headshots || Math.floor(k * 0.35)) / Math.max(1, k)) * 100)));
+        const hs = k > 0 ? Math.min(55, Math.round(((p.headshots || Math.round(k * 0.28)) / k) * 100)) : 0;
         const fb = p.firstBloods || 0;
 
         tbody.innerHTML += `
@@ -7963,6 +8127,18 @@ function endRound(winner) {
       addEventLog(`📂 โหลดข้อมูลเซฟเดิม: ยินดีต้อนรับกลับสู่สโมสร ${myClubName}!`);
     }
 
+    function deleteCareerSave() {
+      if (confirm('⚠️ ยืนยันการลบข้อมูลเซฟเก่า?\n\nข้อมูลความคืบหน้าของสโมสร สถิติลีก และนักแข่งทั้งหมดจะถูกลบออกจากเครื่องอย่างถาวร เพื่อให้คุณสามารถเริ่มเล่นใหม่ได้อย่างสดใหม่')) {
+        localStorage.removeItem('TACTIX_CAREER_SAVE_v1');
+        const strip = document.getElementById('landing-save-strip');
+        if (strip) strip.classList.add('hidden');
+        const gmBanner = document.getElementById('game-mode-save-banner');
+        if (gmBanner) gmBanner.classList.add('hidden');
+        alert('🗑️ ลบข้อมูลเซฟสำเร็จเรียบร้อยแล้ว คุณสามารถเริ่มต้นเล่นเซฟใหม่ได้ทันที');
+        window.location.reload();
+      }
+    }
+
     function startFreshCareerFullSense() {
       currentGameMode = 'CAREER';
       myClubName = 'FULL SENSE';
@@ -8559,32 +8735,29 @@ function endRound(winner) {
           else sTag.innerHTML = '';
         }
 
-        // Ult Diamonds
+        // Ult Badge (Compact Numeric e.g. 1/8)
         const maxPts = p.ultMax || 7;
         const curPts = Math.min(maxPts, p.ultPoints || 0);
-        if (dBox) {
-          let diamondsHtml = '';
-          for (let i = 0; i < maxPts; i++) {
-            if (i < curPts) diamondsHtml += `<span class="text-[9px] text-amber-400 font-black">◆</span>`;
-            else diamondsHtml += `<span class="text-[9px] text-slate-700">◇</span>`;
+        const uBadge = document.getElementById(`ult-badge-${p.id}`);
+        if (uBadge) {
+          if (p.ultReady) {
+            uBadge.className = 'text-[9px] font-mono px-1 py-0.2 rounded bg-amber-500 text-slate-950 font-black shadow animate-pulse shrink-0';
+            uBadge.innerHTML = `⚡ READY`;
+          } else if (p.ultActive) {
+            uBadge.className = 'text-[9px] font-mono px-1 py-0.2 rounded bg-amber-600 text-white font-black animate-pulse shrink-0';
+            uBadge.innerHTML = `⚡ ACTIVE`;
+          } else {
+            uBadge.className = 'text-[9px] font-mono px-1 py-0.2 rounded bg-slate-900 text-amber-300/90 border border-amber-500/30 shrink-0 font-bold';
+            uBadge.innerHTML = `⚡ ${curPts}/${maxPts}`;
           }
-          diamondsHtml += `<span class="text-[8px] font-mono text-slate-400 ml-1">${curPts}/${maxPts}</span>`;
-          dBox.innerHTML = diamondsHtml;
         }
 
         // Ult Action Button
         if (aBox) {
-          if (p.ultReady && p.alive) {
-            if (p.team === 'A') {
-              aBox.innerHTML = `<button onclick="triggerUltimateAbility(matchPlayers.find(x => x.id === '${p.id}'))" class="px-1.5 py-0.2 rounded bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-400 hover:to-yellow-500 text-slate-950 font-mono font-black text-[9px] shadow animate-pulse cursor-pointer">⚡ USE ULT</button>`;
-            } else {
-              aBox.innerHTML = `<span class="px-1 py-0.2 rounded bg-amber-950 text-amber-300 border border-amber-500/50 font-mono font-bold text-[8px]">⚡ READY</span>`;
-            }
-          } else if (p.ultActive && p.alive) {
-            aBox.innerHTML = `<span class="text-[8px] font-mono text-amber-400 animate-pulse font-bold">⚡ ACTIVE</span>`;
+          if (p.ultReady && p.alive && p.team === 'A') {
+            aBox.innerHTML = `<button onclick="triggerUltimateAbility(matchPlayers.find(x => x.id === '${p.id}'))" class="px-1.5 py-0.5 rounded bg-gradient-to-r from-amber-400 to-yellow-500 hover:from-amber-300 hover:to-yellow-400 text-slate-950 font-mono font-black text-[9px] shadow animate-pulse cursor-pointer">⚡ ULT</button>`;
           } else {
-            const agInfo = AGENT_SKILLS_DATA[p.agent] || {};
-            aBox.innerHTML = `<span class="text-[8px] font-mono text-slate-500">${agInfo.ultName || 'Ultimate'}</span>`;
+            aBox.innerHTML = '';
           }
         }
       });
@@ -8952,7 +9125,13 @@ function endRound(winner) {
     function startCareerMatchDay() {
       closeFixturesModal();
       if (currentSeasonWeek > 11) {
-        alert('🏆 ฤดูกาลปกติสิ้นสุดแล้ว! สโมสรของคุณได้สิทธิ์เข้าสู่รอบ VCT Playoffs & Champions');
+        const myTeamVCT = STANDINGS_VCT.find(t => t.name.includes(myClubName));
+        const isQualifiedChampions = myTeamVCT && myTeamVCT.pos <= 3;
+        if (isQualifiedChampions) {
+          openChampionsTournamentModal();
+        } else {
+          openSeasonFinaleModal();
+        }
         return;
       }
       const f = getCurrentFixture();
@@ -8977,13 +9156,31 @@ function endRound(winner) {
       const roundDesc = document.getElementById('dash-score-preview');
       const weekBadge = document.getElementById('dash-week-badge');
       const mapBadge = document.getElementById('dash-map-badge');
+      const matchBtn = document.getElementById('dash-btn-match-action');
 
       if (currentSeasonWeek > 11) {
         if (oppTitle) oppTitle.innerText = 'PLAYOFFS & CHAMPIONS';
         if (weekBadge) weekBadge.innerText = 'SEASON FINALE';
         if (mapBadge) mapBadge.innerText = 'VALORANT CHAMPIONS';
         if (roundDesc) roundDesc.innerText = 'จบฤดูกาลปกติ 11 สัปดาห์เรียบร้อยแล้ว';
+
+        const myTeamVCT = STANDINGS_VCT.find(t => t.name.includes(myClubName));
+        const isQualifiedChampions = myTeamVCT && myTeamVCT.pos <= 3;
+        if (matchBtn) {
+          if (isQualifiedChampions) {
+            matchBtn.className = "flex-1 py-1.5 bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-400 hover:to-yellow-500 text-slate-950 text-xs font-black rounded-lg transition text-center shadow cursor-pointer animate-pulse";
+            matchBtn.innerHTML = `🏆 ลุยศึกชิงแชมป์โลก (CHAMPIONS) ➔`;
+          } else {
+            matchBtn.className = "flex-1 py-1.5 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 text-xs font-black rounded-lg transition text-center shadow cursor-pointer";
+            matchBtn.innerHTML = `🔄 สรุปผลงาน & เริ่มต้นฤดูกาลใหม่ ➔`;
+          }
+        }
         return;
+      }
+
+      if (matchBtn) {
+        matchBtn.className = "flex-1 py-1.5 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 text-xs font-black rounded-lg transition text-center shadow cursor-pointer";
+        matchBtn.innerHTML = `แมตช์เดย์ ⚡ (BAN/PICK & แข่งขัน)`;
       }
 
       if (oppTitle) oppTitle.innerText = f.opponentName.toUpperCase();
@@ -9191,9 +9388,14 @@ function endRound(winner) {
                 <p class="text-xs text-slate-300 mt-0.5">${myClubName} จบอันดับ #${myTeamVCT.pos} ของ ${reg ? reg.name : 'ลีก'} (${myTeamVCT.w} ชนะ / ${myTeamVCT.l} แพ้) เป็น 1 ใน 3 ตัวแทนภูมิภาคไปลุยศึกชิงแชมป์โลก!</p>
               </div>
             </div>
-            <button onclick="closeSeasonFinaleModal(); openChampionsTournamentModal();" class="px-4 py-2 bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-400 hover:to-yellow-500 text-slate-950 font-black text-xs rounded-xl shadow-lg shadow-amber-500/30 transition cursor-pointer">
-              🏆 ลุยศึกชิงแชมป์โลก ➔
-            </button>
+            <div class="flex items-center gap-2">
+              <button onclick="closeSeasonFinaleModal(); switchTab('dashboard');" class="px-3.5 py-2 bg-[#0e172a] hover:bg-[#18233a] text-slate-300 font-bold text-xs rounded-xl border border-[#1e293b] transition cursor-pointer">
+                🏠 จัดการทีมสโมสร
+              </button>
+              <button onclick="closeSeasonFinaleModal(); openChampionsTournamentModal();" class="px-4 py-2 bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-400 hover:to-yellow-500 text-slate-950 font-black text-xs rounded-xl shadow-lg shadow-amber-500/30 transition cursor-pointer">
+                🏆 ลุยศึกชิงแชมป์โลก ➔
+              </button>
+            </div>
           `;
         }
       } else if (isRelegated) {
@@ -9210,6 +9412,14 @@ function endRound(winner) {
                 <h4 class="text-base font-black text-rose-300">แจ้งเตือนตกชั้น: สโมสรจบอันดับที่ ${myTeamVCT.pos}/12 ของลีก</h4>
                 <p class="text-xs text-slate-300 mt-0.5">ผลงาน ${myTeamVCT.w} ชนะ / ${myTeamVCT.l} แพ้ ทำให้สโมสรต้องลงไปแข่งขันใน ${reg ? reg.tier2Name : 'Tier 2'} ในฤดูกาลหน้าเพื่อคว้าตั๋วเลื่อนชั้นกลับมา!</p>
               </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="closeSeasonFinaleModal(); switchTab('dashboard');" class="px-3.5 py-2 bg-[#0e172a] hover:bg-[#18233a] text-slate-300 font-bold text-xs rounded-xl border border-[#1e293b] transition cursor-pointer">
+                🏠 จัดการทีมสโมสร
+              </button>
+              <button onclick="confirmStartNextSeason();" class="px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 font-black text-xs rounded-xl shadow-lg transition cursor-pointer">
+                🔄 เตรียมลุยฤดูกาลถัดไป ➔
+              </button>
             </div>
           `;
         }
@@ -9228,6 +9438,14 @@ function endRound(winner) {
                 <h4 class="text-base font-black text-cyan-300">จบฤดูกาลปกติในโซนปลอดภัย (Mid-Table Finish)</h4>
                 <p class="text-xs text-slate-300 mt-0.5">สโมสรรักษาพื้นที่ในลีก ${reg ? reg.name : 'ลีกสูงสุด'} ได้สำเร็จ เตรียมตัวเสริมทัพและเข้าสู่การแข่งขันฤดูกาลใหม่!</p>
               </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="closeSeasonFinaleModal(); switchTab('dashboard');" class="px-3.5 py-2 bg-[#0e172a] hover:bg-[#18233a] text-slate-300 font-bold text-xs rounded-xl border border-[#1e293b] transition cursor-pointer">
+                🏠 จัดการทีมสโมสร
+              </button>
+              <button onclick="confirmStartNextSeason();" class="px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 font-black text-xs rounded-xl shadow-lg transition cursor-pointer">
+                🔄 เตรียมลุยฤดูกาลถัดไป ➔
+              </button>
             </div>
           `;
         }
@@ -10227,7 +10445,7 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
       };
 
       addEventLog(`🏥 ข่าวด่วนห้องพยาบาล: ${target.name} ได้รับบาดเจ็บ "${injuryType.name}" ต้องพักฟื้น ${injuryType.duration} แมตช์!`);
-      return { player: target, injury: injuryType };
+      return { player: target, injury: target.injury };
     }
 
     let transferMarketNews = [
@@ -11077,25 +11295,21 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
         const agInfo = AGENT_SKILLS_DATA[p.agent] || { ultName: 'Ult', ultIcon: '⚡', ultCost: 7 };
         const mastery = calculateAgentMastery(p.role, p.agent);
         ha.innerHTML += `
-          <div id="card-${p.id}" class="flex flex-col bg-[#060a14] px-2 py-1.5 rounded border border-[#14213a] transition gap-1">
-            <div class="flex items-center justify-between">
-              <div class="flex items-center gap-1.5 min-w-0">
-                <span class="font-bold text-slate-100 text-xs truncate max-w-[95px]">${p.name}</span>
-                <span class="text-[10px] text-slate-400 font-mono">(${p.agent})</span>
-                <span class="text-[9px] font-mono px-1 rounded bg-[#0d1627] text-cyan-400 border border-[#1e3256]" title="${mastery.buffDesc}">${mastery.tier}</span>
-                <span id="status-tag-${p.id}" class="text-[9px] font-bold text-amber-400"></span>
-              </div>
-              <div class="flex items-center gap-1.5 shrink-0">
-                <span class="font-mono text-[10px] text-slate-400" id="wep-${p.id}">${p.weapon}</span>
-                <div class="w-12 bg-slate-800 h-2 rounded-full overflow-hidden border border-slate-700/60 flex items-center">
-                  <div id="hp-${p.id}" class="bg-emerald-500 h-full transition-all duration-200" style="width: 100%"></div>
-                </div>
-                <span id="hp-val-${p.id}" class="font-mono text-[10px] font-bold text-emerald-400 w-6 text-right">100</span>
-              </div>
+          <div id="card-${p.id}" class="flex items-center justify-between bg-[#060a14] px-2 py-1 rounded border border-[#14213a] transition hover:border-[#1e3256]">
+            <div class="flex items-center gap-1.5 min-w-0">
+              <span class="font-bold text-slate-100 text-xs truncate max-w-[90px]">${p.name}</span>
+              <span class="text-[10px] text-slate-400 font-mono shrink-0">(${p.agent})</span>
+              <span class="text-[9px] font-mono px-1 rounded bg-[#0d1627] text-cyan-400 border border-[#1e3256] shrink-0" title="${mastery.buffDesc}">${mastery.tier}</span>
+              <span id="ult-badge-${p.id}" class="text-[9px] font-mono px-1 rounded bg-slate-900 text-amber-300/90 border border-amber-500/30 shrink-0 font-bold">⚡ 0/${agInfo.ultCost || 7}</span>
+              <span id="status-tag-${p.id}" class="text-[9px] font-bold text-amber-400 shrink-0"></span>
             </div>
-            <div class="flex items-center justify-between pt-0.5 border-t border-[#121c2e]">
-              <div class="flex items-center gap-1" id="ult-diamonds-${p.id}"></div>
+            <div class="flex items-center gap-1.5 shrink-0">
               <div id="ult-action-${p.id}"></div>
+              <span class="font-mono text-[10px] text-slate-400 truncate max-w-[65px] text-right" id="wep-${p.id}">${p.weapon}</span>
+              <div class="w-10 bg-slate-800 h-2 rounded-full overflow-hidden border border-slate-700/60 flex items-center">
+                <div id="hp-${p.id}" class="bg-emerald-500 h-full transition-all duration-200" style="width: 100%"></div>
+              </div>
+              <span id="hp-val-${p.id}" class="font-mono text-[10px] font-bold text-emerald-400 w-6 text-right">100</span>
             </div>
           </div>
         `;
@@ -11105,25 +11319,21 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
         const agInfo = AGENT_SKILLS_DATA[p.agent] || { ultName: 'Ult', ultIcon: '⚡', ultCost: 7 };
         const mastery = calculateAgentMastery(p.role, p.agent);
         hb.innerHTML += `
-          <div id="card-${p.id}" class="flex flex-col bg-[#060a14] px-2 py-1.5 rounded border border-[#14213a] transition gap-1">
-            <div class="flex items-center justify-between">
-              <div class="flex items-center gap-1.5 min-w-0">
-                <span class="font-bold text-slate-100 text-xs truncate max-w-[95px]">${p.name}</span>
-                <span class="text-[10px] text-slate-400 font-mono">(${p.agent})</span>
-                <span class="text-[9px] font-mono px-1 rounded bg-[#0d1627] text-rose-400 border border-[#1e3256]" title="${mastery.buffDesc}">${mastery.tier}</span>
-                <span id="status-tag-${p.id}" class="text-[9px] font-bold text-amber-400"></span>
-              </div>
-              <div class="flex items-center gap-1.5 shrink-0">
-                <span class="font-mono text-[10px] text-slate-400" id="wep-${p.id}">${p.weapon}</span>
-                <div class="w-12 bg-slate-800 h-2 rounded-full overflow-hidden border border-slate-700/60 flex items-center">
-                  <div id="hp-${p.id}" class="bg-rose-500 h-full transition-all duration-200" style="width: 100%"></div>
-                </div>
-                <span id="hp-val-${p.id}" class="font-mono text-[10px] font-bold text-rose-400 w-6 text-right">100</span>
-              </div>
+          <div id="card-${p.id}" class="flex items-center justify-between bg-[#060a14] px-2 py-1 rounded border border-[#14213a] transition hover:border-[#1e3256]">
+            <div class="flex items-center gap-1.5 min-w-0">
+              <span class="font-bold text-slate-100 text-xs truncate max-w-[90px]">${p.name}</span>
+              <span class="text-[10px] text-slate-400 font-mono shrink-0">(${p.agent})</span>
+              <span class="text-[9px] font-mono px-1 rounded bg-[#0d1627] text-rose-400 border border-[#1e3256] shrink-0" title="${mastery.buffDesc}">${mastery.tier}</span>
+              <span id="ult-badge-${p.id}" class="text-[9px] font-mono px-1 rounded bg-slate-900 text-amber-300/90 border border-amber-500/30 shrink-0 font-bold">⚡ 0/${agInfo.ultCost || 7}</span>
+              <span id="status-tag-${p.id}" class="text-[9px] font-bold text-amber-400 shrink-0"></span>
             </div>
-            <div class="flex items-center justify-between pt-0.5 border-t border-[#121c2e]">
-              <div class="flex items-center gap-1" id="ult-diamonds-${p.id}"></div>
+            <div class="flex items-center gap-1.5 shrink-0">
               <div id="ult-action-${p.id}"></div>
+              <span class="font-mono text-[10px] text-slate-400 truncate max-w-[65px] text-right" id="wep-${p.id}">${p.weapon}</span>
+              <div class="w-10 bg-slate-800 h-2 rounded-full overflow-hidden border border-slate-700/60 flex items-center">
+                <div id="hp-${p.id}" class="bg-rose-500 h-full transition-all duration-200" style="width: 100%"></div>
+              </div>
+              <span id="hp-val-${p.id}" class="font-mono text-[10px] font-bold text-rose-400 w-6 text-right">100</span>
             </div>
           </div>
         `;
