@@ -2482,10 +2482,7 @@
         { id: 'seph1roth', name: 'seph1roth', role: 'Controller', agent: 'Omen', ovr: 90, aim: 88, iq: 92, clutch: 89, age: 24, wage: 7500, country: 'TH', form: 'normal', injured: false, injury: null },
         { id: 'jitboys', name: 'JitboyS', role: 'Initiator', agent: 'KAY/O', ovr: 91, aim: 92, iq: 90, clutch: 88, age: 23, wage: 8000, country: 'TH', form: 'good', injured: false, injury: null }
       ],
-      bench: [
-        { id: 'foxz', name: 'foxz', role: 'Initiator', agent: 'Sova', ovr: 91, aim: 89, iq: 94, clutch: 92, age: 25, wage: 7000, country: 'TH', form: 'normal', injured: false, injury: null },
-        { id: 'sushiboys', name: 'sushiboys', role: 'Sentinel', agent: 'Killjoy', ovr: 90, aim: 88, iq: 93, clutch: 93, age: 24, wage: 6500, country: 'TH', form: 'normal', injured: false, injury: null }
-      ]
+      bench: []
     };
 
     // --- 3. DYNAMIC STAT-DRIVEN COMBAT ENGINE ---
@@ -2801,340 +2798,3628 @@
       { id: 'p7', team: 'B', name: 'f0rsakeN', agent: 'Yoru', role: 'Flex', aim: 94, iq: 95, clutch: 94, hp: 100, maxHp: 100, weapon: 'Classic', armor: 0, creds: 800, x: 330, y: 260, targetX: 420, targetY: 250, alive: true, hasSpike: false, kills: 0, deaths: 0, assists: 0, damage: 0, firstBloods: 0, headshots: 0 },
       { id: 'p8', team: 'B', name: 'Jinggg', agent: 'Raze', role: 'Duelist', aim: 95, iq: 88, clutch: 90, hp: 100, maxHp: 100, weapon: 'Classic', armor: 0, creds: 800, x: 170, y: 180, targetX: 360, targetY: 210, alive: true, hasSpike: false, kills: 0, deaths: 0, assists: 0, damage: 0, firstBloods: 0, headshots: 0 },
       { id: 'p9', team: 'B', name: 'd4v41', agent: 'Fade', role: 'Initiator', aim: 92, iq: 95, clutch: 96, hp: 100, maxHp: 100, weapon: 'Ghost', armor: 0, creds: 800, x: 525, y: 175, targetX: 530, targetY: 210, alive: true, hasSpike: false, kills: 0, deaths: 0, assists: 0, damage: 0, firstBloods: 0, headshots: 0 },
-      { id: 'p10', team: 'B', name: 'mindfreak', agent: 'Omen', role: 'Controller', aim: 91, iq: 94, clutch: 95, hp: 100, maxHp: 100, weapon: 'Classic', armor: 0, creds: 800, x: 185, y: 175, targetX: 460, targetY: 190, alive: true, hasSpike: false, kills: 0, deaths: 0, assists: 0, damage: 0, firstBloods: 0, headshots: 0 }
+      { id: 'p10', team: 'B', name: 'invy', agent: 'Breach', role: 'Initiator', aim: 94, iq: 93, clutch: 93, hp: 100, maxHp: 100, weapon: 'Classic', armor: 0, creds: 800, x: 185, y: 175, targetX: 460, targetY: 190, alive: true, hasSpike: false, kills: 0, deaths: 0, assists: 0, damage: 0, firstBloods: 0, headshots: 0 }
     ];
 
     const fallbackRosters = {
-      // --- AMERICAS ---
-      g2esports: [
-        { name: 'valyn', role: 'Controller', agent: 'Omen', aim: 94, iq: 96, clutch: 94 },
-        { name: 'leaf', role: 'Sentinel', agent: 'Killjoy', aim: 95, iq: 93, clutch: 94 },
-        { name: 'trent', role: 'Initiator', agent: 'Sova', aim: 94, iq: 94, clutch: 93 },
-        { name: 'jawgemo', role: 'Duelist', agent: 'Jett', aim: 95, iq: 91, clutch: 93 },
-        { name: 'JonahP', role: 'Flex', agent: 'Breach', aim: 93, iq: 94, clutch: 93 }
+      "555": [
+        {
+          "id": "alert",
+          "name": "aLerT",
+          "role": "Duelist",
+          "agent": "Raze",
+          "aim": 91,
+          "iq": 89,
+          "clutch": 90
+        },
+        {
+          "id": "surf",
+          "name": "Surf",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 92,
+          "iq": 89,
+          "clutch": 90
+        },
+        {
+          "id": "endoistzin",
+          "name": "endoistzin",
+          "role": "Flex",
+          "agent": "KAY/O",
+          "aim": 85,
+          "iq": 87,
+          "clutch": 84
+        },
+        {
+          "id": "canady",
+          "name": "canady",
+          "role": "Controller",
+          "agent": "Killjoy",
+          "aim": 87,
+          "iq": 86,
+          "clutch": 88
+        },
+        {
+          "id": "doffy",
+          "name": "doffy",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 84,
+          "iq": 90,
+          "clutch": 86
+        }
       ],
-      sentinels: [
-        { name: 'reduxx', role: 'Duelist', agent: 'Jett', aim: 96, iq: 90, clutch: 92 },
-        { name: 'johnqt', role: 'Sentinel', agent: 'Cypher', aim: 94, iq: 96, clutch: 95 },
-        { name: 'N4RRATE', role: 'Initiator', agent: 'Sova', aim: 95, iq: 93, clutch: 94 },
-        { name: 'cortezia', role: 'Controller', agent: 'Omen', aim: 92, iq: 91, clutch: 90 },
-        { name: 'Zellsis', role: 'Flex', agent: 'KAY/O', aim: 93, iq: 95, clutch: 94 }
+      "detonationfocusme": [
+        {
+          "id": "yatsuka",
+          "name": "yatsuka",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 91,
+          "iq": 91,
+          "clutch": 90
+        },
+        {
+          "id": "ssees",
+          "name": "SSeeS",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 89,
+          "iq": 92,
+          "clutch": 91
+        },
+        {
+          "id": "meiy",
+          "name": "Meiy",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 95,
+          "iq": 90,
+          "clutch": 92
+        },
+        {
+          "id": "caedye",
+          "name": "Caedye",
+          "role": "Sentinel",
+          "agent": "Killjoy",
+          "aim": 92,
+          "iq": 93,
+          "clutch": 92
+        },
+        {
+          "id": "akame",
+          "name": "akame",
+          "role": "Flex",
+          "agent": "KAY/O",
+          "aim": 92,
+          "iq": 91,
+          "clutch": 90
+        }
       ],
-      leviatn: [
-        { name: 'kiNgg', role: 'Controller', agent: 'Omen', aim: 95, iq: 95, clutch: 96 },
-        { name: 'Sato', role: 'Duelist', agent: 'Jett', aim: 94, iq: 90, clutch: 91 },
-        { name: 'blowz', role: 'Duelist', agent: 'Raze', aim: 93, iq: 89, clutch: 90 },
-        { name: 'spikeziN', role: 'Initiator', agent: 'Sova', aim: 92, iq: 92, clutch: 91 },
-        { name: 'C0M', role: 'Initiator', agent: 'Sova', aim: 93, iq: 94, clutch: 94 }
+      "drx": [
+        {
+          "id": "mako",
+          "name": "MaKo",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 94,
+          "iq": 97,
+          "clutch": 96
+        },
+        {
+          "id": "hyunmin",
+          "name": "HYUNMIN",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 95,
+          "iq": 89,
+          "clutch": 91
+        },
+        {
+          "id": "free1ng",
+          "name": "free1ng",
+          "role": "Sentinel",
+          "agent": "Cypher",
+          "aim": 93,
+          "iq": 93,
+          "clutch": 93
+        },
+        {
+          "id": "flicker",
+          "name": "Flicker",
+          "role": "Flex",
+          "agent": "KAY/O",
+          "aim": 91,
+          "iq": 91,
+          "clutch": 90
+        },
+        {
+          "id": "beyn",
+          "name": "BeYN",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 91,
+          "iq": 93,
+          "clutch": 91
+        }
       ],
-      loud: [
-        { name: 'Less', role: 'Sentinel', agent: 'Killjoy', aim: 96, iq: 95, clutch: 96 },
-        { name: 'cauanzin', role: 'Initiator', agent: 'Fade', aim: 93, iq: 92, clutch: 91 },
-        { name: 'tuyz', role: 'Controller', agent: 'Omen', aim: 92, iq: 91, clutch: 92 },
-        { name: 'pANcada', role: 'Controller', agent: 'Viper', aim: 93, iq: 94, clutch: 93 },
-        { name: 'dgzin', role: 'Duelist', agent: 'Jett', aim: 94, iq: 89, clutch: 90 }
+      "fullsense": [
+        {
+          "id": "seph1roth",
+          "name": "seph1roth",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 90,
+          "iq": 92,
+          "clutch": 90
+        },
+        {
+          "id": "primmie",
+          "name": "Primmie",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 98,
+          "iq": 90,
+          "clutch": 94
+        },
+        {
+          "id": "killua",
+          "name": "killua",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 92,
+          "iq": 93,
+          "clutch": 91
+        },
+        {
+          "id": "jitboys",
+          "name": "JitboyS",
+          "role": "Sentinel",
+          "agent": "Cypher",
+          "aim": 92,
+          "iq": 91,
+          "clutch": 91
+        },
+        {
+          "id": "crws",
+          "name": "Crws",
+          "role": "Controller",
+          "agent": "Breach",
+          "aim": 89,
+          "iq": 96,
+          "clutch": 94
+        }
       ],
-      '100thieves': [
-        { name: 'Cryocells', role: 'Duelist', agent: 'Jett', aim: 96, iq: 90, clutch: 93 },
-        { name: 'Asuna', role: 'Flex', agent: 'Raze', aim: 94, iq: 91, clutch: 92 },
-        { name: 'bang', role: 'Controller', agent: 'Omen', aim: 93, iq: 92, clutch: 91 },
-        { name: 'eeiu', role: 'Initiator', agent: 'Sova', aim: 93, iq: 93, clutch: 92 },
-        { name: 'Boostio', role: 'Sentinel', agent: 'Killjoy', aim: 93, iq: 96, clutch: 95 }
+      "gengesports": [
+        {
+          "id": "t3xture",
+          "name": "t3xture",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 97,
+          "iq": 92,
+          "clutch": 94
+        },
+        {
+          "id": "raxcal",
+          "name": "RaxcaL",
+          "role": "Controller",
+          "agent": "Breach",
+          "aim": 90,
+          "iq": 94,
+          "clutch": 91
+        },
+        {
+          "id": "karon",
+          "name": "Karon",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 94,
+          "iq": 95,
+          "clutch": 96
+        },
+        {
+          "id": "efina",
+          "name": "Efina",
+          "role": "Sentinel",
+          "agent": "Killjoy",
+          "aim": 90,
+          "iq": 93,
+          "clutch": 93
+        },
+        {
+          "id": "ash",
+          "name": "Ash",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 92,
+          "iq": 93,
+          "clutch": 91
+        }
       ],
-      cloud9: [
-        { name: 'oxy', role: 'Duelist', agent: 'Jett', aim: 96, iq: 89, clutch: 91 },
-        { name: 'Xeppaa', role: 'Initiator', agent: 'KAY/O', aim: 92, iq: 91, clutch: 90 },
-        { name: 'vanity', role: 'Controller', agent: 'Omen', aim: 90, iq: 95, clutch: 92 },
-        { name: 'runi', role: 'Initiator', agent: 'Sova', aim: 91, iq: 92, clutch: 91 },
-        { name: 'moose', role: 'Sentinel', agent: 'Cypher', aim: 91, iq: 92, clutch: 91 }
+      "globalesports": [
+        {
+          "id": "xavi8k",
+          "name": "xavi8k",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 90,
+          "iq": 92,
+          "clutch": 90
+        },
+        {
+          "id": "udotan",
+          "name": "UdoTan",
+          "role": "Flex",
+          "agent": "Killjoy",
+          "aim": 92,
+          "iq": 91,
+          "clutch": 90
+        },
+        {
+          "id": "patmen",
+          "name": "PatMen",
+          "role": "Initiator",
+          "agent": "Breach",
+          "aim": 90,
+          "iq": 91,
+          "clutch": 89
+        },
+        {
+          "id": "kr1stal",
+          "name": "Kr1stal",
+          "role": "Controller",
+          "agent": "Sova",
+          "aim": 93,
+          "iq": 95,
+          "clutch": 93
+        },
+        {
+          "id": "autumn",
+          "name": "autumn",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 94,
+          "iq": 90,
+          "clutch": 92
+        }
       ],
-      nrg: [
-        { name: 'Ethan', role: 'Initiator', agent: 'Breach', aim: 94, iq: 96, clutch: 95 },
-        { name: 'Crashies', role: 'Initiator', agent: 'Sova', aim: 92, iq: 94, clutch: 93 },
-        { name: 'Victor', role: 'Flex', agent: 'Raze', aim: 92, iq: 91, clutch: 91 },
-        { name: 's0m', role: 'Controller', agent: 'Omen', aim: 93, iq: 93, clutch: 92 },
-        { name: 'FNS', role: 'Sentinel', agent: 'Cypher', aim: 89, iq: 98, clutch: 94 }
+      "paperrex": [
+        {
+          "id": "something",
+          "name": "something",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 97,
+          "iq": 89,
+          "clutch": 93
+        },
+        {
+          "id": "jinggg",
+          "name": "Jinggg",
+          "role": "Duelist",
+          "agent": "Raze",
+          "aim": 95,
+          "iq": 88,
+          "clutch": 91
+        },
+        {
+          "id": "invy",
+          "name": "invy",
+          "role": "Initiator",
+          "agent": "Breach",
+          "aim": 94,
+          "iq": 93,
+          "clutch": 93
+        },
+        {
+          "id": "f0rsaken",
+          "name": "f0rsakeN",
+          "role": "Controller",
+          "agent": "Yoru",
+          "aim": 94,
+          "iq": 96,
+          "clutch": 95
+        },
+        {
+          "id": "d4v41",
+          "name": "d4v41",
+          "role": "Sentinel",
+          "agent": "Killjoy",
+          "aim": 92,
+          "iq": 95,
+          "clutch": 95
+        }
       ],
-      kresports: [
-        { name: 'keznit', role: 'Duelist', agent: 'Jett', aim: 95, iq: 90, clutch: 93 },
-        { name: 'Klaus', role: 'Initiator', agent: 'Sova', aim: 91, iq: 93, clutch: 92 },
-        { name: 'Melser', role: 'Controller', agent: 'Omen', aim: 92, iq: 92, clutch: 91 },
-        { name: 'heat', role: 'Duelist', agent: 'Raze', aim: 93, iq: 89, clutch: 90 },
-        { name: 'Shyy', role: 'Sentinel', agent: 'Cypher', aim: 92, iq: 91, clutch: 91 }
+      "rexregumqeon": [
+        {
+          "id": "xffero",
+          "name": "xffero",
+          "role": "Sentinel",
+          "agent": "Cypher",
+          "aim": 92,
+          "iq": 92,
+          "clutch": 93
+        },
+        {
+          "id": "monyet",
+          "name": "monyet",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 93,
+          "iq": 93,
+          "clutch": 92
+        },
+        {
+          "id": "kushy",
+          "name": "Kushy",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 92,
+          "iq": 91,
+          "clutch": 91
+        },
+        {
+          "id": "jemkin",
+          "name": "Jemkin",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 95,
+          "iq": 90,
+          "clutch": 92
+        },
+        {
+          "id": "crazyguy",
+          "name": "crazyguy",
+          "role": "Controller",
+          "agent": "Sova",
+          "aim": 90,
+          "iq": 95,
+          "clutch": 91
+        }
       ],
-      furia: [
-        { name: 'mwzera', role: 'Duelist', agent: 'Raze', aim: 94, iq: 89, clutch: 91 },
-        { name: 'khalil', role: 'Sentinel', agent: 'Killjoy', aim: 91, iq: 92, clutch: 90 },
-        { name: 'havoc', role: 'Duelist', agent: 'Jett', aim: 93, iq: 88, clutch: 89 },
-        { name: 'basic', role: 'Initiator', agent: 'Sova', aim: 90, iq: 91, clutch: 89 },
-        { name: 'pryz', role: 'Controller', agent: 'Omen', aim: 89, iq: 90, clutch: 89 }
+      "t1": [
+        {
+          "id": "munchkin",
+          "name": "Munchkin",
+          "role": "Controller",
+          "agent": "Viper",
+          "aim": 91,
+          "iq": 96,
+          "clutch": 94
+        },
+        {
+          "id": "meteor",
+          "name": "Meteor",
+          "role": "Sentinel",
+          "agent": "Killjoy",
+          "aim": 95,
+          "iq": 93,
+          "clutch": 94
+        },
+        {
+          "id": "izu",
+          "name": "iZu",
+          "role": "Flex",
+          "agent": "Yoru",
+          "aim": 94,
+          "iq": 90,
+          "clutch": 91
+        },
+        {
+          "id": "dh",
+          "name": "DH",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 90,
+          "iq": 92,
+          "clutch": 90
+        },
+        {
+          "id": "buzz",
+          "name": "BuZz",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 95,
+          "iq": 92,
+          "clutch": 92
+        }
       ],
-      mibr: [
-        { name: 'artzin', role: 'Duelist', agent: 'Jett', aim: 93, iq: 89, clutch: 90 },
-        { name: 'mazin', role: 'Initiator', agent: 'Fade', aim: 91, iq: 91, clutch: 90 },
-        { name: 'rich', role: 'Sentinel', agent: 'Cypher', aim: 90, iq: 91, clutch: 89 },
-        { name: 'RgLM', role: 'Controller', agent: 'Omen', aim: 89, iq: 91, clutch: 89 },
-        { name: 'Palla', role: 'Duelist', agent: 'Raze', aim: 91, iq: 88, clutch: 88 }
+      "teamsecret": [
+        {
+          "id": "zeus",
+          "name": "Zeus",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 92,
+          "iq": 89,
+          "clutch": 89
+        },
+        {
+          "id": "sylvan",
+          "name": "Sylvan",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 91,
+          "iq": 92,
+          "clutch": 91
+        },
+        {
+          "id": "styron",
+          "name": "STYRON",
+          "role": "Flex",
+          "agent": "Sova",
+          "aim": 91,
+          "iq": 91,
+          "clutch": 90
+        },
+        {
+          "id": "natz",
+          "name": "naTz",
+          "role": "Sentinel",
+          "agent": "Cypher",
+          "aim": 92,
+          "iq": 91,
+          "clutch": 91
+        },
+        {
+          "id": "kellys",
+          "name": "kellyS",
+          "role": "Controller",
+          "agent": "Breach",
+          "aim": 90,
+          "iq": 93,
+          "clutch": 91
+        }
       ],
-      evilgeniuses: [
-        { name: 'Derrek', role: 'Initiator', agent: 'Sova', aim: 92, iq: 93, clutch: 94 },
-        { name: 'NaturE', role: 'Initiator', agent: 'Breach', aim: 91, iq: 92, clutch: 90 },
-        { name: 'supamen', role: 'Controller', agent: 'Omen', aim: 91, iq: 92, clutch: 91 },
-        { name: 'Apoth', role: 'Sentinel', agent: 'Cypher', aim: 90, iq: 91, clutch: 89 },
-        { name: 'icy', role: 'Duelist', agent: 'Jett', aim: 91, iq: 89, clutch: 89 }
+      "zetadivision": [
+        {
+          "id": "xdll",
+          "name": "Xdll",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 91,
+          "iq": 91,
+          "clutch": 90
+        },
+        {
+          "id": "syouta",
+          "name": "SyouTa",
+          "role": "Sentinel",
+          "agent": "Cypher",
+          "aim": 94,
+          "iq": 92,
+          "clutch": 92
+        },
+        {
+          "id": "sugarz3ro",
+          "name": "SugarZ3ro",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 92,
+          "iq": 95,
+          "clutch": 94
+        },
+        {
+          "id": "eko",
+          "name": "eKo",
+          "role": "Flex",
+          "agent": "Breach",
+          "aim": 92,
+          "iq": 92,
+          "clutch": 91
+        },
+        {
+          "id": "absol",
+          "name": "Absol",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 93,
+          "iq": 88,
+          "clutch": 89
+        }
       ],
-      '2gameesports': [
-        { name: 'silentzz', role: 'Duelist', agent: 'Jett', aim: 92, iq: 89, clutch: 90 },
-        { name: 'zap', role: 'Initiator', agent: 'Sova', aim: 90, iq: 91, clutch: 89 },
-        { name: 'spikeziN', role: 'Controller', agent: 'Omen', aim: 90, iq: 90, clutch: 89 },
-        { name: 'lz', role: 'Sentinel', agent: 'Cypher', aim: 89, iq: 91, clutch: 89 },
-        { name: 'pryzee', role: 'Flex', agent: 'KAY/O', aim: 89, iq: 89, clutch: 88 }
+      "varrel": [
+        {
+          "id": "zexy",
+          "name": "zexy",
+          "role": "Sentinel",
+          "agent": "Cypher",
+          "aim": 91,
+          "iq": 91,
+          "clutch": 91
+        },
+        {
+          "id": "xuna",
+          "name": "XuNa",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 91,
+          "iq": 91,
+          "clutch": 90
+        },
+        {
+          "id": "oonzmlp",
+          "name": "oonzmlp",
+          "role": "Flex",
+          "agent": "Breach",
+          "aim": 90,
+          "iq": 91,
+          "clutch": 90
+        },
+        {
+          "id": "foxy9",
+          "name": "Foxy9",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 94,
+          "iq": 89,
+          "clutch": 90
+        },
+        {
+          "id": "c1nder",
+          "name": "C1ndeR",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 90,
+          "iq": 94,
+          "clutch": 91
+        }
       ],
-
-      // --- EMEA ---
-      fnatic: [
-        { name: 'Alfajer', role: 'Sentinel', agent: 'Killjoy', aim: 97, iq: 94, clutch: 96 },
-        { name: 'Cloud', role: 'Initiator', agent: 'Sova', aim: 93, iq: 92, clutch: 91 },
-        { name: 'kaajak', role: 'Duelist', agent: 'Jett', aim: 95, iq: 89, clutch: 92 },
-        { name: 'crashies', role: 'Initiator', agent: 'Fade', aim: 92, iq: 94, clutch: 93 },
-        { name: 'Boaster', role: 'Controller', agent: 'Astra', aim: 90, iq: 97, clutch: 95 }
+      "nongshimredforce": [
+        {
+          "id": "dambi",
+          "name": "Dambi",
+          "role": "Duelist",
+          "agent": "Neon",
+          "aim": 94,
+          "iq": 89,
+          "clutch": 90
+        },
+        {
+          "id": "francis",
+          "name": "Francis",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 90,
+          "iq": 94,
+          "clutch": 91
+        },
+        {
+          "id": "ivy",
+          "name": "Ivy",
+          "role": "Flex",
+          "agent": "Viper",
+          "aim": 92,
+          "iq": 92,
+          "clutch": 92
+        },
+        {
+          "id": "rb",
+          "name": "Rb",
+          "role": "Sentinel",
+          "agent": "Killjoy",
+          "aim": 93,
+          "iq": 94,
+          "clutch": 93
+        },
+        {
+          "id": "xross",
+          "name": "Xross",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 91,
+          "iq": 90,
+          "clutch": 90
+        }
       ],
-      teamheretics: [
-        { name: 'Wo0t', role: 'Duelist', agent: 'Jett', aim: 96, iq: 93, clutch: 95 },
-        { name: 'RieNs', role: 'Initiator', agent: 'Sova', aim: 95, iq: 94, clutch: 94 },
-        { name: 'benjyfishy', role: 'Sentinel', agent: 'Cypher', aim: 94, iq: 92, clutch: 93 },
-        { name: 'Boo', role: 'Controller', agent: 'Omen', aim: 92, iq: 95, clutch: 92 },
-        { name: 'MiniBoo', role: 'Duelist', agent: 'Neon', aim: 94, iq: 90, clutch: 91 }
+      "boomesports": [
+        {
+          "id": "shiro",
+          "name": "Shiro",
+          "role": "Controller",
+          "agent": "Sova",
+          "aim": 90,
+          "iq": 92,
+          "clutch": 91
+        },
+        {
+          "id": "ncslasher",
+          "name": "NcSlasher",
+          "role": "Initiator",
+          "agent": "Breach",
+          "aim": 90,
+          "iq": 91,
+          "clutch": 90
+        },
+        {
+          "id": "nakya",
+          "name": "Nakya",
+          "role": "Flex",
+          "agent": "KAY/O",
+          "aim": 87,
+          "iq": 87,
+          "clutch": 84
+        },
+        {
+          "id": "natz_boomesports",
+          "name": "naTz",
+          "role": "Sentinel",
+          "agent": "Cypher",
+          "aim": 92,
+          "iq": 91,
+          "clutch": 91
+        },
+        {
+          "id": "d3ffo",
+          "name": "d3ffo",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 93,
+          "iq": 91,
+          "clutch": 92
+        }
       ],
-      teamvitality: [
-        { name: 'Derke', role: 'Duelist', agent: 'Jett', aim: 96, iq: 92, clutch: 95 },
-        { name: 'Sayf', role: 'Initiator', agent: 'Sova', aim: 94, iq: 94, clutch: 94 },
-        { name: 'trexx', role: 'Initiator', agent: 'Fade', aim: 93, iq: 93, clutch: 92 },
-        { name: 'Kicks', role: 'Sentinel', agent: 'Cypher', aim: 92, iq: 91, clutch: 91 },
-        { name: 'runneR', role: 'Duelist', agent: 'Raze', aim: 93, iq: 89, clutch: 90 }
+      "alterego": [
+        {
+          "id": "ray4c",
+          "name": "ray4c",
+          "role": "Duelist",
+          "agent": "Raze",
+          "aim": 92,
+          "iq": 88,
+          "clutch": 90
+        },
+        {
+          "id": "parscofield",
+          "name": "par scofield",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 88,
+          "iq": 86,
+          "clutch": 82
+        },
+        {
+          "id": "sovano",
+          "name": "Sovano",
+          "role": "Flex",
+          "agent": "KAY/O",
+          "aim": 87,
+          "iq": 84,
+          "clutch": 85
+        },
+        {
+          "id": "lmemore",
+          "name": "Lmemore",
+          "role": "Sentinel",
+          "agent": "Cypher",
+          "aim": 93,
+          "iq": 92,
+          "clutch": 93
+        },
+        {
+          "id": "scar",
+          "name": "SCar",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 83,
+          "iq": 87,
+          "clutch": 87
+        }
       ],
-      karminecorp: [
-        { name: 'Shin', role: 'Initiator', agent: 'Breach', aim: 93, iq: 92, clutch: 91 },
-        { name: 'marteen', role: 'Duelist', agent: 'Jett', aim: 94, iq: 90, clutch: 91 },
-        { name: 'tomaszy', role: 'Sentinel', agent: 'Killjoy', aim: 93, iq: 91, clutch: 92 },
-        { name: 'saadhak', role: 'Initiator', agent: 'Sova', aim: 92, iq: 97, clutch: 95 },
-        { name: 'Avez', role: 'Controller', agent: 'Omen', aim: 91, iq: 92, clutch: 90 }
+      "fancyunitedesports": [
+        {
+          "id": "yesican",
+          "name": "YESicaN",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 85,
+          "iq": 89,
+          "clutch": 87
+        },
+        {
+          "id": "twilight",
+          "name": "Twilight",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 84,
+          "iq": 90,
+          "clutch": 88
+        },
+        {
+          "id": "nia",
+          "name": "Nia",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 88,
+          "iq": 86,
+          "clutch": 88
+        },
+        {
+          "id": "f1cio",
+          "name": "f1cio",
+          "role": "Flex",
+          "agent": "KAY/O",
+          "aim": 86,
+          "iq": 85,
+          "clutch": 86
+        },
+        {
+          "id": "bucute",
+          "name": "bucute",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 90,
+          "iq": 83,
+          "clutch": 83
+        }
       ],
-      futesports: [
-        { name: 'cNed', role: 'Duelist', agent: 'Jett', aim: 96, iq: 91, clutch: 94 },
-        { name: 'MrFaliN', role: 'Controller', agent: 'Omen', aim: 91, iq: 95, clutch: 93 },
-        { name: 'qRaxs', role: 'Initiator', agent: 'KAY/O', aim: 92, iq: 92, clutch: 91 },
-        { name: 'yetujey', role: 'Sentinel', agent: 'Cypher', aim: 93, iq: 92, clutch: 92 },
-        { name: 'ATA KANAN', role: 'Duelist', agent: 'Raze', aim: 93, iq: 89, clutch: 90 }
+      "royesports": [
+        {
+          "id": "minh2",
+          "name": "minh2",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 88,
+          "iq": 87,
+          "clutch": 88
+        },
+        {
+          "id": "crus",
+          "name": "Crus",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 89,
+          "iq": 88,
+          "clutch": 86
+        },
+        {
+          "id": "ting2k5",
+          "name": "Ting2k5",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 88,
+          "iq": 88,
+          "clutch": 88
+        },
+        {
+          "id": "hyuse",
+          "name": "Hyuse",
+          "role": "Sentinel",
+          "agent": "Cypher",
+          "aim": 88,
+          "iq": 89,
+          "clutch": 90
+        },
+        {
+          "id": "her",
+          "name": "Her",
+          "role": "Flex",
+          "agent": "KAY/O",
+          "aim": 87,
+          "iq": 89,
+          "clutch": 89
+        }
       ],
-      natusvincere: [
-        { name: 'ANGE1', role: 'Controller', agent: 'Omen', aim: 90, iq: 96, clutch: 92 },
-        { name: 'SUYGETSU', role: 'Sentinel', agent: 'Cypher', aim: 95, iq: 93, clutch: 94 },
-        { name: 'Shao', role: 'Initiator', agent: 'Fade', aim: 93, iq: 95, clutch: 96 },
-        { name: 'ardiis', role: 'Duelist', agent: 'Jett', aim: 94, iq: 91, clutch: 92 },
-        { name: 'dpl', role: 'Initiator', agent: 'Breach', aim: 91, iq: 91, clutch: 90 }
+      "oasisgaming": [
+        {
+          "id": "whitecatw",
+          "name": "whitecatw",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 88,
+          "iq": 85,
+          "clutch": 84
+        },
+        {
+          "id": "tesseract",
+          "name": "tesseract",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 88,
+          "iq": 88,
+          "clutch": 83
+        },
+        {
+          "id": "slathom",
+          "name": "Slathom",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 82,
+          "iq": 87,
+          "clutch": 84
+        },
+        {
+          "id": "markyyy",
+          "name": "Markyyy",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 83,
+          "iq": 88,
+          "clutch": 87
+        },
+        {
+          "id": "zynd",
+          "name": "ZYND",
+          "role": "Flex",
+          "agent": "KAY/O",
+          "aim": 89,
+          "iq": 88,
+          "clutch": 87
+        }
       ],
-      teamliquid: [
-        { name: 'nAts', role: 'Sentinel', agent: 'Cypher', aim: 95, iq: 98, clutch: 97 },
-        { name: 'Keiko', role: 'Duelist', agent: 'Jett', aim: 94, iq: 90, clutch: 92 },
-        { name: 'kamo', role: 'Duelist', agent: 'Raze', aim: 93, iq: 89, clutch: 90 },
-        { name: 'paTiTek', role: 'Initiator', agent: 'KAY/O', aim: 92, iq: 93, clutch: 93 },
-        { name: 'serial', role: 'Controller', agent: 'Omen', aim: 91, iq: 91, clutch: 90 }
+      "jadelions": [
+        {
+          "id": "wild0reoo",
+          "name": "Wild0reoo",
+          "role": "Initiator",
+          "agent": "Breach",
+          "aim": 90,
+          "iq": 90,
+          "clutch": 90
+        },
+        {
+          "id": "georggyyy",
+          "name": "Georggyyy",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 90,
+          "iq": 85,
+          "clutch": 86
+        },
+        {
+          "id": "nexi",
+          "name": "Nexi",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 85,
+          "iq": 89,
+          "clutch": 86
+        },
+        {
+          "id": "2ge",
+          "name": "2GE",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 90,
+          "iq": 92,
+          "clutch": 91
+        },
+        {
+          "id": "kkoruna",
+          "name": "kkoruna",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 90,
+          "iq": 81,
+          "clutch": 82
+        }
       ],
-      gentlemates: [
-        { name: 'TakaS', role: 'Duelist', agent: 'Jett', aim: 93, iq: 89, clutch: 90 },
-        { name: 'beyAz', role: 'Initiator', agent: 'Sova', aim: 91, iq: 93, clutch: 91 },
-        { name: 'nataNk', role: 'Flex', agent: 'Breach', aim: 92, iq: 90, clutch: 90 },
-        { name: 'Wailers', role: 'Sentinel', agent: 'Killjoy', aim: 90, iq: 91, clutch: 89 },
-        { name: 'logaN', role: 'Controller', agent: 'Omen', aim: 90, iq: 92, clutch: 90 }
+      "sharperesports": [
+        {
+          "id": "ptc",
+          "name": "PTC",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 92,
+          "iq": 94,
+          "clutch": 93
+        },
+        {
+          "id": "niz",
+          "name": "NIZ",
+          "role": "Flex",
+          "agent": "KAY/O",
+          "aim": 87,
+          "iq": 88,
+          "clutch": 85
+        },
+        {
+          "id": "laz",
+          "name": "Laz",
+          "role": "Sentinel",
+          "agent": "Killjoy",
+          "aim": 85,
+          "iq": 86,
+          "clutch": 85
+        },
+        {
+          "id": "kadoom",
+          "name": "Kadoom",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 93,
+          "iq": 88,
+          "clutch": 90
+        },
+        {
+          "id": "apinya",
+          "name": "Apinya",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 86,
+          "iq": 85,
+          "clutch": 82
+        }
       ],
-      bblesports: [
-        { name: 'QutionerX', role: 'Duelist', agent: 'Jett', aim: 93, iq: 88, clutch: 89 },
-        { name: 'sociablEE', role: 'Initiator', agent: 'Sova', aim: 91, iq: 91, clutch: 90 },
-        { name: 'pAura', role: 'Sentinel', agent: 'Cypher', aim: 90, iq: 93, clutch: 91 },
-        { name: 'Brave', role: 'Controller', agent: 'Omen', aim: 90, iq: 90, clutch: 89 },
-        { name: 're签', role: 'Flex', agent: 'KAY/O', aim: 90, iq: 89, clutch: 89 }
+      "xiaolongbao": [
+        {
+          "id": "styron_xiaolongbao",
+          "name": "STYRON",
+          "role": "Flex",
+          "agent": "Sova",
+          "aim": 91,
+          "iq": 91,
+          "clutch": 90
+        },
+        {
+          "id": "zayce",
+          "name": "Zayce",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 89,
+          "iq": 89,
+          "clutch": 87
+        },
+        {
+          "id": "ft",
+          "name": "FT",
+          "role": "Sentinel",
+          "agent": "Cypher",
+          "aim": 90,
+          "iq": 90,
+          "clutch": 89
+        },
+        {
+          "id": "kassielsy",
+          "name": "Kassielsy",
+          "role": "Sentinel",
+          "agent": "Cypher",
+          "aim": 89,
+          "iq": 88,
+          "clutch": 87
+        },
+        {
+          "id": "xiaofeng",
+          "name": "XiaoFeng",
+          "role": "Flex",
+          "agent": "KAY/O",
+          "aim": 88,
+          "iq": 89,
+          "clutch": 87
+        }
       ],
-      giantx: [
-        { name: 'Fit1nho', role: 'Duelist', agent: 'Jett', aim: 94, iq: 90, clutch: 91 },
-        { name: 'Cloud', role: 'Initiator', agent: 'Sova', aim: 93, iq: 92, clutch: 91 },
-        { name: 'hoody', role: 'Sentinel', agent: 'Killjoy', aim: 91, iq: 91, clutch: 90 },
-        { name: 'purp0', role: 'Duelist', agent: 'Raze', aim: 92, iq: 89, clutch: 89 },
-        { name: 'Redgar', role: 'Controller', agent: 'Omen', aim: 89, iq: 95, clutch: 92 }
+      "trinity": [
+        {
+          "id": "batenkh",
+          "name": "Batenkh",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 88,
+          "iq": 86,
+          "clutch": 89
+        },
+        {
+          "id": "santnas",
+          "name": "santnas",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 89,
+          "iq": 92,
+          "clutch": 87
+        },
+        {
+          "id": "decoy",
+          "name": "decoy",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 89,
+          "iq": 89,
+          "clutch": 89
+        },
+        {
+          "id": "diky",
+          "name": "diky",
+          "role": "Sentinel",
+          "agent": "Cypher",
+          "aim": 86,
+          "iq": 88,
+          "clutch": 88
+        },
+        {
+          "id": "140",
+          "name": "140",
+          "role": "Flex",
+          "agent": "KAY/O",
+          "aim": 88,
+          "iq": 89,
+          "clutch": 87
+        }
       ],
-
-      // --- PACIFIC ---
-      paperrex: [
-        { name: 'something', role: 'Duelist', agent: 'Jett', aim: 97, iq: 89, clutch: 93 },
-        { name: 'f0rsakeN', role: 'Flex', agent: 'Yoru', aim: 94, iq: 95, clutch: 94 },
-        { name: 'Jinggg', role: 'Duelist', agent: 'Raze', aim: 95, iq: 88, clutch: 90 },
-        { name: 'd4v41', role: 'Initiator', agent: 'Fade', aim: 92, iq: 95, clutch: 96 },
-        { name: 'mindfreak', role: 'Controller', agent: 'Omen', aim: 91, iq: 94, clutch: 95 }
+      "xgod": [
+        {
+          "id": "johnolsen",
+          "name": "JohnOlsen",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 93,
+          "iq": 89,
+          "clutch": 91
+        },
+        {
+          "id": "foxz",
+          "name": "foxz",
+          "role": "Controller",
+          "agent": "Sova",
+          "aim": 90,
+          "iq": 94,
+          "clutch": 92
+        },
+        {
+          "id": "krx",
+          "name": "KRX",
+          "role": "Sentinel",
+          "agent": "Killjoy",
+          "aim": 84,
+          "iq": 85,
+          "clutch": 87
+        },
+        {
+          "id": "flukky",
+          "name": "Flukky",
+          "role": "Flex",
+          "agent": "KAY/O",
+          "aim": 87,
+          "iq": 84,
+          "clutch": 85
+        },
+        {
+          "id": "bababui",
+          "name": "bababui",
+          "role": "Flex",
+          "agent": "KAY/O",
+          "aim": 86,
+          "iq": 87,
+          "clutch": 86
+        }
       ],
-      drx: [
-        { name: 'MaKo', role: 'Controller', agent: 'Omen', aim: 95, iq: 96, clutch: 95 },
-        { name: 'BuZz', role: 'Duelist', agent: 'Jett', aim: 95, iq: 92, clutch: 92 },
-        { name: 'Flashback', role: 'Duelist', agent: 'Iso', aim: 94, iq: 90, clutch: 91 },
-        { name: 'Foxy9', role: 'Duelist', agent: 'Raze', aim: 94, iq: 91, clutch: 90 },
-        { name: 'BeYN', role: 'Initiator', agent: 'Sova', aim: 92, iq: 93, clutch: 90 }
+      "teamnkt": [
+        {
+          "id": "qqgod",
+          "name": "qqGod",
+          "role": "Controller",
+          "agent": "Killjoy",
+          "aim": 90,
+          "iq": 92,
+          "clutch": 91
+        },
+        {
+          "id": "harddora",
+          "name": "harddora",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 91,
+          "iq": 88,
+          "clutch": 89
+        },
+        {
+          "id": "d4rf",
+          "name": "D4rf",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 87,
+          "iq": 80,
+          "clutch": 80
+        },
+        {
+          "id": "ki1wsy",
+          "name": "ki1wsy",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 85,
+          "iq": 89,
+          "clutch": 84
+        },
+        {
+          "id": "babyjaigrayray",
+          "name": "babyjaigrayray",
+          "role": "Flex",
+          "agent": "KAY/O",
+          "aim": 89,
+          "iq": 89,
+          "clutch": 86
+        }
       ],
-      gengesports: [
-        { name: 't3xture', role: 'Duelist', agent: 'Jett', aim: 96, iq: 93, clutch: 94 },
-        { name: 'Karon', role: 'Controller', agent: 'Omen', aim: 95, iq: 95, clutch: 96 },
-        { name: 'Munchkin', role: 'Sentinel', agent: 'Viper', aim: 92, iq: 95, clutch: 93 },
-        { name: 'Meteor', role: 'Sentinel', agent: 'Killjoy', aim: 94, iq: 92, clutch: 93 },
-        { name: 'Lakia', role: 'Initiator', agent: 'Sova', aim: 90, iq: 93, clutch: 91 }
+      "nongkaitod": [
+        {
+          "id": "sy1vezt",
+          "name": "Sy1vezt",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 88,
+          "iq": 87,
+          "clutch": 88
+        },
+        {
+          "id": "nongkaitod_p2",
+          "name": "มะแอะมาแงว",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 87,
+          "iq": 87,
+          "clutch": 89
+        },
+        {
+          "id": "cheona",
+          "name": "Cheona",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 88,
+          "iq": 89,
+          "clutch": 86
+        },
+        {
+          "id": "d4sh3r",
+          "name": "D4SH3R",
+          "role": "Sentinel",
+          "agent": "Cypher",
+          "aim": 86,
+          "iq": 89,
+          "clutch": 89
+        },
+        {
+          "id": "daisies",
+          "name": "Daisies",
+          "role": "Flex",
+          "agent": "KAY/O",
+          "aim": 86,
+          "iq": 86,
+          "clutch": 86
+        }
       ],
-      fullsense: [
-        { name: 'Primmie', role: 'Duelist', agent: 'Reyna', aim: 98, iq: 90, clutch: 94 },
-        { name: 'killua', role: 'Initiator', agent: 'Sova', aim: 91, iq: 93, clutch: 90 },
-        { name: 'Crws', role: 'Sentinel', agent: 'Cypher', aim: 89, iq: 96, clutch: 95 },
-        { name: 'seph1roth', role: 'Controller', agent: 'Omen', aim: 88, iq: 92, clutch: 89 },
-        { name: 'JitboyS', role: 'Initiator', agent: 'KAY/O', aim: 92, iq: 90, clutch: 88 }
+      "xoxo01": [
+        {
+          "id": "itaoearth",
+          "name": "ITaoEartH",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 88,
+          "iq": 81,
+          "clutch": 82
+        },
+        {
+          "id": "umaruchans",
+          "name": "umaruchans",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 88,
+          "iq": 89,
+          "clutch": 86
+        },
+        {
+          "id": "allr1ghtt",
+          "name": "ALLR1GHTT",
+          "role": "Flex",
+          "agent": "KAY/O",
+          "aim": 85,
+          "iq": 87,
+          "clutch": 87
+        },
+        {
+          "id": "namtramee",
+          "name": "Namtramee",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 87,
+          "iq": 89,
+          "clutch": 88
+        },
+        {
+          "id": "monica",
+          "name": "Monica",
+          "role": "Sentinel",
+          "agent": "Killjoy",
+          "aim": 84,
+          "iq": 87,
+          "clutch": 88
+        }
       ],
-      talonesports: [
-        { name: 'ban', role: 'Duelist', agent: 'Jett', aim: 93, iq: 91, clutch: 90 },
-        { name: 'Governor', role: 'Duelist', agent: 'Raze', aim: 94, iq: 90, clutch: 89 },
-        { name: 'Crws', role: 'Initiator', agent: 'Breach', aim: 89, iq: 96, clutch: 95 },
-        { name: 'JitboyS', role: 'Initiator', agent: 'KAY/O', aim: 92, iq: 90, clutch: 88 },
-        { name: 'Surf', role: 'Controller', agent: 'Omen', aim: 90, iq: 91, clutch: 89 }
+      "fuiyoh": [
+        {
+          "id": "kongared",
+          "name": "kongared",
+          "role": "Controller",
+          "agent": "KAY/O",
+          "aim": 90,
+          "iq": 92,
+          "clutch": 90
+        },
+        {
+          "id": "pedio",
+          "name": "pedio",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 89,
+          "iq": 86,
+          "clutch": 89
+        },
+        {
+          "id": "xze",
+          "name": "xZe",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 87,
+          "iq": 78,
+          "clutch": 81
+        },
+        {
+          "id": "siraphop",
+          "name": "siraphop",
+          "role": "Flex",
+          "agent": "KAY/O",
+          "aim": 82,
+          "iq": 83,
+          "clutch": 83
+        },
+        {
+          "id": "kruzel",
+          "name": "KRUZEL",
+          "role": "Flex",
+          "agent": "KAY/O",
+          "aim": 87,
+          "iq": 87,
+          "clutch": 89
+        }
       ],
-      teamsecret: [
-        { name: 'JessieVash', role: 'Initiator', agent: 'Sova', aim: 91, iq: 96, clutch: 94 },
-        { name: 'Jremy', role: 'Duelist', agent: 'Jett', aim: 94, iq: 89, clutch: 91 },
-        { name: 'invy', role: 'Initiator', agent: 'Breach', aim: 94, iq: 92, clutch: 93 },
-        { name: 'NDG', role: 'Sentinel', agent: 'Cypher', aim: 91, iq: 91, clutch: 90 },
-        { name: 'wild0reoo', role: 'Controller', agent: 'Omen', aim: 90, iq: 91, clutch: 89 }
+      "theodore": [
+        {
+          "id": "flashii",
+          "name": "Flashii",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 88,
+          "iq": 89,
+          "clutch": 86
+        },
+        {
+          "id": "taozerarr",
+          "name": "taozerarr",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 86,
+          "iq": 88,
+          "clutch": 88
+        },
+        {
+          "id": "zrip",
+          "name": "ZRIP",
+          "role": "Sentinel",
+          "agent": "Killjoy",
+          "aim": 86,
+          "iq": 88,
+          "clutch": 86
+        },
+        {
+          "id": "kenzera",
+          "name": "Kenzera",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 85,
+          "iq": 89,
+          "clutch": 88
+        },
+        {
+          "id": "aimsick",
+          "name": "AimSick",
+          "role": "Flex",
+          "agent": "KAY/O",
+          "aim": 89,
+          "iq": 89,
+          "clutch": 87
+        }
       ],
-      rexregumqeon: [
-        { name: 'Jemkin', role: 'Duelist', agent: 'Jett', aim: 95, iq: 90, clutch: 92 },
-        { name: 'Kush', role: 'Initiator', agent: 'Sova', aim: 91, iq: 91, clutch: 90 },
-        { name: 'Lmemore', role: 'Sentinel', agent: 'Killjoy', aim: 93, iq: 92, clutch: 92 },
-        { name: 'Monyet', role: 'Controller', agent: 'Omen', aim: 93, iq: 93, clutch: 93 },
-        { name: 'Estrella', role: 'Initiator', agent: 'Fade', aim: 92, iq: 92, clutch: 91 }
+      "100thieves": [
+        {
+          "id": "vora",
+          "name": "vora",
+          "role": "Controller",
+          "agent": "Sova",
+          "aim": 90,
+          "iq": 94,
+          "clutch": 91
+        },
+        {
+          "id": "timotino",
+          "name": "Timotino",
+          "role": "Sentinel",
+          "agent": "Cypher",
+          "aim": 91,
+          "iq": 91,
+          "clutch": 90
+        },
+        {
+          "id": "cryocells",
+          "name": "Cryocells",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 96,
+          "iq": 91,
+          "clutch": 93
+        },
+        {
+          "id": "bang",
+          "name": "bang",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 93,
+          "iq": 93,
+          "clutch": 92
+        },
+        {
+          "id": "asuna",
+          "name": "Asuna",
+          "role": "Flex",
+          "agent": "Raze",
+          "aim": 93,
+          "iq": 91,
+          "clutch": 91
+        }
       ],
-      t1: [
-        { name: 'Sayaplayer', role: 'Duelist', agent: 'Jett', aim: 95, iq: 90, clutch: 93 },
-        { name: 'Carpe', role: 'Initiator', agent: 'Sova', aim: 92, iq: 93, clutch: 92 },
-        { name: 'iZu', role: 'Duelist', agent: 'Raze', aim: 94, iq: 89, clutch: 91 },
-        { name: 'xccurate', role: 'Sentinel', agent: 'Cypher', aim: 93, iq: 92, clutch: 92 },
-        { name: 'Sylvan', role: 'Controller', agent: 'Omen', aim: 91, iq: 91, clutch: 90 }
+      "cloud9": [
+        {
+          "id": "oxy",
+          "name": "OXY",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 96,
+          "iq": 89,
+          "clutch": 92
+        },
+        {
+          "id": "zellsis",
+          "name": "Zellsis",
+          "role": "Controller",
+          "agent": "KAY/O",
+          "aim": 91,
+          "iq": 95,
+          "clutch": 94
+        },
+        {
+          "id": "jackk",
+          "name": "Jackk",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 90,
+          "iq": 91,
+          "clutch": 90
+        },
+        {
+          "id": "fireballops",
+          "name": "FireBallOps",
+          "role": "Sentinel",
+          "agent": "Killjoy",
+          "aim": 90,
+          "iq": 90,
+          "clutch": 90
+        },
+        {
+          "id": "v1c",
+          "name": "v1c",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 92,
+          "iq": 92,
+          "clutch": 92
+        }
       ],
-      zetadivision: [
-        { name: 'Dep', role: 'Duelist', agent: 'Jett', aim: 95, iq: 91, clutch: 93 },
-        { name: 'Laz', role: 'Sentinel', agent: 'Cypher', aim: 93, iq: 96, clutch: 95 },
-        { name: 'SugarZ3ro', role: 'Controller', agent: 'Astra', aim: 92, iq: 94, clutch: 93 },
-        { name: 'hiroronn', role: 'Sentinel', agent: 'Killjoy', aim: 92, iq: 91, clutch: 91 },
-        { name: 'Yuran', role: 'Initiator', agent: 'Sova', aim: 91, iq: 90, clutch: 89 }
+      "evilgeniuses": [
+        {
+          "id": "bao",
+          "name": "Bao",
+          "role": "Sentinel",
+          "agent": "Cypher",
+          "aim": 90,
+          "iq": 91,
+          "clutch": 90
+        },
+        {
+          "id": "zerona",
+          "name": "zerona",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 90,
+          "iq": 90,
+          "clutch": 89
+        },
+        {
+          "id": "dgzin",
+          "name": "dgzin",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 94,
+          "iq": 89,
+          "clutch": 91
+        },
+        {
+          "id": "paincakes",
+          "name": "Paincakes",
+          "role": "Controller",
+          "agent": "Breach",
+          "aim": 89,
+          "iq": 94,
+          "clutch": 90
+        },
+        {
+          "id": "supamen",
+          "name": "supamen",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 92,
+          "iq": 93,
+          "clutch": 92
+        }
       ],
-      detonationfocusme: [
-        { name: 'Meiy', role: 'Duelist', agent: 'Jett', aim: 95, iq: 90, clutch: 92 },
-        { name: 'Anthem', role: 'Initiator', agent: 'Breach', aim: 91, iq: 91, clutch: 90 },
-        { name: 'neth', role: 'Sentinel', agent: 'Killjoy', aim: 92, iq: 93, clutch: 91 },
-        { name: 'Medusa', role: 'Controller', agent: 'Omen', aim: 91, iq: 91, clutch: 90 },
-        { name: 'SSeeS', role: 'Controller', agent: 'Viper', aim: 90, iq: 90, clutch: 89 }
+      "furia": [
+        {
+          "id": "shyy",
+          "name": "Shyy",
+          "role": "Sentinel",
+          "agent": "Killjoy",
+          "aim": 92,
+          "iq": 92,
+          "clutch": 92
+        },
+        {
+          "id": "koalanoob",
+          "name": "koalanoob",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 93,
+          "iq": 91,
+          "clutch": 91
+        },
+        {
+          "id": "c0m",
+          "name": "C0M",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 91,
+          "iq": 95,
+          "clutch": 95
+        },
+        {
+          "id": "basic",
+          "name": "basic",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 91,
+          "iq": 90,
+          "clutch": 90
+        },
+        {
+          "id": "artzin",
+          "name": "artzin",
+          "role": "Controller",
+          "agent": "Breach",
+          "aim": 91,
+          "iq": 93,
+          "clutch": 91
+        }
       ],
-      bleedesports: [
-        { name: 'Deryeon', role: 'Duelist', agent: 'Jett', aim: 93, iq: 89, clutch: 90 },
-        { name: 'retla', role: 'Flex', agent: 'KAY/O', aim: 91, iq: 91, clutch: 90 },
-        { name: 'Juicy', role: 'Duelist', agent: 'Raze', aim: 93, iq: 88, clutch: 90 },
-        { name: 'crazyguy', role: 'Initiator', agent: 'Sova', aim: 92, iq: 93, clutch: 91 },
-        { name: 'yay', role: 'Sentinel', agent: 'Chamber', aim: 95, iq: 91, clutch: 93 }
+      "kresports": [
+        {
+          "id": "saadhak",
+          "name": "Saadhak",
+          "role": "Controller",
+          "agent": "KAY/O",
+          "aim": 90,
+          "iq": 98,
+          "clutch": 95
+        },
+        {
+          "id": "mwzera",
+          "name": "mwzera",
+          "role": "Duelist",
+          "agent": "Raze",
+          "aim": 94,
+          "iq": 90,
+          "clutch": 91
+        },
+        {
+          "id": "less",
+          "name": "Less",
+          "role": "Sentinel",
+          "agent": "Viper",
+          "aim": 96,
+          "iq": 95,
+          "clutch": 96
+        },
+        {
+          "id": "heat",
+          "name": "heat",
+          "role": "Flex",
+          "agent": "Jett",
+          "aim": 93,
+          "iq": 90,
+          "clutch": 91
+        },
+        {
+          "id": "dantedeu5",
+          "name": "Dantedeu5",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 92,
+          "iq": 90,
+          "clutch": 90
+        }
       ],
-      globalesports: [
-        { name: 'Lightningfast', role: 'Initiator', agent: 'Fade', aim: 92, iq: 91, clutch: 90 },
-        { name: 'Benkai', role: 'Sentinel', agent: 'Cypher', aim: 89, iq: 96, clutch: 93 },
-        { name: 'Russ', role: 'Initiator', agent: 'Sova', aim: 91, iq: 91, clutch: 90 },
-        { name: 'blaZek1ng', role: 'Controller', agent: 'Omen', aim: 90, iq: 92, clutch: 90 },
-        { name: 'Polvi', role: 'Duelist', agent: 'Jett', aim: 92, iq: 88, clutch: 89 }
+      "leviatn": [
+        {
+          "id": "spikezin",
+          "name": "spikeziN",
+          "role": "Flex",
+          "agent": "KAY/O",
+          "aim": 92,
+          "iq": 92,
+          "clutch": 91
+        },
+        {
+          "id": "sato",
+          "name": "Sato",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 93,
+          "iq": 90,
+          "clutch": 91
+        },
+        {
+          "id": "neon",
+          "name": "Neon",
+          "role": "Sentinel",
+          "agent": "Cypher",
+          "aim": 91,
+          "iq": 92,
+          "clutch": 92
+        },
+        {
+          "id": "kingg",
+          "name": "kiNgg",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 94,
+          "iq": 96,
+          "clutch": 95
+        },
+        {
+          "id": "blowz",
+          "name": "blowz",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 92,
+          "iq": 92,
+          "clutch": 91
+        }
       ],
-
-      // --- CHINA ---
-      edwardgaming: [
-        { name: 'ZmjjKK (KangKang)', role: 'Duelist', agent: 'Jett', aim: 98, iq: 91, clutch: 97 },
-        { name: 'CHICHOO', role: 'Controller', agent: 'Omen', aim: 94, iq: 96, clutch: 96 },
-        { name: 'nobody', role: 'Initiator', agent: 'Sova', aim: 93, iq: 94, clutch: 93 },
-        { name: 'Smoggy', role: 'Initiator', agent: 'Breach', aim: 94, iq: 93, clutch: 94 },
-        { name: 'S1Mon', role: 'Sentinel', agent: 'Cypher', aim: 93, iq: 92, clutch: 92 }
+      "loud": [
+        {
+          "id": "tkzin",
+          "name": "tkzin",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 92,
+          "iq": 89,
+          "clutch": 90
+        },
+        {
+          "id": "lukxo",
+          "name": "lukxo",
+          "role": "Sentinel",
+          "agent": "Cypher",
+          "aim": 93,
+          "iq": 92,
+          "clutch": 92
+        },
+        {
+          "id": "erde",
+          "name": "erde",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 89,
+          "iq": 93,
+          "clutch": 90
+        },
+        {
+          "id": "davih",
+          "name": "DaviH",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 91,
+          "iq": 91,
+          "clutch": 90
+        },
+        {
+          "id": "darker",
+          "name": "Darker",
+          "role": "Flex",
+          "agent": "KAY/O",
+          "aim": 90,
+          "iq": 90,
+          "clutch": 89
+        }
       ],
-      funplusphoenix: [
-        { name: 'Autumn', role: 'Duelist', agent: 'Jett', aim: 95, iq: 90, clutch: 93 },
-        { name: 'Life', role: 'Duelist', agent: 'Raze', aim: 94, iq: 89, clutch: 91 },
-        { name: 'BerYi', role: 'Initiator', agent: 'Sova', aim: 92, iq: 93, clutch: 91 },
-        { name: 'AAAAY', role: 'Initiator', agent: 'Fade', aim: 93, iq: 92, clutch: 92 },
-        { name: 'Lysoar', role: 'Controller', agent: 'Omen', aim: 92, iq: 92, clutch: 91 }
+      "mibr": [
+        {
+          "id": "zekken",
+          "name": "zekken",
+          "role": "Duelist",
+          "agent": "Raze",
+          "aim": 96,
+          "iq": 93,
+          "clutch": 94
+        },
+        {
+          "id": "verno",
+          "name": "Verno",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 94,
+          "iq": 94,
+          "clutch": 94
+        },
+        {
+          "id": "tex",
+          "name": "tex",
+          "role": "Sentinel",
+          "agent": "Killjoy",
+          "aim": 93,
+          "iq": 92,
+          "clutch": 93
+        },
+        {
+          "id": "mazino",
+          "name": "Mazino",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 92,
+          "iq": 94,
+          "clutch": 93
+        },
+        {
+          "id": "aspas",
+          "name": "aspas",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 98,
+          "iq": 94,
+          "clutch": 97
+        }
       ],
-      traceesports: [
-        { name: 'FengF', role: 'Duelist', agent: 'Jett', aim: 95, iq: 90, clutch: 92 },
-        { name: 'Kai', role: 'Duelist', agent: 'Raze', aim: 94, iq: 89, clutch: 91 },
-        { name: 'HeiB', role: 'Initiator', agent: 'Fade', aim: 92, iq: 92, clutch: 91 },
-        { name: 'Luok1ng', role: 'Controller', agent: 'Omen', aim: 93, iq: 92, clutch: 92 },
-        { name: 'Biank', role: 'Initiator', agent: 'Sova', aim: 93, iq: 93, clutch: 92 }
+      "nrg": [
+        {
+          "id": "skuba",
+          "name": "skuba",
+          "role": "Sentinel",
+          "agent": "Cypher",
+          "aim": 92,
+          "iq": 93,
+          "clutch": 92
+        },
+        {
+          "id": "mada",
+          "name": "mada",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 94,
+          "iq": 90,
+          "clutch": 91
+        },
+        {
+          "id": "keiko",
+          "name": "keiko",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 94,
+          "iq": 92,
+          "clutch": 92
+        },
+        {
+          "id": "ethan",
+          "name": "Ethan",
+          "role": "Controller",
+          "agent": "KAY/O",
+          "aim": 91,
+          "iq": 96,
+          "clutch": 94
+        },
+        {
+          "id": "brawk",
+          "name": "brawk",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 92,
+          "iq": 93,
+          "clutch": 92
+        }
       ],
-      bilibiligaming: [
-        { name: 'whzy', role: 'Duelist', agent: 'Jett', aim: 95, iq: 89, clutch: 92 },
-        { name: 'Knight', role: 'Initiator', agent: 'Breach', aim: 93, iq: 92, clutch: 91 },
-        { name: 'nephh', role: 'Initiator', agent: 'Sova', aim: 92, iq: 92, clutch: 91 },
-        { name: 'Yosemite', role: 'Sentinel', agent: 'Cypher', aim: 93, iq: 93, clutch: 93 },
-        { name: 'Flex1n', role: 'Controller', agent: 'Omen', aim: 91, iq: 91, clutch: 90 }
+      "sentinels": [
+        {
+          "id": "reduxx",
+          "name": "reduxx",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 94,
+          "iq": 90,
+          "clutch": 91
+        },
+        {
+          "id": "jonahp",
+          "name": "JonahP",
+          "role": "Flex",
+          "agent": "Breach",
+          "aim": 92,
+          "iq": 95,
+          "clutch": 94
+        },
+        {
+          "id": "johnqt",
+          "name": "johnqt",
+          "role": "Controller",
+          "agent": "Cypher",
+          "aim": 91,
+          "iq": 97,
+          "clutch": 95
+        },
+        {
+          "id": "jerrwin",
+          "name": "Jerrwin",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 92,
+          "iq": 90,
+          "clutch": 90
+        },
+        {
+          "id": "cortezia",
+          "name": "cortezia",
+          "role": "Sentinel",
+          "agent": "Cypher",
+          "aim": 93,
+          "iq": 92,
+          "clutch": 92
+        }
       ],
-      jdgaming: [
-        { name: 'stew', role: 'Duelist', agent: 'Jett', aim: 94, iq: 89, clutch: 91 },
-        { name: 'Viva', role: 'Initiator', agent: 'Sova', aim: 92, iq: 92, clutch: 90 },
-        { name: 'jkuro', role: 'Controller', agent: 'Omen', aim: 91, iq: 91, clutch: 90 },
-        { name: 'MarDemon', role: 'Sentinel', agent: 'Killjoy', aim: 91, iq: 91, clutch: 90 },
-        { name: 'YiHao', role: 'Initiator', agent: 'Fade', aim: 90, iq: 90, clutch: 89 }
+      "g2esports": [
+        {
+          "id": "valyn",
+          "name": "valyn",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 93,
+          "iq": 97,
+          "clutch": 95
+        },
+        {
+          "id": "trent",
+          "name": "trent",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 94,
+          "iq": 94,
+          "clutch": 94
+        },
+        {
+          "id": "leaf",
+          "name": "leaf",
+          "role": "Sentinel",
+          "agent": "Viper",
+          "aim": 95,
+          "iq": 94,
+          "clutch": 94
+        },
+        {
+          "id": "jawgemo",
+          "name": "jawgemo",
+          "role": "Duelist",
+          "agent": "Raze",
+          "aim": 94,
+          "iq": 92,
+          "clutch": 93
+        },
+        {
+          "id": "babybay",
+          "name": "babybay",
+          "role": "Flex",
+          "agent": "KAY/O",
+          "aim": 91,
+          "iq": 91,
+          "clutch": 91
+        }
       ],
-      dragonrangergaming: [
-        { name: 'vo0kashu', role: 'Duelist', agent: 'Jett', aim: 94, iq: 89, clutch: 91 },
-        { name: 'Nicc', role: 'Initiator', agent: 'Sova', aim: 91, iq: 91, clutch: 90 },
-        { name: 'TvirusLuke', role: 'Duelist', agent: 'Raze', aim: 93, iq: 88, clutch: 89 },
-        { name: 'nizhaoTZH', role: 'Controller', agent: 'Omen', aim: 90, iq: 90, clutch: 89 },
-        { name: 'Shion', role: 'Sentinel', agent: 'Cypher', aim: 90, iq: 91, clutch: 89 }
+      "envy": [
+        {
+          "id": "rossy",
+          "name": "Rossy",
+          "role": "Controller",
+          "agent": "Sova",
+          "aim": 91,
+          "iq": 94,
+          "clutch": 92
+        },
+        {
+          "id": "nightz",
+          "name": "nightz",
+          "role": "Sentinel",
+          "agent": "Cypher",
+          "aim": 91,
+          "iq": 90,
+          "clutch": 90
+        },
+        {
+          "id": "keznit",
+          "name": "keznit",
+          "role": "Duelist",
+          "agent": "Raze",
+          "aim": 95,
+          "iq": 90,
+          "clutch": 92
+        },
+        {
+          "id": "glyph",
+          "name": "GLYPH",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 90,
+          "iq": 91,
+          "clutch": 90
+        },
+        {
+          "id": "demon1",
+          "name": "Demon1",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 97,
+          "iq": 92,
+          "clutch": 95
+        }
       ],
-
-      // --- THAI & SEA CHALLENGERS ---
-      sharperesports: [
-        { name: 'PTC', role: 'Flex', agent: 'KAY/O', aim: 93, iq: 94, clutch: 93 },
-        { name: 'Kadoom', role: 'Duelist', agent: 'Jett', aim: 95, iq: 90, clutch: 92 },
-        { name: 'NIZ', role: 'Initiator', agent: 'Sova', aim: 91, iq: 92, clutch: 90 },
-        { name: 'Laz', role: 'Sentinel', agent: 'Cypher', aim: 92, iq: 93, clutch: 91 },
-        { name: 'Apinya', role: 'Controller', agent: 'Omen', aim: 90, iq: 91, clutch: 89 }
+      "m80": [
+        {
+          "id": "kyu",
+          "name": "Kyu",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 90,
+          "iq": 92,
+          "clutch": 90
+        },
+        {
+          "id": "nismo",
+          "name": "NiSMO",
+          "role": "Controller",
+          "agent": "KAY/O",
+          "aim": 91,
+          "iq": 94,
+          "clutch": 93
+        },
+        {
+          "id": "spaz",
+          "name": "Spaz",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 90,
+          "iq": 90,
+          "clutch": 90
+        },
+        {
+          "id": "boni",
+          "name": "Boni",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 91,
+          "iq": 88,
+          "clutch": 89
+        },
+        {
+          "id": "alvinboy",
+          "name": "alvinboy",
+          "role": "Sentinel",
+          "agent": "Cypher",
+          "aim": 90,
+          "iq": 90,
+          "clutch": 90
+        }
       ],
-      teamnkt: [
-        { name: 'harddora', role: 'Duelist', agent: 'Jett', aim: 94, iq: 89, clutch: 91 },
-        { name: 'ki1wsy', role: 'Flex', agent: 'Breach', aim: 92, iq: 91, clutch: 90 },
-        { name: 'JAIGRAYRAY', role: 'Initiator', agent: 'Sova', aim: 91, iq: 92, clutch: 91 },
-        { name: 'potter', role: 'Controller', agent: 'Omen', aim: 90, iq: 93, clutch: 90 },
-        { name: 'qqGOD', role: 'Sentinel', agent: 'Killjoy', aim: 92, iq: 90, clutch: 92 }
+      "bestia": [
+        {
+          "id": "tacolilla",
+          "name": "Tacolilla",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 92,
+          "iq": 90,
+          "clutch": 91
+        },
+        {
+          "id": "david",
+          "name": "david",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 86,
+          "iq": 86,
+          "clutch": 89
+        },
+        {
+          "id": "chubi",
+          "name": "chubi",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 87,
+          "iq": 89,
+          "clutch": 86
+        },
+        {
+          "id": "melser",
+          "name": "Melser",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 90,
+          "iq": 94,
+          "clutch": 93
+        },
+        {
+          "id": "loss",
+          "name": "Loss",
+          "role": "Flex",
+          "agent": "KAY/O",
+          "aim": 87,
+          "iq": 86,
+          "clutch": 86
+        }
       ],
-      madeinthailand: [
-        { name: 'AloNeFillz', role: 'Duelist', agent: 'Jett', aim: 94, iq: 91, clutch: 92 },
-        { name: 'Delend', role: 'Initiator', agent: 'Sova', aim: 91, iq: 92, clutch: 90 },
-        { name: 'KROMAS', role: 'Controller', agent: 'Omen', aim: 90, iq: 91, clutch: 89 },
-        { name: 'b3ta', role: 'Sentinel', agent: 'Cypher', aim: 92, iq: 93, clutch: 92 },
-        { name: 'kongared', role: 'Flex', agent: 'KAY/O', aim: 91, iq: 90, clutch: 90 }
+      "fluxow7m": [
+        {
+          "id": "mazin",
+          "name": "mazin",
+          "role": "Controller",
+          "agent": "Breach",
+          "aim": 90,
+          "iq": 93,
+          "clutch": 91
+        },
+        {
+          "id": "jzz",
+          "name": "jzz",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 90,
+          "iq": 90,
+          "clutch": 89
+        },
+        {
+          "id": "palla",
+          "name": "Palla",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 91,
+          "iq": 88,
+          "clutch": 89
+        },
+        {
+          "id": "tuyz",
+          "name": "tuyz",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 92,
+          "iq": 92,
+          "clutch": 93
+        },
+        {
+          "id": "zanatsu",
+          "name": "Zanatsu",
+          "role": "Flex",
+          "agent": "KAY/O",
+          "aim": 89,
+          "iq": 86,
+          "clutch": 86
+        }
       ],
-      xgod: [
-        { name: 'foxz', role: 'Initiator', agent: 'Sova', aim: 92, iq: 95, clutch: 92 },
-        { name: 'JohnOlsen', role: 'Duelist', agent: 'Jett', aim: 94, iq: 90, clutch: 91 },
-        { name: 'garnetS', role: 'Duelist', agent: 'Raze', aim: 93, iq: 89, clutch: 90 },
-        { name: 'Seph', role: 'Controller', agent: 'Omen', aim: 90, iq: 91, clutch: 89 },
-        { name: 'AcE', role: 'Sentinel', agent: 'Killjoy', aim: 91, iq: 91, clutch: 90 }
+      "2gameesports": [
+        {
+          "id": "ambition",
+          "name": "ambitioN",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 91,
+          "iq": 87,
+          "clutch": 88
+        },
+        {
+          "id": "frz",
+          "name": "frz",
+          "role": "Sentinel",
+          "agent": "Cypher",
+          "aim": 90,
+          "iq": 91,
+          "clutch": 90
+        },
+        {
+          "id": "brinks",
+          "name": "Brinks",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 87,
+          "iq": 92,
+          "clutch": 89
+        },
+        {
+          "id": "gobera",
+          "name": "gobera",
+          "role": "Sentinel",
+          "agent": "Killjoy",
+          "aim": 90,
+          "iq": 89,
+          "clutch": 90
+        },
+        {
+          "id": "xenom",
+          "name": "xenom",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 91,
+          "iq": 91,
+          "clutch": 91
+        }
       ],
-      '555': [
-        { name: 'Surf', role: 'Duelist', agent: 'Jett', aim: 94, iq: 89, clutch: 91 },
-        { name: 'aLerT', role: 'Initiator', agent: 'Sova', aim: 91, iq: 92, clutch: 90 },
-        { name: 'P1k', role: 'Controller', agent: 'Omen', aim: 90, iq: 90, clutch: 89 },
-        { name: 'LAMMYSNAX', role: 'Initiator', agent: 'Fade', aim: 90, iq: 91, clutch: 90 },
-        { name: 'Flash', role: 'Sentinel', agent: 'Cypher', aim: 90, iq: 90, clutch: 89 }
+      "bblesports": [
+        {
+          "id": "ros",
+          "name": "Rosé",
+          "role": "Controller",
+          "agent": "Sova",
+          "aim": 90,
+          "iq": 93,
+          "clutch": 90
+        },
+        {
+          "id": "loversrock",
+          "name": "lovers rock",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 92,
+          "iq": 89,
+          "clutch": 90
+        },
+        {
+          "id": "loita",
+          "name": "Loita",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 92,
+          "iq": 91,
+          "clutch": 90
+        },
+        {
+          "id": "lar0k",
+          "name": "Lar0k",
+          "role": "Flex",
+          "agent": "KAY/O",
+          "aim": 93,
+          "iq": 92,
+          "clutch": 92
+        },
+        {
+          "id": "crewen",
+          "name": "Crewen",
+          "role": "Sentinel",
+          "agent": "Cypher",
+          "aim": 91,
+          "iq": 91,
+          "clutch": 90
+        }
       ],
-      attackallaround: [
-        { name: 'Bas', role: 'Duelist', agent: 'Jett', aim: 93, iq: 89, clutch: 90 },
-        { name: 'Gloomy', role: 'Initiator', agent: 'Sova', aim: 91, iq: 91, clutch: 89 },
-        { name: 'Fluk', role: 'Controller', agent: 'Omen', aim: 90, iq: 90, clutch: 89 },
-        { name: 'Kong', role: 'Sentinel', agent: 'Cypher', aim: 90, iq: 90, clutch: 89 },
-        { name: 'Win', role: 'Flex', agent: 'Breach', aim: 90, iq: 89, clutch: 88 }
+      "fnatic": [
+        {
+          "id": "kaajak",
+          "name": "kaajak",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 95,
+          "iq": 90,
+          "clutch": 92
+        },
+        {
+          "id": "crashies",
+          "name": "crashies",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 92,
+          "iq": 95,
+          "clutch": 94
+        },
+        {
+          "id": "cloud",
+          "name": "Cloud",
+          "role": "Flex",
+          "agent": "Breach",
+          "aim": 93,
+          "iq": 93,
+          "clutch": 92
+        },
+        {
+          "id": "boaster",
+          "name": "Boaster",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 88,
+          "iq": 98,
+          "clutch": 95
+        },
+        {
+          "id": "alfajer",
+          "name": "Alfajer",
+          "role": "Sentinel",
+          "agent": "Killjoy",
+          "aim": 97,
+          "iq": 95,
+          "clutch": 96
+        }
+      ],
+      "futesports": [
+        {
+          "id": "yetujey",
+          "name": "yetujey",
+          "role": "Sentinel",
+          "agent": "Cypher",
+          "aim": 94,
+          "iq": 93,
+          "clutch": 94
+        },
+        {
+          "id": "xeus",
+          "name": "xeus",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 95,
+          "iq": 90,
+          "clutch": 92
+        },
+        {
+          "id": "krostaly",
+          "name": "KROSTALY",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 91,
+          "iq": 92,
+          "clutch": 91
+        },
+        {
+          "id": "s0pp",
+          "name": "s0pp",
+          "role": "Initiator",
+          "agent": "KAY/O",
+          "aim": 90,
+          "iq": 90,
+          "clutch": 90
+        },
+        {
+          "id": "sociablee",
+          "name": "sociablEE",
+          "role": "Controller",
+          "agent": "Sova",
+          "aim": 91,
+          "iq": 93,
+          "clutch": 91
+        }
+      ],
+      "gentlemates": [
+        {
+          "id": "starxo",
+          "name": "starxo",
+          "role": "Controller",
+          "agent": "Skye",
+          "aim": 90,
+          "iq": 93,
+          "clutch": 92
+        },
+        {
+          "id": "proxh",
+          "name": "Proxh",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 90,
+          "iq": 91,
+          "clutch": 90
+        },
+        {
+          "id": "minny",
+          "name": "Minny",
+          "role": "Sentinel",
+          "agent": "Cypher",
+          "aim": 93,
+          "iq": 92,
+          "clutch": 92
+        },
+        {
+          "id": "marteen",
+          "name": "marteen",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 94,
+          "iq": 90,
+          "clutch": 91
+        },
+        {
+          "id": "h1ber",
+          "name": "H1ber",
+          "role": "Flex",
+          "agent": "Raze",
+          "aim": 91,
+          "iq": 89,
+          "clutch": 90
+        }
+      ],
+      "giantx": [
+        {
+          "id": "westside",
+          "name": "westside",
+          "role": "Sentinel",
+          "agent": "Cypher",
+          "aim": 92,
+          "iq": 91,
+          "clutch": 91
+        },
+        {
+          "id": "flickless",
+          "name": "Flickless",
+          "role": "Controller",
+          "agent": "Breach",
+          "aim": 90,
+          "iq": 93,
+          "clutch": 90
+        },
+        {
+          "id": "ara",
+          "name": "ara",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 93,
+          "iq": 89,
+          "clutch": 90
+        },
+        {
+          "id": "net",
+          "name": "neT",
+          "role": "Sentinel",
+          "agent": "Viper",
+          "aim": 90,
+          "iq": 93,
+          "clutch": 91
+        },
+        {
+          "id": "jesse",
+          "name": "Jesse",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 90,
+          "iq": 91,
+          "clutch": 90
+        }
+      ],
+      "karminecorp": [
+        {
+          "id": "avez",
+          "name": "avez",
+          "role": "Controller",
+          "agent": "Breach",
+          "aim": 92,
+          "iq": 93,
+          "clutch": 92
+        },
+        {
+          "id": "suygetsu",
+          "name": "SUYGETSU",
+          "role": "Sentinel",
+          "agent": "Cypher",
+          "aim": 95,
+          "iq": 94,
+          "clutch": 95
+        },
+        {
+          "id": "dos9",
+          "name": "dos9",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 92,
+          "iq": 92,
+          "clutch": 91
+        },
+        {
+          "id": "lwn",
+          "name": "LêwN",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 94,
+          "iq": 89,
+          "clutch": 91
+        },
+        {
+          "id": "n4rrate",
+          "name": "N4RRATE",
+          "role": "Initiator",
+          "agent": "Fade",
+          "aim": 95,
+          "iq": 93,
+          "clutch": 93
+        }
+      ],
+      "natusvincere": [
+        {
+          "id": "ruxic",
+          "name": "Ruxic",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 94,
+          "iq": 91,
+          "clutch": 92
+        },
+        {
+          "id": "hiro",
+          "name": "hiro",
+          "role": "Sentinel",
+          "agent": "Cypher",
+          "aim": 94,
+          "iq": 93,
+          "clutch": 93
+        },
+        {
+          "id": "exit",
+          "name": "ExiT",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 92,
+          "iq": 89,
+          "clutch": 90
+        },
+        {
+          "id": "cyvoph",
+          "name": "CyvOph",
+          "role": "Controller",
+          "agent": "Sova",
+          "aim": 91,
+          "iq": 93,
+          "clutch": 91
+        },
+        {
+          "id": "chloric",
+          "name": "chloric",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 90,
+          "iq": 90,
+          "clutch": 89
+        }
+      ],
+      "teamheretics": [
+        {
+          "id": "wo0t",
+          "name": "Wo0t",
+          "role": "Flex",
+          "agent": "KAY/O",
+          "aim": 96,
+          "iq": 93,
+          "clutch": 94
+        },
+        {
+          "id": "riens",
+          "name": "RieNs",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 95,
+          "iq": 94,
+          "clutch": 94
+        },
+        {
+          "id": "koshmaras",
+          "name": "koshmaras",
+          "role": "Duelist",
+          "agent": "Neon",
+          "aim": 92,
+          "iq": 90,
+          "clutch": 90
+        },
+        {
+          "id": "boo",
+          "name": "Boo",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 90,
+          "iq": 96,
+          "clutch": 93
+        },
+        {
+          "id": "benjyfishy",
+          "name": "benjyfishy",
+          "role": "Sentinel",
+          "agent": "Cypher",
+          "aim": 94,
+          "iq": 93,
+          "clutch": 94
+        }
+      ],
+      "teamliquid": [
+        {
+          "id": "trexx",
+          "name": "trexx",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 94,
+          "iq": 93,
+          "clutch": 93
+        },
+        {
+          "id": "purp0",
+          "name": "purp0",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 93,
+          "iq": 91,
+          "clutch": 91
+        },
+        {
+          "id": "nats",
+          "name": "nAts",
+          "role": "Controller",
+          "agent": "Cypher",
+          "aim": 94,
+          "iq": 98,
+          "clutch": 97
+        },
+        {
+          "id": "kicks",
+          "name": "Kicks",
+          "role": "Flex",
+          "agent": "KAY/O",
+          "aim": 92,
+          "iq": 92,
+          "clutch": 91
+        },
+        {
+          "id": "kamo",
+          "name": "kamo",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 94,
+          "iq": 89,
+          "clutch": 90
+        }
+      ],
+      "teamvitality": [
+        {
+          "id": "sayonara",
+          "name": "Sayonara",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 94,
+          "iq": 91,
+          "clutch": 91
+        },
+        {
+          "id": "profek",
+          "name": "PROFEK",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 92,
+          "iq": 92,
+          "clutch": 91
+        },
+        {
+          "id": "jamppi",
+          "name": "Jamppi",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 92,
+          "iq": 94,
+          "clutch": 92
+        },
+        {
+          "id": "derke",
+          "name": "Derke",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 96,
+          "iq": 93,
+          "clutch": 95
+        },
+        {
+          "id": "chronicle",
+          "name": "Chronicle",
+          "role": "Flex",
+          "agent": "Sova",
+          "aim": 94,
+          "iq": 96,
+          "clutch": 95
+        }
+      ],
+      "pcificesports": [
+        {
+          "id": "waddle",
+          "name": "waddle",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 90,
+          "iq": 90,
+          "clutch": 89
+        },
+        {
+          "id": "seven",
+          "name": "seven",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 91,
+          "iq": 90,
+          "clutch": 90
+        },
+        {
+          "id": "qpert",
+          "name": "qpert",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 89,
+          "iq": 93,
+          "clutch": 90
+        },
+        {
+          "id": "ninja",
+          "name": "NINJA",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 89,
+          "iq": 90,
+          "clutch": 89
+        },
+        {
+          "id": "al0rante",
+          "name": "al0rante",
+          "role": "Sentinel",
+          "agent": "Cypher",
+          "aim": 93,
+          "iq": 90,
+          "clutch": 91
+        }
+      ],
+      "eternalfire": [
+        {
+          "id": "echo",
+          "name": "echo",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 91,
+          "iq": 89,
+          "clutch": 89
+        },
+        {
+          "id": "nekky",
+          "name": "nekky",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 88,
+          "iq": 93,
+          "clutch": 90
+        },
+        {
+          "id": "audaz",
+          "name": "audaz",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 90,
+          "iq": 90,
+          "clutch": 89
+        },
+        {
+          "id": "favian",
+          "name": "Favian",
+          "role": "Sentinel",
+          "agent": "Cypher",
+          "aim": 90,
+          "iq": 90,
+          "clutch": 90
+        },
+        {
+          "id": "spear",
+          "name": "Spear",
+          "role": "Flex",
+          "agent": "KAY/O",
+          "aim": 89,
+          "iq": 90,
+          "clutch": 89
+        }
+      ],
+      "enterprise": [
+        {
+          "id": "iluri",
+          "name": "iluri",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 88,
+          "iq": 91,
+          "clutch": 86
+        },
+        {
+          "id": "kozzy",
+          "name": "kozzy",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 88,
+          "iq": 87,
+          "clutch": 89
+        },
+        {
+          "id": "lime",
+          "name": "Lime",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 88,
+          "iq": 88,
+          "clutch": 88
+        },
+        {
+          "id": "magnum",
+          "name": "Magnum",
+          "role": "Controller",
+          "agent": "Cypher",
+          "aim": 90,
+          "iq": 94,
+          "clutch": 92
+        },
+        {
+          "id": "patitek",
+          "name": "paTiTek",
+          "role": "Flex",
+          "agent": "KAY/O",
+          "aim": 92,
+          "iq": 94,
+          "clutch": 93
+        }
+      ],
+      "fireflux": [
+        {
+          "id": "reazy",
+          "name": "reazy",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 88,
+          "iq": 89,
+          "clutch": 88
+        },
+        {
+          "id": "kachoww",
+          "name": "Kachoww",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 89,
+          "iq": 86,
+          "clutch": 89
+        },
+        {
+          "id": "hezacoil",
+          "name": "hezacoil",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 88,
+          "iq": 86,
+          "clutch": 87
+        },
+        {
+          "id": "batujnax",
+          "name": "batujnax",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 88,
+          "iq": 90,
+          "clutch": 88
+        },
+        {
+          "id": "deadink",
+          "name": "DeadInk",
+          "role": "Flex",
+          "agent": "KAY/O",
+          "aim": 89,
+          "iq": 89,
+          "clutch": 87
+        }
+      ],
+      "joblife": [
+        {
+          "id": "runner",
+          "name": "runneR",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 91,
+          "iq": 89,
+          "clutch": 90
+        },
+        {
+          "id": "doma",
+          "name": "Doma",
+          "role": "Flex",
+          "agent": "Raze",
+          "aim": 91,
+          "iq": 92,
+          "clutch": 91
+        },
+        {
+          "id": "kamyk",
+          "name": "kamyk",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 91,
+          "iq": 91,
+          "clutch": 91
+        },
+        {
+          "id": "unfake",
+          "name": "UNFAKE",
+          "role": "Controller",
+          "agent": "Sova",
+          "aim": 88,
+          "iq": 93,
+          "clutch": 90
+        },
+        {
+          "id": "pa1ze",
+          "name": "Pa1ze",
+          "role": "Flex",
+          "agent": "KAY/O",
+          "aim": 88,
+          "iq": 86,
+          "clutch": 87
+        }
+      ],
+      "eintracht": [
+        {
+          "id": "azury",
+          "name": "azury",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 91,
+          "iq": 86,
+          "clutch": 89
+        },
+        {
+          "id": "musashi",
+          "name": "musashi",
+          "role": "Controller",
+          "agent": "Sova",
+          "aim": 90,
+          "iq": 93,
+          "clutch": 91
+        },
+        {
+          "id": "monsteerr",
+          "name": "MONSTEERR",
+          "role": "Sentinel",
+          "agent": "Cypher",
+          "aim": 91,
+          "iq": 91,
+          "clutch": 91
+        },
+        {
+          "id": "jamelinho213",
+          "name": "Jamelinho213",
+          "role": "Sentinel",
+          "agent": "Cypher",
+          "aim": 89,
+          "iq": 88,
+          "clutch": 89
+        },
+        {
+          "id": "fizzy",
+          "name": "Fizzy",
+          "role": "Flex",
+          "agent": "KAY/O",
+          "aim": 86,
+          "iq": 86,
+          "clutch": 86
+        }
+      ],
+      "allgamers": [
+        {
+          "id": "k1ra",
+          "name": "K1ra",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 90,
+          "iq": 93,
+          "clutch": 91
+        },
+        {
+          "id": "shr1mp",
+          "name": "Shr1mp",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 90,
+          "iq": 91,
+          "clutch": 90
+        },
+        {
+          "id": "f4ngeer",
+          "name": "f4ngeer",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 92,
+          "iq": 89,
+          "clutch": 90
+        },
+        {
+          "id": "iamgrq",
+          "name": "iamgrq",
+          "role": "Sentinel",
+          "agent": "Cypher",
+          "aim": 90,
+          "iq": 90,
+          "clutch": 89
+        },
+        {
+          "id": "bai",
+          "name": "Bai",
+          "role": "Flex",
+          "agent": "Breach",
+          "aim": 90,
+          "iq": 90,
+          "clutch": 89
+        }
+      ],
+      "bilibiligaming": [
+        {
+          "id": "whzy",
+          "name": "whzy",
+          "role": "Duelist",
+          "agent": "Raze",
+          "aim": 95,
+          "iq": 90,
+          "clutch": 92
+        },
+        {
+          "id": "knight",
+          "name": "Knight",
+          "role": "Initiator",
+          "agent": "Fade",
+          "aim": 92,
+          "iq": 92,
+          "clutch": 91
+        },
+        {
+          "id": "nephh",
+          "name": "nephh",
+          "role": "Controller",
+          "agent": "KAY/O",
+          "aim": 91,
+          "iq": 94,
+          "clutch": 92
+        },
+        {
+          "id": "rushia",
+          "name": "rushia",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 91,
+          "iq": 91,
+          "clutch": 90
+        },
+        {
+          "id": "ft_bilibiligaming",
+          "name": "FT",
+          "role": "Sentinel",
+          "agent": "Cypher",
+          "aim": 90,
+          "iq": 90,
+          "clutch": 89
+        }
+      ],
+      "edwardgaming": [
+        {
+          "id": "zmjjkk",
+          "name": "ZmjjKK",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 98,
+          "iq": 92,
+          "clutch": 96
+        },
+        {
+          "id": "smoggy",
+          "name": "Smoggy",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 94,
+          "iq": 94,
+          "clutch": 94
+        },
+        {
+          "id": "nobody",
+          "name": "nobody",
+          "role": "Controller",
+          "agent": "Sova",
+          "aim": 92,
+          "iq": 96,
+          "clutch": 94
+        },
+        {
+          "id": "jieni7",
+          "name": "Jieni7",
+          "role": "Flex",
+          "agent": "KAY/O",
+          "aim": 91,
+          "iq": 90,
+          "clutch": 90
+        },
+        {
+          "id": "chichoo",
+          "name": "CHICHOO",
+          "role": "Sentinel",
+          "agent": "Viper",
+          "aim": 94,
+          "iq": 96,
+          "clutch": 97
+        }
+      ],
+      "funplusphoenix": [
+        {
+          "id": "aaaay",
+          "name": "AAAAY",
+          "role": "Initiator",
+          "agent": "Fade",
+          "aim": 94,
+          "iq": 93,
+          "clutch": 93
+        },
+        {
+          "id": "coconut",
+          "name": "coconut",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 89,
+          "iq": 93,
+          "clutch": 90
+        },
+        {
+          "id": "kovaq",
+          "name": "kovaQ",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 91,
+          "iq": 90,
+          "clutch": 90
+        },
+        {
+          "id": "setrod",
+          "name": "Setrod",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 90,
+          "iq": 91,
+          "clutch": 90
+        },
+        {
+          "id": "xlele",
+          "name": "Xlele",
+          "role": "Sentinel",
+          "agent": "Cypher",
+          "aim": 91,
+          "iq": 92,
+          "clutch": 91
+        }
+      ],
+      "jdgaming": [
+        {
+          "id": "zhe",
+          "name": "zhe",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 92,
+          "iq": 89,
+          "clutch": 90
+        },
+        {
+          "id": "yuicaw",
+          "name": "Yuicaw",
+          "role": "Flex",
+          "agent": "Cypher",
+          "aim": 91,
+          "iq": 91,
+          "clutch": 91
+        },
+        {
+          "id": "berlin",
+          "name": "BerLIN",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 91,
+          "iq": 95,
+          "clutch": 92
+        },
+        {
+          "id": "crownfisher",
+          "name": "crownfisher",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 90,
+          "iq": 90,
+          "clutch": 89
+        },
+        {
+          "id": "jkuro",
+          "name": "jkuro",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 91,
+          "iq": 92,
+          "clutch": 91
+        }
+      ],
+      "novaesports": [
+        {
+          "id": "qiutian",
+          "name": "qiutiaN",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 89,
+          "iq": 93,
+          "clutch": 90
+        },
+        {
+          "id": "cb",
+          "name": "cb",
+          "role": "Duelist",
+          "agent": "Raze",
+          "aim": 92,
+          "iq": 91,
+          "clutch": 91
+        },
+        {
+          "id": "swagzor",
+          "name": "swagzor",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 92,
+          "iq": 90,
+          "clutch": 90
+        },
+        {
+          "id": "guang",
+          "name": "GuanG",
+          "role": "Sentinel",
+          "agent": "Cypher",
+          "aim": 92,
+          "iq": 90,
+          "clutch": 91
+        },
+        {
+          "id": "ezeir",
+          "name": "Ezeir",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 90,
+          "iq": 91,
+          "clutch": 90
+        }
+      ],
+      "titanesportsclub": [
+        {
+          "id": "spitfires",
+          "name": "Spitfires",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 91,
+          "iq": 89,
+          "clutch": 89
+        },
+        {
+          "id": "coco",
+          "name": "CoCo",
+          "role": "Sentinel",
+          "agent": "Cypher",
+          "aim": 90,
+          "iq": 90,
+          "clutch": 90
+        },
+        {
+          "id": "dynamite",
+          "name": "Dynamite",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 90,
+          "iq": 90,
+          "clutch": 89
+        },
+        {
+          "id": "haodong",
+          "name": "Haodong",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 89,
+          "iq": 95,
+          "clutch": 92
+        },
+        {
+          "id": "lucas",
+          "name": "lucas",
+          "role": "Controller",
+          "agent": "Breach",
+          "aim": 89,
+          "iq": 92,
+          "clutch": 90
+        }
+      ],
+      "traceesports": [
+        {
+          "id": "kai",
+          "name": "Kai",
+          "role": "Sentinel",
+          "agent": "Cypher",
+          "aim": 94,
+          "iq": 91,
+          "clutch": 93
+        },
+        {
+          "id": "delb",
+          "name": "deLb",
+          "role": "Flex",
+          "agent": "KAY/O",
+          "aim": 91,
+          "iq": 91,
+          "clutch": 90
+        },
+        {
+          "id": "fkey",
+          "name": "FKEY",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 90,
+          "iq": 91,
+          "clutch": 90
+        },
+        {
+          "id": "fengf",
+          "name": "FengF",
+          "role": "Duelist",
+          "agent": "Raze",
+          "aim": 94,
+          "iq": 91,
+          "clutch": 92
+        },
+        {
+          "id": "luok1ng",
+          "name": "LuoK1ng",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 91,
+          "iq": 94,
+          "clutch": 92
+        }
+      ],
+      "tyloo": [
+        {
+          "id": "slowly",
+          "name": "slowly",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 93,
+          "iq": 92,
+          "clutch": 92
+        },
+        {
+          "id": "erv",
+          "name": "Erv",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 90,
+          "iq": 91,
+          "clutch": 90
+        },
+        {
+          "id": "siufatbb",
+          "name": "SiuFatBB",
+          "role": "Controller",
+          "agent": "Sova",
+          "aim": 90,
+          "iq": 94,
+          "clutch": 92
+        },
+        {
+          "id": "splash",
+          "name": "splash",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 92,
+          "iq": 89,
+          "clutch": 90
+        },
+        {
+          "id": "scales",
+          "name": "Scales",
+          "role": "Sentinel",
+          "agent": "Cypher",
+          "aim": 90,
+          "iq": 91,
+          "clutch": 90
+        }
+      ],
+      "wolvesesports": [
+        {
+          "id": "spring",
+          "name": "Spring",
+          "role": "Duelist",
+          "agent": "Raze",
+          "aim": 94,
+          "iq": 92,
+          "clutch": 92
+        },
+        {
+          "id": "yosemite",
+          "name": "yosemite",
+          "role": "Sentinel",
+          "agent": "Cypher",
+          "aim": 93,
+          "iq": 93,
+          "clutch": 93
+        },
+        {
+          "id": "aluba",
+          "name": "aluba",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 91,
+          "iq": 93,
+          "clutch": 91
+        },
+        {
+          "id": "glacier",
+          "name": "glacier",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 90,
+          "iq": 90,
+          "clutch": 89
+        },
+        {
+          "id": "deryeon",
+          "name": "Deryeon",
+          "role": "Flex",
+          "agent": "Jett",
+          "aim": 91,
+          "iq": 91,
+          "clutch": 90
+        }
+      ],
+      "xlgesports": [
+        {
+          "id": "happywei",
+          "name": "happywei",
+          "role": "Sentinel",
+          "agent": "Cypher",
+          "aim": 93,
+          "iq": 92,
+          "clutch": 92
+        },
+        {
+          "id": "rarga",
+          "name": "Rarga",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 95,
+          "iq": 90,
+          "clutch": 92
+        },
+        {
+          "id": "noman",
+          "name": "NoMan",
+          "role": "Flex",
+          "agent": "KAY/O",
+          "aim": 91,
+          "iq": 90,
+          "clutch": 90
+        },
+        {
+          "id": "lysoar",
+          "name": "Lysoar",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 92,
+          "iq": 93,
+          "clutch": 93
+        },
+        {
+          "id": "wsleo",
+          "name": "WsLeo",
+          "role": "Controller",
+          "agent": "Sova",
+          "aim": 90,
+          "iq": 93,
+          "clutch": 91
+        }
+      ],
+      "dragonrangergaming": [
+        {
+          "id": "vo0kashu",
+          "name": "vo0kashu",
+          "role": "Sentinel",
+          "agent": "Cypher",
+          "aim": 95,
+          "iq": 92,
+          "clutch": 93
+        },
+        {
+          "id": "life",
+          "name": "Life",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 94,
+          "iq": 89,
+          "clutch": 91
+        },
+        {
+          "id": "nicc",
+          "name": "Nicc",
+          "role": "Controller",
+          "agent": "Breach",
+          "aim": 90,
+          "iq": 93,
+          "clutch": 91
+        },
+        {
+          "id": "spiritz1",
+          "name": "SpiritZ1",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 91,
+          "iq": 90,
+          "clutch": 90
+        },
+        {
+          "id": "verse",
+          "name": "Verse",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 90,
+          "iq": 90,
+          "clutch": 89
+        }
+      ],
+      "ateam": [
+        {
+          "id": "monk",
+          "name": "Monk",
+          "role": "Controller",
+          "agent": "KAY/O",
+          "aim": 92,
+          "iq": 93,
+          "clutch": 92
+        },
+        {
+          "id": "eren",
+          "name": "Eren",
+          "role": "Flex",
+          "agent": "KAY/O",
+          "aim": 91,
+          "iq": 90,
+          "clutch": 91
+        },
+        {
+          "id": "folykiki",
+          "name": "Folykiki",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 86,
+          "iq": 89,
+          "clutch": 86
+        },
+        {
+          "id": "dingwei",
+          "name": "dingwei",
+          "role": "Flex",
+          "agent": "KAY/O",
+          "aim": 93,
+          "iq": 89,
+          "clutch": 90
+        },
+        {
+          "id": "layla",
+          "name": "Layla",
+          "role": "Flex",
+          "agent": "KAY/O",
+          "aim": 89,
+          "iq": 88,
+          "clutch": 87
+        }
+      ],
+      "weibogaming": [
+        {
+          "id": "satoshi",
+          "name": "Satoshi",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 88,
+          "iq": 87,
+          "clutch": 89
+        },
+        {
+          "id": "yoyo",
+          "name": "Yoyo",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 89,
+          "iq": 88,
+          "clutch": 86
+        },
+        {
+          "id": "acme",
+          "name": "AcMe",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 89,
+          "iq": 86,
+          "clutch": 88
+        },
+        {
+          "id": "heybay",
+          "name": "heybay",
+          "role": "Controller",
+          "agent": "KAY/O",
+          "aim": 89,
+          "iq": 93,
+          "clutch": 91
+        },
+        {
+          "id": "leav3u",
+          "name": "Leav3U",
+          "role": "Flex",
+          "agent": "KAY/O",
+          "aim": 87,
+          "iq": 88,
+          "clutch": 89
+        }
+      ],
+      "rareatom": [
+        {
+          "id": "midnight",
+          "name": "Midnight",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 90,
+          "iq": 90,
+          "clutch": 90
+        },
+        {
+          "id": "ben1ley",
+          "name": "Ben1Ley",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 89,
+          "iq": 86,
+          "clutch": 89
+        },
+        {
+          "id": "nnono",
+          "name": "nnono",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 87,
+          "iq": 89,
+          "clutch": 87
+        },
+        {
+          "id": "z1yan",
+          "name": "Z1Yan",
+          "role": "Sentinel",
+          "agent": "Cypher",
+          "aim": 91,
+          "iq": 91,
+          "clutch": 90
+        },
+        {
+          "id": "potter",
+          "name": "Potter",
+          "role": "Sentinel",
+          "agent": "Killjoy",
+          "aim": 83,
+          "iq": 87,
+          "clutch": 88
+        }
+      ],
+      "anyquestions": [
+        {
+          "id": "ffs",
+          "name": "FFs",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 88,
+          "iq": 87,
+          "clutch": 87
+        },
+        {
+          "id": "dannyy",
+          "name": "Dannyy",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 88,
+          "iq": 86,
+          "clutch": 88
+        },
+        {
+          "id": "s1mon",
+          "name": "S1Mon",
+          "role": "Initiator",
+          "agent": "Breach",
+          "aim": 91,
+          "iq": 94,
+          "clutch": 93
+        },
+        {
+          "id": "juicy",
+          "name": "juicy",
+          "role": "Duelist",
+          "agent": "Raze",
+          "aim": 92,
+          "iq": 89,
+          "clutch": 90
+        },
+        {
+          "id": "5cm",
+          "name": "5CM",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 86,
+          "iq": 89,
+          "clutch": 86
+        }
+      ],
+      "keepbest": [
+        {
+          "id": "tonk",
+          "name": "Tonk",
+          "role": "Duelist",
+          "agent": "Jett",
+          "aim": 89,
+          "iq": 86,
+          "clutch": 86
+        },
+        {
+          "id": "ying",
+          "name": "Ying",
+          "role": "Initiator",
+          "agent": "Sova",
+          "aim": 88,
+          "iq": 86,
+          "clutch": 87
+        },
+        {
+          "id": "sibeastw0w",
+          "name": "Sibeastw0w",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 88,
+          "iq": 86,
+          "clutch": 88
+        },
+        {
+          "id": "akeman",
+          "name": "Akeman",
+          "role": "Sentinel",
+          "agent": "Cypher",
+          "aim": 86,
+          "iq": 88,
+          "clutch": 90
+        },
+        {
+          "id": "krst1ng",
+          "name": "Krst1Ng",
+          "role": "Controller",
+          "agent": "Omen",
+          "aim": 89,
+          "iq": 91,
+          "clutch": 86
+        }
       ]
     };
 
@@ -8789,141 +12074,461 @@ function endRound(winner) {
     let championsTournamentState = null;
 
     const REGIONAL_DATA = {
-      pacific: {
-        name: 'VCT Pacific',
-        tier2Name: 'VCL Pacific / Ascension',
-        badgeClass: 'bg-emerald-950 text-emerald-400 border-emerald-500/40',
-        tier1: [
-          { id: 'fullsense', name: 'FULL SENSE', ovr: 92 },
-          { id: 'paperrex', name: 'Paper Rex', ovr: 94 },
-          { id: 'drx', name: 'DRX', ovr: 93 },
-          { id: 'gengesports', name: 'Gen.G Esports', ovr: 94 },
-          { id: 'talonesports', name: 'Talon Esports', ovr: 91 },
-          { id: 'teamsecret', name: 'Team Secret', ovr: 90 },
-          { id: 'rexregumqeon', name: 'Rex Regum Qeon', ovr: 90 },
-          { id: 't1', name: 'T1', ovr: 91 },
-          { id: 'zetadivision', name: 'ZETA DIVISION', ovr: 89 },
-          { id: 'globalesports', name: 'Global Esports', ovr: 88 },
-          { id: 'detonationfocusme', name: 'DetonatioN FocusMe', ovr: 87 },
-          { id: 'bleedesports', name: 'Bleed Esports', ovr: 87 }
+      "pacific": {
+        "name": "VCT Pacific",
+        "tier2Name": "VCL Pacific / Ascension",
+        "badgeClass": "bg-emerald-950 text-emerald-400 border-emerald-500/40",
+        "tier1": [
+          {
+            "id": "detonationfocusme",
+            "name": "DetonatioN FM",
+            "ovr": 92
+          },
+          {
+            "id": "drx",
+            "name": "DRX",
+            "ovr": 93
+          },
+          {
+            "id": "fullsense",
+            "name": "FULL SENSE",
+            "ovr": 92
+          },
+          {
+            "id": "gengesports",
+            "name": "Gen.G Esports",
+            "ovr": 93
+          },
+          {
+            "id": "globalesports",
+            "name": "Global Esports",
+            "ovr": 92
+          },
+          {
+            "id": "paperrex",
+            "name": "Paper Rex",
+            "ovr": 93
+          },
+          {
+            "id": "rexregumqeon",
+            "name": "Rex Regum Qeon",
+            "ovr": 92
+          },
+          {
+            "id": "t1",
+            "name": "T1",
+            "ovr": 93
+          },
+          {
+            "id": "teamsecret",
+            "name": "Team Secret",
+            "ovr": 91
+          },
+          {
+            "id": "zetadivision",
+            "name": "ZETA DIVISION",
+            "ovr": 92
+          },
+          {
+            "id": "varrel",
+            "name": "VARREL",
+            "ovr": 91
+          },
+          {
+            "id": "nongshimredforce",
+            "name": "NS RedForce",
+            "ovr": 92
+          }
         ],
-        tier2: [
-          { id: 'sharperesports', name: 'Sharper Esport', ovr: 89 },
-          { id: 'teamnkt', name: 'Team NKT', ovr: 88 },
-          { id: 'madeinthailand', name: 'Made in Thailand (MiTH)', ovr: 88 },
-          { id: 'fancyunitedesports', name: 'Fancy United Esports', ovr: 87 },
-          { id: 'naosesports', name: 'NAOS Esports', ovr: 87 },
-          { id: 'oasisgaming', name: 'Oasis Gaming', ovr: 86 },
-          { id: 'alterego', name: 'Alter Ego', ovr: 86 },
-          { id: 'xerxia', name: 'XERXIA', ovr: 85 }
+        "tier2": [
+          {
+            "id": "boomesports",
+            "name": "BOOM Esports",
+            "ovr": 90
+          },
+          {
+            "id": "alterego",
+            "name": "Alter Ego",
+            "ovr": 88
+          },
+          {
+            "id": "fancyunitedesports",
+            "name": "Fancy United",
+            "ovr": 87
+          },
+          {
+            "id": "royesports",
+            "name": "ROY Esports",
+            "ovr": 88
+          },
+          {
+            "id": "oasisgaming",
+            "name": "Oasis Gaming",
+            "ovr": 86
+          },
+          {
+            "id": "jadelions",
+            "name": "Jade Lions",
+            "ovr": 88
+          },
+          {
+            "id": "sharperesports",
+            "name": "Sharper Esport",
+            "ovr": 88
+          },
+          {
+            "id": "555",
+            "name": "555",
+            "ovr": 88
+          },
+          {
+            "id": "xiaolongbao",
+            "name": "Xiao Long Bao",
+            "ovr": 89
+          },
+          {
+            "id": "trinity",
+            "name": "Trinity",
+            "ovr": 88
+          },
+          {
+            "id": "xgod",
+            "name": "XGOD",
+            "ovr": 88
+          },
+          {
+            "id": "teamnkt",
+            "name": "Team NKT",
+            "ovr": 87
+          },
+          {
+            "id": "nongkaitod",
+            "name": "NongKaiTod",
+            "ovr": 88
+          },
+          {
+            "id": "xoxo01",
+            "name": "XOXO-01",
+            "ovr": 86
+          },
+          {
+            "id": "fuiyoh",
+            "name": "Fuiyoh",
+            "ovr": 86
+          },
+          {
+            "id": "theodore",
+            "name": "theodore",
+            "ovr": 88
+          }
         ]
       },
-      americas: {
-        name: 'VCT Americas',
-        tier2Name: 'Ascension Americas',
-        badgeClass: 'bg-blue-950 text-blue-400 border-blue-500/40',
-        tier1: [
-          { id: 'sentinels', name: 'Sentinels', ovr: 95 },
-          { id: 'leviatn', name: 'Leviatán', ovr: 94 },
-          { id: 'loud', name: 'LOUD', ovr: 93 },
-          { id: 'g2esports', name: 'G2 Esports', ovr: 93 },
-          { id: '100thieves', name: '100 Thieves', ovr: 92 },
-          { id: 'cloud9', name: 'Cloud9', ovr: 91 },
-          { id: 'nrg', name: 'NRG', ovr: 92 },
-          { id: 'kresports', name: 'KRÜ Esports', ovr: 91 },
-          { id: 'furia', name: 'FURIA', ovr: 89 },
-          { id: 'mibr', name: 'MIBR', ovr: 88 },
-          { id: 'evilgeniuses', name: 'Evil Geniuses', ovr: 88 },
-          { id: '2gameesports', name: '2GAME Esports', ovr: 87 }
+      "americas": {
+        "name": "VCT Americas",
+        "tier2Name": "Ascension Americas",
+        "badgeClass": "bg-blue-950 text-blue-400 border-blue-500/40",
+        "tier1": [
+          {
+            "id": "100thieves",
+            "name": "100 Thieves",
+            "ovr": 92
+          },
+          {
+            "id": "cloud9",
+            "name": "Cloud9",
+            "ovr": 92
+          },
+          {
+            "id": "evilgeniuses",
+            "name": "Evil Geniuses",
+            "ovr": 91
+          },
+          {
+            "id": "furia",
+            "name": "FURIA",
+            "ovr": 92
+          },
+          {
+            "id": "kresports",
+            "name": "KRÜ Esports",
+            "ovr": 93
+          },
+          {
+            "id": "leviatn",
+            "name": "Leviatán",
+            "ovr": 92
+          },
+          {
+            "id": "loud",
+            "name": "LOUD",
+            "ovr": 91
+          },
+          {
+            "id": "mibr",
+            "name": "MIBR",
+            "ovr": 94
+          },
+          {
+            "id": "nrg",
+            "name": "NRG",
+            "ovr": 93
+          },
+          {
+            "id": "sentinels",
+            "name": "Sentinels",
+            "ovr": 93
+          },
+          {
+            "id": "g2esports",
+            "name": "G2 Esports",
+            "ovr": 93
+          },
+          {
+            "id": "envy",
+            "name": "ENVY",
+            "ovr": 92
+          }
         ],
-        tier2: [
-          { id: 'm80', name: 'M80', ovr: 89 },
-          { id: 'oxygen', name: 'Oxygen Esports', ovr: 88 },
-          { id: 'tsm', name: 'TSM', ovr: 88 },
-          { id: 'shopify', name: 'Moist x Shopify', ovr: 87 },
-          { id: 'allknights', name: 'All Knights', ovr: 86 },
-          { id: 'galorys', name: 'Galorys', ovr: 86 }
+        "tier2": [
+          {
+            "id": "m80",
+            "name": "M80",
+            "ovr": 91
+          },
+          {
+            "id": "bestia",
+            "name": "BESTIA",
+            "ovr": 89
+          },
+          {
+            "id": "fluxow7m",
+            "name": "Fluxo W7M",
+            "ovr": 90
+          },
+          {
+            "id": "2gameesports",
+            "name": "2GAME",
+            "ovr": 90
+          }
         ]
       },
-      emea: {
-        name: 'VCT EMEA',
-        tier2Name: 'Ascension EMEA',
-        badgeClass: 'bg-orange-950 text-orange-400 border-orange-500/40',
-        tier1: [
-          { id: 'fnatic', name: 'Fnatic', ovr: 95 },
-          { id: 'teamheretics', name: 'Team Heretics', ovr: 95 },
-          { id: 'teamvitality', name: 'Team Vitality', ovr: 93 },
-          { id: 'karminecorp', name: 'Karmine Corp', ovr: 92 },
-          { id: 'futesports', name: 'FUT Esports', ovr: 92 },
-          { id: 'natusvincere', name: 'Natus Vincere', ovr: 92 },
-          { id: 'gentlemates', name: 'Gentle Mates', ovr: 90 },
-          { id: 'bblesports', name: 'BBL Esports', ovr: 89 },
-          { id: 'giantx', name: 'GIANTX', ovr: 89 },
-          { id: 'teamliquid', name: 'Team Liquid', ovr: 90 },
-          { id: 'pcificesports', name: 'PCIFIC Esports', ovr: 87 },
-          { id: 'ulfesports', name: 'ULF Esports', ovr: 86 }
+      "emea": {
+        "name": "VCT EMEA",
+        "tier2Name": "Ascension EMEA",
+        "badgeClass": "bg-orange-950 text-orange-400 border-orange-500/40",
+        "tier1": [
+          {
+            "id": "bblesports",
+            "name": "BBL Esports",
+            "ovr": 91
+          },
+          {
+            "id": "fnatic",
+            "name": "Fnatic",
+            "ovr": 94
+          },
+          {
+            "id": "futesports",
+            "name": "FUT Esports",
+            "ovr": 92
+          },
+          {
+            "id": "gentlemates",
+            "name": "Gentle Mates",
+            "ovr": 91
+          },
+          {
+            "id": "giantx",
+            "name": "GIANTX",
+            "ovr": 91
+          },
+          {
+            "id": "karminecorp",
+            "name": "Karmine Corp",
+            "ovr": 93
+          },
+          {
+            "id": "natusvincere",
+            "name": "Natus Vincere",
+            "ovr": 91
+          },
+          {
+            "id": "teamheretics",
+            "name": "Team Heretics",
+            "ovr": 93
+          },
+          {
+            "id": "teamliquid",
+            "name": "Team Liquid",
+            "ovr": 93
+          },
+          {
+            "id": "teamvitality",
+            "name": "Team Vitality",
+            "ovr": 93
+          },
+          {
+            "id": "pcificesports",
+            "name": "PCIFIC Esports",
+            "ovr": 90
+          },
+          {
+            "id": "eternalfire",
+            "name": "Eternal Fire",
+            "ovr": 90
+          }
         ],
-        tier2: [
-          { id: 'apeks', name: 'Apeks', ovr: 89 },
-          { id: 'enterprise', name: 'Enterprise', ovr: 88 },
-          { id: 'mouz', name: 'MOUZ', ovr: 88 },
-          { id: 'fokus', name: 'FOKUS', ovr: 87 },
-          { id: 'mandatory', name: 'Mandatory', ovr: 87 },
-          { id: 'dsyre', name: 'Dsyre', ovr: 86 }
+        "tier2": [
+          {
+            "id": "enterprise",
+            "name": "Enterprise Esports",
+            "ovr": 90
+          },
+          {
+            "id": "fireflux",
+            "name": "Fire Flux Esports",
+            "ovr": 88
+          },
+          {
+            "id": "joblife",
+            "name": "Joblife",
+            "ovr": 90
+          },
+          {
+            "id": "eintracht",
+            "name": "Eintracht Frankfurt",
+            "ovr": 89
+          }
         ]
       },
-      china: {
-        name: 'VCT China',
-        tier2Name: 'Ascension China',
-        badgeClass: 'bg-rose-950 text-rose-400 border-rose-500/40',
-        tier1: [
-          { id: 'edwardgaming', name: 'EDward Gaming', ovr: 95 },
-          { id: 'funplusphoenix', name: 'FunPlus Phoenix', ovr: 93 },
-          { id: 'traceesports', name: 'Trace Esports', ovr: 92 },
-          { id: 'bilibiligaming', name: 'Bilibili Gaming', ovr: 91 },
-          { id: 'jdgaming', name: 'JD Gaming', ovr: 91 },
-          { id: 'dragonrangergaming', name: 'Dragon Ranger Gaming', ovr: 89 },
-          { id: 'titanesportsclub', name: 'Titan Esports Club', ovr: 89 },
-          { id: 'novaesports', name: 'Nova Esports', ovr: 88 },
-          { id: 'wolvesesports', name: 'Wolves Esports', ovr: 88 },
-          { id: 'tyloo', name: 'TYLOO', ovr: 88 },
-          { id: 'allgamers', name: 'All Gamers', ovr: 87 },
-          { id: 'xlgesports', name: 'XLG Esports', ovr: 87 }
+      "china": {
+        "name": "VCT China",
+        "tier2Name": "Ascension China",
+        "badgeClass": "bg-rose-950 text-rose-400 border-rose-500/40",
+        "tier1": [
+          {
+            "id": "allgamers",
+            "name": "All Gamers",
+            "ovr": 90
+          },
+          {
+            "id": "bilibiligaming",
+            "name": "Bilibili Gaming",
+            "ovr": 92
+          },
+          {
+            "id": "edwardgaming",
+            "name": "EDward Gaming",
+            "ovr": 94
+          },
+          {
+            "id": "funplusphoenix",
+            "name": "FunPlus Phoenix",
+            "ovr": 91
+          },
+          {
+            "id": "jdgaming",
+            "name": "JD Gaming",
+            "ovr": 91
+          },
+          {
+            "id": "novaesports",
+            "name": "Nova Esports",
+            "ovr": 91
+          },
+          {
+            "id": "titanesportsclub",
+            "name": "Titan Esports Club",
+            "ovr": 90
+          },
+          {
+            "id": "traceesports",
+            "name": "Trace Esports",
+            "ovr": 92
+          },
+          {
+            "id": "tyloo",
+            "name": "TYLOO",
+            "ovr": 91
+          },
+          {
+            "id": "wolvesesports",
+            "name": "Wolves Esports",
+            "ovr": 92
+          },
+          {
+            "id": "xlgesports",
+            "name": "XLG Esports",
+            "ovr": 92
+          },
+          {
+            "id": "dragonrangergaming",
+            "name": "Dragon Ranger Gaming",
+            "ovr": 91
+          }
         ],
-        tier2: [
-          { id: 'rareatom', name: 'Rare Atom', ovr: 88 },
-          { id: 'keepbest', name: 'KeepBest Gaming', ovr: 87 },
-          { id: '4am', name: 'Four Angry Men', ovr: 86 },
-          { id: 'ase', name: 'Attacking Soul', ovr: 86 },
-          { id: 'nightwings', name: 'Night Wings', ovr: 85 }
+        "tier2": [
+          {
+            "id": "ateam",
+            "name": "A Team",
+            "ovr": 90
+          },
+          {
+            "id": "weibogaming",
+            "name": "Weibo Gaming",
+            "ovr": 89
+          },
+          {
+            "id": "rareatom",
+            "name": "Rare Atom",
+            "ovr": 89
+          },
+          {
+            "id": "anyquestions",
+            "name": "Any Questions",
+            "ovr": 89
+          },
+          {
+            "id": "keepbest",
+            "name": "KeepBest Gaming",
+            "ovr": 88
+          }
         ]
       }
     };
 
     let STANDINGS_VCT = [
-      { pos: 1, name: 'FULL SENSE', mp: 0, w: 0, l: 0, diff: '0', form: [] },
-      { pos: 2, name: 'Paper Rex', mp: 0, w: 0, l: 0, diff: '0', form: [] },
-      { pos: 3, name: 'DRX', mp: 0, w: 0, l: 0, diff: '0', form: [] },
-      { pos: 4, name: 'Gen.G Esports', mp: 0, w: 0, l: 0, diff: '0', form: [] },
-      { pos: 5, name: 'Talon Esports', mp: 0, w: 0, l: 0, diff: '0', form: [] },
-      { pos: 6, name: 'Team Secret', mp: 0, w: 0, l: 0, diff: '0', form: [] },
-      { pos: 7, name: 'Rex Regum Qeon', mp: 0, w: 0, l: 0, diff: '0', form: [] },
-      { pos: 8, name: 'T1', mp: 0, w: 0, l: 0, diff: '0', form: [] },
-      { pos: 9, name: 'ZETA DIVISION', mp: 0, w: 0, l: 0, diff: '0', form: [] },
-      { pos: 10, name: 'Global Esports', mp: 0, w: 0, l: 0, diff: '0', form: [] },
-      { pos: 11, name: 'DetonatioN FM', mp: 0, w: 0, l: 0, diff: '0', form: [] },
-      { pos: 12, name: 'Bleed Esports', mp: 0, w: 0, l: 0, diff: '0', form: [] }
+      { pos: 1, id: 'detonationfocusme', name: 'DetonatioN FM', mp: 0, w: 0, l: 0, diff: '0', form: [] },
+      { pos: 2, id: 'drx', name: 'DRX', mp: 0, w: 0, l: 0, diff: '0', form: [] },
+      { pos: 3, id: 'fullsense', name: 'FULL SENSE', mp: 0, w: 0, l: 0, diff: '0', form: [] },
+      { pos: 4, id: 'gengesports', name: 'Gen.G Esports', mp: 0, w: 0, l: 0, diff: '0', form: [] },
+      { pos: 5, id: 'globalesports', name: 'Global Esports', mp: 0, w: 0, l: 0, diff: '0', form: [] },
+      { pos: 6, id: 'paperrex', name: 'Paper Rex', mp: 0, w: 0, l: 0, diff: '0', form: [] },
+      { pos: 7, id: 'rexregumqeon', name: 'Rex Regum Qeon', mp: 0, w: 0, l: 0, diff: '0', form: [] },
+      { pos: 8, id: 't1', name: 'T1', mp: 0, w: 0, l: 0, diff: '0', form: [] },
+      { pos: 9, id: 'teamsecret', name: 'Team Secret', mp: 0, w: 0, l: 0, diff: '0', form: [] },
+      { pos: 10, id: 'zetadivision', name: 'ZETA DIVISION', mp: 0, w: 0, l: 0, diff: '0', form: [] },
+      { pos: 11, id: 'varrel', name: 'VARREL', mp: 0, w: 0, l: 0, diff: '0', form: [] },
+      { pos: 12, id: 'nongshimredforce', name: 'NS RedForce', mp: 0, w: 0, l: 0, diff: '0', form: [] }
     ];
 
     let STANDINGS_VCL = [
-      { pos: 1, name: 'Sharper Esport', mp: 0, w: 0, l: 0, diff: '0', form: [] },
-      { pos: 2, name: 'Team NKT', mp: 0, w: 0, l: 0, diff: '0', form: [] },
-      { pos: 3, name: 'Made in Thailand (MiTH)', mp: 0, w: 0, l: 0, diff: '0', form: [] },
-      { pos: 4, name: 'Fancy United Esports', mp: 0, w: 0, l: 0, diff: '0', form: [] },
-      { pos: 5, name: 'NAOS Esports', mp: 0, w: 0, l: 0, diff: '0', form: [] },
-      { pos: 6, name: 'Oasis Gaming', mp: 0, w: 0, l: 0, diff: '0', form: [] },
-      { pos: 7, name: 'Alter Ego', mp: 0, w: 0, l: 0, diff: '0', form: [] },
-      { pos: 8, name: 'XERXIA', mp: 0, w: 0, l: 0, diff: '0', form: [] }
+      { pos: 1, id: 'boomesports', name: 'BOOM Esports', mp: 0, w: 0, l: 0, diff: '0', form: [] },
+      { pos: 2, id: 'alterego', name: 'Alter Ego', mp: 0, w: 0, l: 0, diff: '0', form: [] },
+      { pos: 3, id: 'fancyunitedesports', name: 'Fancy United', mp: 0, w: 0, l: 0, diff: '0', form: [] },
+      { pos: 4, id: 'royesports', name: 'ROY Esports', mp: 0, w: 0, l: 0, diff: '0', form: [] },
+      { pos: 5, id: 'oasisgaming', name: 'Oasis Gaming', mp: 0, w: 0, l: 0, diff: '0', form: [] },
+      { pos: 6, id: 'jadelions', name: 'Jade Lions', mp: 0, w: 0, l: 0, diff: '0', form: [] },
+      { pos: 7, id: 'sharperesports', name: 'Sharper Esport', mp: 0, w: 0, l: 0, diff: '0', form: [] },
+      { pos: 8, id: '555', name: '555', mp: 0, w: 0, l: 0, diff: '0', form: [] },
+      { pos: 9, id: 'xiaolongbao', name: 'Xiao Long Bao', mp: 0, w: 0, l: 0, diff: '0', form: [] },
+      { pos: 10, id: 'trinity', name: 'Trinity', mp: 0, w: 0, l: 0, diff: '0', form: [] },
+      { pos: 11, id: 'xgod', name: 'XGOD', mp: 0, w: 0, l: 0, diff: '0', form: [] },
+      { pos: 12, id: 'teamnkt', name: 'Team NKT', mp: 0, w: 0, l: 0, diff: '0', form: [] },
+      { pos: 13, id: 'nongkaitod', name: 'NongKaiTod', mp: 0, w: 0, l: 0, diff: '0', form: [] },
+      { pos: 14, id: 'xoxo01', name: 'XOXO-01', mp: 0, w: 0, l: 0, diff: '0', form: [] },
+      { pos: 15, id: 'fuiyoh', name: 'Fuiyoh', mp: 0, w: 0, l: 0, diff: '0', form: [] },
+      { pos: 16, id: 'theodore', name: 'theodore', mp: 0, w: 0, l: 0, diff: '0', form: [] }
     ];
 
     function sortStandings(leagueArray) {
@@ -9010,60 +12615,42 @@ function endRound(winner) {
 
     function getTeamIdFromName(name) {
       if (!name) return 'paperrex';
-      const n = name.toLowerCase();
-      if (n.includes('paper')) return 'paperrex';
-      if (n.includes('drx')) return 'drx';
-      if (n.includes('gen.g') || n.includes('geng')) return 'gengesports';
-      if (n.includes('talon')) return 'talonesports';
-      if (n.includes('secret')) return 'teamsecret';
-      if (n.includes('rrq') || n.includes('regum')) return 'rexregumqeon';
-      if (n.includes('t1')) return 't1';
-      if (n.includes('zeta')) return 'zetadivision';
-      if (n.includes('global')) return 'globalesports';
-      if (n.includes('detonation') || n.includes('dfm')) return 'detonationfocusme';
-      if (n.includes('bleed')) return 'bleedesports';
-      if (n.includes('boom')) return 'boomesports';
-      if (n.includes('sharper')) return 'sharperesports';
-      if (n.includes('nkt')) return 'teamnkt';
-      if (n.includes('fancy')) return 'fancyunitedesports';
-      if (n.includes('naos')) return 'naosesports';
-      if (n.includes('oasis')) return 'oasisgaming';
-      if (n.includes('alter')) return 'alterego';
-      if (n.includes('xerxia')) return 'xerxia';
-      if (n.includes('mith') || n.includes('made in thailand')) return 'madeinthailand';
-      if (n.includes('sentinel')) return 'sentinels';
-      if (n.includes('fnatic')) return 'fnatic';
-      if (n.includes('edward') || n.includes('edg')) return 'edwardgaming';
-      if (n.includes('heretics')) return 'teamheretics';
-      if (n.includes('leviat')) return 'leviatn';
-      if (n.includes('loud')) return 'loud';
-      if (n.includes('100')) return '100thieves';
-      if (n.includes('cloud9') || n.includes('c9')) return 'cloud9';
-      if (n.includes('nrg')) return 'nrg';
-      if (n.includes('g2')) return 'g2esports';
-      if (n.includes('vitality')) return 'teamvitality';
-      if (n.includes('karmine')) return 'karminecorp';
-      if (n.includes('fut')) return 'futesports';
-      if (n.includes('navi') || n.includes('natus')) return 'natusvincere';
-      if (n.includes('funplus') || n.includes('fpx')) return 'funplusphoenix';
-      if (n.includes('trace')) return 'traceesports';
-      if (n.includes('bilibili')) return 'bilibiligaming';
-      if (n.includes('liquid')) return 'teamliquid';
-      if (n.includes('kru') || n.includes('krü')) return 'kresports';
-      if (n.includes('furia')) return 'furia';
-      if (n.includes('mibr')) return 'mibr';
-      if (n.includes('evil') || n.includes('eg')) return 'evilgeniuses';
-      if (n.includes('2game')) return '2gameesports';
-      if (n.includes('gentle')) return 'gentlemates';
-      if (n.includes('bbl')) return 'bblesports';
-      if (n.includes('giant')) return 'giantx';
-      if (n.includes('jd')) return 'jdgaming';
-      if (n.includes('dragon')) return 'dragonrangergaming';
-      if (n.includes('xgod')) return 'xgod';
-      if (n.includes('555')) return '555';
-      if (n.includes('attack')) return 'attackallaround';
-      if (n.includes('full sense')) return 'fullsense';
-      return n.replace(/[^a-z0-9]/g, '');
+      const clean = name.replace(/\s*\(.*?\)\s*/g, '').trim().toLowerCase();
+      if (typeof REGIONAL_DATA !== 'undefined') {
+        for (const regKey of Object.keys(REGIONAL_DATA)) {
+          const reg = REGIONAL_DATA[regKey];
+          for (const t of [...(reg.tier1 || []), ...(reg.tier2 || [])]) {
+            if (t.id.toLowerCase() === clean || t.name.toLowerCase() === clean) return t.id;
+          }
+        }
+        for (const regKey of Object.keys(REGIONAL_DATA)) {
+          const reg = REGIONAL_DATA[regKey];
+          for (const t of [...(reg.tier1 || []), ...(reg.tier2 || [])]) {
+            if (clean.includes(t.name.toLowerCase()) || t.name.toLowerCase().includes(clean)) return t.id;
+          }
+        }
+      }
+      if (clean.includes('detonation') || clean.includes('dfm')) return 'detonationfocusme';
+      if (clean.includes('ns redforce') || clean.includes('nongshim')) return 'nongshimredforce';
+      if (clean.includes('gen.g') || clean.includes('geng')) return 'gengesports';
+      if (clean.includes('rrq') || clean.includes('regum')) return 'rexregumqeon';
+      if (clean.includes('kru') || clean.includes('krü')) return 'kresports';
+      if (clean.includes('leviat')) return 'leviatn';
+      if (clean.includes('2game')) return '2gameesports';
+      if (clean.includes('fluxo')) return 'fluxow7m';
+      if (clean.includes('gentle')) return 'gentlemates';
+      if (clean.includes('heretics')) return 'teamheretics';
+      if (clean.includes('liquid')) return 'teamliquid';
+      if (clean.includes('vitality')) return 'teamvitality';
+      if (clean.includes('pcific')) return 'pcificesports';
+      if (clean.includes('eternal')) return 'eternalfire';
+      if (clean.includes('edward') || clean.includes('edg')) return 'edwardgaming';
+      if (clean.includes('funplus') || clean.includes('fpx')) return 'funplusphoenix';
+      if (clean.includes('bilibili') || clean.includes('blg')) return 'bilibiligaming';
+      if (clean.includes('titan') || clean.includes('tec')) return 'titanesportsclub';
+      if (clean.includes('dragon') || clean.includes('drg')) return 'dragonrangergaming';
+      if (clean.includes('keepbest')) return 'keepbest';
+      return clean.replace(/[^a-z0-9]/g, '');
     }
 
     function generateSeasonFixtures(tier1Teams = STANDINGS_VCT) {
@@ -9115,16 +12702,16 @@ function endRound(winner) {
 
     let SEASON_FIXTURES = [
       { week: 1, opponentId: 'paperrex', opponentName: 'Paper Rex', map: 'TBD (รอ VETO & DRAFT)', played: false, userScore: null, oppScore: null, otherResults: [] },
-      { week: 2, opponentId: 'talonesports', opponentName: 'Talon Esports', map: 'TBD (รอ VETO & DRAFT)', played: false, userScore: null, oppScore: null, otherResults: [] },
+      { week: 2, opponentId: 'varrel', opponentName: 'VARREL', map: 'TBD (รอ VETO & DRAFT)', played: false, userScore: null, oppScore: null, otherResults: [] },
       { week: 3, opponentId: 'drx', opponentName: 'DRX', map: 'TBD (รอ VETO & DRAFT)', played: false, userScore: null, oppScore: null, otherResults: [] },
       { week: 4, opponentId: 'gengesports', opponentName: 'Gen.G Esports', map: 'TBD (รอ VETO & DRAFT)', played: false, userScore: null, oppScore: null, otherResults: [] },
       { week: 5, opponentId: 'teamsecret', opponentName: 'Team Secret', map: 'TBD (รอ VETO & DRAFT)', played: false, userScore: null, oppScore: null, otherResults: [] },
       { week: 6, opponentId: 'rexregumqeon', opponentName: 'Rex Regum Qeon', map: 'TBD (รอ VETO & DRAFT)', played: false, userScore: null, oppScore: null, otherResults: [] },
       { week: 7, opponentId: 't1', opponentName: 'T1', map: 'TBD (รอ VETO & DRAFT)', played: false, userScore: null, oppScore: null, otherResults: [] },
       { week: 8, opponentId: 'zetadivision', opponentName: 'ZETA DIVISION', map: 'TBD (รอ VETO & DRAFT)', played: false, userScore: null, oppScore: null, otherResults: [] },
-      { week: 9, opponentId: 'detonationfocusme', opponentName: 'DetonatioN FocusMe', map: 'TBD (รอ VETO & DRAFT)', played: false, userScore: null, oppScore: null, otherResults: [] },
+      { week: 9, opponentId: 'detonationfocusme', opponentName: 'DetonatioN FM', map: 'TBD (รอ VETO & DRAFT)', played: false, userScore: null, oppScore: null, otherResults: [] },
       { week: 10, opponentId: 'globalesports', opponentName: 'Global Esports', map: 'TBD (รอ VETO & DRAFT)', played: false, userScore: null, oppScore: null, otherResults: [] },
-      { week: 11, opponentId: 'bleedesports', opponentName: 'Bleed Esports', map: 'TBD (รอ VETO & DRAFT)', played: false, userScore: null, oppScore: null, otherResults: [] }
+      { week: 11, opponentId: 'nongshimredforce', opponentName: 'NS RedForce', map: 'TBD (รอ VETO & DRAFT)', played: false, userScore: null, oppScore: null, otherResults: [] }
     ];
 
     function getCurrentFixture() {
@@ -10210,8 +13797,9 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
           });
         }
 
-        for (let i = 5; i < 7; i++) {
-          const cp = clubPlayers[i] || fallbacks[i] || { name: `${club.name} Sub ${i-4}`, role: 'Flex', aim: isTier2 ? 85 : 88, iq: isTier2 ? 85 : 88, clutch: isTier2 ? 85 : 88, ovr: isTier2 ? 85 : 88 };
+        for (let i = 5; i < Math.min(7, clubPlayers.length); i++) {
+          const cp = clubPlayers[i];
+          if (!cp) continue;
           myRoster.bench.push({
             id: cp.id || `p_bench_${i+1}`,
             name: cp.name,
@@ -10459,8 +14047,8 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
     }
 
     let transferMarketNews = [
-      { time: 'Pre-Season', text: 'Talon Esports เซ็นสัญญา Ban เสริมทัพตำแหน่ง Controller เรียบร้อยแล้ว' },
-      { time: 'Pre-Season', text: 'DRX ดึงตัว Flashback และ Foxy9 ขึ้นสู่ชุดใหญ่ลุย VCT Pacific' }
+      { time: 'Pre-Season', text: 'Paper Rex คว้าตัว invy เสริมทัพไลน์อัปหลักลุยศึก VCT Pacific 2026' },
+      { time: 'Pre-Season', text: 'VARREL และ NS RedForce เลื่อนชั้นสู่ลีกสูงสุด VCT Pacific 2026 อย่างเป็นทางการ' }
     ];
 
     function getFormBadge(form) {
@@ -10543,13 +14131,13 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
         { id: 'paperrex', name: 'Paper Rex' },
         { id: 'drx', name: 'DRX' },
         { id: 'gengesports', name: 'Gen.G Esports' },
-        { id: 'talonesports', name: 'Talon Esports' },
+        { id: 'varrel', name: 'VARREL' },
         { id: 'teamsecret', name: 'Team Secret' },
         { id: 'rexregumqeon', name: 'Rex Regum Qeon' },
         { id: 't1', name: 'T1' },
         { id: 'zetadivision', name: 'ZETA DIVISION' },
-        { id: 'detonationfocusme', name: 'DetonatioN FocusMe' },
-        { id: 'bleedesports', name: 'Bleed Esports' }
+        { id: 'detonationfocusme', name: 'DetonatioN FM' },
+        { id: 'nongshimredforce', name: 'NS RedForce' }
       ];
 
       // Pick random buyer club
@@ -10849,8 +14437,8 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
 
     // --- SELLING PLAYER MODAL & WORKFLOW ---
     const PROSPECTIVE_BUYERS = [
-      'Talon Esports', 'Gen.G Esports', 'DRX', 'Paper Rex', 'Team Secret',
-      'Rex Regum Qeon', 'T1', 'ZETA DIVISION', 'Bleed Esports', 'Made in Thailand (MiTH)'
+      'VARREL', 'Gen.G Esports', 'DRX', 'Paper Rex', 'Team Secret',
+      'Rex Regum Qeon', 'T1', 'ZETA DIVISION', 'NS RedForce', 'Sharper Esport'
     ];
 
     function promptSellPlayer(playerId, isStarter, rosterIndex) {
