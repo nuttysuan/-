@@ -739,7 +739,7 @@
           <h2 class="text-lg font-bold text-white flex items-center gap-2">
             <span>🛒</span> ตลาดซื้อขาย & แมวมองนักแข่ง (TRANSFER MARKET)
           </h2>
-          <p class="text-xs text-slate-400">ค้นหาและยื่นข้อเสนอสัญญานักแข่ง 483 คน ครอบคลุม Tier 1, Tier 2 SEA, และ Free Agents</p>
+          <p class="text-xs text-slate-400">ค้นหาและยื่นข้อเสนอสัญญานักแข่งอาชีพ ครอบคลุม Tier 1 และ Tier 2 ทั้ง 4 โซน (Pacific, Americas, EMEA, China) และ Free Agents</p>
         </div>
         <div class="flex items-center gap-2 bg-[#090f1e] px-3 py-1.5 rounded-lg border border-[#172642] text-xs font-mono">
           <span class="text-slate-400">งบประมาณคงเหลือ:</span>
@@ -753,26 +753,43 @@
             👑
           </div>
           <div>
-            <div class="text-xs font-bold text-amber-300">THAI VALORANT LEGENDS & TOP FREE AGENTS</div>
-            <div class="text-[11px] text-slate-300">พบกับตำนานไทย (Wannafly, Zelyn, Reality, Cbbk, MAIROLLS, TOR) และดาวเด่นเอเชียไร้สังกัดพร้อมเปิดรับข้อเสนอ</div>
+            <div class="text-xs font-bold text-amber-300">GLOBAL FREE AGENTS & PRO SCOUTING POOL</div>
+            <div class="text-[11px] text-slate-300">ค้นหานักแข่งไร้สังกัด (Free Agents) หรือเลือกกรองตามโซน (Pacific, Americas, EMEA, China), ระดับลีก (Tier 1 / Tier 2) และสโมสรได้ทันที</div>
           </div>
         </div>
-        <button onclick="filterMarketCategory('legend')" class="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold transition shadow-md">
-          ดูรายชื่อตำนาน & Free Agent →
+        <button onclick="filterMarketCategory('free_agent')" class="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold transition shadow-md cursor-pointer">
+          ดูรายชื่อ Free Agent ทั้งหมด →
         </button>
       </div>
 
       <div class="bg-[#090f1e] border border-[#172642] rounded-xl p-3 flex flex-wrap items-center justify-between gap-2.5 text-xs">
-        <div class="flex-1 min-w-[200px]">
+        <div class="flex-1 min-w-[180px]">
           <input type="text" id="market-search" oninput="renderMarketPlayers()" placeholder="🔍 ค้นหาด้วยชื่อในเกม (IGN)..." class="w-full bg-[#060a14] border border-[#1e3256] rounded-lg px-3 py-1.5 text-slate-200 placeholder-slate-500 focus:outline-none focus:border-emerald-500 text-xs">
         </div>
 
-        <select id="market-tier-filter" onchange="renderMarketPlayers()" class="bg-[#060a14] border border-[#1e3256] rounded-lg px-2.5 py-1.5 text-slate-300 focus:outline-none text-xs font-medium">
-          <option value="all">ทุกลีก / ระดับ (ALL TIERS)</option>
-          <option value="Tier 1">Tier 1 (VCT International)</option>
-          <option value="Tier 2">Tier 2 (VCL Southeast Asia)</option>
-          <option value="Free Agent">Free Agents (นักแข่งไร้สังกัด)</option>
-          <option value="Legend">ตำนานผู้เล่น (Legends)</option>
+        <select id="market-tier-filter" onchange="onMarketTierFilterChange()" class="bg-[#060a14] border border-[#1e3256] rounded-lg px-2.5 py-1.5 text-slate-200 focus:outline-none focus:border-emerald-500 text-xs font-medium">
+          <option value="all">🌐 ทุกลีก & ทุกโซน (ALL TIERS & REGIONS)</option>
+          <optgroup label="🏆 VCT TIER 1 (ลีกสูงสุด 4 โซน)">
+            <option value="Tier 1">🏆 Tier 1 — รวมทุกโซน (All VCT Tier 1)</option>
+            <option value="T1_pacific">🟢 Tier 1 — VCT Pacific (12 ทีม)</option>
+            <option value="T1_americas">🔵 Tier 1 — VCT Americas (12 ทีม)</option>
+            <option value="T1_emea">🟠 Tier 1 — VCT EMEA (12 ทีม)</option>
+            <option value="T1_china">🔴 Tier 1 — VCT China (12 ทีม)</option>
+          </optgroup>
+          <optgroup label="🔥 VCL / ASCENSION TIER 2 (ลีกรอง 4 โซน)">
+            <option value="Tier 2">🔥 Tier 2 — รวมทุกโซน (All Ascension Tier 2)</option>
+            <option value="T2_pacific">🟢 Tier 2 — VCL Pacific / Ascension (16 ทีม)</option>
+            <option value="T2_americas">🔵 Tier 2 — Ascension Americas (4 ทีม)</option>
+            <option value="T2_emea">🟠 Tier 2 — Ascension EMEA (4 ทีม)</option>
+            <option value="T2_china">🔴 Tier 2 — Ascension China (5 ทีม)</option>
+          </optgroup>
+          <optgroup label="🆓 นักแข่งไร้สังกัด">
+            <option value="Free Agent">🆓 Free Agents (นักแข่งไร้สังกัด)</option>
+          </optgroup>
+        </select>
+
+        <select id="market-team-filter" onchange="renderMarketPlayers()" class="bg-[#060a14] border border-cyan-500/40 rounded-lg px-2.5 py-1.5 text-cyan-300 focus:outline-none focus:border-cyan-400 text-xs font-medium min-w-[170px]">
+          <option value="all">🏛️ ทุกสโมสร (ALL TEAMS)</option>
         </select>
 
         <select id="market-role-filter" onchange="renderMarketPlayers()" class="bg-[#060a14] border border-[#1e3256] rounded-lg px-2.5 py-1.5 text-slate-300 focus:outline-none text-xs font-medium">
@@ -781,6 +798,8 @@
           <option value="Initiator">Initiator (ตัวเคลียร์พื้นที่)</option>
           <option value="Controller">Controller (ตัวควัน/คุมมุม)</option>
           <option value="Sentinel">Sentinel (ตัวตั้งรับ/กันตุ๋ย)</option>
+          <option value="Flex">Flex (ตัวปรับเปลี่ยนแผน)</option>
+          <option value="IGL">IGL (กัปตันสั่งแผน)</option>
         </select>
 
         <select id="market-sort-filter" onchange="renderMarketPlayers()" class="bg-[#060a14] border border-[#1e3256] rounded-lg px-2.5 py-1.5 text-slate-300 focus:outline-none text-xs font-mono font-medium">
@@ -7012,33 +7031,20 @@
 
     function loadDatabase() {
       if (window.TACTIX_DATABASE && window.TACTIX_DATABASE.players) {
-        allPlayers = window.TACTIX_DATABASE.players;
+        allPlayers = JSON.parse(JSON.stringify(window.TACTIX_DATABASE.players));
+        if (typeof updateMarketTeamFilterOptions === 'function') updateMarketTeamFilterOptions();
         renderMarketPlayers();
       } else {
         fetch('data/players_stats.json')
           .then(res => res.json())
           .then(data => {
             allPlayers = data.players || [];
-            // Mark initial Full Sense players as belonging to fullsense
-            allPlayers.forEach(p => {
-              if (isPlayerInSquad(p.id) || isPlayerInSquad(p.name)) {
-                p.teamId = 'fullsense';
-                p.teamName = 'FULL SENSE';
-              } else if (!p.teamName) {
-                p.teamName = 'Free Agent';
-                p.teamId = 'free_agent';
-              }
-            });
+            if (typeof updateMarketTeamFilterOptions === 'function') updateMarketTeamFilterOptions();
             renderMarketPlayers();
             syncRosterToMatchPlayers();
           })
           .catch(() => {
-            allPlayers = [
-              { id: 'wannafly', name: 'Wannafly', role: 'Duelist', tier: 'Legend', league: 'Thai Legend', overall: 96, stats: { aim: 98, iq: 95 }, contract: { marketValue: 800000, salary: 15000 } },
-              { id: 'zelyn', name: 'Zelyn', role: 'Coach', tier: 'Legend', league: 'Thai Legend', overall: 95, stats: { aim: 88, iq: 99 }, contract: { marketValue: 600000, salary: 12000 } },
-              { id: 'sscary', name: 'sScary', role: 'Controller', tier: 'Free Agent', league: 'Free Agent', overall: 94, stats: { aim: 95, iq: 97 }, contract: { marketValue: 750000, salary: 14000 } },
-              { id: 'alonefillz', name: 'AloNeFillz', role: 'Duelist', tier: 'Free Agent', league: 'Free Agent', overall: 93, stats: { aim: 97, iq: 90 }, contract: { marketValue: 700000, salary: 13000 } }
-            ];
+            allPlayers = [];
             renderMarketPlayers();
           });
       }
@@ -11855,10 +11861,10 @@ function endRound(winner) {
     function filterMarketCategory(cat) {
       const tierFilter = document.getElementById('market-tier-filter');
       if (tierFilter) {
-        if (cat === 'legend') tierFilter.value = 'Legend';
-        else if (cat === 'free_agent') tierFilter.value = 'Free Agent';
+        if (cat === 'free_agent' || cat === 'legend') tierFilter.value = 'Free Agent';
         else tierFilter.value = 'all';
       }
+      if (typeof updateMarketTeamFilterOptions === 'function') updateMarketTeamFilterOptions();
       switchTab('market');
       renderMarketPlayers();
     }
@@ -11902,7 +11908,11 @@ function endRound(winner) {
         }
         const data = JSON.parse(raw);
         if (data.myRoster) myRoster = data.myRoster;
-        if (data.allPlayers) allPlayers = data.allPlayers;
+        if (window.TACTIX_DATABASE && window.TACTIX_DATABASE.players) {
+          allPlayers = JSON.parse(JSON.stringify(window.TACTIX_DATABASE.players));
+        } else if (data.allPlayers) {
+          allPlayers = data.allPlayers;
+        }
         if (data.clubFinances) {
           clubFinances = Object.assign({
             wageCap: 75000,
@@ -13752,19 +13762,13 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
         form: []
       }));
 
+      if (window.TACTIX_DATABASE && window.TACTIX_DATABASE.players) {
+        allPlayers = JSON.parse(JSON.stringify(window.TACTIX_DATABASE.players));
+      }
+
       if (isDraft) {
         clubBudget = 2000000;
         matchState.teamCredsA = 2000000;
-
-        // Release existing players to free agents for clean draft
-        myRoster.starters.forEach(p => {
-          const found = allPlayers.find(x => x.id === p.id || x.name === p.name);
-          if (found) { found.teamId = 'free_agent'; found.teamName = 'Free Agent'; }
-        });
-        myRoster.bench.forEach(p => {
-          const found = allPlayers.find(x => x.id === p.id || x.name === p.name);
-          if (found) { found.teamId = 'free_agent'; found.teamName = 'Free Agent'; }
-        });
 
         myRoster.starters = [];
         myRoster.bench = [];
@@ -14585,20 +14589,129 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
       saveGameToStorage(true);
     }
 
-    // --- TRANSFER MARKET RENDERING WITH SQUAD CHECK & BADGES ---
+    // --- TRANSFER MARKET RENDERING WITH REGION, TIER, TEAM FILTER & DEDUPLICATION ---
+    function onMarketTierFilterChange() {
+      updateMarketTeamFilterOptions();
+      renderMarketPlayers();
+    }
+
+    function updateMarketTeamFilterOptions() {
+      const tierSelect = document.getElementById('market-tier-filter');
+      const teamSelect = document.getElementById('market-team-filter');
+      if (!tierSelect || !teamSelect || typeof REGIONAL_DATA === 'undefined') return;
+
+      const tierVal = tierSelect.value || 'all';
+      const prevTeam = teamSelect.value || 'all';
+
+      if (tierVal === 'Free Agent') {
+        teamSelect.innerHTML = `<option value="all">🆓 เฉพาะนักแข่งไร้สังกัด (Free Agents)</option>`;
+        teamSelect.value = 'all';
+        return;
+      }
+
+      const regionLabels = {
+        pacific: '🟢 โซน Pacific',
+        americas: '🔵 โซน Americas',
+        emea: '🟠 โซน EMEA',
+        china: '🔴 โซน China'
+      };
+
+      let html = `<option value="all">🏛️ ทุกสโมสรในหมวดนี้ (ALL TEAMS)</option>`;
+      let validTeamIds = new Set(['all']);
+
+      if (tierVal.startsWith('T1_') || tierVal.startsWith('T2_')) {
+        const isT1 = tierVal.startsWith('T1_');
+        const regKey = tierVal.slice(3);
+        const reg = REGIONAL_DATA[regKey];
+        const list = reg ? (isT1 ? reg.tier1 : reg.tier2) : [];
+        list.forEach(t => {
+          validTeamIds.add(t.id);
+          html += `<option value="${t.id}">🏛️ ${t.name}</option>`;
+        });
+      } else if (tierVal === 'Tier 1' || tierVal === 'Tier 2') {
+        const isT1 = tierVal === 'Tier 1';
+        ['pacific', 'americas', 'emea', 'china'].forEach(regKey => {
+          const reg = REGIONAL_DATA[regKey];
+          if (!reg) return;
+          const list = isT1 ? reg.tier1 : reg.tier2;
+          html += `<optgroup label="${regionLabels[regKey]} (${isT1 ? 'Tier 1' : 'Tier 2'})">`;
+          list.forEach(t => {
+            validTeamIds.add(t.id);
+            html += `<option value="${t.id}">🏛️ ${t.name}</option>`;
+          });
+          html += `</optgroup>`;
+        });
+      } else {
+        ['pacific', 'americas', 'emea', 'china'].forEach(regKey => {
+          const reg = REGIONAL_DATA[regKey];
+          if (!reg) return;
+          html += `<optgroup label="${regionLabels[regKey]} — VCT Tier 1">`;
+          reg.tier1.forEach(t => {
+            validTeamIds.add(t.id);
+            html += `<option value="${t.id}">🏆 ${t.name}</option>`;
+          });
+          html += `</optgroup>`;
+          html += `<optgroup label="${regionLabels[regKey]} — Ascension Tier 2">`;
+          reg.tier2.forEach(t => {
+            validTeamIds.add(t.id);
+            html += `<option value="${t.id}">🔥 ${t.name}</option>`;
+          });
+          html += `</optgroup>`;
+        });
+      }
+
+      teamSelect.innerHTML = html;
+      teamSelect.value = validTeamIds.has(prevTeam) ? prevTeam : 'all';
+    }
+
     function renderMarketPlayers() {
       const grid = document.getElementById('market-players-grid');
-      const query = (document.getElementById('market-search').value || '').toLowerCase().trim();
-      const tierFilter = document.getElementById('market-tier-filter').value;
-      const roleFilter = document.getElementById('market-role-filter').value;
-      const sortFilter = document.getElementById('market-sort-filter').value;
+      if (!grid) return;
+      const teamSelect = document.getElementById('market-team-filter');
+      if (teamSelect && teamSelect.options.length <= 1 && document.getElementById('market-tier-filter')?.value !== 'Free Agent') {
+        updateMarketTeamFilterOptions();
+      }
+
+      const query = (document.getElementById('market-search')?.value || '').toLowerCase().trim();
+      const tierFilter = document.getElementById('market-tier-filter')?.value || 'all';
+      const teamFilter = document.getElementById('market-team-filter')?.value || 'all';
+      const roleFilter = document.getElementById('market-role-filter')?.value || 'all';
+      const sortFilter = document.getElementById('market-sort-filter')?.value || 'ovr_desc';
 
       let filtered = allPlayers.filter(p => {
-        const matchName = p.name.toLowerCase().includes(query);
-        const matchTier = tierFilter === 'all' || p.tier === tierFilter || (tierFilter === 'Legend' && p.tier && p.tier.includes('Legend')) || (tierFilter === 'Free Agent' && (p.tier?.includes('Free') || p.teamName === 'Free Agent'));
+        if (p.isCoach) return false;
+        const matchName = !query || p.name.toLowerCase().includes(query) || (p.teamName && p.teamName.toLowerCase().includes(query));
+
+        let matchTier = true;
+        if (tierFilter === 'Tier 1') {
+          matchTier = p.tier === 'Tier 1';
+        } else if (tierFilter === 'Tier 2') {
+          matchTier = p.tier === 'Tier 2';
+        } else if (tierFilter === 'Free Agent') {
+          matchTier = p.tier === 'Free Agent' || p.teamId === 'free_agent';
+        } else if (tierFilter.startsWith('T1_')) {
+          const regKey = tierFilter.slice(3);
+          matchTier = p.tier === 'Tier 1' && (p.region === regKey || (REGIONAL_DATA[regKey]?.tier1 || []).some(t => t.id === p.teamId));
+        } else if (tierFilter.startsWith('T2_')) {
+          const regKey = tierFilter.slice(3);
+          matchTier = p.tier === 'Tier 2' && (p.region === regKey || (REGIONAL_DATA[regKey]?.tier2 || []).some(t => t.id === p.teamId));
+        }
+
+        const matchTeam = teamFilter === 'all' || p.teamId === teamFilter;
         const matchRole = roleFilter === 'all' || p.role === roleFilter;
-        return matchName && matchTier && matchRole;
+        return matchName && matchTier && matchTeam && matchRole;
       });
+
+      // Deduplicate by player name when browsing across multiple teams so no player appears twice
+      if (teamFilter === 'all') {
+        const seenNames = new Set();
+        filtered = filtered.filter(p => {
+          const k = p.name.toLowerCase().trim();
+          if (seenNames.has(k)) return false;
+          seenNames.add(k);
+          return true;
+        });
+      }
 
       if (sortFilter === 'ovr_desc') filtered.sort((a,b) => b.overall - a.overall);
       else if (sortFilter === 'ovr_asc') filtered.sort((a,b) => a.overall - b.overall);
@@ -14607,7 +14720,7 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
       else if (sortFilter === 'price_desc') filtered.sort((a,b) => (b.contract?.marketValue || 0) - (a.contract?.marketValue || 0));
 
       grid.innerHTML = '';
-      const displayList = filtered.slice(0, 32);
+      const displayList = filtered.slice(0, 80);
 
       displayList.forEach(p => {
         const inSquad = isPlayerInSquad(p.id) || isPlayerInSquad(p.name);
@@ -14629,7 +14742,7 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
                     <span>${p.name}</span>
                     ${inSquad ? '<span class="text-[9px] font-mono bg-emerald-950 text-emerald-400 border border-emerald-500/40 px-1 py-0.2 rounded font-bold">ในทีม</span>' : ''}
                   </div>
-                  <div class="text-[10px] text-cyan-400 font-mono mt-0.5 truncate max-w-[150px]">🏛️ ${teamLabel}</div>
+                  <div class="text-[10px] text-cyan-400 font-mono mt-0.5 truncate max-w-[165px]">🏛️ ${teamLabel}</div>
                 </div>
                 <div class="text-right">
                   <div class="text-xl font-mono font-black ${p.overall >= 94 ? 'text-amber-400' : 'text-emerald-400'}">${p.overall}</div>
@@ -14731,9 +14844,9 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
         addEventLog(`👥 ${newRosterPlayer.name} บรรจุเข้าสู่ทีมตัวสำรอง (Sub #${myRoster.bench.length})`);
       }
 
-      // Update current player ownership
-      p.teamId = 'fullsense';
-      p.teamName = 'FULL SENSE';
+      // Update current player ownership to user's active club
+      p.teamId = myClubId || 'fullsense';
+      p.teamName = myClubName || 'FULL SENSE';
 
       // --- AI AUTO-REPLACEMENT MECHANISM (POACH FROM CLUBS OR FREE AGENTS) ---
       if (formerTeamId && formerTeamId !== 'free_agent' && formerTeamId !== 'retired_legend' && formerTeamId !== 'fullsense') {
