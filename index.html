@@ -872,10 +872,10 @@
       </div>
 
       <!-- ZERO-SCROLL COMMAND CENTER ARENA (Height: calc(100vh - 48px - 44px)) -->
-      <div class="flex-1 flex overflow-hidden p-2 gap-2.5 min-h-0">
+      <div class="flex-1 flex overflow-hidden p-2 gap-3 min-h-0">
         
         <!-- ==================== LEFT: 2D RADAR CANVAS & TACTICAL DOCK ==================== -->
-        <div class="w-[440px] lg:w-[460px] max-w-[460px] shrink-0 flex flex-col items-center justify-between bg-[#070b16] border border-[#172642] rounded-xl p-2 relative overflow-hidden min-h-0 shadow-2xl">
+        <div class="w-1/2 lg:w-[48%] xl:w-[48%] shrink-0 flex flex-col items-center justify-between bg-[#070b16] border border-[#172642] rounded-xl p-2.5 relative overflow-hidden min-h-0 shadow-2xl">
           
           <!-- Tactical Canvas Container -->
           <div class="flex-1 flex items-center justify-center w-full min-h-0 relative">
@@ -2408,6 +2408,15 @@
         'Sunset': 'assets/vct/maps/Sunset.png',
         'Lotus': 'assets/vct/maps/Lotus.png',
         'Abyss': 'assets/vct/maps/Abyss.png'
+      },
+      mapWallpapers: {
+        'Ascent': 'wallpaper%20map/Ascent.jpg',
+        'Bind': 'wallpaper%20map/Bind.jpg',
+        'Haven': 'wallpaper%20map/Haven.jpg',
+        'Split': 'wallpaper%20map/Split.jpg',
+        'Sunset': 'wallpaper%20map/sunset.jpg',
+        'Lotus': 'wallpaper%20map/Lotus.jpg',
+        'Abyss': 'wallpaper%20map/Abyss.webp'
       },
       agents: {
         'Jett': 'assets/vct/agents/Jett.png',
@@ -7671,11 +7680,12 @@ function endRound(winner) {
         const isDecider = (vetoState.deciderMap === mapName);
         const mapInfo = MAP_DATA[mapName] || { location: 'VCT Arena', hasSiteC: false };
         const meta = MAP_META[mapName] || { favors: 'DEF' };
+        const wpUrl = (ASSETS.mapWallpapers && ASSETS.mapWallpapers[mapName]) ? ASSETS.mapWallpapers[mapName] : `wallpaper%20map/${mapName}.jpg`;
 
         container.innerHTML += `
           <div class="relative rounded-xl border ${isDecider ? 'border-amber-400 bg-amber-950/30 ring-2 ring-amber-400' : (isBanned ? 'border-rose-900/60 bg-[#070b16] opacity-40' : 'border-[#17253f] bg-[#0c1424] hover:border-emerald-500/60')} p-2.5 flex flex-col justify-between gap-2 overflow-hidden transition">
-            <div class="h-20 w-full rounded-lg bg-cover bg-center border border-[#1b2d4f] relative overflow-hidden" style="background-image: url('assets/vct/maps/${mapName}.png'), url('assets/vct/weapons/Vandal.png');">
-              <div class="absolute inset-0 bg-gradient-to-t from-[#090f1d] via-transparent to-transparent"></div>
+            <div class="h-28 w-full rounded-lg bg-cover bg-center border border-[#1b2d4f] relative overflow-hidden" style="background-image: url('${wpUrl}');">
+              <div class="absolute inset-0 bg-gradient-to-t from-[#090f1d]/90 via-transparent to-transparent"></div>
               ${isBanned ? '<div class="absolute inset-0 bg-rose-950/80 flex items-center justify-center font-vct text-lg font-black text-rose-300 tracking-widest border border-rose-500">🚫 BANNED</div>' : ''}
               ${isDecider ? '<div class="absolute inset-0 bg-amber-950/80 flex items-center justify-center font-vct text-lg font-black text-amber-300 tracking-widest border border-amber-400">⭐ DECIDER</div>' : ''}
             </div>
