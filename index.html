@@ -486,6 +486,21 @@
               <span id="dash-club-tier" class="text-[10px] font-mono bg-emerald-950 text-emerald-400 border border-emerald-500/40 px-2 py-0.5 rounded font-bold">PRO LEAGUE</span>
             </div>
             <p class="text-xs text-slate-400 mt-1">โค้ชผู้จัดการทีม: <span id="dash-manager-name" class="text-emerald-300 font-semibold">Head Coach</span> · สังกัด: <span id="dash-club-league" class="text-slate-300">VCT Pacific</span></p>
+            
+            <!-- Manager Reputation & Board Confidence Strip -->
+            <div class="flex items-center gap-2.5 mt-2 flex-wrap text-xs font-mono">
+              <div class="flex items-center gap-1.5 bg-[#070e1c] px-2.5 py-1 rounded-lg border border-[#162540]">
+                <span class="text-slate-400">🛡️ บอร์ดบริหาร:</span>
+                <span id="dash-board-confidence"><span class="text-emerald-400 font-bold">85% (มั่นคง)</span></span>
+              </div>
+              <div class="flex items-center gap-1.5 bg-[#070e1c] px-2.5 py-1 rounded-lg border border-[#162540]">
+                <span class="text-slate-400">ชื่อเสียง:</span>
+                <span id="dash-manager-rep"><span class="text-amber-300 font-bold">⭐ 60 REP</span></span>
+              </div>
+              <button onclick="openManagerJobMarketModal()" class="px-2.5 py-1 rounded-lg bg-[#0e1a33] hover:bg-cyan-950/80 text-cyan-300 hover:text-cyan-200 border border-cyan-500/40 text-xs font-bold transition flex items-center gap-1 cursor-pointer">
+                <span>💼</span><span>ตลาดงานโค้ช / ย้ายทีม</span>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -1110,6 +1125,61 @@
 
   </main>
 
+  <!-- ==================== VCT BO3 INTER-MAP TRANSITION MODAL ==================== -->
+  <div id="map-concluded-modal" class="fixed inset-0 modal-backdrop hidden items-center justify-center p-3 z-50 animate-fade-in">
+    <div class="bg-[#090f1d] border-2 border-amber-400/80 rounded-2xl p-5 max-w-lg w-full shadow-2xl relative flex flex-col gap-4 text-slate-200">
+      <!-- Header -->
+      <div class="flex items-center justify-between border-b border-[#1b2d4f] pb-3">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center font-vct text-xl font-black text-slate-950 shadow-lg shadow-amber-500/20">
+            BO3
+          </div>
+          <div>
+            <span class="text-[10px] font-mono text-amber-400 font-bold uppercase tracking-widest bg-amber-950/80 px-2 py-0.5 rounded border border-amber-500/40">VCT BO3 SERIES IN PROGRESS</span>
+            <h3 class="text-base font-black text-white mt-0.5" id="map-concluded-title">สิ้นสุดการแข่งขัน MAP 1</h3>
+          </div>
+        </div>
+      </div>
+
+      <!-- Map Result Card -->
+      <div class="bg-[#050812] border border-[#17253f] rounded-xl p-4 flex flex-col items-center gap-2">
+        <span class="text-xs text-slate-400 font-mono" id="map-concluded-name-banner">MAP 1: ASCENT</span>
+        <div class="flex items-center justify-center gap-4 w-full">
+          <div class="text-right flex-1 truncate">
+            <span class="font-bold text-sm text-white block truncate" id="map-concluded-team-a">TEAM A</span>
+          </div>
+          <div class="font-vct text-3xl font-black text-amber-400 px-3 py-0.5 rounded bg-[#0b1424] border border-[#1e3256]" id="map-concluded-score">
+            13 - 9
+          </div>
+          <div class="text-left flex-1 truncate">
+            <span class="font-bold text-sm text-slate-300 block truncate" id="map-concluded-team-b">OPPONENT</span>
+          </div>
+        </div>
+        <div class="text-xs font-mono font-bold text-emerald-400 mt-1" id="map-concluded-series-standings">
+          คะแนนซีรีส์ BO3: 1 - 0 (นำอยู่ 1 แผนที่)
+        </div>
+      </div>
+
+      <!-- Next Map Info -->
+      <div class="bg-gradient-to-r from-[#071326] via-[#0b1d38] to-[#071326] border border-cyan-500/40 rounded-xl p-3.5 flex flex-col gap-1.5 text-xs font-mono">
+        <div class="flex items-center justify-between text-cyan-300 font-bold">
+          <span>🎯 แผนที่ถัดไป:</span>
+          <span id="map-concluded-next-name" class="uppercase">MAP 2: BIND</span>
+        </div>
+        <div class="text-slate-300 text-[11px]" id="map-concluded-next-details">
+          เลือกโดย: สโมสรของคุณ · เริ่มต้นเป็นฝ่าย: 🛡️ ป้องกัน (DEFENDERS)
+        </div>
+      </div>
+
+      <!-- Action Button -->
+      <div class="flex items-center justify-end gap-2 pt-1">
+        <button onclick="startNextBo3Map()" class="w-full py-2.5 px-5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 font-black text-xs shadow-lg shadow-emerald-500/25 transition flex items-center justify-center gap-2 cursor-pointer">
+          <span id="map-concluded-btn-label">🚀 เข้าสู่ MAP 2 (BIND) ➔</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- ==================== VCT POST-MATCH REPORT & ANALYTICS MODAL (PRIORITY 6) ==================== -->
   <div id="match-over-modal" class="fixed inset-0 modal-backdrop hidden items-center justify-center p-2 sm:p-4 z-50">
     <div class="bg-[#090f1d] border-2 border-emerald-500/80 rounded-2xl p-4 sm:p-6 max-w-5xl w-full max-h-[95vh] overflow-y-auto shadow-2xl relative flex flex-col gap-4 text-slate-200">
@@ -1491,14 +1561,45 @@
 
       <!-- STEP 1: MAP VETO VIEW -->
       <div id="vct-step-map-veto" class="flex flex-col gap-3">
+        <!-- BO3 3-Map Sequence Tracker -->
+        <div id="vct-bo3-schedule-bar" class="grid grid-cols-1 sm:grid-cols-3 gap-2 bg-[#050812] p-2.5 rounded-xl border border-[#17253f] font-mono text-xs">
+          <div id="veto-slot-map-1" class="p-2 rounded-lg bg-[#0b1424] border border-[#1b2d4f] flex flex-col gap-1">
+            <span class="text-[10px] text-emerald-400 font-bold">MAP 1 (PICK): <b id="veto-slot-1-name" class="text-white">รอเลือก...</b></span>
+            <span class="text-[9px] text-slate-400" id="veto-slot-1-detail">เลือกโดย: สโมสรของคุณ</span>
+          </div>
+          <div id="veto-slot-map-2" class="p-2 rounded-lg bg-[#0b1424] border border-[#1b2d4f] flex flex-col gap-1">
+            <span class="text-[10px] text-cyan-400 font-bold">MAP 2 (PICK): <b id="veto-slot-2-name" class="text-white">รอเลือก...</b></span>
+            <span class="text-[9px] text-slate-400" id="veto-slot-2-detail">เลือกโดย: คู่แข่ง AI</span>
+          </div>
+          <div id="veto-slot-map-3" class="p-2 rounded-lg bg-[#0b1424] border border-[#1b2d4f] flex flex-col gap-1">
+            <span class="text-[10px] text-amber-400 font-bold">MAP 3 (DECIDER): <b id="veto-slot-3-name" class="text-white">รอตัดสิน...</b></span>
+            <span class="text-[9px] text-slate-400" id="veto-slot-3-detail">แผนที่ชี้ขาด (ถ้ามี)</span>
+          </div>
+        </div>
+
         <div class="bg-[#050812] p-2.5 rounded-xl border border-[#17253f] flex items-center justify-between flex-wrap gap-2 text-xs">
           <div class="flex items-center gap-2">
             <span class="text-slate-400 font-mono">STATUS:</span>
-            <span id="vct-turn-indicator" class="font-bold text-amber-400 font-mono animate-pulse">👉 รอบของคุณ: เลือกแบน 1 แผนที่</span>
+            <span id="vct-turn-indicator" class="font-bold text-amber-400 font-mono animate-pulse">👉 รอบของคุณ: เลือกแบน 1 แผนที่ (BAN 1)</span>
           </div>
           <div class="flex items-center gap-3 text-[11px] font-mono text-slate-400">
-            <span>BANNED: <b id="vct-ban-count" class="text-rose-400">0/6</b></span>
+            <span>BANNED: <b id="vct-ban-count" class="text-rose-400">0/4</b></span>
             <span>POOL: <b class="text-emerald-400">7 MAPS</b></span>
+          </div>
+        </div>
+
+        <!-- User Side Selection Card for Map 2 -->
+        <div id="vct-user-side-choice-card" class="hidden bg-gradient-to-r from-[#071326] via-[#0b1d38] to-[#071326] border-2 border-cyan-400 p-3.5 rounded-xl flex-col items-center gap-2.5 text-center shadow-lg animate-fade-in">
+          <div class="text-xs font-bold text-cyan-300 font-mono flex items-center gap-2">
+            <span>🎯</span><span id="vct-side-choice-prompt">คู่แข่งเลือก MAP 2 แล้ว! สโมสรของคุณได้สิทธิ์เลือกฝั่งเริ่มต้น:</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <button onclick="userSelectSideForMap2('ATK')" class="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs flex items-center gap-1.5 cursor-pointer shadow transition transform hover:-translate-y-0.5">
+              <span>⚔️</span><span>เริ่มฝ่ายบุก (ATTACKERS)</span>
+            </button>
+            <button onclick="userSelectSideForMap2('DEF')" class="px-4 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs flex items-center gap-1.5 cursor-pointer shadow transition transform hover:-translate-y-0.5">
+              <span>🛡️</span><span>เริ่มฝ่ายป้องกัน (DEFENDERS)</span>
+            </button>
           </div>
         </div>
 
@@ -1507,13 +1608,13 @@
           <!-- Dynamically populated -->
         </div>
 
-        <!-- Decider Map Banner (Hidden until 1 map remains) -->
+        <!-- Decider Map Banner (Hidden until all 3 maps determined) -->
         <div id="vct-decider-banner" class="hidden bg-gradient-to-r from-emerald-950/80 via-[#0e1e36] to-emerald-950/80 border-2 border-amber-400/80 p-3.5 rounded-xl text-center flex-col items-center gap-2">
-          <span class="text-[10px] font-mono uppercase tracking-widest bg-amber-400 text-slate-950 font-black px-2.5 py-0.5 rounded">DECIDER MAP LOCKED</span>
-          <div class="text-lg font-black text-white" id="vct-decider-title">ASCENT (VENICE)</div>
-          <div class="text-xs text-amber-300 font-mono" id="vct-side-choice-text">คู่แข่งเลือกเริ่มเป็นฝ่ายป้องกัน (DEFENDERS) ก่อนตามความได้เปรียบของแผนที่!</div>
-          <button onclick="goToAgentDraftPhase()" class="mt-1 px-4 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs shadow-lg transition">
-            ถัดไป: ดราฟต์ Agent และประเมินคอมป์ (AGENT DRAFT) ➔
+          <span class="text-[10px] font-mono uppercase tracking-widest bg-amber-400 text-slate-950 font-black px-2.5 py-0.5 rounded">BO3 MAP SCHEDULE LOCKED</span>
+          <div class="text-base font-black text-white" id="vct-decider-title">MAP 1, MAP 2, DECIDER READY</div>
+          <div class="text-xs text-amber-300 font-mono" id="vct-side-choice-text">ซีรีส์พร้อมแข่ง 2 ใน 3 แผนที่เรียบร้อยแล้ว</div>
+          <button onclick="goToAgentDraftPhase()" class="mt-1 px-4 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs shadow-lg transition cursor-pointer">
+            ถัดไป: ดราฟต์ Agent สำหรับ MAP 1 (AGENT DRAFT) ➔
           </button>
         </div>
       </div>
@@ -1897,6 +1998,113 @@
           ปิดหน้าต่าง
         </button>
       </div>
+    </div>
+  </div>
+
+  <!-- ==================== MANAGER JOB MARKET & CLUB TRANSFER MODAL ==================== -->
+  <div id="manager-job-market-modal" class="fixed inset-0 modal-backdrop hidden items-center justify-center p-3 z-50 animate-fade-in">
+    <div class="bg-[#0a101f] border-2 border-cyan-500/80 rounded-2xl p-5 max-w-4xl w-full max-h-[92vh] overflow-y-auto shadow-2xl relative flex flex-col gap-4 text-slate-200">
+      <button onclick="closeManagerJobMarketModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white font-mono text-lg cursor-pointer">✕</button>
+
+      <div class="flex items-center justify-between border-b border-[#1b2d4f] pb-3 flex-wrap gap-2">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-700 flex items-center justify-center text-xl shadow-lg shadow-cyan-500/20">
+            💼
+          </div>
+          <div>
+            <span class="text-[10px] font-mono text-cyan-400 font-bold uppercase tracking-widest bg-cyan-950 px-2 py-0.5 rounded border border-cyan-500/40">VCT & VCL MANAGER JOB MARKET</span>
+            <h3 class="text-base sm:text-lg font-black text-white mt-0.5">ตลาดงานผู้จัดการทีม & ข้อเสนอทาบทามย้ายสโมสร</h3>
+          </div>
+        </div>
+      </div>
+
+      <!-- Manager Profile Status Overview -->
+      <div class="bg-[#050812] border border-[#17253f] rounded-xl p-3 grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs font-mono">
+        <div class="p-2 rounded-lg bg-[#0b1424] border border-[#162540]">
+          <span class="text-[10px] text-slate-400 block">ชื่อเสียงโค้ช (REPUTATION):</span>
+          <span class="text-sm font-bold text-amber-300" id="job-market-manager-rep">⭐ 60 REP</span>
+        </div>
+        <div class="p-2 rounded-lg bg-[#0b1424] border border-[#162540]">
+          <span class="text-[10px] text-slate-400 block">ความเชื่อมั่นบอร์ด:</span>
+          <span class="text-sm font-bold text-emerald-400" id="job-market-board-conf">85% (มั่นคง)</span>
+        </div>
+        <div class="p-2 rounded-lg bg-[#0b1424] border border-[#162540]">
+          <span class="text-[10px] text-slate-400 block">สถิติคุมทีมตลอดอาชีพ:</span>
+          <span class="text-sm font-bold text-cyan-400" id="job-market-career-record">0W - 0L</span>
+        </div>
+        <div class="p-2 rounded-lg bg-[#0b1424] border border-[#162540]">
+          <span class="text-[10px] text-slate-400 block">สโมสรปัจจุบัน:</span>
+          <span class="text-sm font-bold text-white truncate block" id="job-market-current-club">สโมสรของคุณ</span>
+        </div>
+      </div>
+
+      <!-- Region Filter Tabs -->
+      <div class="flex items-center gap-2 border-b border-[#17253f] pb-2 flex-wrap">
+        <button onclick="renderManagerJobMarket('pacific')" id="job-tab-pacific" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-cyan-500 text-slate-950 transition cursor-pointer">
+          🟢 Pacific
+        </button>
+        <button onclick="renderManagerJobMarket('americas')" id="job-tab-americas" class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white hover:bg-[#121e35] transition cursor-pointer">
+          🔵 Americas
+        </button>
+        <button onclick="renderManagerJobMarket('emea')" id="job-tab-emea" class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white hover:bg-[#121e35] transition cursor-pointer">
+          🟣 EMEA
+        </button>
+        <button onclick="renderManagerJobMarket('china')" id="job-tab-china" class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white hover:bg-[#121e35] transition cursor-pointer">
+          🔴 China
+        </button>
+      </div>
+
+      <!-- Job List Grid -->
+      <div id="manager-jobs-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 max-h-[50vh] overflow-y-auto pr-1">
+        <!-- Injected dynamically -->
+      </div>
+
+      <!-- Footer -->
+      <div class="flex items-center justify-between border-t border-[#1b2d4f] pt-3 text-xs flex-wrap gap-2">
+        <span class="text-slate-400 text-[11px]">💡 การย้ายทีมจะคงข้อมูลโลกทั้งหมด (อันดับตาราง, ตารางแข่ง, ผู้เล่นทุกทีม) และคุณจะเข้ารับตำแหน่งสโมสรใหม่ทันที</span>
+        <button onclick="closeManagerJobMarketModal()" class="px-4 py-2 rounded-xl bg-[#0e172a] hover:bg-[#18233a] text-slate-300 font-semibold border border-[#1e293b] transition cursor-pointer">
+          ปิดหน้าต่าง
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MANAGER SACKED / BOARD TERMINATION MODAL ==================== -->
+  <div id="manager-sacked-modal" class="fixed inset-0 modal-backdrop hidden items-center justify-center p-3 z-50 animate-fade-in">
+    <div class="bg-[#12060b] border-2 border-rose-600 rounded-2xl p-6 max-w-lg w-full shadow-2xl relative flex flex-col gap-4 text-slate-200">
+      <div class="flex items-center gap-3 border-b border-rose-900/60 pb-3">
+        <div class="w-12 h-12 rounded-xl bg-rose-600/20 border border-rose-500/40 flex items-center justify-center text-2xl text-rose-400 animate-pulse">
+          🚨
+        </div>
+        <div>
+          <span class="text-[10px] font-mono text-rose-400 font-bold uppercase tracking-widest bg-rose-950 px-2 py-0.5 rounded border border-rose-500/40">BREAKING NEWS · BOARD TERMINATION</span>
+          <h3 class="text-base sm:text-lg font-black text-white mt-0.5">บอร์ดบริหารสั่งปลดคุณออกจากตำแหน่ง!</h3>
+        </div>
+      </div>
+
+      <div class="bg-rose-950/40 border border-rose-500/40 rounded-xl p-4 flex flex-col gap-2.5 text-xs">
+        <p class="text-rose-200 font-medium leading-relaxed" id="sacked-modal-description">
+          เนื่องจากผลงานที่ย่ำแย่ต่อเนื่องและไม่เป็นไปตามเป้าหมายของสโมสร บอร์ดบริหารได้มีมติเป็นเอกฉันท์ในการยกเลิกสัญญาของคุณในทันที!
+        </p>
+        <div class="border-t border-rose-900/60 pt-2 flex flex-col gap-1 font-mono text-[11px] text-slate-300">
+          <div class="flex justify-between">
+            <span class="text-slate-400">ความเชื่อมั่นบอร์ดคงเหลือ:</span>
+            <span class="text-rose-400 font-bold" id="sacked-board-conf">12% (วิกฤต)</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-slate-400">ผลกระทบต่อชื่อเสียง (Reputation):</span>
+            <span class="text-rose-400 font-bold">-20 REP (ลดลง)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-[11px] text-slate-400 bg-[#070b14] p-3 rounded-xl border border-[#162540]">
+        ℹ️ คุณต้องเข้าสู่ตลาดงานเพื่อหาสโมสรใหม่คุมทีม โดยสโมสรระดับท็อปจะปฏิเสธใบสมัครของคุณ จนกว่าจะสามารถสร้างชื่อเสียงและผลงานขึ้นมาใหม่กับสโมสรระดับล่างหรือ Ascension!
+      </div>
+
+      <button onclick="closeManagerSackedAndOpenJobMarket()" class="w-full py-3 rounded-xl bg-gradient-to-r from-rose-600 to-amber-600 hover:from-rose-500 hover:to-amber-500 text-white font-black text-xs shadow-lg shadow-rose-600/30 transition flex items-center justify-center gap-2 cursor-pointer">
+        <span>💼</span><span>เข้าสู่ตลาดงานเพื่อหาสโมสรใหม่ (FIND NEW CLUB) ➔</span>
+      </button>
     </div>
   </div>
 
@@ -2388,9 +2596,41 @@
     let vetoState = {
       pool: ['Ascent', 'Bind', 'Haven', 'Split', 'Sunset', 'Lotus', 'Abyss'],
       banned: [],
-      turn: 'USER', // 'USER' or 'BOT'
+      turn: 'USER', // 'USER' | 'BOT' | 'AWAIT_SIDE_CHOICE'
+      step: 1,
+      map1: null,
+      map1Picker: null,
+      map1UserSide: 'ATK',
+      map2: null,
+      map2Picker: null,
+      map2UserSide: 'DEF',
+      map3: null,
+      map3Picker: 'DECIDER',
+      map3UserSide: 'ATK',
       deciderMap: null,
-      startingSideIsAttacker: true
+      startingSideIsAttacker: true,
+      oppName: '',
+      myName: ''
+    };
+
+    let bo3SeriesState = {
+      active: true,
+      currentMapIdx: 0,
+      scoreA: 0,
+      scoreB: 0,
+      roundDiff: 0,
+      maps: []
+    };
+
+    let managerCareer = {
+      reputation: 60,         // 0 - 100
+      boardConfidence: 85,    // 0 - 100%
+      totalMatches: 0,
+      totalWins: 0,
+      totalLosses: 0,
+      titlesWon: 0,
+      currentStreak: 0,       // > 0 = win streak, < 0 = loss streak
+      jobHistory: []
     };
 
     // --- 1. LOCAL OFFLINE ASSETS MANIFEST ---
@@ -6973,6 +7213,10 @@
       if (teamTitleA && !matchState.isMatchInProgress) {
         teamTitleA.innerText = (matchState.teamAName || myClubName || 'TEAM A').toUpperCase();
       }
+
+      if (typeof updateManagerCareerUI === 'function') {
+        updateManagerCareerUI();
+      }
     }
 
     // --- 3. TOP NAVIGATION & TAB SWITCHER ---
@@ -10787,10 +11031,64 @@ function endRound(winner) {
       const teamAName = matchState.teamAName || myClubName || 'สโมสรของคุณ';
       const teamBName = matchState.teamBName || 'OPPONENT';
 
-      const winTeamName = isWin ? teamAName : teamBName;
-      document.getElementById('modal-match-winner').innerText = `${winTeamName} คว้าชัยชนะในการแข่งขัน!`;
-      document.getElementById('modal-match-winner').className = `text-xl sm:text-2xl font-black ${isWin ? 'text-emerald-400' : 'text-rose-400'} mt-0.5`;
-      document.getElementById('modal-final-score').innerText = `${scoreA} - ${scoreB}`;
+      // --- BO3 SERIES INTERCEPTOR ---
+      if (bo3SeriesState && bo3SeriesState.active && bo3SeriesState.maps && bo3SeriesState.maps.length >= 2) {
+        const curM = bo3SeriesState.maps[bo3SeriesState.currentMapIdx];
+        if (curM) {
+          curM.scoreA = scoreA;
+          curM.scoreB = scoreB;
+          curM.winner = winner;
+        }
+        if (winner === 'A') bo3SeriesState.scoreA++;
+        else bo3SeriesState.scoreB++;
+        bo3SeriesState.roundDiff += (scoreA - scoreB);
+
+        const isSeriesDecided = (bo3SeriesState.scoreA >= 2 || bo3SeriesState.scoreB >= 2 || bo3SeriesState.currentMapIdx >= 2);
+
+        if (!isSeriesDecided) {
+          // Open Inter-map modal!
+          const mapModal = document.getElementById('map-concluded-modal');
+          const nextIdx = bo3SeriesState.currentMapIdx + 1;
+          const nextM = bo3SeriesState.maps[nextIdx];
+
+          const tTitle = document.getElementById('map-concluded-title');
+          const tBanner = document.getElementById('map-concluded-name-banner');
+          const tA = document.getElementById('map-concluded-team-a');
+          const tB = document.getElementById('map-concluded-team-b');
+          const tScore = document.getElementById('map-concluded-score');
+          const tSeries = document.getElementById('map-concluded-series-standings');
+
+          if (tTitle) tTitle.innerText = `สิ้นสุดการแข่งขัน MAP ${bo3SeriesState.currentMapIdx + 1}`;
+          if (tBanner) tBanner.innerText = `MAP ${bo3SeriesState.currentMapIdx + 1}: ${currentMap.toUpperCase()}`;
+          if (tA) tA.innerText = teamAName;
+          if (tB) tB.innerText = teamBName;
+          if (tScore) tScore.innerText = `${scoreA} - ${scoreB}`;
+          if (tSeries) tSeries.innerText = `คะแนนซีรีส์ BO3: ${teamAName} ${bo3SeriesState.scoreA} - ${bo3SeriesState.scoreB} ${teamBName}`;
+
+          if (nextM) {
+            const nextNameEl = document.getElementById('map-concluded-next-name');
+            const nextDetEl = document.getElementById('map-concluded-next-details');
+            const nextBtnEl = document.getElementById('map-concluded-btn-label');
+            if (nextNameEl) nextNameEl.innerText = `MAP ${nextIdx + 1}: ${nextM.map.toUpperCase()}`;
+            if (nextDetEl) nextDetEl.innerText = `เลือกโดย: ${nextM.picker === 'USER' ? teamAName : (nextM.picker === 'BOT' ? teamBName : 'DECIDER')} · เริ่มต้นเป็นฝ่าย: ${nextM.userSide === 'ATK' ? '⚔️ บุก (ATTACKERS)' : '🛡️ ป้องกัน (DEFENDERS)'}`;
+            if (nextBtnEl) nextBtnEl.innerText = `🚀 ก้าวสู่ MAP ${nextIdx + 1} (${nextM.map.toUpperCase()}) ➔`;
+          }
+
+          if (mapModal) {
+            mapModal.classList.remove('hidden');
+            mapModal.classList.add('flex');
+          }
+          return; // Pause here! The user will click button to start the next map!
+        }
+      }
+
+      const isSeriesWin = (bo3SeriesState && bo3SeriesState.active) ? (bo3SeriesState.scoreA >= 2) : isWin;
+      const winTeamName = isSeriesWin ? teamAName : teamBName;
+      const seriesScoreLabel = (bo3SeriesState && bo3SeriesState.active) ? ` (${bo3SeriesState.scoreA} - ${bo3SeriesState.scoreB})` : '';
+
+      document.getElementById('modal-match-winner').innerText = `${winTeamName} คว้าชัยชนะในซีรีส์ BO3${seriesScoreLabel}!`;
+      document.getElementById('modal-match-winner').className = `text-xl sm:text-2xl font-black ${isSeriesWin ? 'text-emerald-400' : 'text-rose-400'} mt-0.5`;
+      document.getElementById('modal-final-score').innerText = (bo3SeriesState && bo3SeriesState.active) ? `${bo3SeriesState.scoreA} - ${bo3SeriesState.scoreB}` : `${scoreA} - ${scoreB}`;
       document.getElementById('report-map-name').innerText = `MAP: ${currentMap.toUpperCase()}`;
 
       // Team Header Names and Winner/Defeated Badges
@@ -10802,12 +11100,12 @@ function endRound(winner) {
       if (elNameA) elNameA.innerText = teamAName.toUpperCase();
       if (elNameB) elNameB.innerText = teamBName.toUpperCase();
 
-      if (isWin) {
-        if (elBadgeA) { elBadgeA.innerText = 'WINNER'; elBadgeA.className = 'text-[9px] font-mono text-emerald-400 font-bold'; }
+      if (isSeriesWin) {
+        if (elBadgeA) { elBadgeA.innerText = 'SERIES WINNER'; elBadgeA.className = 'text-[9px] font-mono text-emerald-400 font-bold'; }
         if (elBadgeB) { elBadgeB.innerText = 'DEFEATED'; elBadgeB.className = 'text-[9px] font-mono text-slate-500 font-bold'; }
       } else {
         if (elBadgeA) { elBadgeA.innerText = 'DEFEATED'; elBadgeA.className = 'text-[9px] font-mono text-slate-500 font-bold'; }
-        if (elBadgeB) { elBadgeB.innerText = 'WINNER'; elBadgeB.className = 'text-[9px] font-mono text-emerald-400 font-bold'; }
+        if (elBadgeB) { elBadgeB.innerText = 'SERIES WINNER'; elBadgeB.className = 'text-[9px] font-mono text-emerald-400 font-bold'; }
       }
 
       // Calculate halves and OT accurately from roundHistory
@@ -10940,12 +11238,13 @@ function endRound(winner) {
         // Update User & Opponent Standings with Round Differential
         const myTeam = STANDINGS_VCT.find(t => t.name.includes(myClubName)) || STANDINGS_VCL.find(t => t.name.includes(myClubName)) || STANDINGS_VCT[0];
         const oppTeam = STANDINGS_VCT.find(t => t.name === oppName) || STANDINGS_VCL.find(t => t.name === oppName);
+        const diffDelta = (bo3SeriesState && bo3SeriesState.active) ? (bo3SeriesState.roundDiff || (scoreA - scoreB)) : (scoreA - scoreB);
 
         if (myTeam) {
           myTeam.mp += 1;
-          const diffVal = (parseInt(myTeam.diff) || 0) + (scoreA - scoreB);
+          const diffVal = (parseInt(myTeam.diff) || 0) + diffDelta;
           myTeam.diff = (diffVal >= 0 ? '+' : '') + diffVal;
-          if (isWin) {
+          if (isSeriesWin) {
             myTeam.w += 1;
             myTeam.form.unshift('W');
           } else {
@@ -10957,9 +11256,9 @@ function endRound(winner) {
 
         if (oppTeam) {
           oppTeam.mp += 1;
-          const diffVal = (parseInt(oppTeam.diff) || 0) + (scoreB - scoreA);
+          const diffVal = (parseInt(oppTeam.diff) || 0) - diffDelta;
           oppTeam.diff = (diffVal >= 0 ? '+' : '') + diffVal;
-          if (isWin) {
+          if (isSeriesWin) {
             oppTeam.l += 1;
             oppTeam.form.unshift('L');
           } else {
@@ -11081,8 +11380,8 @@ function endRound(winner) {
 
         if (activeFix && !activeFix.played) {
           activeFix.played = true;
-          activeFix.userScore = scoreA;
-          activeFix.oppScore = scoreB;
+          activeFix.userScore = (bo3SeriesState && bo3SeriesState.active) ? bo3SeriesState.scoreA : scoreA;
+          activeFix.oppScore = (bo3SeriesState && bo3SeriesState.active) ? bo3SeriesState.scoreB : scoreB;
           activeFix.otherResults = leagueWeekResults;
         }
 
@@ -11096,6 +11395,35 @@ function endRound(winner) {
           setTimeout(() => {
             processSeasonEnd();
           }, 1200);
+        }
+      }
+
+      // Update Manager Career & Board Confidence in Career Mode
+      if (currentGameMode === 'CAREER') {
+        managerCareer.totalMatches = (managerCareer.totalMatches || 0) + 1;
+        if (isSeriesWin) {
+          managerCareer.totalWins = (managerCareer.totalWins || 0) + 1;
+          managerCareer.boardConfidence = Math.min(100, (managerCareer.boardConfidence || 85) + 10);
+          managerCareer.reputation = Math.min(100, (managerCareer.reputation || 60) + 4);
+          managerCareer.currentStreak = (managerCareer.currentStreak > 0 ? managerCareer.currentStreak + 1 : 1);
+          addEventLog(`👑 ผลงานผู้จัดการทีม: ชนะซีรีส์ BO3! บอร์ดบริหารเพิ่มความเชื่อมั่นเป็น ${managerCareer.boardConfidence}% (Reputation +4)`);
+        } else {
+          managerCareer.totalLosses = (managerCareer.totalLosses || 0) + 1;
+          managerCareer.boardConfidence = Math.max(0, (managerCareer.boardConfidence || 85) - 12);
+          managerCareer.reputation = Math.max(10, (managerCareer.reputation || 60) - 3);
+          managerCareer.currentStreak = (managerCareer.currentStreak < 0 ? managerCareer.currentStreak - 1 : -1);
+          if (managerCareer.currentStreak <= -3) {
+            managerCareer.boardConfidence = Math.max(0, managerCareer.boardConfidence - 8);
+            addEventLog(`⚠️ บอร์ดบริหารเตือนวิกฤต: แพ้ติดต่อกัน 3 นัด! ความเชื่อมั่นบอร์ดลดเหลือ ${managerCareer.boardConfidence}%`);
+          }
+          addEventLog(`📉 ผลงานผู้จัดการทีม: พ่ายแพ้ในซีรีส์ BO3 ความเชื่อมั่นลดเหลือ ${managerCareer.boardConfidence}%`);
+        }
+        updateManagerCareerUI();
+
+        if (managerCareer.boardConfidence <= 20) {
+          setTimeout(() => {
+            triggerManagerSackedModal();
+          }, 1500);
         }
       }
 
@@ -11387,26 +11715,39 @@ function endRound(winner) {
       vetoState = {
         pool: ['Ascent', 'Bind', 'Haven', 'Split', 'Sunset', 'Lotus', 'Abyss'],
         banned: [],
+        step: 1, // 1: User Ban 1, 2: Bot Ban 1, 3: User Pick 1, 4: Bot Pick 2, 5: User Ban 2, 6: Bot Ban 2, 7: Decider Ready
         turn: 'USER',
+        map1: null,
+        map1Picker: null,
+        map1UserSide: 'ATK',
+        map2: null,
+        map2Picker: null,
+        map2UserSide: 'DEF',
+        map3: null,
+        map3Picker: 'DECIDER',
+        map3UserSide: 'ATK',
         deciderMap: null,
         startingSideIsAttacker: true,
         oppName: oppName,
         myName: myName
       };
 
-      document.getElementById('vct-phase-badge').innerText = 'PHASE 1: MAP VETO';
-      document.getElementById('vct-phase-desc').innerText = 'ผลัดกันแบนแผนที่มาตรฐาน VCT 7 แผนที่จนเหลือ Decider Map';
+      document.getElementById('vct-phase-badge').innerText = 'PHASE 1: BO3 MAP VETO';
+      document.getElementById('vct-phase-desc').innerText = 'กติกา VCT Best of 3 (BO3): ผลัดกันแบนและเลือกแผนที่ พร้อมเลือกฝั่งเริ่มต้น (ทีมที่ชนะ 2 ใน 3 แผนที่จะชนะแมตช์)';
       document.getElementById('vct-step-map-veto').classList.remove('hidden');
       document.getElementById('vct-step-agent-draft').classList.add('hidden');
       document.getElementById('vct-decider-banner').classList.add('hidden');
       document.getElementById('vct-decider-banner').classList.remove('flex');
+
+      const sideCard = document.getElementById('vct-user-side-choice-card');
+      if (sideCard) { sideCard.classList.add('hidden'); sideCard.classList.remove('flex'); }
 
       const myClubTitleEl = document.getElementById('draft-my-club-title');
       if (myClubTitleEl) myClubTitleEl.innerText = `1. กำหนดตัวละครให้ผู้เล่น ${myName}`;
       const oppClubTitleEl = document.getElementById('draft-opp-club-title');
       if (oppClubTitleEl) oppClubTitleEl.innerText = `3. คู่แข่ง (${oppName} META COMP)`;
 
-      document.getElementById('vct-turn-indicator').innerText = `👉 รอบของคุณ (${myName}): เลือกแบน 1 แผนที่`;
+      document.getElementById('vct-turn-indicator').innerText = `👉 รอบของคุณ (${myName}): เลือกแบน 1 แผนที่ (BAN 1)`;
       document.getElementById('vct-turn-indicator').className = 'font-bold text-amber-400 font-mono animate-pulse';
 
       renderVctMapCards();
@@ -11421,22 +11762,96 @@ function endRound(winner) {
 
     function renderVctMapCards() {
       const container = document.getElementById('vct-map-cards-container');
+      if (!container) return;
       container.innerHTML = '';
-      document.getElementById('vct-ban-count').innerText = `${vetoState.banned.length}/6`;
+      const banCountEl = document.getElementById('vct-ban-count');
+      if (banCountEl) banCountEl.innerText = `${vetoState.banned.length}/4`;
+
+      // Update BO3 Schedule Slots
+      const slot1Name = document.getElementById('veto-slot-1-name');
+      const slot1Detail = document.getElementById('veto-slot-1-detail');
+      const slot2Name = document.getElementById('veto-slot-2-name');
+      const slot2Detail = document.getElementById('veto-slot-2-detail');
+      const slot3Name = document.getElementById('veto-slot-3-name');
+      const slot3Detail = document.getElementById('veto-slot-3-detail');
+
+      if (slot1Name) {
+        slot1Name.innerText = vetoState.map1 ? `${vetoState.map1} (${vetoState.map1UserSide === 'ATK' ? 'บุก' : 'ป้องกัน'})` : 'รอเลือก...';
+        if (slot1Detail) slot1Detail.innerText = vetoState.map1 ? `เลือกโดย: ${vetoState.map1Picker === 'USER' ? vetoState.myName : vetoState.oppName}` : 'เลือกโดย: สโมสรของคุณ';
+      }
+      if (slot2Name) {
+        slot2Name.innerText = vetoState.map2 ? `${vetoState.map2} (${vetoState.map2UserSide === 'ATK' ? 'บุก' : 'ป้องกัน'})` : 'รอเลือก...';
+        if (slot2Detail) slot2Detail.innerText = vetoState.map2 ? `เลือกโดย: ${vetoState.map2Picker === 'USER' ? vetoState.myName : vetoState.oppName}` : 'เลือกโดย: คู่แข่ง AI';
+      }
+      if (slot3Name) {
+        slot3Name.innerText = vetoState.map3 ? `${vetoState.map3} (${vetoState.map3UserSide === 'ATK' ? 'บุก' : 'ป้องกัน'})` : 'รอตัดสิน...';
+        if (slot3Detail) slot3Detail.innerText = vetoState.map3 ? 'แผนที่ชี้ขาด (DECIDER)' : 'แผนที่ชี้ขาด (ถ้ามี)';
+      }
 
       vetoState.pool.forEach(mapName => {
         const isBanned = vetoState.banned.includes(mapName);
-        const isDecider = (vetoState.deciderMap === mapName);
+        const isMap1 = (vetoState.map1 === mapName);
+        const isMap2 = (vetoState.map2 === mapName);
+        const isMap3 = (vetoState.map3 === mapName);
+        const isPicked = isMap1 || isMap2 || isMap3;
+
         const mapInfo = MAP_DATA[mapName] || { location: 'VCT Arena', hasSiteC: false };
         const meta = MAP_META[mapName] || { favors: 'DEF' };
         const wpUrl = (ASSETS.mapThumbnails && ASSETS.mapThumbnails[mapName]) ? ASSETS.mapThumbnails[mapName] : ((ASSETS.mapWallpapers && ASSETS.mapWallpapers[mapName]) ? ASSETS.mapWallpapers[mapName] : `wallpaper%20map/${mapName}.jpg`);
 
+        let borderClass = 'border-[#17253f] bg-[#0c1424] hover:border-emerald-500/60';
+        let overlayBadge = '';
+
+        if (isBanned) {
+          borderClass = 'border-rose-900/60 bg-[#070b16] opacity-40';
+          overlayBadge = '<div class="absolute inset-0 bg-rose-950/80 flex items-center justify-center font-vct text-lg font-black text-rose-300 tracking-widest border border-rose-500">🚫 BANNED</div>';
+        } else if (isMap1) {
+          borderClass = 'border-emerald-400 bg-emerald-950/30 ring-2 ring-emerald-400';
+          overlayBadge = `<div class="absolute inset-0 bg-emerald-950/85 flex flex-col items-center justify-center font-vct text-base font-black text-emerald-300 tracking-wider border border-emerald-400"><span>⭐ MAP 1 (${vetoState.map1Picker === 'USER' ? 'MY PICK' : 'OPP PICK'})</span><span class="text-[10px] text-amber-300 font-mono mt-0.5">คุณเริ่ม: ${vetoState.map1UserSide === 'ATK' ? 'บุก (ATK)' : 'ป้องกัน (DEF)'}</span></div>`;
+        } else if (isMap2) {
+          borderClass = 'border-cyan-400 bg-cyan-950/30 ring-2 ring-cyan-400';
+          overlayBadge = `<div class="absolute inset-0 bg-cyan-950/85 flex flex-col items-center justify-center font-vct text-base font-black text-cyan-300 tracking-wider border border-cyan-400"><span>⭐ MAP 2 (${vetoState.map2Picker === 'USER' ? 'MY PICK' : 'OPP PICK'})</span><span class="text-[10px] text-amber-300 font-mono mt-0.5">คุณเริ่ม: ${vetoState.map2UserSide === 'ATK' ? 'บุก (ATK)' : 'ป้องกัน (DEF)'}</span></div>`;
+        } else if (isMap3) {
+          borderClass = 'border-amber-400 bg-amber-950/30 ring-2 ring-amber-400';
+          overlayBadge = `<div class="absolute inset-0 bg-amber-950/85 flex flex-col items-center justify-center font-vct text-base font-black text-amber-300 tracking-wider border border-amber-400"><span>🏆 DECIDER MAP</span><span class="text-[10px] text-emerald-300 font-mono mt-0.5">คุณเริ่ม: ${vetoState.map3UserSide === 'ATK' ? 'บุก (ATK)' : 'ป้องกัน (DEF)'}</span></div>`;
+        }
+
+        let actionButtonHtml = '';
+        if (!isBanned && !isPicked) {
+          if (vetoState.turn === 'USER') {
+            if (vetoState.step === 1 || vetoState.step === 5) {
+              actionButtonHtml = `
+                <button onclick="userActionMap('${mapName}', 'BAN')" class="w-full py-1.5 rounded-lg bg-rose-600/90 hover:bg-rose-500 text-white font-mono font-bold text-xs transition cursor-pointer shadow">
+                  🚫 แบนแผนที่นี้ (BAN)
+                </button>
+              `;
+            } else if (vetoState.step === 3) {
+              actionButtonHtml = `
+                <button onclick="userActionMap('${mapName}', 'PICK')" class="w-full py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-mono font-bold text-xs transition cursor-pointer shadow">
+                  ⭐ เลือกเป็น MAP 1 (PICK)
+                </button>
+              `;
+            }
+          } else if (vetoState.turn === 'BOT') {
+            actionButtonHtml = `
+              <div class="w-full py-1 text-center font-mono text-[10px] text-slate-500 bg-[#070d18] rounded">
+                ⏳ รอคู่แข่งเลือก...
+              </div>
+            `;
+          } else if (vetoState.turn === 'AWAIT_SIDE_CHOICE') {
+            actionButtonHtml = `
+              <div class="w-full py-1 text-center font-mono text-[10px] text-cyan-400 bg-cyan-950/50 rounded border border-cyan-500/30">
+                👉 รอกำหนดฝั่งแข่งขันด้านบน...
+              </div>
+            `;
+          }
+        }
+
         container.innerHTML += `
-          <div class="relative rounded-xl border ${isDecider ? 'border-amber-400 bg-amber-950/30 ring-2 ring-amber-400' : (isBanned ? 'border-rose-900/60 bg-[#070b16] opacity-40' : 'border-[#17253f] bg-[#0c1424] hover:border-emerald-500/60')} p-2.5 flex flex-col justify-between gap-2 overflow-hidden transition">
+          <div class="relative rounded-xl border ${borderClass} p-2.5 flex flex-col justify-between gap-2 overflow-hidden transition">
             <div class="h-28 w-full rounded-lg bg-cover bg-center border border-[#1b2d4f] relative overflow-hidden" style="background-image: url('${wpUrl}');">
               <div class="absolute inset-0 bg-gradient-to-t from-[#090f1d]/90 via-transparent to-transparent"></div>
-              ${isBanned ? '<div class="absolute inset-0 bg-rose-950/80 flex items-center justify-center font-vct text-lg font-black text-rose-300 tracking-widest border border-rose-500">🚫 BANNED</div>' : ''}
-              ${isDecider ? '<div class="absolute inset-0 bg-amber-950/80 flex items-center justify-center font-vct text-lg font-black text-amber-300 tracking-widest border border-amber-400">⭐ DECIDER</div>' : ''}
+              ${overlayBadge}
             </div>
 
             <div>
@@ -11444,81 +11859,172 @@ function endRound(winner) {
                 <span class="font-bold text-xs text-white uppercase">${mapName}</span>
                 <span class="text-[9px] font-mono px-1 py-0.2 rounded ${mapInfo.hasSiteC ? 'bg-purple-950 text-purple-300 border border-purple-500/40' : 'bg-[#0f1b32] text-slate-400'}">${mapInfo.hasSiteC ? '3 SITES' : '2 SITES'}</span>
               </div>
-              <div class="text-[10px] text-slate-400 truncate">${mapInfo.location}</div>
+              <div class="text-[10px] text-slate-400 truncate">${mapInfo.location} · Favor: <b class="${meta.favors === 'DEF' ? 'text-cyan-400' : 'text-rose-400'}">${meta.favors}</b></div>
             </div>
 
-            ${!isBanned && !isDecider && vetoState.turn === 'USER' ? `
-              <button onclick="userBanMap('${mapName}')" class="w-full py-1 rounded bg-rose-600/80 hover:bg-rose-500 text-white font-mono font-bold text-[10px] transition cursor-pointer">
-                🚫 แบนแผนที่นี้ (BAN)
-              </button>
-            ` : ''}
-
-            ${!isBanned && !isDecider && vetoState.turn === 'BOT' ? `
-              <div class="w-full py-1 text-center font-mono text-[10px] text-slate-500 bg-[#070d18] rounded">
-                รอคู่แข่งเลือก...
-              </div>
-            ` : ''}
+            ${actionButtonHtml}
           </div>
         `;
       });
     }
 
-    function userBanMap(mapName) {
-      if (vetoState.turn !== 'USER' || vetoState.banned.includes(mapName)) return;
-      vetoState.banned.push(mapName);
-      addEventLog(`🚫 ${vetoState.myName} แบนแผนที่: ${mapName}`);
-      checkVetoStatus();
+    function userActionMap(mapName, action) {
+      if (vetoState.turn !== 'USER') return;
 
-      if (!vetoState.deciderMap) {
+      if (action === 'BAN') {
+        vetoState.banned.push(mapName);
+        addEventLog(`🚫 ${vetoState.myName} แบนแผนที่: ${mapName}`);
+
+        if (vetoState.step === 1) {
+          vetoState.step = 2;
+          vetoState.turn = 'BOT';
+          document.getElementById('vct-turn-indicator').innerText = `⏳ รอบของ ${vetoState.oppName}: บอท AI กำลังวิเคราะห์และแบนแผนที่ (BAN 1)...`;
+          document.getElementById('vct-turn-indicator').className = 'font-bold text-rose-400 font-mono animate-pulse';
+          renderVctMapCards();
+          setTimeout(botVetoAction, 700);
+        } else if (vetoState.step === 5) {
+          vetoState.step = 6;
+          vetoState.turn = 'BOT';
+          document.getElementById('vct-turn-indicator').innerText = `⏳ รอบของ ${vetoState.oppName}: บอท AI กำลังวิเคราะห์และแบนแผนที่ (BAN 2)...`;
+          document.getElementById('vct-turn-indicator').className = 'font-bold text-rose-400 font-mono animate-pulse';
+          renderVctMapCards();
+          setTimeout(botVetoAction, 700);
+        }
+      } else if (action === 'PICK') {
+        vetoState.map1 = mapName;
+        vetoState.map1Picker = 'USER';
+
+        // Opponent chooses side on Map 1
+        const meta = MAP_META[mapName] || { favors: 'DEF' };
+        const botWantsDef = (meta.favors === 'DEF');
+        vetoState.map1UserSide = botWantsDef ? 'ATK' : 'DEF'; // If bot wants DEF, user starts ATK
+
+        addEventLog(`⭐ ${vetoState.myName} เลือก MAP 1: ${mapName}! ${vetoState.oppName} ได้สิทธิ์เลือกฝั่ง: เริ่มเป็นฝ่าย${botWantsDef ? 'ป้องกัน (DEF)' : 'บุก (ATK)'} (${vetoState.myName} เริ่ม ${botWantsDef ? 'บุก' : 'ป้องกัน'})`);
+
+        vetoState.step = 4;
         vetoState.turn = 'BOT';
-        document.getElementById('vct-turn-indicator').innerText = `⏳ รอบของ ${vetoState.oppName}: บอท AI กำลังวิเคราะห์และแบนแผนที่...`;
+        document.getElementById('vct-turn-indicator').innerText = `⏳ รอบของ ${vetoState.oppName}: บอท AI กำลังเลือก MAP 2 (PICK MAP 2)...`;
         document.getElementById('vct-turn-indicator').className = 'font-bold text-rose-400 font-mono animate-pulse';
         renderVctMapCards();
-
-        setTimeout(() => {
-          botBanMap();
-        }, 700);
+        setTimeout(botVetoAction, 800);
       }
     }
 
-    function botBanMap() {
-      const remaining = vetoState.pool.filter(m => !vetoState.banned.includes(m));
-      if (remaining.length <= 1) {
-        checkVetoStatus();
-        return;
-      }
+    function botVetoAction() {
+      const available = vetoState.pool.filter(m =>
+        !vetoState.banned.includes(m) &&
+        m !== vetoState.map1 &&
+        m !== vetoState.map2
+      );
 
-      // Bot smart ban: Bans maps favoring User or picks
-      const botPick = remaining[Math.floor(Math.random() * remaining.length)];
-      vetoState.banned.push(botPick);
-      addEventLog(`🚫 ${vetoState.oppName} แบนแผนที่: ${botPick}`);
-      checkVetoStatus();
+      if (vetoState.step === 2) {
+        // Bot Ban 1
+        const botBan = available[Math.floor(Math.random() * available.length)];
+        vetoState.banned.push(botBan);
+        addEventLog(`🚫 ${vetoState.oppName} แบนแผนที่: ${botBan}`);
 
-      if (!vetoState.deciderMap) {
+        vetoState.step = 3;
         vetoState.turn = 'USER';
-        document.getElementById('vct-turn-indicator').innerText = `👉 รอบของคุณ (${vetoState.myName}): เลือกแบน 1 แผนที่`;
-        document.getElementById('vct-turn-indicator').className = 'font-bold text-amber-400 font-mono animate-pulse';
+        document.getElementById('vct-turn-indicator').innerText = `👉 รอบของคุณ (${vetoState.myName}): เลือก MAP 1 ที่ต้องการเล่น (PICK 1)`;
+        document.getElementById('vct-turn-indicator').className = 'font-bold text-emerald-400 font-mono animate-pulse';
+        renderVctMapCards();
+      } else if (vetoState.step === 4) {
+        // Bot Pick Map 2
+        const botPick = available[Math.floor(Math.random() * available.length)];
+        vetoState.map2 = botPick;
+        vetoState.map2Picker = 'BOT';
+        addEventLog(`⭐ ${vetoState.oppName} เลือก MAP 2: ${botPick}!`);
+
+        // User gets to choose side for Map 2!
+        vetoState.turn = 'AWAIT_SIDE_CHOICE';
+        const sideCard = document.getElementById('vct-user-side-choice-card');
+        const promptEl = document.getElementById('vct-side-choice-prompt');
+        if (promptEl) promptEl.innerText = `คู่แข่ง (${vetoState.oppName}) เลือก MAP 2: ${botPick}! สโมสรของคุณได้รับสิทธิ์เลือกฝั่งเริ่มต้น:`;
+        if (sideCard) {
+          sideCard.classList.remove('hidden');
+          sideCard.classList.add('flex');
+        }
+        document.getElementById('vct-turn-indicator').innerText = `👉 สโมสรของคุณ (${vetoState.myName}): กำหนดฝั่งเริ่มต้นสำหรับ MAP 2 (${botPick})`;
+        document.getElementById('vct-turn-indicator').className = 'font-bold text-cyan-400 font-mono animate-pulse';
+        renderVctMapCards();
+      } else if (vetoState.step === 6) {
+        // Bot Ban 2
+        const botBan = available[Math.floor(Math.random() * available.length)];
+        vetoState.banned.push(botBan);
+        addEventLog(`🚫 ${vetoState.oppName} แบนแผนที่: ${botBan}`);
+
+        // Exactly 1 map remains for Decider!
+        checkVetoDeciderReady();
       }
+    }
+
+    function userSelectSideForMap2(side) {
+      vetoState.map2UserSide = side;
+      addEventLog(`🎯 ${vetoState.myName} เลือกเริ่มเป็นฝ่าย${side === 'ATK' ? 'บุก (ATTACKERS)' : 'ป้องกัน (DEFENDERS)'} ใน MAP 2 (${vetoState.map2})!`);
+
+      const sideCard = document.getElementById('vct-user-side-choice-card');
+      if (sideCard) {
+        sideCard.classList.add('hidden');
+        sideCard.classList.remove('flex');
+      }
+
+      // Advance to User Ban 2
+      vetoState.step = 5;
+      vetoState.turn = 'USER';
+      document.getElementById('vct-turn-indicator').innerText = `👉 รอบของคุณ (${vetoState.myName}): เลือกแบน 1 แผนที่ (BAN 2)`;
+      document.getElementById('vct-turn-indicator').className = 'font-bold text-amber-400 font-mono animate-pulse';
       renderVctMapCards();
     }
 
-    function checkVetoStatus() {
-      const remaining = vetoState.pool.filter(m => !vetoState.banned.includes(m));
+    function checkVetoDeciderReady() {
+      const remaining = vetoState.pool.filter(m =>
+        !vetoState.banned.includes(m) &&
+        m !== vetoState.map1 &&
+        m !== vetoState.map2
+      );
+
       if (remaining.length === 1) {
+        vetoState.map3 = remaining[0];
         vetoState.deciderMap = remaining[0];
-        const meta = MAP_META[vetoState.deciderMap];
+        const meta3 = MAP_META[vetoState.map3] || { favors: 'DEF' };
+        vetoState.map3UserSide = (meta3.favors === 'DEF') ? 'ATK' : 'DEF';
 
-        // Bot AI smart side selection
-        const botWantsDef = (meta.favors === 'DEF');
-        vetoState.startingSideIsAttacker = botWantsDef; // If bot wants DEF, user starts ATK
+        const banner = document.getElementById('vct-decider-banner');
+        const titleEl = document.getElementById('vct-decider-title');
+        const textEl = document.getElementById('vct-side-choice-text');
 
-        document.getElementById('vct-decider-title').innerText = `${vetoState.deciderMap.toUpperCase()} (${(MAP_DATA[vetoState.deciderMap] || {}).location || ''})`;
-        document.getElementById('vct-side-choice-text').innerHTML = `${vetoState.oppName} เลือกเริ่มเป็น <b>ฝ่าย${botWantsDef ? 'ป้องกัน (DEFENDERS)' : 'บุก (ATTACKERS)'}</b> ก่อนตามความได้เปรียบของแผนที่! (${vetoState.myName} เริ่มต้นเป็นฝ่าย${botWantsDef ? 'บุก' : 'ป้องกัน'})`;
-        document.getElementById('vct-decider-banner').classList.remove('hidden');
-        document.getElementById('vct-decider-banner').classList.add('flex');
-        document.getElementById('vct-turn-indicator').innerText = `✅ DECIDER FOUND: ${vetoState.deciderMap.toUpperCase()}`;
+        if (titleEl) {
+          titleEl.innerText = `BO3 SERIES SCHEDULE: ${vetoState.map1.toUpperCase()} · ${vetoState.map2.toUpperCase()} · ${vetoState.map3.toUpperCase()} (DECIDER)`;
+        }
+        if (textEl) {
+          textEl.innerHTML = `
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 w-full mt-1 text-left font-mono">
+              <div class="bg-[#070e1c] p-2 rounded-lg border border-emerald-500/40">
+                <span class="text-emerald-400 font-bold block text-xs">MAP 1: ${vetoState.map1}</span>
+                <span class="text-[10px] text-slate-300">เลือกโดย: ${vetoState.map1Picker === 'USER' ? vetoState.myName : vetoState.oppName}</span><br>
+                <span class="text-[10px] text-amber-300">คุณเริ่ม: ${vetoState.map1UserSide === 'ATK' ? '⚔️ บุก (ATK)' : '🛡️ ป้องกัน (DEF)'}</span>
+              </div>
+              <div class="bg-[#070e1c] p-2 rounded-lg border border-cyan-500/40">
+                <span class="text-cyan-400 font-bold block text-xs">MAP 2: ${vetoState.map2}</span>
+                <span class="text-[10px] text-slate-300">เลือกโดย: ${vetoState.map2Picker === 'USER' ? vetoState.myName : vetoState.oppName}</span><br>
+                <span class="text-[10px] text-amber-300">คุณเริ่ม: ${vetoState.map2UserSide === 'ATK' ? '⚔️ บุก (ATK)' : '🛡️ ป้องกัน (DEF)'}</span>
+              </div>
+              <div class="bg-[#070e1c] p-2 rounded-lg border border-amber-500/40">
+                <span class="text-amber-400 font-bold block text-xs">MAP 3: ${vetoState.map3}</span>
+                <span class="text-[10px] text-slate-300">⭐ DECIDER MAP</span><br>
+                <span class="text-[10px] text-amber-300">คุณเริ่ม: ${vetoState.map3UserSide === 'ATK' ? '⚔️ บุก (ATK)' : '🛡️ ป้องกัน (DEF)'}</span>
+              </div>
+            </div>
+          `;
+        }
+        if (banner) {
+          banner.classList.remove('hidden');
+          banner.classList.add('flex');
+        }
+        document.getElementById('vct-turn-indicator').innerText = `✅ BO3 PROTOCOL COMPLETE: ซีรีส์พร้อมเริ่มแข่งขัน`;
         document.getElementById('vct-turn-indicator').className = 'font-bold text-emerald-400 font-mono';
-        addEventLog(`🏆 DECIDER MAP: ${vetoState.deciderMap}! ${vetoState.oppName} starts on ${botWantsDef ? 'DEF' : 'ATK'}`);
+        addEventLog(`🏆 VCT BO3 LOCKED: Map 1: ${vetoState.map1} | Map 2: ${vetoState.map2} | Decider: ${vetoState.map3}`);
+        renderVctMapCards();
       }
     }
 
@@ -11529,7 +12035,8 @@ function endRound(winner) {
       document.getElementById('vct-step-agent-draft').classList.remove('hidden');
       document.getElementById('vct-step-agent-draft').classList.add('flex');
 
-      document.getElementById('draft-map-indicator').innerText = `MAP: ${vetoState.deciderMap.toUpperCase()}`;
+      const map1Name = vetoState.map1 || vetoState.deciderMap || 'ASCENT';
+      document.getElementById('draft-map-indicator').innerText = `MAP 1: ${map1Name.toUpperCase()}`;
       renderDraftPlayers();
       renderBotComp();
       updateDraftSynergyAnalysis();
@@ -11719,25 +12226,43 @@ function endRound(winner) {
     }
 
     function lockCompAndStartMatch() {
-      // 1. Set Decider Map
-      changeMap(vetoState.deciderMap);
+      const map1 = vetoState.map1 || vetoState.deciderMap || 'Ascent';
+      const map2 = vetoState.map2 || 'Bind';
+      const map3 = vetoState.map3 || 'Haven';
+
+      // 1. Initialize BO3 Series State
+      bo3SeriesState = {
+        active: true,
+        currentMapIdx: 0,
+        scoreA: 0,
+        scoreB: 0,
+        roundDiff: 0,
+        maps: [
+          { map: map1, picker: vetoState.map1Picker || 'USER', userSide: vetoState.map1UserSide || 'ATK', scoreA: 0, scoreB: 0, winner: null },
+          { map: map2, picker: vetoState.map2Picker || 'BOT', userSide: vetoState.map2UserSide || 'DEF', scoreA: 0, scoreB: 0, winner: null },
+          { map: map3, picker: 'DECIDER', userSide: vetoState.map3UserSide || 'ATK', scoreA: 0, scoreB: 0, winner: null }
+        ]
+      };
+
+      changeMap(map1);
       const fixture = getCurrentFixture();
       if (fixture) {
-        fixture.map = vetoState.deciderMap;
+        fixture.map = map1;
       }
       updateDashboardFixtureCard();
 
-      // 2. Reset Match to Round 1 (0-0) and clean all Overtime / Halftime states
+      // 2. Reset Match to Round 1 (0-0) with Map 1 starting side
+      const userStartingSide = bo3SeriesState.maps[0].userSide || 'ATK';
       resetMatchState(
         vetoState.myName || (myClubName || 'MY TEAM').toUpperCase(),
         vetoState.oppName || 'OPPONENT',
-        vetoState.startingSideIsAttacker ? 'ATK' : 'DEF'
+        userStartingSide
       );
       matchState.isMatchInProgress = true;
 
       // 3. Synchronize Full Roster to Match Engine & Bot Meta Comp
       syncRosterToMatchPlayers();
-      const meta = MAP_META[vetoState.deciderMap] || { comp: ['Jett', 'Sova', 'Omen', 'Killjoy', 'Breach'] };
+      const meta = MAP_META[map1] || { comp: ['Jett', 'Sova', 'Omen', 'Killjoy', 'Breach'] };
       for (let i = 0; i < 5; i++) {
         if (!matchPlayers[i].isAbsent) {
           matchPlayers[i].agent = (myRoster.starters[i] && myRoster.starters[i].agent) ? myRoster.starters[i].agent : 'Jett';
@@ -11750,7 +12275,44 @@ function endRound(winner) {
       switchTab('match');
       initMatchHud();
       enterBuyPhase(1);
-      addEventLog(`VCT Match Started! Map: ${vetoState.deciderMap} | ${matchState.teamAName}: ${matchState.isFullSenseAttacking ? 'ATK' : 'DEF'} | ${matchState.teamBName}: ${!matchState.isFullSenseAttacking ? 'ATK' : 'DEF'}`);
+      addEventLog(`VCT BO3 Series Started! MAP 1/3: ${map1} | ${matchState.teamAName}: ${matchState.isFullSenseAttacking ? 'ATK' : 'DEF'} | ${matchState.teamBName}: ${!matchState.isFullSenseAttacking ? 'ATK' : 'DEF'}`);
+    }
+
+    function closeMapConcludedModal() {
+      const modal = document.getElementById('map-concluded-modal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    }
+
+    function startNextBo3Map() {
+      closeMapConcludedModal();
+      if (!bo3SeriesState.active) return;
+      bo3SeriesState.currentMapIdx++;
+      const nextM = bo3SeriesState.maps[bo3SeriesState.currentMapIdx];
+      if (!nextM) return;
+
+      changeMap(nextM.map);
+      const teamAName = matchState.teamAName || (myClubName || 'MY TEAM').toUpperCase();
+      const teamBName = matchState.teamBName || 'OPPONENT';
+      resetMatchState(teamAName, teamBName, nextM.userSide);
+      matchState.isMatchInProgress = true;
+
+      // Sync Roster & Bot Meta Comp for the new map
+      syncRosterToMatchPlayers();
+      const meta = MAP_META[nextM.map] || { comp: ['Jett', 'Sova', 'Omen', 'Killjoy', 'Breach'] };
+      for (let i = 0; i < 5; i++) {
+        if (!matchPlayers[i].isAbsent) {
+          matchPlayers[i].agent = (myRoster.starters[i] && myRoster.starters[i].agent) ? myRoster.starters[i].agent : 'Jett';
+        }
+        matchPlayers[5 + i].agent = meta.comp[i] || matchPlayers[5 + i].agent || 'Jett';
+      }
+
+      switchTab('match');
+      initMatchHud();
+      enterBuyPhase(1);
+      addEventLog(`🚀 BO3 MAP ${bo3SeriesState.currentMapIdx + 1}/3 STARTED: ${nextM.map} | คุณเริ่มเป็นฝ่าย: ${nextM.userSide === 'ATK' ? 'บุก (ATK)' : 'ป้องกัน (DEF)'}`);
     }
 
     // =========================================================================
@@ -12357,6 +12919,8 @@ function endRound(winner) {
           budget: matchState.teamCredsA,
           clubFinances: clubFinances,
           clubTrainingState: clubTrainingState,
+          managerCareer: managerCareer,
+          bo3SeriesState: bo3SeriesState,
           myRoster: myRoster,
           allPlayers: allPlayers,
           currentMap: currentMap,
@@ -12410,6 +12974,8 @@ function endRound(winner) {
         if (data.myClubRegion) myClubRegion = data.myClubRegion;
         if (data.myClubIsTier2 !== undefined) myClubIsTier2 = data.myClubIsTier2;
         if (data.clubTrainingState) clubTrainingState = data.clubTrainingState;
+        if (data.managerCareer) managerCareer = data.managerCareer;
+        if (data.bo3SeriesState) bo3SeriesState = data.bo3SeriesState;
 
         if (data.currentSeasonNumber) {
           currentSeasonNumber = data.currentSeasonNumber;
@@ -12424,6 +12990,7 @@ function endRound(winner) {
         if (data.currentMap) changeMap(data.currentMap);
 
         updateClubHeaderUI();
+        updateManagerCareerUI();
         if (typeof updateTrainingStatusBadges === 'function') updateTrainingStatusBadges();
         updateDashboardFixtureCard();
         renderRoster();
@@ -14339,6 +14906,441 @@ ${myClubName} คว้าแชมป์โลก VALORANT CHAMPIONS Season ${c
         addEventLog(`👑 คุณได้รับการแต่งตั้งเป็นเฮดโค้ชสโมสร ${myClubName} ใน ${leagueName} (${leagueTier}) เรียบร้อยแล้ว!`);
         alert(`🎉 ยินดีต้อนรับสู่สโมสร ${myClubName}!\n\n🌍 ลีกการแข่งขัน: ${leagueName} (${leagueTier})\n${isTier2 ? '🔥 คุณจะเริ่มแข่งขันใน Ascension เพื่อคว้าตั๋วเลื่อนชั้นสู่ VCT!' : '🏆 แข่งขันใน VCT ลีกสูงสุดเพื่อคว้าตั๋วไป VALORANT Champions!'}\n📋 ตารางการแข่งขัน 11 สัปดาห์ถูกสุ่มสร้างเรียบร้อยแล้ว`);
       }
+    }
+
+    // --- 11.75 MANAGER CAREER, JOB MARKET & BOARD CONFIDENCE SYSTEM ---
+    let currentJobMarketRegion = 'pacific';
+
+    function getClubReqReputation(club, isTier2 = false) {
+      if (isTier2) return 15;
+      const eliteClubs = [
+        'paper rex', 'gen.g', 'drx',
+        'sentinels', 'loud', 'nrg', 'cloud9',
+        'fnatic', 'team heretics', 'vitality',
+        'edward gaming', 'edg', 'funplus phoenix', 'fpx'
+      ];
+      const cName = (club.name || '').toLowerCase();
+      const cId = (club.id || '').toLowerCase();
+      if (eliteClubs.some(e => cName.includes(e) || cId.includes(e))) {
+        return 75;
+      }
+      return 45;
+    }
+
+    function updateManagerCareerUI() {
+      const conf = (managerCareer && managerCareer.boardConfidence !== undefined) ? managerCareer.boardConfidence : 85;
+      const rep = (managerCareer && managerCareer.reputation !== undefined) ? managerCareer.reputation : 60;
+      const wins = (managerCareer && managerCareer.totalWins !== undefined) ? managerCareer.totalWins : 0;
+      const losses = (managerCareer && managerCareer.totalLosses !== undefined) ? managerCareer.totalLosses : 0;
+
+      // 1. Dashboard Strip Widgets
+      const dashConfEl = document.getElementById('dash-board-confidence');
+      if (dashConfEl) {
+        let confHtml = '';
+        if (conf >= 70) {
+          confHtml = `<span class="text-emerald-400 font-bold">${conf}% (มั่นคง)</span>`;
+        } else if (conf >= 40) {
+          confHtml = `<span class="text-amber-400 font-bold">${conf}% (กดดัน)</span>`;
+        } else {
+          confHtml = `<span class="text-rose-400 font-bold animate-pulse">${conf}% (เก้าอี้ร้อน/เสี่ยงปลด)</span>`;
+        }
+        dashConfEl.innerHTML = confHtml;
+      }
+
+      const dashRepEl = document.getElementById('dash-manager-rep');
+      if (dashRepEl) {
+        dashRepEl.innerHTML = `<span class="text-amber-300 font-bold">⭐ ${rep} REP</span>`;
+      }
+
+      // 2. Job Market Modal Profile Elements
+      const jmRep = document.getElementById('job-market-manager-rep');
+      if (jmRep) jmRep.innerText = `⭐ ${rep} REP`;
+
+      const jmConf = document.getElementById('job-market-board-conf');
+      if (jmConf) {
+        jmConf.innerText = `${conf}% (${conf >= 70 ? 'มั่นคง' : (conf >= 40 ? 'กดดัน' : 'วิกฤต')})`;
+        jmConf.className = `text-sm font-bold ${conf >= 70 ? 'text-emerald-400' : (conf >= 40 ? 'text-amber-400' : 'text-rose-400 animate-pulse')}`;
+      }
+
+      const jmRecord = document.getElementById('job-market-career-record');
+      if (jmRecord) jmRecord.innerText = `${wins}W - ${losses}L`;
+
+      const jmCurrent = document.getElementById('job-market-current-club');
+      if (jmCurrent) jmCurrent.innerText = myClubName || 'สโมสรของคุณ';
+    }
+
+    function openManagerJobMarketModal(regionKey = null) {
+      const targetRegion = regionKey || myClubRegion || 'pacific';
+      renderManagerJobMarket(targetRegion);
+      const modal = document.getElementById('manager-job-market-modal');
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
+    }
+
+    function closeManagerJobMarketModal() {
+      const modal = document.getElementById('manager-job-market-modal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    }
+
+    function renderManagerJobMarket(regionKey = 'pacific') {
+      if (!regionKey) regionKey = myClubRegion || 'pacific';
+      currentJobMarketRegion = regionKey;
+
+      updateManagerCareerUI();
+
+      ['pacific', 'americas', 'emea', 'china'].forEach(r => {
+        const tab = document.getElementById(`job-tab-${r}`);
+        if (tab) {
+          if (r === regionKey) {
+            tab.className = 'px-3 py-1.5 rounded-lg text-xs font-bold bg-cyan-500 text-slate-950 transition cursor-pointer shadow-md shadow-cyan-500/20';
+          } else {
+            tab.className = 'px-3 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white hover:bg-[#121e35] transition cursor-pointer';
+          }
+        }
+      });
+
+      const reg = REGIONAL_DATA[regionKey];
+      const grid = document.getElementById('manager-jobs-grid');
+      if (!grid || !reg) return;
+      grid.innerHTML = '';
+
+      const rep = managerCareer.reputation || 60;
+
+      const tier1Clubs = (reg.tier1 || []).map(c => ({ ...c, isTier2: false, leagueName: reg.name }));
+      const tier2Clubs = (reg.tier2 || []).map(c => ({ ...c, isTier2: true, leagueName: reg.tier2Name }));
+      const allClubsInRegion = [...tier1Clubs, ...tier2Clubs];
+
+      allClubsInRegion.forEach(club => {
+        const isCurrent = (club.id === myClubId || (club.name && myClubName && club.name.toLowerCase() === myClubName.toLowerCase()));
+        const reqRep = getClubReqReputation(club, club.isTier2);
+        const isEligible = (rep >= reqRep) && !isCurrent;
+        const isElite = (reqRep >= 75);
+
+        let standingInfo = '';
+        if (regionKey === myClubRegion) {
+          const activeStandings = club.isTier2 ? STANDINGS_VCL : STANDINGS_VCT;
+          const st = activeStandings.find(s => s.id === club.id || s.name.includes(club.name) || club.name.includes(s.name));
+          if (st) {
+            standingInfo = `อันดับ #${st.pos} (${st.w}W - ${st.l}L · ${st.diff})`;
+          }
+        }
+        if (!standingInfo) {
+          standingInfo = club.isTier2 ? 'VCL Ascension Contender' : 'VCT League Contender';
+        }
+
+        const estBudget = club.isTier2 ? '$1,000,000' : (isElite ? '$2,500,000' : '$1,600,000');
+
+        const clubPlayers = allPlayers.filter(p => p.teamId === club.id || (p.team && p.team.toLowerCase() === club.name.toLowerCase()));
+        let keyPlayersHtml = '';
+        if (clubPlayers.length > 0) {
+          const sample = clubPlayers.slice(0, 3).map(p => `<span class="px-1.5 py-0.5 rounded bg-[#0b1424] text-[10px] text-slate-300 font-mono border border-[#1b2a47]">${p.name} (${p.ovr || p.overall || 90})</span>`).join(' ');
+          keyPlayersHtml = `<div class="flex items-center gap-1 flex-wrap mt-1">${sample}</div>`;
+        }
+
+        let cardBorder = 'border-[#17253f] bg-[#070d1a]';
+        let statusBadge = '';
+
+        if (isCurrent) {
+          cardBorder = 'border-cyan-500/80 bg-cyan-950/20 ring-1 ring-cyan-500/50';
+          statusBadge = '<span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">👑 สโมสรปัจจุบันของคุณ</span>';
+        } else if (isEligible) {
+          if (isElite) {
+            cardBorder = 'border-amber-500/60 bg-amber-950/15 hover:border-amber-400';
+            statusBadge = '<span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">⭐ สโมสรระดับท็อป (เปิดรับสมัคร)</span>';
+          } else {
+            cardBorder = 'border-emerald-500/60 bg-emerald-950/15 hover:border-emerald-400';
+            statusBadge = '<span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">🟢 คุณสมบัติผ่านเกณฑ์ (ยื่นสมัครได้)</span>';
+          }
+        } else {
+          cardBorder = 'border-[#1b2234] bg-[#060a14] opacity-60';
+          statusBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-rose-950/60 text-rose-400 border border-rose-500/30">🔒 ต้องการชื่อเสียง ⭐ ${reqRep}+ REP (คุณมี ${rep})</span>`;
+        }
+
+        let actionBtnHtml = '';
+        if (isCurrent) {
+          actionBtnHtml = `
+            <button disabled class="w-full py-2 rounded-xl bg-[#0f172a] text-slate-500 font-bold text-xs cursor-not-allowed border border-[#1e293b]">
+              คุณกำลังคุมสโมสรนี้อยู่
+            </button>
+          `;
+        } else if (isEligible) {
+          actionBtnHtml = `
+            <button onclick="confirmSignClubContract('${club.id}', '${regionKey}', ${club.isTier2})" class="w-full py-2 rounded-xl bg-gradient-to-r ${isElite ? 'from-amber-600 to-yellow-600 hover:from-amber-500 hover:to-yellow-500' : 'from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500'} text-slate-950 font-black text-xs transition cursor-pointer shadow-md">
+              ✍️ ตอบรับข้อเสนอ & เซ็นสัญญาคุมทีม ➔
+            </button>
+          `;
+        } else {
+          actionBtnHtml = `
+            <button disabled class="w-full py-2 rounded-xl bg-[#0e1422] text-slate-600 font-bold text-xs cursor-not-allowed border border-[#172033]">
+              🔒 บอร์ดบริหารปฏิเสธ (Reputation ไม่พอ)
+            </button>
+          `;
+        }
+
+        grid.innerHTML += `
+          <div class="rounded-xl border ${cardBorder} p-3.5 flex flex-col justify-between gap-2.5 transition">
+            <div>
+              <div class="flex items-start justify-between gap-2">
+                <div>
+                  <span class="text-[10px] font-mono uppercase tracking-wider ${club.isTier2 ? 'text-amber-400' : 'text-cyan-400'} font-bold">
+                    ${club.isTier2 ? 'TIER 2 ASCENSION' : 'VCT TIER 1'}
+                  </span>
+                  <h4 class="text-sm font-black text-white mt-0.5">${club.name}</h4>
+                  <span class="text-[11px] text-slate-400 font-mono block">${standingInfo}</span>
+                </div>
+                <div class="w-9 h-9 rounded-lg bg-[#0c1527] border border-[#1a2c4e] flex items-center justify-center font-vct text-xs font-black ${isElite ? 'text-amber-400' : 'text-cyan-400'}">
+                  ${club.name.substring(0, 3).toUpperCase()}
+                </div>
+              </div>
+
+              <div class="mt-2 flex flex-col gap-1 text-[11px] font-mono text-slate-300 bg-[#040711] p-2 rounded-lg border border-[#131f35]">
+                <div class="flex justify-between">
+                  <span class="text-slate-400">งบประมาณสโมสร:</span>
+                  <span class="text-emerald-400 font-bold">${estBudget}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-slate-400">เงื่อนไขชื่อเสียง:</span>
+                  <span class="${rep >= reqRep ? 'text-amber-300' : 'text-rose-400'} font-bold">⭐ ${reqRep} REP</span>
+                </div>
+                ${keyPlayersHtml ? `<div class="text-[10px] text-slate-400 mt-1">ผู้เล่นตัวหลักในสังกัด:</div>${keyPlayersHtml}` : ''}
+              </div>
+            </div>
+
+            <div class="flex flex-col gap-2 mt-1">
+              <div class="text-center">${statusBadge}</div>
+              ${actionBtnHtml}
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    function confirmSignClubContract(clubId, regionKey, isTier2) {
+      const reg = REGIONAL_DATA[regionKey];
+      if (!reg) return;
+      const clubList = isTier2 ? (reg.tier2 || []) : reg.tier1;
+      const club = clubList.find(c => c.id === clubId);
+      if (!club) return;
+
+      const reqRep = getClubReqReputation(club, isTier2);
+      const rep = managerCareer.reputation || 60;
+      if (rep < reqRep) {
+        alert(`❌ คุณสมบัติไม่ผ่านเกณฑ์: สโมสร ${club.name} ต้องการชื่อเสียงระดับ ⭐ ${reqRep} REP ขึ้นไป (คุณมี ${rep} REP)`);
+        return;
+      }
+
+      const isElite = (reqRep >= 75);
+      const newBudget = isTier2 ? 1000000 : (isElite ? 2500000 : 1600000);
+      const leagueName = isTier2 ? reg.tier2Name : reg.name;
+
+      const msg = `✍️ คุณต้องการตอบรับข้อเสนอและเซ็นสัญญาเป็นเฮดโค้ชคนใหม่ของสโมสร "${club.name}" หรือไม่?\n\n` +
+        `🌍 ลีกการแข่งขัน: ${leagueName} (${isTier2 ? 'Tier 2 Ascension' : 'VCT Tier 1'})\n` +
+        `💰 งบประมาณสโมสรใหม่: $${newBudget.toLocaleString()}\n` +
+        `👥 ไลน์อัปนักแข่งของ ${club.name} จะถูกนำมาเป็นทีมของคุณทันที\n` +
+        `🤝 บอร์ดบริหารใหม่มอบความเชื่อมั่นเริ่มต้นที่ 75%\n` +
+        `📅 ตารางการแข่งขันและอันดับลีกจะเชื่อมโยงต่อเนื่องทันที`;
+
+      if (!confirm(msg)) return;
+
+      signNewClubContract(club, regionKey, isTier2);
+    }
+
+    function signNewClubContract(club, regionKey, isTier2) {
+      const prevClubName = myClubName;
+      const prevRegion = myClubRegion;
+
+      // 1. Sync current roster back to allPlayers so old club keeps its roster state
+      if (myRoster && myRoster.starters) {
+        myRoster.starters.concat(myRoster.bench || []).forEach(p => {
+          const ap = allPlayers.find(x => x.id === p.id);
+          if (ap) {
+            ap.ovr = p.ovr;
+            ap.form = p.form;
+            ap.stamina = p.stamina;
+            ap.injured = p.injured;
+            ap.injury = p.injury;
+          }
+        });
+      }
+
+      // 2. Record career history
+      if (!managerCareer.jobHistory) managerCareer.jobHistory = [];
+      managerCareer.jobHistory.push({
+        club: prevClubName,
+        region: prevRegion,
+        leftWeek: currentSeasonWeek,
+        season: currentSeasonNumber || 1,
+        matches: managerCareer.totalMatches || 0,
+        wins: managerCareer.totalWins || 0
+      });
+
+      // 3. Set New Club Identifiers
+      myClubName = club.name;
+      myClubId = club.id;
+      myClubRegion = regionKey;
+      myClubIsTier2 = !!isTier2;
+
+      // 4. Set Budget
+      const reqRep = getClubReqReputation(club, isTier2);
+      const isElite = (reqRep >= 75);
+      const newBudget = isTier2 ? 1000000 : (isElite ? 2500000 : 1600000);
+      clubBudget = newBudget;
+      matchState.teamCredsA = newBudget;
+
+      // 5. Reset Board Confidence for the fresh start
+      managerCareer.boardConfidence = 75;
+      managerCareer.currentStreak = 0;
+
+      // 6. Load New Club Roster from allPlayers & fallbacks
+      const newClubPlayers = allPlayers.filter(p => p.teamId === club.id || (p.team && p.team.toLowerCase() === club.name.toLowerCase()));
+      const fallbacks = (typeof fallbackRosters !== 'undefined' && fallbackRosters[club.id]) ? fallbackRosters[club.id] : [];
+
+      myRoster.starters = [];
+      myRoster.bench = [];
+
+      for (let i = 0; i < 5; i++) {
+        const cp = newClubPlayers[i] || fallbacks[i] || {
+          id: `p_${club.id}_${i+1}`,
+          name: `${club.name} Star ${i+1}`,
+          role: ['Duelist', 'Initiator', 'Controller', 'Sentinel', 'Flex'][i],
+          ovr: isTier2 ? 88 : 91,
+          aim: isTier2 ? 88 : 91,
+          iq: isTier2 ? 88 : 91,
+          clutch: isTier2 ? 88 : 91
+        };
+        myRoster.starters.push({
+          id: cp.id || `p_starter_${club.id}_${i+1}`,
+          name: cp.name,
+          role: cp.role || 'Duelist',
+          agent: cp.agent || getFallbackAgentByRole(cp.role || 'Duelist', i),
+          ovr: cp.overall || cp.ovr || (isTier2 ? 88 : 91),
+          aim: cp.stats?.aim || cp.aim || (isTier2 ? 88 : 91),
+          iq: cp.stats?.iq || cp.iq || (isTier2 ? 88 : 91),
+          clutch: cp.stats?.clutch || cp.clutch || (isTier2 ? 88 : 91),
+          form: cp.form || 'normal',
+          stamina: cp.stamina !== undefined ? cp.stamina : 100,
+          injured: !!cp.injured,
+          injury: cp.injury || null
+        });
+      }
+
+      for (let i = 5; i < Math.min(7, newClubPlayers.length); i++) {
+        const cp = newClubPlayers[i];
+        if (!cp) continue;
+        myRoster.bench.push({
+          id: cp.id || `p_bench_${club.id}_${i+1}`,
+          name: cp.name,
+          role: cp.role || 'Flex',
+          agent: cp.agent || 'Omen',
+          ovr: cp.overall || cp.ovr || (isTier2 ? 85 : 88),
+          aim: cp.stats?.aim || cp.aim || (isTier2 ? 85 : 88),
+          iq: cp.stats?.iq || cp.iq || (isTier2 ? 85 : 88),
+          clutch: cp.stats?.clutch || cp.clutch || (isTier2 ? 85 : 88),
+          form: cp.form || 'normal',
+          stamina: cp.stamina !== undefined ? cp.stamina : 100,
+          injured: !!cp.injured,
+          injury: cp.injury || null
+        });
+      }
+
+      // 7. Update Regional Standings & Fixtures if transferring across regions or tier
+      const reg = REGIONAL_DATA[regionKey];
+      if (regionKey !== prevRegion) {
+        STANDINGS_VCT = (reg.tier1 || []).map((t, idx) => ({
+          pos: idx + 1,
+          name: t.name,
+          id: t.id,
+          mp: Math.max(0, currentSeasonWeek - 1),
+          w: Math.floor(Math.max(0, currentSeasonWeek - 1) / 2),
+          l: Math.ceil(Math.max(0, currentSeasonWeek - 1) / 2),
+          diff: '+0',
+          form: []
+        }));
+        STANDINGS_VCL = (reg.tier2 || []).map((t, idx) => ({
+          pos: idx + 1,
+          name: t.name,
+          id: t.id,
+          mp: Math.max(0, currentSeasonWeek - 1),
+          w: Math.floor(Math.max(0, currentSeasonWeek - 1) / 2),
+          l: Math.ceil(Math.max(0, currentSeasonWeek - 1) / 2),
+          diff: '+0',
+          form: []
+        }));
+        SEASON_FIXTURES = generateSeasonFixtures(STANDINGS_VCT);
+      } else {
+        const activeLeague = myClubIsTier2 ? STANDINGS_VCL : STANDINGS_VCT;
+        const opponents = activeLeague.filter(t => !t.name.includes(myClubName));
+        const shuffledOpponents = [...opponents].sort(() => Math.random() - 0.5);
+
+        if (SEASON_FIXTURES && SEASON_FIXTURES.length >= 11) {
+          for (let w = currentSeasonWeek; w <= 11; w++) {
+            const fix = SEASON_FIXTURES[w - 1];
+            if (fix && !fix.played) {
+              const opp = shuffledOpponents[(w - 1) % shuffledOpponents.length];
+              if (opp) {
+                fix.opponentName = opp.name;
+                fix.opponentId = getTeamIdFromName(opp.name);
+                fix.map = 'TBD (VCT BO3 VETO)';
+              }
+            }
+          }
+        }
+      }
+
+      // 8. Update UI & Save
+      updateClubHeaderUI();
+      updateManagerCareerUI();
+      renderRoster();
+      renderTactics();
+      renderStandings();
+      updateDashboardFixtureCard();
+      renderFixturesList();
+      renderClubFinancesDashboard();
+      closeManagerJobMarketModal();
+      saveGameToStorage(true);
+
+      const regName = isTier2 ? reg.tier2Name : reg.name;
+      addEventLog(`📝 สัญญาใหม่! คุณได้รับการแต่งตั้งเป็นเฮดโค้ชสโมสร ${myClubName} (${regName}) อย่างเป็นทางการ!`);
+      alert(`🎉 ยินดีต้อนรับสู่สโมสรใหม่: ${myClubName}!\n\n🌍 ลีกการแข่งขัน: ${regName} (${isTier2 ? 'Tier 2 Ascension' : 'VCT Tier 1'})\n💰 งบประมาณสโมสร: $${newBudget.toLocaleString()}\n👥 ไลน์อัปนักแข่งของ ${myClubName} พร้อมลงแข่งขันทันที\n🤝 บอร์ดบริหารมอบความเชื่อมั่นเริ่มต้น 75%`);
+    }
+
+    function triggerManagerSackedModal() {
+      const modal = document.getElementById('manager-sacked-modal');
+      if (!modal) return;
+
+      managerCareer.reputation = Math.max(10, (managerCareer.reputation || 60) - 20);
+      const oldConf = managerCareer.boardConfidence || 15;
+      managerCareer.boardConfidence = 60;
+
+      const desc = document.getElementById('sacked-modal-description');
+      if (desc) {
+        desc.innerText = `เนื่องจากผลงานที่ย่ำแย่ต่อเนื่องและไม่เป็นไปตามเป้าหมายของสโมสร บอร์ดบริหาร ${myClubName} ได้มีมติเป็นเอกฉันท์ในการยกเลิกสัญญาของคุณในทันที!`;
+      }
+      const confEl = document.getElementById('sacked-board-conf');
+      if (confEl) {
+        confEl.innerText = `${oldConf}% (ถูกยกเลิกสัญญา)`;
+      }
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+
+      addEventLog(`🚨 ด่วน! บอร์ดบริหาร ${myClubName} สั่งปลดคุณออกจากตำแหน่งเฮดโค้ชเนื่องจากผลงานย่ำแย่ (Reputation -20 เหลือ ${managerCareer.reputation})`);
+      updateManagerCareerUI();
+      saveGameToStorage(true);
+    }
+
+    function closeManagerSackedAndOpenJobMarket() {
+      const modal = document.getElementById('manager-sacked-modal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+      openManagerJobMarketModal();
     }
 
     // --- 11.8 PLAYER TRAINING & FATIGUE SYSTEM ENGINE ---
