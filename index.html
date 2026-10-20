@@ -266,7 +266,7 @@
             </li>
             <li class="flex items-start gap-1.5">
               <span class="text-slate-400 font-bold">•</span>
-              <span><b>Eco / Full Save:</b> ไม่ซื้ออะไรเลย ใช้แค่ <b>Classic ($0)</b> ไม่ซื้อเกราะ เพื่อเก็บเงินสะสมไว้ Full Buy ในรอบถัดไป (บังคับใช้เมื่อแพ้รอบปืนพก)</span>
+              <span><b>Eco / Save:</b> ซื้อเฉพาะปืนหมวดพก (Ghost, Bandit, Sheriff, Frenzy, Classic) ตามเงินคงเหลือ เพื่อเก็บเงินก้อนไว้ Full Buy ในรอบถัดไป</span>
             </li>
           </ul>
         </div>
@@ -7816,13 +7816,10 @@
     }
 
     function getOpponentEcoTier(creds) {
-      if (matchState.round === 2 || matchState.round === 14) {
-        if (matchState.lossStreakB > 0) return 'FULL ECO (Classic $0)';
-        return 'ANTI-ECO BUY (SMG/Rifle)';
-      }
       if (creds >= 19500) return 'FULL BUY ($19.5k+)';
-      if (creds >= 12000) return 'HALF / FORCE ($12k+)';
-      return 'ECO SAVE (<$12k)';
+      if (creds >= 12000) return 'HALF / FORCE BUY ($12k+)';
+      if (creds >= 10000) return 'LIGHT / HALF BUY ($10k+)';
+      return 'ECO SAVE (Sidearms / Save)';
     }
 
     function triggerHalfTimeSwap() {
@@ -7904,32 +7901,38 @@
         const canOpBuy = matchState.teamCredsA >= 21300;
         const canFullBuy = matchState.teamCredsA >= 19500;
         const canHalfBuy = matchState.teamCredsA >= 10000;
+        const canForceBuy = matchState.teamCredsA >= 7500;
         const isRound2AfterPistol = (matchState.round === 2 || matchState.round === 14);
         const lostPistolA = isRound2AfterPistol && matchState.lossStreakA > 0;
         const wonPistolA = isRound2AfterPistol && matchState.lossStreakA === 0;
 
         let defaultBuy = 'ECO_SAVE';
-        if (lostPistolA) {
-          // แพ้รอบปืนพก -> ต้อง Eco / Full Save (Classic $0) 100% ตามกฎ VALORANT เพื่อ Full Buy รอบ 3
-          defaultBuy = 'ECO_SAVE';
-        } else if (wonPistolA) {
+        if (wonPistolA) {
           // ชนะรอบปืนพก -> ซื้อ Anti-Eco (Half Buy: Spectre/Bulldog + เกราะเบา)
           defaultBuy = 'HALF_BUY';
         } else if (canFullBuy) {
           defaultBuy = 'FULL_BUY';
+        } else if (lostPistolA) {
+          // แพ้รอบปืนพก -> แนะนำ Eco Save ปืนพกตามเงินคงเหลือ เพื่อการันตี Full Buy รอบ 3
+          defaultBuy = 'ECO_SAVE';
         } else if (canHalfBuy) {
           defaultBuy = 'HALF_BUY';
         } else {
           defaultBuy = 'ECO_SAVE';
         }
 
+        const avgCredsA = Math.floor(matchState.teamCredsA / 5);
+        const nextLossA = getLossBonus(matchState.lossStreakA + 1);
+        const safeSpendA = Math.max(0, (avgCredsA + nextLossA) - 3900);
+        let ecoLabel = `🪙 Eco Save: ปืนพกตามงบปลอดภัย (งบ ~$ ${safeSpendA}/คน เพื่อ Full Buy รอบถัดไป)`;
+
         select.innerHTML = `
           <option value="FULL_BUY" ${defaultBuy === 'FULL_BUY' ? 'selected' : (!canFullBuy ? 'disabled' : '')}>🔫 Full Buy: Vandal / Phantom / Odin + Heavy Shield ($3,900/คน) ${!canFullBuy ? '[เงินไม่พอ $19.5k]' : ''}</option>
-          <option value="HALF_BUY" ${defaultBuy === 'HALF_BUY' ? 'selected' : (!canHalfBuy ? 'disabled' : '')}>🛡️ Half Buy: Spectre / Bulldog / Ares + Light Shield ($2,000-$2,450/คน) [เซฟเงินเพื่อ Full Buy รอบหน้า]</option>
-          <option value="FORCE_BUY" ${defaultBuy === 'FORCE_BUY' ? 'selected' : ''}>⚡ Force Buy: Spectre / Bulldog / Outlaw / Marshal / Judge + Armor (ทุ่มเงินเกือบหมดเพื่อพลิกชนะ)</option>
-          <option value="ECO_SAVE" ${defaultBuy === 'ECO_SAVE' ? 'selected' : ''}>🪙 Eco / Full Save: Classic ($0) ไม่ซื้อเกราะ (เก็บเงินก้อนเพื่อ Full Buy รอบถัดไป)</option>
+          <option value="HALF_BUY" ${defaultBuy === 'HALF_BUY' ? 'selected' : (!canHalfBuy ? 'disabled' : '')}>🛡️ Half Buy: Spectre / Bulldog / Ares + Light Shield ($2,000-$2,450/คน) ${!canHalfBuy ? '[เงินไม่พอ $10k]' : ''}</option>
+          <option value="FORCE_BUY" ${defaultBuy === 'FORCE_BUY' ? 'selected' : (!canForceBuy ? 'disabled' : '')}>⚡ Force Buy: Spectre / Bulldog / Outlaw / Judge + Armor (ทุ่มเงินสู้เพื่อชิงโมเมนตัม) ${!canForceBuy ? '[เงินไม่พอ $7.5k]' : ''}</option>
+          <option value="ECO_SAVE" ${defaultBuy === 'ECO_SAVE' ? 'selected' : ''}>${ecoLabel}</option>
           <option value="OP_FULL_BUY" ${!canOpBuy ? 'disabled' : ''}>🎯 Operator + Full Buy: 1x Operator ($4,700) + 4x Vandals/Phantoms + Heavy Shields ${!canOpBuy ? '[เงินไม่พอ $21.3k]' : ''}</option>
-          <option value="HERO_OP" ${matchState.teamCredsA >= 8000 ? '' : 'disabled'}>🎯 Hero Sniper: 1x Operator ($4,700) + เพื่อน Eco/Classic</option>
+          <option value="HERO_OP" ${matchState.teamCredsA >= 8000 ? '' : 'disabled'}>🎯 Hero Sniper: 1x Operator ($4,700) + เพื่อน Eco/Sidearms</option>
         `;
       }
       updateBuyPreview();
@@ -7982,14 +7985,18 @@
         tag.innerText = 'Controlled Spending · Half Buy Ready';
         tag.className = 'text-cyan-400 font-mono font-bold';
       } else if (buy === 'ECO_SAVE') {
-        const isRound2 = (matchState.round === 2 || matchState.round === 14);
-        if (isRound2) {
-          hint.innerHTML = '🪙 <b>Eco / Full Save (หลังแพ้ปืนพก):</b> ไม่ซื้ออะไรเลย ทุกคนใช้ Classic ฟรี ($0) และไม่ซื้อเกราะ เพื่อให้ในรอบที่ 3 มีเงินสะสมถึง $4,300+ สำหรับ Full Buy Vandal + Heavy Shield!';
-        } else {
-          hint.innerHTML = '🪙 <b>Eco / Full Save:</b> ไม่ซื้ออาวุธหรือใช้แค่ปืนเริ่มต้น (Classic $0) เพื่อสะสมเงินก้อนโตสำหรับ Full Buy ในรอบถัดไป';
-        }
-        tag.innerText = 'Full Save · Economy Building';
-        tag.className = 'text-slate-400 font-mono font-bold';
+        const avgCreds = Math.floor((matchState.teamCredsA || 0) / 5);
+        const nextLoss = getLossBonus((matchState.lossStreakA || 0) + 1);
+        const safeBudget = Math.max(0, (avgCreds + nextLoss) - 3900);
+        let budgetDesc = 'Classic ($0)';
+        if (safeBudget >= 800) budgetDesc = 'Sheriff / Bandit / Ghost (~$800/คน)';
+        else if (safeBudget >= 600) budgetDesc = 'Bandit / Ghost (~$600/คน)';
+        else if (safeBudget >= 500) budgetDesc = 'Ghost / Frenzy (~$500/คน)';
+        else if (safeBudget >= 400) budgetDesc = 'Classic + เกราะเบา หรือ Shorty (~$400/คน)';
+
+        hint.innerHTML = `🪙 <b>Eco Save:</b> ซื้อเฉพาะปืนหมวดพกตามงบปลอดภัย <b>[${budgetDesc}]</b> เพื่อให้รอบหน้ามีเงินสะสมไม่ต่ำกว่า $3,900 สำหรับ Full Buy (ปืนใหญ่ที่รอดชีวิตเก็บไว้สู้ต่อฟรี)`;
+        tag.innerText = `Eco Save · Budget ~${safeBudget}/คน`;
+        tag.className = 'text-cyan-400 font-mono font-bold';
       } else if (buy === 'PISTOL_BANDIT') {
         hint.innerHTML = '🤠 <b>Bandit Precision:</b> ปืนพกโมเดิร์น 600 Creds พลังทำลาย 42 ดาเมจ ทะลุกำแพงปานกลาง วันแท็ประยะกลาง';
         tag.innerText = 'Pistol Round · Mid-Range Heavy';
@@ -8117,22 +8124,38 @@
         const isRound2AfterPistol = (matchState.round === 2 || matchState.round === 14);
         const lostPistolB = isRound2AfterPistol && matchState.lossStreakB > 0;
         const wonPistolB = isRound2AfterPistol && matchState.lossStreakB === 0;
+        const credsB = matchState.teamCredsB;
 
-        if (lostPistolB) {
-          // AI แพ้รอบปืนพก -> ต้อง Full Eco / Save 100% ถือ Classic ($0) เกราะ 0 ไม่ซื้อปืนมาสู้!
-          currentBuyB = 'ECO_SAVE';
-        } else if (wonPistolB) {
-          // AI ชนะรอบปืนพก -> ซื้อ Anti-Eco (Spectre / Bulldog / Stinger + เกราะ) เพื่อขยี้ฝ่ายที่ไม่มีปืน!
-          currentBuyB = 'HALF_BUY';
-        } else if (matchState.teamCredsB >= 23000 && Math.random() < 0.20) {
-          currentBuyB = 'OP_FULL_BUY';
-        } else if (matchState.teamCredsB >= 19500) {
-          currentBuyB = 'FULL_BUY';
-        } else if (matchState.teamCredsB >= 10000) {
-          // เงินปานกลาง: เลือก Half Buy เพื่อเก็บเงินไว้ Full Buy รอบหน้า หรือ Force Buy
-          currentBuyB = Math.random() < 0.70 ? 'HALF_BUY' : 'FORCE_BUY';
+        if (isRound2AfterPistol) {
+          if (wonPistolB) {
+            // AI ชนะรอบปืนพก -> ซื้อ Anti-Eco (Half Buy: Spectre/Bulldog + เกราะ)
+            currentBuyB = 'HALF_BUY';
+          } else {
+            // AI แพ้รอบปืนพก -> ดูเงินคงเหลือ ณ round นั้นเป็นหลัก
+            // ปกติจะเล่น ECO_SAVE (ซื้อปืนพกตามงบเพื่อ Full Buy รอบ 3)
+            // แต่ถ้าทีมมีเงินเหลือมากพอ (เช่น ได้คิล หรือ วางสไปค์ creds >= 11,000)
+            // AI สามารถคำนวณและตัดสินใจเลือกเสี่ยง Half Buy หรือ Force Buy สู้ได้!
+            if (credsB >= 11500 && Math.random() < 0.40) {
+              currentBuyB = 'FORCE_BUY';
+            } else if (credsB >= 10000 && Math.random() < 0.25) {
+              currentBuyB = 'HALF_BUY';
+            } else {
+              currentBuyB = 'ECO_SAVE';
+            }
+          }
         } else {
-          currentBuyB = 'ECO_SAVE';
+          // รอบปกติอื่นๆ: ดูเงินคงเหลือเป็นหลัก
+          if (credsB >= 23000 && Math.random() < 0.20) {
+            currentBuyB = 'OP_FULL_BUY';
+          } else if (credsB >= 19500) {
+            currentBuyB = 'FULL_BUY';
+          } else if (credsB >= 12000) {
+            currentBuyB = Math.random() < 0.70 ? 'HALF_BUY' : 'FORCE_BUY';
+          } else if (credsB >= 9500 && Math.random() < 0.30) {
+            currentBuyB = 'FORCE_BUY';
+          } else {
+            currentBuyB = 'ECO_SAVE';
+          }
         }
       }
 
@@ -8392,21 +8415,63 @@
             cost = (WEAPON_PRICE[chosenWep] || 1600) + ((p.savedArmor >= 25) ? 0 : 400);
           }
         } else if (buyTier === 'ECO_SAVE') {
-          // Eco / Full Save ตามกฎ VALORANT:
-          // รอบที่ 2 หรือ 14 (หลังแพ้รอบปืนพก): ห้ามซื้อปืนสู้เด็ดขาด! ทุกคนใช้ Classic ($0) เกราะ 0 เพื่อสะสมเงินไว้ Full Buy ในรอบ 3
-          const isRound2Or14 = (matchState.round === 2 || matchState.round === 14);
-          if (isRound2Or14) {
-            chosenWep = 'Classic';
-            chosenArmor = 0;
+          // หากผู้เล่นมีปืนใหญ่/สไนเปอร์ที่รอดชีวิตมาจากรอบก่อน -> ถือปืนเดิมต่อฟรี ($0)!
+          if (hasSavedWep && savedRank >= 2.5) {
+            chosenWep = p.savedWeapon;
+            chosenArmor = p.savedArmor || 0;
             cost = 0;
           } else {
-            // รอบ Eco ปกติอื่นๆ: ถ้ามีปืนใหญ่ที่เซฟมาจากรอบก่อนให้เก็บไว้ ถ้าไม่มีให้ถือ Classic ($0) หรือปืนพกเล็ก
-            if (hasSavedWep && savedRank >= 3.0) {
-              chosenWep = p.savedWeapon;
-              chosenArmor = p.savedArmor || 0;
-              cost = 0;
+            // คำนวณงบประมาณปลอดภัย (Safe Spending Budget) ต่อคนตามเงินคงเหลือของทีม ณ รอบนั้น
+            // เพื่อให้รอบถัดไปได้รับ Loss Bonus แล้วมีเงินรวมอย่างน้อย $3,900 สำหรับ Full Buy (Vandal + Heavy Shield)
+            const teamCreds = (team === 'A') ? matchState.teamCredsA : matchState.teamCredsB;
+            const lossStreak = (team === 'A') ? matchState.lossStreakA : matchState.lossStreakB;
+            const avgCreds = Math.floor(teamCreds / 5);
+            const nextLossBonus = getLossBonus(lossStreak + 1);
+
+            // งบที่ใช้ได้สูงสุดโดยไม่กระทบ Full Buy ($3,900) ในรอบถัดไป
+            const safeBudget = Math.max(0, (avgCreds + nextLossBonus) - 3900);
+
+            // ซื้อเฉพาะใน "หมวดปืนพก (Sidearms)" ตามงบที่มี
+            if (safeBudget >= 800) {
+              // งบเพียงพอซื้อปืนพกหนัก เช่น Sheriff ($800), Bandit ($600), Ghost ($500)
+              if ((p.aim || 90) >= 92 && Math.random() < 0.60) {
+                chosenWep = 'Sheriff'; cost = 800;
+              } else if (Math.random() < 0.50) {
+                chosenWep = 'Bandit'; cost = 600;
+              } else {
+                chosenWep = 'Ghost'; cost = 500;
+              }
+              // ถ้าเหลืองบพอซื้อ Light Shield ($400)
+              if (safeBudget >= (cost + 400) && Math.random() < 0.50) {
+                chosenArmor = 25;
+                cost += 400;
+              } else {
+                chosenArmor = 0;
+              }
+            } else if (safeBudget >= 600) {
+              // งบปานกลาง: Bandit ($600) หรือ Ghost ($500) หรือ Frenzy ($450)
+              if (Math.random() < 0.40) {
+                chosenWep = 'Bandit'; cost = 600;
+              } else if (Math.random() < 0.70) {
+                chosenWep = 'Ghost'; cost = 500;
+              } else {
+                chosenWep = 'Frenzy'; cost = 450;
+              }
+              chosenArmor = 0;
+            } else if (safeBudget >= 500) {
+              // ซื้อ Ghost ($500) หรือ Frenzy ($450)
+              chosenWep = Math.random() < 0.70 ? 'Ghost' : 'Frenzy';
+              cost = WEAPON_PRICE[chosenWep] || 500;
+              chosenArmor = 0;
+            } else if (safeBudget >= 400) {
+              // ซื้อ Classic + Light Shield ($400) หรือ Shorty ($300) หรือ Classic ($0)
+              if (Math.random() < 0.50) {
+                chosenWep = 'Classic'; chosenArmor = 25; cost = 400;
+              } else {
+                chosenWep = 'Shorty'; chosenArmor = 0; cost = 300;
+              }
             } else {
-              // Full Save ทั่วไป: Classic $0 เพื่อเก็บเงิน 100%
+              // งบเหลือน้อย: Classic ($0) เกราะ 0 ไม่เสียเงินเลย
               chosenWep = 'Classic';
               chosenArmor = 0;
               cost = 0;
