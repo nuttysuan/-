@@ -198,6 +198,98 @@
     </div>
   </div>
 
+  
+  <!-- ==================== VALORANT ARSENAL & ECONOMY MODAL ==================== -->
+  <div id="arsenal-modal" class="fixed inset-0 modal-backdrop hidden items-center justify-center p-3 z-50">
+    <div class="bg-[#0a0f1d] border-2 border-indigo-500/80 rounded-2xl p-5 max-w-4xl w-full max-h-[92vh] overflow-y-auto shadow-2xl relative flex flex-col gap-4 text-slate-200 animate-fade-in">
+      <div class="flex items-center justify-between border-b border-[#1b2d4f] pb-3 flex-wrap gap-2">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-700 flex items-center justify-center text-xl shadow-lg shadow-indigo-500/20">
+            🔫
+          </div>
+          <div>
+            <span class="text-[10px] font-mono text-indigo-400 font-bold uppercase tracking-widest bg-indigo-950 px-2 py-0.5 rounded border border-indigo-500/40">VALORANT OFFICIAL ARSENAL & ECONOMY</span>
+            <h3 class="text-lg font-black text-white mt-0.5">คลังอาวุธและระบบเศรษฐกิจการเงิน (Gun Database)</h3>
+          </div>
+        </div>
+        <button onclick="closeArsenalModal()" class="text-slate-400 hover:text-white font-mono text-lg cursor-pointer">✕</button>
+      </div>
+
+      <!-- Economy Basics Infographic Panels (From User Images) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <!-- Panel 1: Economy Basics -->
+        <div class="bg-[#050814] p-3 rounded-xl border border-emerald-500/40 flex flex-col gap-2 text-xs">
+          <div class="flex items-center gap-1.5 font-bold text-emerald-400 text-sm border-b border-[#14213a] pb-1.5">
+            <span>💰</span> <span>ค่าเศรษฐกิจพื้นฐาน (Economy Basics)</span>
+          </div>
+          <ul class="space-y-1.5 text-slate-300 text-[11px] leading-relaxed">
+            <li class="flex items-start gap-1.5">
+              <span class="text-emerald-400 font-bold">•</span>
+              <span><b>เงินเริ่มต้นครึ่งแรก (Pistol Round):</b> ผู้เล่นทุกคนได้รับคนละ <b>800 Creds</b> ในรอบที่ 1 และรอบ 13 (สลับฝั่ง)</span>
+            </li>
+            <li class="flex items-start gap-1.5">
+              <span class="text-emerald-400 font-bold">•</span>
+              <span><b>เงินรางวัลจากการชนะรอบละ:</b> <b>3,000 Creds</b> ($15,000 ต่อทีม)</span>
+            </li>
+            <li class="flex items-start gap-1.5">
+              <span class="text-rose-400 font-bold">•</span>
+              <span><b>เงินรางวัลจากการแพ้รอบละ:</b> <b>1,900 Creds</b> (แพ้รอบแรก), <b>2,400 Creds</b> (แพ้ 2 รอบติด), สูงสุด <b>2,900 Creds</b> (แพ้ 3 รอบขึ้นไป)</span>
+            </li>
+            <li class="flex items-start gap-1.5">
+              <span class="text-amber-400 font-bold">•</span>
+              <span><b>เงินโบนัสพิเศษ:</b> ได้รับเพิ่ม <b>+200 Creds</b> ต่อ 1 คิล และ <b>+300 Creds</b> จากการติดตั้ง Spike (สำหรับฝั่งบุกทุกคน)</span>
+            </li>
+            <li class="flex items-start gap-1.5">
+              <span class="text-cyan-400 font-bold">•</span>
+              <span><b>ขีดจำกัดเงินสูงสุด (Cap):</b> <b>9,000 Creds</b> ต่อคน ($45,000 ต่อทีม)</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Panel 2: Buy Types -->
+        <div class="bg-[#050814] p-3 rounded-xl border border-amber-500/40 flex flex-col gap-2 text-xs">
+          <div class="flex items-center gap-1.5 font-bold text-amber-400 text-sm border-b border-[#14213a] pb-1.5">
+            <span>🛒</span> <span>ประเภทของการซื้อ (Buy Types)</span>
+          </div>
+          <ul class="space-y-1.5 text-slate-300 text-[11px] leading-relaxed">
+            <li class="flex items-start gap-1.5">
+              <span class="text-emerald-400 font-bold">•</span>
+              <span><b>Full Buy (ซื้อเต็ม):</b> ปืนหลักแรงๆ (Vandal/Phantom 2,900) + เกราะหนัก (Heavy 1,000) ใช้เงิน <b>3,900+ Creds</b></span>
+            </li>
+            <li class="flex items-start gap-1.5">
+              <span class="text-cyan-400 font-bold">•</span>
+              <span><b>Half Buy / Light Buy:</b> ปืนราคาปานกลาง (Spectre 1,600, Bulldog 2,050) + เกราะเบา 400 เพื่อเก็บเงินไว้ Full Buy รอบหน้า</span>
+            </li>
+            <li class="flex items-start gap-1.5">
+              <span class="text-amber-400 font-bold">•</span>
+              <span><b>Force Buy (บังคับซื้อ):</b> ใช้เงินเกือบทั้งหมดเพื่อซื้อปืน/เกราะเท่าที่พอหาได้ แม้เงินไม่พอ Full Buy เพื่อหวังพลิกชนะ</span>
+            </li>
+            <li class="flex items-start gap-1.5">
+              <span class="text-slate-400 font-bold">•</span>
+              <span><b>Eco / Full Save:</b> ไม่ซื้ออะไรเลย ใช้แค่ <b>Classic ($0)</b> ไม่ซื้อเกราะ เพื่อเก็บเงินสะสมไว้ Full Buy ในรอบถัดไป (บังคับใช้เมื่อแพ้รอบปืนพก)</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Gun Category Filter Tabs -->
+      <div class="flex items-center gap-1.5 border-b border-[#1b2d4f] pb-2 overflow-x-auto text-xs">
+        <button onclick="renderArsenalCards('ALL')" id="tab-gun-ALL" class="px-3 py-1 rounded-lg bg-indigo-600 text-white font-bold cursor-pointer">ทั้งหมด (18 กระบอก)</button>
+        <button onclick="renderArsenalCards('Sidearms')" id="tab-gun-Sidearms" class="px-3 py-1 rounded-lg bg-[#0e172a] text-slate-400 hover:text-white font-bold cursor-pointer">ปืนพก (Sidearms)</button>
+        <button onclick="renderArsenalCards('SMGs')" id="tab-gun-SMGs" class="px-3 py-1 rounded-lg bg-[#0e172a] text-slate-400 hover:text-white font-bold cursor-pointer">ปืนกลมือ (SMGs)</button>
+        <button onclick="renderArsenalCards('Shotguns')" id="tab-gun-Shotguns" class="px-3 py-1 rounded-lg bg-[#0e172a] text-slate-400 hover:text-white font-bold cursor-pointer">ลูกซอง (Shotguns)</button>
+        <button onclick="renderArsenalCards('Assault Rifles')" id="tab-gun-Assault Rifles" class="px-3 py-1 rounded-lg bg-[#0e172a] text-slate-400 hover:text-white font-bold cursor-pointer">ไรเฟิลจู่โจม (Rifles)</button>
+        <button onclick="renderArsenalCards('Sniper Rifles')" id="tab-gun-Sniper Rifles" class="px-3 py-1 rounded-lg bg-[#0e172a] text-slate-400 hover:text-white font-bold cursor-pointer">สไนเปอร์ (Snipers)</button>
+        <button onclick="renderArsenalCards('Heavy Weapons')" id="tab-gun-Heavy Weapons" class="px-3 py-1 rounded-lg bg-[#0e172a] text-slate-400 hover:text-white font-bold cursor-pointer">ปืนกลหนัก (Heavy)</button>
+      </div>
+
+      <!-- Weapons Grid -->
+      <div id="arsenal-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+        <!-- Rendered by renderArsenalCards() -->
+      </div>
+    </div>
+  </div>
+
   <!-- ==================== SAVE CLOUD & TRANSFER MODAL ==================== -->
   <div id="save-cloud-modal" class="fixed inset-0 modal-backdrop hidden items-center justify-center p-3 z-50">
     <div class="bg-[#0c1424] border-2 border-amber-500/80 rounded-2xl p-5 max-w-lg w-full shadow-2xl relative flex flex-col gap-4 text-slate-200 animate-fade-in">
@@ -930,6 +1022,9 @@
               <div class="flex items-center gap-3 text-[10px] font-mono">
                 <span class="text-slate-400">เงินทีมคงเหลือ: <b class="text-emerald-400" id="team-creds-display">$4,000</b></span>
                 <span class="text-slate-400">โบนัสแพ้รอบหน้า: <b class="text-cyan-400" id="loss-bonus-display">+$1,900</b></span>
+                <button onclick="openArsenalModal()" class="px-2 py-0.5 rounded bg-indigo-950/80 hover:bg-indigo-900 border border-indigo-500/50 text-indigo-300 hover:text-white font-bold transition flex items-center gap-1 cursor-pointer ml-auto" title="ดูรายละเอียดคลังอาวุธ 18 กระบอกและระบบเศรษฐกิจ">
+                  <span>🔫</span><span>คู่มืออาวุธ & ระบบเงิน</span>
+                </button>
               </div>
             </div>
 
@@ -2705,6 +2800,7 @@
         'Frenzy': 'assets/vct/weapons/Frenzy.png',
         'Shorty': 'assets/vct/weapons/Shorty.png',
         'Stinger': 'assets/vct/weapons/Stinger.png',
+        'Bandit': 'assets/vct/weapons/Bandit.png',
         'Melee': 'assets/vct/weapons/Melee.png'
       },
       abilities: {
@@ -7720,9 +7816,13 @@
     }
 
     function getOpponentEcoTier(creds) {
-      if (creds >= 19500) return 'FULL BUY READY ($20k+)';
-      if (creds >= 13500) return 'FORCE BUY ($13.5k+)';
-      return 'ECO SAVE (<$13.5k)';
+      if (matchState.round === 2 || matchState.round === 14) {
+        if (matchState.lossStreakB > 0) return 'FULL ECO (Classic $0)';
+        return 'ANTI-ECO BUY (SMG/Rifle)';
+      }
+      if (creds >= 19500) return 'FULL BUY ($19.5k+)';
+      if (creds >= 12000) return 'HALF / FORCE ($12k+)';
+      return 'ECO SAVE (<$12k)';
     }
 
     function triggerHalfTimeSwap() {
@@ -7795,33 +7895,41 @@
         select.innerHTML = `
           <option value="PISTOL_ARMOR" selected>🛡️ Classic + Light Armor ($400/คน) [สมดุล]</option>
           <option value="PISTOL_GHOST">👻 Ghost + สกิล ($500/คน) [เน้นความคม]</option>
+          <option value="PISTOL_BANDIT">🤠 Bandit Precision ($600/คน) [ปืนพกใหม่ คมกลาง-ไกล]</option>
           <option value="PISTOL_SHERIFF">🤠 Sheriff Heavy ($800/คน) [วันแท็ปปืนพก]</option>
           <option value="PISTOL_FRENZY">🔥 Frenzy Spray ($450/คน) [สายวิ่งยิงประชิด]</option>
           <option value="PISTOL_FREE">🪙 Free Classic + Full Abilities ($0/คน) [เซฟเงิน 100%]</option>
         `;
       } else {
-        const canOpBuy = matchState.teamCredsA >= 21000;
-        const canFullBuy = matchState.teamCredsA >= 15000;
+        const canOpBuy = matchState.teamCredsA >= 21300;
+        const canFullBuy = matchState.teamCredsA >= 19500;
+        const canHalfBuy = matchState.teamCredsA >= 10000;
         const isRound2AfterPistol = (matchState.round === 2 || matchState.round === 14);
         const lostPistolA = isRound2AfterPistol && matchState.lossStreakA > 0;
+        const wonPistolA = isRound2AfterPistol && matchState.lossStreakA === 0;
 
         let defaultBuy = 'ECO_SAVE';
         if (lostPistolA) {
+          // แพ้รอบปืนพก -> ต้อง Eco / Full Save (Classic $0) 100% ตามกฎ VALORANT เพื่อ Full Buy รอบ 3
           defaultBuy = 'ECO_SAVE';
+        } else if (wonPistolA) {
+          // ชนะรอบปืนพก -> ซื้อ Anti-Eco (Half Buy: Spectre/Bulldog + เกราะเบา)
+          defaultBuy = 'HALF_BUY';
         } else if (canFullBuy) {
           defaultBuy = 'FULL_BUY';
-        } else if (matchState.teamCredsA >= 13500) {
-          defaultBuy = 'FORCE_BUY';
+        } else if (canHalfBuy) {
+          defaultBuy = 'HALF_BUY';
         } else {
           defaultBuy = 'ECO_SAVE';
         }
 
         select.innerHTML = `
-          <option value="FULL_BUY" ${defaultBuy === 'FULL_BUY' ? 'selected' : (!canFullBuy ? 'disabled' : '')}>🔫 Full Buy: Vandal / Phantom + Full Armor ($3,900/คน) [รอดชีวิตเก็บปืนเดิมไว้ฟรี] ${!canFullBuy ? '[เงินไม่พอ]' : ''}</option>
-          <option value="FORCE_BUY" ${defaultBuy === 'FORCE_BUY' ? 'selected' : ''}>⚡ Force Buy: Spectre / Bulldog / Outlaw / Marshal / Judge + Armor [รอดชีวิตเก็บปืนเดิมไว้ฟรี]</option>
-          <option value="ECO_SAVE" ${defaultBuy === 'ECO_SAVE' ? 'selected' : ''}>🪙 Eco Save: Ghost / Sheriff / Classic ($0-$800/คน) [รอดชีวิตเก็บปืนเดิมไว้ฟรี]</option>
-          <option value="OP_FULL_BUY" ${!canOpBuy ? 'disabled' : ''}>🎯 Operator + Full Buy: 1x Operator ($4,700) + 4x Vandals/Phantoms + Heavy Shields ${!canOpBuy ? '[เงินไม่พอ]' : ''}</option>
-          <option value="HERO_OP" ${matchState.teamCredsA >= 9000 ? '' : 'disabled'}>🎯 Hero Sniper: 1x Operator ($4,700) + เพื่อน Eco/Pistols</option>
+          <option value="FULL_BUY" ${defaultBuy === 'FULL_BUY' ? 'selected' : (!canFullBuy ? 'disabled' : '')}>🔫 Full Buy: Vandal / Phantom / Odin + Heavy Shield ($3,900/คน) ${!canFullBuy ? '[เงินไม่พอ $19.5k]' : ''}</option>
+          <option value="HALF_BUY" ${defaultBuy === 'HALF_BUY' ? 'selected' : (!canHalfBuy ? 'disabled' : '')}>🛡️ Half Buy: Spectre / Bulldog / Ares + Light Shield ($2,000-$2,450/คน) [เซฟเงินเพื่อ Full Buy รอบหน้า]</option>
+          <option value="FORCE_BUY" ${defaultBuy === 'FORCE_BUY' ? 'selected' : ''}>⚡ Force Buy: Spectre / Bulldog / Outlaw / Marshal / Judge + Armor (ทุ่มเงินเกือบหมดเพื่อพลิกชนะ)</option>
+          <option value="ECO_SAVE" ${defaultBuy === 'ECO_SAVE' ? 'selected' : ''}>🪙 Eco / Full Save: Classic ($0) ไม่ซื้อเกราะ (เก็บเงินก้อนเพื่อ Full Buy รอบถัดไป)</option>
+          <option value="OP_FULL_BUY" ${!canOpBuy ? 'disabled' : ''}>🎯 Operator + Full Buy: 1x Operator ($4,700) + 4x Vandals/Phantoms + Heavy Shields ${!canOpBuy ? '[เงินไม่พอ $21.3k]' : ''}</option>
+          <option value="HERO_OP" ${matchState.teamCredsA >= 8000 ? '' : 'disabled'}>🎯 Hero Sniper: 1x Operator ($4,700) + เพื่อน Eco/Classic</option>
         `;
       }
       updateBuyPreview();
@@ -7869,6 +7977,23 @@
         hint.innerHTML = '🔥 <b>Frenzy Spray:</b> ปืนพกกลอัตโนมัติ วิ่งยิงเจาะไซต์ในระยะประชิด';
         tag.innerText = 'Pistol Round · Rapid Spray';
         tag.className = 'text-rose-400 font-mono font-bold';
+      } else if (buy === 'HALF_BUY') {
+        hint.innerHTML = '🛡️ <b>Half Buy / Light Buy:</b> ซื้อปืนราคาปานกลาง (Spectre $1,600, Bulldog $2,050, Ares $1,600) + เกราะเบา 25 หน่วย เพื่อเก็บเงินที่เหลือไว้ Full Buy ในรอบถัดไปได้อย่างแน่นอน';
+        tag.innerText = 'Controlled Spending · Half Buy Ready';
+        tag.className = 'text-cyan-400 font-mono font-bold';
+      } else if (buy === 'ECO_SAVE') {
+        const isRound2 = (matchState.round === 2 || matchState.round === 14);
+        if (isRound2) {
+          hint.innerHTML = '🪙 <b>Eco / Full Save (หลังแพ้ปืนพก):</b> ไม่ซื้ออะไรเลย ทุกคนใช้ Classic ฟรี ($0) และไม่ซื้อเกราะ เพื่อให้ในรอบที่ 3 มีเงินสะสมถึง $4,300+ สำหรับ Full Buy Vandal + Heavy Shield!';
+        } else {
+          hint.innerHTML = '🪙 <b>Eco / Full Save:</b> ไม่ซื้ออาวุธหรือใช้แค่ปืนเริ่มต้น (Classic $0) เพื่อสะสมเงินก้อนโตสำหรับ Full Buy ในรอบถัดไป';
+        }
+        tag.innerText = 'Full Save · Economy Building';
+        tag.className = 'text-slate-400 font-mono font-bold';
+      } else if (buy === 'PISTOL_BANDIT') {
+        hint.innerHTML = '🤠 <b>Bandit Precision:</b> ปืนพกโมเดิร์น 600 Creds พลังทำลาย 42 ดาเมจ ทะลุกำแพงปานกลาง วันแท็ประยะกลาง';
+        tag.innerText = 'Pistol Round · Mid-Range Heavy';
+        tag.className = 'text-amber-400 font-mono font-bold';
       } else if (buy === 'PISTOL_FREE') {
         hint.innerHTML = '🪙 <b>Free Classic:</b> ไม่ซื้อปืนพก ใช้ Classic ฟรี ทุ่มเงินซื้อสกิลทั้งหมด';
         tag.innerText = 'Pistol Round · Full Utility';
@@ -7986,18 +8111,28 @@
       }
 
       if (isPistol) {
-        const aiPistols = ['PISTOL_ARMOR', 'PISTOL_GHOST', 'PISTOL_SHERIFF', 'PISTOL_FRENZY'];
+        const aiPistols = ['PISTOL_ARMOR', 'PISTOL_GHOST', 'PISTOL_BANDIT', 'PISTOL_SHERIFF', 'PISTOL_FRENZY'];
         currentBuyB = aiPistols[Math.floor(Math.random() * aiPistols.length)];
       } else {
         const isRound2AfterPistol = (matchState.round === 2 || matchState.round === 14);
         const lostPistolB = isRound2AfterPistol && matchState.lossStreakB > 0;
+        const wonPistolB = isRound2AfterPistol && matchState.lossStreakB === 0;
+
         if (lostPistolB) {
-          // AI lost pistol round -> strictly ECO SAVE
+          // AI แพ้รอบปืนพก -> ต้อง Full Eco / Save 100% ถือ Classic ($0) เกราะ 0 ไม่ซื้อปืนมาสู้!
           currentBuyB = 'ECO_SAVE';
-        } else if (matchState.teamCredsB >= 22000 && Math.random() < 0.20) {
+        } else if (wonPistolB) {
+          // AI ชนะรอบปืนพก -> ซื้อ Anti-Eco (Spectre / Bulldog / Stinger + เกราะ) เพื่อขยี้ฝ่ายที่ไม่มีปืน!
+          currentBuyB = 'HALF_BUY';
+        } else if (matchState.teamCredsB >= 23000 && Math.random() < 0.20) {
           currentBuyB = 'OP_FULL_BUY';
+        } else if (matchState.teamCredsB >= 19500) {
+          currentBuyB = 'FULL_BUY';
+        } else if (matchState.teamCredsB >= 10000) {
+          // เงินปานกลาง: เลือก Half Buy เพื่อเก็บเงินไว้ Full Buy รอบหน้า หรือ Force Buy
+          currentBuyB = Math.random() < 0.70 ? 'HALF_BUY' : 'FORCE_BUY';
         } else {
-          currentBuyB = matchState.teamCredsB >= 18000 ? 'FULL_BUY' : (matchState.teamCredsB >= 13500 ? 'FORCE_BUY' : 'ECO_SAVE');
+          currentBuyB = 'ECO_SAVE';
         }
       }
 
@@ -8032,21 +8167,56 @@
     }
 
     // Weapon prices and rank tiers for realistic economy and gun retention
+    // --- VALORANT OFFICIAL GUN & ARSENAL DATABASE (18 Weapons from gun detail) ---
+    const VALORANT_GUN_DATABASE = {
+      // Sidearms (Pistols)
+      'Classic': { name: 'Classic', category: 'Sidearms', price: 0, fireRate: 6.75, mag: 12, wallPen: 'Low', damage: 25, power: 50, tier: 0, desc: 'ปืนพกเริ่มต้นฟรี ยิงทีละนัด หรือคลิกขวายิงสเปรย์ 3 นัดระยะประชิด' },
+      'Shorty': { name: 'Shorty', category: 'Sidearms', price: 300, fireRate: 3.0, mag: 2, wallPen: 'Low', damage: 44, power: 52, tier: 0.7, desc: 'ปืนลูกซองพก 2 ลำกล้อง ดาเมจมหาศาลระยะเผาขน' },
+      'Frenzy': { name: 'Frenzy', category: 'Sidearms', price: 450, fireRate: 10.0, mag: 15, wallPen: 'Low', damage: 26, power: 56, tier: 0.9, desc: 'ปืนพกกลอัตโนมัติ รัวเร็ว เหมาะกับการวิ่งยิงประชิด' },
+      'Ghost': { name: 'Ghost', category: 'Sidearms', price: 500, fireRate: 6.75, mag: 13, wallPen: 'Medium', damage: 30, power: 58, tier: 1.0, desc: 'ปืนพกเก็บเสียง ความแม่นยำสูง ดาเมจหัวคมกริบ' },
+      'Bandit': { name: 'Bandit', category: 'Sidearms', price: 600, fireRate: 5.1, mag: 8, wallPen: 'Medium', damage: 42, power: 66, tier: 1.1, desc: 'ปืนพกใหม่ล่าสุด 600 Creds พลังทำลาย 42 ดาเมจ ทะลุกำแพงปานกลาง' },
+      'Sheriff': { name: 'Sheriff', category: 'Sidearms', price: 800, fireRate: 4.0, mag: 6, wallPen: 'High', damage: 55, power: 72, tier: 1.3, desc: 'ปืนพกรีวอลเวอร์หนัก วันแท็ปยิงหัวนัดเดียวจอด' },
+
+      // SMGs
+      'Stinger': { name: 'Stinger', category: 'SMGs', price: 1100, fireRate: 16.0, mag: 20, wallPen: 'Low', damage: 27, power: 70, tier: 2.0, desc: 'ปืนกลมืออัตราลั่นกระสุนสูงสุด 16 นัด/วินาที ละลายศัตรูระยะประชิด' },
+      'Spectre': { name: 'Spectre', category: 'SMGs', price: 1600, fireRate: 13.333, mag: 30, wallPen: 'Low', damage: 26, power: 74, tier: 2.5, desc: 'ปืนกลมือเก็บเสียงยอดนิยม ควบคุมง่าย เหมาะกับการวิ่งยิงและ Anti-Eco' },
+
+      // Shotguns
+      'Bucky': { name: 'Bucky', category: 'Shotguns', price: 850, fireRate: 1.1, mag: 5, wallPen: 'Low', damage: 45, power: 68, tier: 1.8, desc: 'ปืนลูกซองปั๊มแอคชั่น ดักซุ่มมุมแคบสังหารในนัดเดียว' },
+      'Judge': { name: 'Judge', category: 'Shotguns', price: 1850, fireRate: 3.5, mag: 5, wallPen: 'Low', damage: 50, power: 78, tier: 2.6, desc: 'ปืนลูกซองอัตโนมัติ รัวกระสุนต่อเนื่อง ครองไซต์ระยะประชิด' },
+
+      // Assault Rifles
+      'Bulldog': { name: 'Bulldog', category: 'Assault Rifles', price: 2050, fireRate: 10.0, mag: 24, wallPen: 'Medium', damage: 35, power: 82, tier: 3.0, desc: 'ปืนไรเฟิลราคาสุดคุ้ม โหมดคลิกขวายิงชุด 3 นัด ดาเมจสม่ำเสมอ' },
+      'Guardian': { name: 'Guardian', category: 'Assault Rifles', price: 2250, fireRate: 5.25, mag: 12, wallPen: 'High', damage: 65, power: 88, tier: 3.5, desc: 'ปืนไรเฟิลกึ่งอัตโนมัติ ทะลุกำแพงสูง วันแท็ปหัวทุกระยะ' },
+      'Vandal': { name: 'Vandal', category: 'Assault Rifles', price: 2900, fireRate: 9.75, mag: 25, wallPen: 'Medium', damage: 40, power: 94, tier: 4.0, desc: 'ปืนไรเฟิลหลักยอดฮิต วันแท็ปยิงหัวตาย 100% ทุกระยะทาง' },
+      'Phantom': { name: 'Phantom', category: 'Assault Rifles', price: 2900, fireRate: 11.0, mag: 30, wallPen: 'Medium', damage: 35, power: 92, tier: 4.0, desc: 'ปืนไรเฟิลเก็บเสียง รัวเร็ว คุมวิถีกระสุนง่าย ยิงทะลุม่านควันไร้รอย' },
+
+      // Sniper Rifles
+      'Marshal': { name: 'Marshal', category: 'Sniper Rifles', price: 950, fireRate: 1.5, mag: 5, wallPen: 'Medium', damage: 101, power: 75, tier: 2.2, desc: 'ปืนสไนเปอร์เบา ราคาย่อมเยา ส่องหัวนัดเดียวตาย คล่องตัวสูง' },
+      'Outlaw': { name: 'Outlaw', category: 'Sniper Rifles', price: 2400, fireRate: 2.75, mag: 2, wallPen: 'High', damage: 125, power: 84, tier: 3.2, desc: 'ปืนสไนเปอร์ลำกล้องคู่ ยิงต่อเนื่อง 2 นัด ตัดผู้เล่นเกราะเบาตายทันที' },
+      'Operator': { name: 'Operator', category: 'Sniper Rifles', price: 4700, fireRate: 0.6, mag: 5, wallPen: 'High', damage: 150, power: 120, tier: 5.0, desc: 'ราชันย์สไนเปอร์หนัก ยิงโดนตัวนัดเดียวนอนทุกระยะ' },
+
+      // Heavy Weapons
+      'Ares': { name: 'Ares', category: 'Heavy Weapons', price: 1600, fireRate: 13.0, mag: 50, wallPen: 'High', damage: 30, power: 76, tier: 2.4, desc: 'ปืนกลหนักราคาประหยัด อัตราลั่นเพิ่มขึ้นเมื่อยิงต่อเนื่อง ทะลุกำแพงสูง' },
+      'Odin': { name: 'Odin', category: 'Heavy Weapons', price: 3200, fireRate: 12.0, mag: 100, wallPen: 'High', damage: 38, power: 98, tier: 4.5, desc: 'ปืนกลหนัก 100 นัด ป้อมปราการสแปมทะลุกำแพงระดับพระกาฬ' }
+    };
+
     const WEAPON_PRICE = {
       'Operator': 4700,
       'Odin': 3200,
       'Vandal': 2900,
       'Phantom': 2900,
-      'Guardian': 2250,
       'Outlaw': 2400,
+      'Guardian': 2250,
       'Bulldog': 2050,
       'Judge': 1850,
       'Spectre': 1600,
+      'Ares': 1600,
       'Stinger': 1100,
       'Marshal': 950,
       'Bucky': 850,
-      'Ares': 1600,
       'Sheriff': 800,
+      'Bandit': 600,
       'Ghost': 500,
       'Frenzy': 450,
       'Shorty': 300,
@@ -8063,11 +8233,12 @@
       'Bulldog': 3,
       'Judge': 2.6,
       'Spectre': 2.5,
+      'Ares': 2.4,
       'Marshal': 2.2,
       'Stinger': 2.0,
       'Bucky': 1.8,
-      'Ares': 2.4,
-      'Sheriff': 1.2,
+      'Sheriff': 1.3,
+      'Bandit': 1.1,
       'Ghost': 1.0,
       'Frenzy': 0.9,
       'Shorty': 0.7,
@@ -8096,6 +8267,8 @@
 
           if (buyTier === 'PISTOL_GHOST') {
             wep = 'Ghost'; cost = 500; arm = 0;
+          } else if (buyTier === 'PISTOL_BANDIT') {
+            wep = 'Bandit'; cost = 600; arm = 0;
           } else if (buyTier === 'PISTOL_SHERIFF') {
             wep = 'Sheriff'; cost = 800; arm = 0;
           } else if (buyTier === 'PISTOL_FRENZY') {
@@ -8180,21 +8353,32 @@
           if (hasSavedWep && savedRank >= 4) {
             chosenWep = p.savedWeapon;
             chosenArmor = 50;
-            cost = (p.savedArmor >= 50) ? 0 : 400;
+            cost = (p.savedArmor >= 50) ? 0 : 1000;
           } else {
             const isSmoker = ['Controller'].includes(p.role) || ['Omen', 'Viper', 'Astra', 'Brimstone', 'Clove'].includes(p.agent);
             chosenWep = isSmoker ? (Math.random() < 0.7 ? 'Phantom' : 'Vandal') : (Math.random() < 0.25 ? 'Phantom' : 'Vandal');
             chosenArmor = 50;
-            cost = 2900 + ((p.savedArmor >= 50) ? 0 : 400);
+            cost = (WEAPON_PRICE[chosenWep] || 2900) + ((p.savedArmor >= 50) ? 0 : 1000);
           }
-        } else if (buyTier === 'FORCE_BUY') {
-          if (hasSavedWep && savedRank >= 3) {
-            // Player saved a rifle/sniper from previous round! Keep it for free!
+        } else if (buyTier === 'HALF_BUY') {
+          // Half Buy / Light Buy: Spectre, Bulldog, Ares, Guardian + Light Shield ($400)
+          if (hasSavedWep && savedRank >= 3.0) {
             chosenWep = p.savedWeapon;
             chosenArmor = Math.max(p.savedArmor || 0, 25);
             cost = (p.savedArmor >= 25) ? 0 : 400;
           } else {
-            // Diverse SMGs / shotguns / mid-tier rifles
+            const halfPool = ['Spectre', 'Bulldog', 'Ares', 'Guardian', 'Spectre'];
+            chosenWep = halfPool[idx % halfPool.length];
+            chosenArmor = 25;
+            cost = (WEAPON_PRICE[chosenWep] || 1600) + ((p.savedArmor >= 25) ? 0 : 400);
+          }
+        } else if (buyTier === 'FORCE_BUY') {
+          // Force Buy (All-in): Spectre, Bulldog, Outlaw, Judge, Stinger, Marshal + Armor
+          if (hasSavedWep && savedRank >= 3.0) {
+            chosenWep = p.savedWeapon;
+            chosenArmor = Math.max(p.savedArmor || 0, 25);
+            cost = (p.savedArmor >= 25) ? 0 : 400;
+          } else {
             if (p.agent === 'Jett' || p.agent === 'Chamber') {
               chosenWep = Math.random() < 0.5 ? 'Marshal' : 'Outlaw';
             } else if (['Duelist', 'Initiator'].includes(p.role)) {
@@ -8208,19 +8392,25 @@
             cost = (WEAPON_PRICE[chosenWep] || 1600) + ((p.savedArmor >= 25) ? 0 : 400);
           }
         } else if (buyTier === 'ECO_SAVE') {
-          if (hasSavedWep && savedRank >= 2.5) {
-            chosenWep = p.savedWeapon;
-            chosenArmor = p.savedArmor || 0;
+          // Eco / Full Save ตามกฎ VALORANT:
+          // รอบที่ 2 หรือ 14 (หลังแพ้รอบปืนพก): ห้ามซื้อปืนสู้เด็ดขาด! ทุกคนใช้ Classic ($0) เกราะ 0 เพื่อสะสมเงินไว้ Full Buy ในรอบ 3
+          const isRound2Or14 = (matchState.round === 2 || matchState.round === 14);
+          if (isRound2Or14) {
+            chosenWep = 'Classic';
+            chosenArmor = 0;
             cost = 0;
           } else {
-            if ((p.aim || 90) >= 92 && Math.random() < 0.55) {
-              chosenWep = 'Sheriff'; cost = 800;
+            // รอบ Eco ปกติอื่นๆ: ถ้ามีปืนใหญ่ที่เซฟมาจากรอบก่อนให้เก็บไว้ ถ้าไม่มีให้ถือ Classic ($0) หรือปืนพกเล็ก
+            if (hasSavedWep && savedRank >= 3.0) {
+              chosenWep = p.savedWeapon;
+              chosenArmor = p.savedArmor || 0;
+              cost = 0;
             } else {
-              const ecoPool = ['Ghost', 'Ghost', 'Frenzy', 'Classic'];
-              chosenWep = ecoPool[idx % ecoPool.length];
-              cost = WEAPON_PRICE[chosenWep] || 0;
+              // Full Save ทั่วไป: Classic $0 เพื่อเก็บเงิน 100%
+              chosenWep = 'Classic';
+              chosenArmor = 0;
+              cost = 0;
             }
-            chosenArmor = 0;
           }
         } else if (buyTier === 'HERO_OP') {
           if (idx === designatedOpIdx) {
@@ -9548,6 +9738,13 @@
           currentCarrier.hasSpike = false;
           spikeTimeLeft = 45;
 
+          // Image 1 Economy Rule: +300 Creds ต่อคน จากการติดตั้ง Spike สำหรับฝั่งบุก (+1,500 Creds ต่อทีม)
+          if (matchState.isFullSenseAttacking) {
+            matchState.teamCredsA = Math.min(45000, matchState.teamCredsA + 1500);
+          } else {
+            matchState.teamCredsB = Math.min(45000, matchState.teamCredsB + 1500);
+          }
+
           let siteName = 'SITE A';
           let targetSite = activeMap.aSite;
           if (distToC < 36 && activeMap.hasSiteC) {
@@ -9839,6 +10036,7 @@
       'Ares': 76,
       'Marshal': 75,
       'Spectre': 74,
+      'Bandit': 66,
       'Stinger': 70,
       'Bucky': 68,
       'Sheriff': 72,
@@ -9992,22 +10190,23 @@
 
       const weaponDmgTable = {
         'Operator': 150,
-        'Odin': 38,
-        'Vandal': 40,
-        'Phantom': 35,
-        'Guardian': 65,
-        'Bulldog': 35,
         'Outlaw': 125,
-        'Judge': 50,
-        'Spectre': 26,
         'Marshal': 101,
-        'Stinger': 27,
-        'Bucky': 45,
-        'Ares': 30,
+        'Guardian': 65,
         'Sheriff': 55,
-        'Ghost': 30,
-        'Frenzy': 26,
+        'Judge': 50,
+        'Bucky': 45,
         'Shorty': 44,
+        'Bandit': 42,
+        'Vandal': 40,
+        'Odin': 38,
+        'Phantom': 35,
+        'Bulldog': 35,
+        'Ares': 30,
+        'Ghost': 30,
+        'Stinger': 27,
+        'Spectre': 26,
+        'Frenzy': 26,
         'Classic': 25
       };
 
@@ -10053,6 +10252,13 @@
       victim.hp = 0;
       victim.deaths = (victim.deaths || 0) + 1;
       killer.kills = (killer.kills || 0) + 1;
+
+      // Image 1 Economy Rule: +200 Creds ต่อ 1 คิล
+      if (killer.team === 'A') {
+        matchState.teamCredsA = Math.min(45000, matchState.teamCredsA + 200);
+      } else {
+        matchState.teamCredsB = Math.min(45000, matchState.teamCredsB + 200);
+      }
 
       // Operator Long Range Pick announcement
       if (killer.weapon === 'Operator' && dist >= 90) {
@@ -10991,24 +11197,25 @@ function endRound(winner) {
         matchState.scoreA++;
         matchState.lossStreakA = 0;
         matchState.lossStreakB++;
-        matchState.teamCredsA = Math.min(45000, matchState.teamCredsA + 16000); // ~$3,200/player
+        // Image 1 Rule: ชนะรอบละ 3,000 Creds/คน ($15,000 ต่อทีม)
+        matchState.teamCredsA = Math.min(45000, matchState.teamCredsA + 15000);
         const oppLossBonus = getLossBonus(matchState.lossStreakB);
         matchState.teamCredsB = Math.min(45000, matchState.teamCredsB + (oppLossBonus * 5));
 
-        document.getElementById('round-status').innerHTML = `🏆 <b class="text-emerald-400">${teamAName} ชนะรอบที่ ${matchState.round}</b>! (+$3,200/คน)`;
+        document.getElementById('round-status').innerHTML = `🏆 <b class="text-emerald-400">${teamAName} ชนะรอบที่ ${matchState.round}</b>! (+$3,000/คน)`;
         document.getElementById('round-phase-label').innerText = `ROUND ${matchState.round} · ${teamAName} WIN`;
-        addEventLog(`Round ${matchState.round} Won by ${teamAName}! Team Creds: $${matchState.teamCredsA}`);
+        addEventLog(`Round ${matchState.round} Won by ${teamAName}! (+3,000/คน) | ${teamBName} โบนัสแพ้: +${oppLossBonus}/คน`);
       } else {
         matchState.scoreB++;
         matchState.lossStreakB = 0;
         matchState.lossStreakA++;
-        matchState.teamCredsB = Math.min(45000, matchState.teamCredsB + 16000);
+        matchState.teamCredsB = Math.min(45000, matchState.teamCredsB + 15000);
         const myLossBonus = getLossBonus(matchState.lossStreakA);
         matchState.teamCredsA = Math.min(45000, matchState.teamCredsA + (myLossBonus * 5));
 
-        document.getElementById('round-status').innerHTML = `🏆 <b class="text-rose-400">${teamBName} ชนะรอบที่ ${matchState.round}</b>! (โบนัสแพ้ +$${myLossBonus}/คน)`;
+        document.getElementById('round-status').innerHTML = `🏆 <b class="text-rose-400">${teamBName} ชนะรอบที่ ${matchState.round}</b>! (+$3,000/คน)`;
         document.getElementById('round-phase-label').innerText = `ROUND ${matchState.round} · ${teamBName} WIN`;
-        addEventLog(`Round ${matchState.round} Won by ${teamBName}! Team Creds: $${matchState.teamCredsA}`);
+        addEventLog(`Round ${matchState.round} Won by ${teamBName}! (+3,000/คน) | ${teamAName} โบนัสแพ้: +${myLossBonus}/คน`);
       }
 
       updateScoreboardUI();
@@ -13165,6 +13372,86 @@ function endRound(winner) {
     // =========================================================================
     // SAVE CLOUD & CROSS-DEVICE SAVE / LOAD WORKFLOWS
     // =========================================================================
+    
+    // =========================================================================
+    // VALORANT ARSENAL & WEAPON DATABASE WORKFLOWS
+    // =========================================================================
+    function openArsenalModal() {
+      const m = document.getElementById('arsenal-modal');
+      if (!m) return;
+      renderArsenalCards('ALL');
+      m.classList.remove('hidden');
+      m.classList.add('flex');
+    }
+
+    function closeArsenalModal() {
+      const m = document.getElementById('arsenal-modal');
+      if (m) {
+        m.classList.add('hidden');
+        m.classList.remove('flex');
+      }
+    }
+
+    function renderArsenalCards(category = 'ALL') {
+      const grid = document.getElementById('arsenal-grid');
+      if (!grid) return;
+
+      // Update active tab styling
+      const tabs = ['ALL', 'Sidearms', 'SMGs', 'Shotguns', 'Assault Rifles', 'Sniper Rifles', 'Heavy Weapons'];
+      tabs.forEach(t => {
+        const btn = document.getElementById(`tab-gun-${t}`);
+        if (btn) {
+          if (t === category) {
+            btn.className = 'px-3 py-1 rounded-lg bg-indigo-600 text-white font-bold cursor-pointer';
+          } else {
+            btn.className = 'px-3 py-1 rounded-lg bg-[#0e172a] text-slate-400 hover:text-white font-bold cursor-pointer';
+          }
+        }
+      });
+
+      const guns = Object.values(VALORANT_GUN_DATABASE).filter(g => category === 'ALL' || g.category === category);
+
+      grid.innerHTML = guns.map(g => {
+        const imgSrc = `assets/vct/weapons/${g.name}.png`;
+        return `
+          <div class="bg-[#050814] border border-[#17253f] hover:border-indigo-500/60 p-3 rounded-xl flex flex-col justify-between gap-2 shadow-lg transition">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-indigo-950/80 text-indigo-300 border border-indigo-500/30 font-bold">${g.category}</span>
+              <span class="text-xs font-mono font-black text-amber-400">${g.price === 0 ? 'FREE ($0)' : `${g.price.toLocaleString()} Creds`}</span>
+            </div>
+
+            <div class="h-16 flex items-center justify-center p-1 bg-black/30 rounded-lg">
+              <img src="${imgSrc}" alt="${g.name}" class="max-h-full max-w-full object-contain filter drop-shadow" onerror="this.onerror=null; this.src='assets/vct/weapons/${g.name}_killstream.png';">
+            </div>
+
+            <div>
+              <h4 class="font-bold text-white text-sm">${g.name}</h4>
+              <p class="text-[10px] text-slate-400 line-clamp-2 mt-0.5">${g.desc}</p>
+            </div>
+
+            <div class="grid grid-cols-4 gap-1 text-[9px] font-mono bg-[#0c1424] p-1.5 rounded-lg border border-[#1b2d4f] text-center">
+              <div>
+                <span class="text-slate-500 block">DAMAGE</span>
+                <span class="text-emerald-400 font-bold">${g.damage}</span>
+              </div>
+              <div>
+                <span class="text-slate-500 block">FIRE RATE</span>
+                <span class="text-cyan-400 font-bold">${g.fireRate}/s</span>
+              </div>
+              <div>
+                <span class="text-slate-500 block">MAG</span>
+                <span class="text-amber-300 font-bold">${g.mag}</span>
+              </div>
+              <div>
+                <span class="text-slate-500 block">WALL PEN</span>
+                <span class="text-purple-300 font-bold">${g.wallPen}</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
     function openSaveCloudModal() {
       const modal = document.getElementById('save-cloud-modal');
       if (!modal) return;
