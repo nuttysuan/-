@@ -137,6 +137,9 @@
           <button onclick="loadGameFromStorage(false)" title="โหลดข้อมูลเซฟล่าสุด" class="px-2 py-0.5 rounded text-cyan-400 hover:bg-cyan-500 hover:text-slate-950 font-bold transition flex items-center gap-1 cursor-pointer">
             <span>📂</span><span>LOAD</span>
           </button>
+          <button onclick="openSaveCloudModal()" title="ส่งออก/นำเข้าเซฟข้ามเครื่อง (Export/Import)" class="px-2 py-0.5 rounded text-amber-400 hover:bg-amber-500 hover:text-slate-950 font-bold transition flex items-center gap-1 cursor-pointer">
+            <span>☁️</span><span>TRANSFER</span>
+          </button>
         </div>
 
         <div class="hidden sm:flex items-center gap-1.5 bg-[#0d1629] border border-[#1b2d4f] px-2.5 py-1 rounded-lg text-xs font-mono font-bold text-emerald-400">
@@ -175,107 +178,85 @@
         </div>
 
         <div class="flex flex-col sm:flex-row md:flex-col items-stretch gap-2.5 shrink-0 relative z-10 w-full sm:w-auto min-w-[220px]">
-          <button onclick="openFriendlySetupModal()" class="w-full px-5 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-black text-xs md:text-sm shadow-xl shadow-cyan-500/30 transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2 cursor-pointer shrink-0">
-            <span>⚔️</span><span>เริ่มเล่น FRIENDLY MATCH ด่วน</span>
-          </button>
-          <button onclick="document.getElementById('section-game-modes')?.scrollIntoView({ behavior: 'smooth' })" class="w-full px-5 py-2.5 rounded-xl bg-[#0c1933] hover:bg-[#16274a] text-cyan-300 hover:text-white font-bold text-xs border border-cyan-500/40 transition flex items-center justify-center gap-2 cursor-pointer shrink-0">
-            <span>🎮</span><span>เลือกโหมดการเล่น (MODES)</span>
-          </button>
-          <button onclick="document.getElementById('section-rules-guide')?.scrollIntoView({ behavior: 'smooth' })" class="w-full px-5 py-2 rounded-xl bg-[#081020] hover:bg-[#101e38] text-slate-300 hover:text-white font-semibold text-xs border border-slate-700/60 transition flex items-center justify-center gap-2 cursor-pointer shrink-0">
-            <span>📖</span><span>กฎ กติกา & วิธีเล่น (GUIDE)</span>
-          </button>
-        </div>
-
-        <div class="absolute -right-10 -bottom-10 w-72 h-72 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+          <button onclick="openFriendlySetupModal()" class="px-3.5 py-1.5 rounded-lg bg-[#14233e] hover:bg-cyan-500 hover:text-slate-950 text-cyan-300 font-bold text-xs transition shrink-0 cursor-pointer shadow border border-cyan-500/30">
+          ⚔️ แข่งขันด่วน →
+        </button>
       </div>
 
-      <!-- RESUME SAVE NOTIFICATION STRIP (SHOWN IF SAVE DETECTED) -->
-      <div id="landing-save-strip" class="w-full hidden bg-gradient-to-r from-emerald-950/80 via-[#0a1526] to-cyan-950/80 border-2 border-emerald-500/70 rounded-xl p-3.5 flex items-center justify-between gap-4 shadow-xl">
-        <div class="flex items-center gap-3">
-          <span class="text-2xl animate-pulse">💾</span>
+      <!-- Option 4: Save Transfer / Import Save from Another PC -->
+      <div class="bg-[#050914] p-3 rounded-xl border border-amber-500/40 flex items-center justify-between gap-3 text-xs">
+        <div>
+          <span class="font-bold text-white block flex items-center gap-1.5">
+            <span>☁️</span> <span>ย้ายเซฟข้ามเครื่อง / นำเข้าไฟล์เซฟ (CROSS-DEVICE SAVE)</span>
+          </span>
+          <span class="text-[11px] text-slate-400">เล่นค้างไว้บนคอมเครื่องอื่น? นำเข้าไฟล์เซฟ (.json) หรือวางโค้ดเซฟเพื่อเล่นต่อได้ทันที</span>
+        </div>
+        <button onclick="openSaveCloudModal()" class="px-3.5 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs transition shrink-0 cursor-pointer shadow">
+          📥 นำเข้า / ส่งออกเซฟ →
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== SAVE CLOUD & TRANSFER MODAL ==================== -->
+  <div id="save-cloud-modal" class="fixed inset-0 modal-backdrop hidden items-center justify-center p-3 z-50">
+    <div class="bg-[#0c1424] border-2 border-amber-500/80 rounded-2xl p-5 max-w-lg w-full shadow-2xl relative flex flex-col gap-4 text-slate-200 animate-fade-in">
+      <div class="flex items-center justify-between border-b border-[#1b2d4f] pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-lg">
+            ☁️
+          </div>
           <div>
-            <span class="text-xs font-bold text-emerald-400 block" id="landing-save-title">พบข้อมูลความคืบหน้าที่บันทึกไว้ในเครื่อง</span>
-            <span class="text-[11px] text-slate-300" id="landing-save-detail">สโมสรของคุณ · Season 1, Week 1</span>
+            <h3 class="text-base font-black text-white">ระบบจัดการเซฟข้ามเครื่อง (Save Transfer)</h3>
+            <p class="text-[11px] text-slate-400">สำรองข้อมูล ส่งออก หรือนำเข้าเซฟเพื่อเล่นบนคอมพิวเตอร์เครื่องอื่น</p>
           </div>
         </div>
-        <div class="flex items-center gap-2 shrink-0">
-          <button onclick="continueFromExistingSave()" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs transition shadow cursor-pointer">
-            ▶ เล่นต่อจากเซฟเดิมทันที
-          </button>
-          <button onclick="deleteCareerSave()" title="ลบข้อมูลเซฟปัจจุบันเพื่อเริ่มใหม่" class="px-3 py-2 rounded-lg bg-rose-950/80 hover:bg-rose-900 text-rose-300 border border-rose-500/40 font-bold text-xs transition shadow flex items-center gap-1 cursor-pointer">
-            <span>🗑️</span><span>ลบเซฟ</span>
-          </button>
-        </div>
+        <button onclick="closeSaveCloudModal()" class="text-slate-400 hover:text-white font-mono text-lg cursor-pointer">✕</button>
       </div>
 
-      <!-- SECTION: CHOOSE GAME MODE (3 BALANCED NEUTRAL CARDS) -->
-      <div id="section-game-modes" class="w-full shrink-0 min-h-fit">
-        <div class="flex items-center gap-2 mb-3">
-          <span class="text-xl">🎮</span>
-          <h2 class="text-lg md:text-xl font-black text-white tracking-wide">เลือกโหมดการเล่น (SELECT GAME MODE)</h2>
+      <!-- Explanation note -->
+      <div class="bg-slate-900/80 border border-slate-700/60 p-3 rounded-xl text-xs text-slate-300 space-y-1.5">
+        <div class="flex items-center gap-1.5 font-bold text-amber-300">
+          <span>ℹ️</span> <span>ทำไมเล่นคอมคนละเครื่องแล้วไม่พบเซฟเดิม?</span>
         </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          
-          <!-- Mode 1: Career Mode (4 Regions & Ascension) -->
-          <div class="bg-[#070d1a] border-2 border-emerald-500/70 hover:border-emerald-400 rounded-2xl p-4 flex flex-col justify-between gap-4 shadow-xl relative overflow-hidden group transition">
-            <div class="absolute top-0 right-0 bg-emerald-500 text-slate-950 text-[10px] font-black px-2.5 py-0.5 rounded-bl-lg font-mono">
-              CAREER MODE
-            </div>
-            <div>
-              <div class="w-12 h-12 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-2xl mb-2">
-                🏆
-              </div>
-              <h3 class="font-black text-white text-base">โหมดผู้จัดการทีมอาชีพ (CAREER MODE)</h3>
-              <p class="text-xs text-slate-300 mt-1 leading-relaxed">
-                เลือกคุมสโมสรใดก็ได้ใน 4 ลีกใหญ่ระดับโลก <b>Pacific, Americas, EMEA, China</b> (เช่น PRX, DRX, Gen.G, Sentinels, Fnatic, EDG) หรือเลือกทีมลีกรองเพื่อแข่งขันในทัวร์นาเมนต์ <b>Ascension Tier 2</b> แย่งตั๋วเลื่อนชั้น
-              </p>
-            </div>
-            <button onclick="openClubSelectionModal('career')" class="w-full py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs transition shadow-lg shadow-emerald-500/25 flex items-center justify-center gap-1.5 cursor-pointer">
-              <span>เลือกสโมสร & เริ่มคุมทีม</span><span>➔</span>
-            </button>
-          </div>
-
-          <!-- Mode 2: Fantasy Draft -->
-          <div class="bg-[#070d1a] border-2 border-amber-500/70 hover:border-amber-400 rounded-2xl p-4 flex flex-col justify-between gap-4 shadow-xl relative overflow-hidden group transition">
-            <div class="absolute top-0 right-0 bg-amber-500 text-slate-950 text-[10px] font-black px-2.5 py-0.5 rounded-bl-lg font-mono">
-              FANTASY DRAFT
-            </div>
-            <div>
-              <div class="w-12 h-12 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-2xl mb-2">
-                ✨
-              </div>
-              <h3 class="font-black text-white text-base">โหมดสร้างทีมในฝัน (FANTASY DRAFT)</h3>
-              <p class="text-xs text-slate-300 mt-1 leading-relaxed">
-                เลือกสโมสรและลีกที่คุณต้องการคุม จากนั้นรับงบประมาณตั้งต้น <b>$2,000,000</b> เพื่อเข้าสู่ตลาดซื้อขายและดราฟต์ผู้เล่นซูเปอร์สตาร์ 5 คนที่คุณต้องการสร้างเป็นทีมในฝันลงแข่งขัน
-              </p>
-            </div>
-            <button onclick="startFantasyDraftFlow()" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 font-black text-xs transition shadow-lg shadow-amber-500/25 flex items-center justify-center gap-1.5 cursor-pointer">
-              <span>เลือกทีม & ดราฟต์ผู้เล่น</span><span>➔</span>
-            </button>
-          </div>
-
-          <!-- Mode 3: Friendly Quick Match -->
-          <div class="bg-[#070d1a] border-2 border-cyan-500/70 hover:border-cyan-400 rounded-2xl p-4 flex flex-col justify-between gap-4 shadow-xl relative overflow-hidden group transition">
-            <div class="absolute top-0 right-0 bg-cyan-500 text-slate-950 text-[10px] font-black px-2.5 py-0.5 rounded-bl-lg font-mono">
-              QUICK MATCH
-            </div>
-            <div>
-              <div class="w-12 h-12 rounded-xl bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center text-2xl mb-2">
-                ⚔️
-              </div>
-              <h3 class="font-black text-white text-base">แมตช์กระชับมิตร (FRIENDLY MATCH)</h3>
-              <p class="text-xs text-slate-300 mt-1 leading-relaxed">
-                แข่งขันด่วน 1 แมตช์ตามกติกา 24 รอบ เลือกระหว่างสองสโมสรใดก็ได้ในโลก และเลือกแผนที่แข่งขันอิสระ เหมาะสำหรับการทดลองแท็กติกและจำลองแมตช์สดทันที
-              </p>
-            </div>
-            <button onclick="openFriendlySetupModal()" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-black text-xs transition shadow-lg shadow-cyan-500/25 flex items-center justify-center gap-1.5 cursor-pointer">
-              <span>ตั้งค่า & แข่งด่วน</span><span>➔</span>
-            </button>
-          </div>
-
-        </div>
+        <p class="text-[11px] leading-relaxed text-slate-400">
+          เนื่องจากเกมทำงานบนเว็บเบราว์เซอร์ของท่านโดยตรง (Client-Side) ข้อมูลจะถูกบันทึกไว้ในหน่วยความจำ LocalStorage ของคอมพิวเตอร์เครื่องนั้น หากต้องการเล่นต่อบนคอมเครื่องอื่น สามารถใช้วิธี <b class="text-slate-200">ส่งออกไฟล์เซฟ (.json)</b> หรือ <b class="text-slate-200">คัดลอกรหัสเซฟ</b> ไปเปิดบนอีกเครื่องได้ทันที 100%!
+        </p>
       </div>
+
+      <!-- Action 1 & 2: File Export & Import -->
+      <div class="grid grid-cols-2 gap-3">
+        <button onclick="exportSaveToFile()" class="p-3 rounded-xl bg-[#081226] border border-emerald-500/40 hover:border-emerald-400 hover:bg-emerald-950/40 flex flex-col items-center justify-center gap-1 text-center transition cursor-pointer group shadow">
+          <span class="text-2xl group-hover:scale-110 transition">📤</span>
+          <span class="text-xs font-bold text-white">ส่งออกไฟล์เซฟ (.json)</span>
+          <span class="text-[10px] text-emerald-400 font-mono">ดาวน์โหลดลงเครื่อง</span>
+        </button>
+
+        <button onclick="triggerImportSaveFile()" class="p-3 rounded-xl bg-[#081226] border border-cyan-500/40 hover:border-cyan-400 hover:bg-cyan-950/40 flex flex-col items-center justify-center gap-1 text-center transition cursor-pointer group shadow">
+          <span class="text-2xl group-hover:scale-110 transition">📥</span>
+          <span class="text-xs font-bold text-white">นำเข้าไฟล์เซฟ (.json)</span>
+          <span class="text-[10px] text-cyan-400 font-mono">อัปโหลดไฟล์จากเครื่อง</span>
+        </button>
+      </div>
+      <input type="file" id="save-file-input" accept=".json" class="hidden" onchange="handleSaveFileSelect(event)">
+
+      <!-- Action 3: Copy / Paste Save Code Text -->
+      <div class="bg-[#050814] p-3.5 rounded-xl border border-[#1b2d4f] flex flex-col gap-2">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold text-white flex items-center gap-1.5">
+            <span>📋</span> <span>รหัสเซฟเกม (Save Code / Text Backup)</span>
+          </span>
+          <button onclick="copySaveCodeToClipboard()" class="px-2 py-0.5 rounded bg-amber-500/20 hover:bg-amber-500 hover:text-slate-950 text-amber-300 border border-amber-500/40 text-[10px] font-mono font-bold transition cursor-pointer flex items-center gap-1">
+            <span>📋 คัดลอกโค้ด</span>
+          </button>
+        </div>
+        <textarea id="save-code-textarea" rows="3" placeholder="วางโค้ดเซฟที่คัดลอกมาจากคอมเครื่องอื่นที่นี่..." class="w-full bg-[#03060f] border border-[#17253f] rounded-lg p-2 text-[11px] font-mono text-slate-300 focus:outline-none focus:border-amber-500 resize-none"></textarea>
+        <button onclick="importSaveFromCode()" class="w-full py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs transition cursor-pointer shadow">
+          📥 โหลดข้อมูลจากรหัสที่วาง (Load Save Code)
+        </button>
+      </div>
+    </div>
+  </div>
 
       <!-- SECTION: GAME DETAILS & HIGHLIGHTS -->
       <div class="bg-[#070c18] border border-[#17253f] rounded-2xl p-5 shadow-xl flex flex-col gap-4">
@@ -2907,7 +2888,7 @@
           { x: 365, y: 200, w: 55, h: 100, name: 'A Link/Mid Wall' },
           { x: 110, y: 125, w: 35, h: 40, name: 'B Backsite Wall' },
           { x: 500, y: 165, w: 30, h: 35, name: 'A Generator' },
-          { x: 275, y: 140, w: 50, h: 45, name: 'Mid Pizza Block' },
+          { x: 275, y: 135, w: 50, h: 60, name: 'Mid Pizza Block' },
           { x: 440, y: 235, w: 35, h: 65, name: 'A Wine Wall' },
           { x: 185, y: 145, w: 35, h: 60, name: 'B Lane Wall' },
           { x: 375, y: 345, w: 55, h: 65, name: 'A Lobby Wall' },
@@ -2944,6 +2925,7 @@
           { x: 195, y: 220, w: 50, h: 70, name: 'Hookah Wall' },
           { x: 395, y: 215, w: 50, h: 65, name: 'U-Hall/Lamps' },
           { x: 275, y: 210, w: 60, h: 75, name: 'Mid Separator' },
+          { x: 275, y: 130, w: 60, h: 85, name: 'Mid Spine North Wall' },
           { x: 125, y: 220, w: 35, h: 60, name: 'B Long Wall' }
         ]
       },
@@ -2973,9 +2955,13 @@
           rushC: [{ x: 100, y: 175, r: 24 }, { x: 210, y: 206, r: 24 }]
         },
         walls: [
-          { x: 165, y: 250, w: 50, h: 85, name: 'C Garage' },
-          { x: 275, y: 190, w: 50, h: 40, name: 'B Back Wall' },
-          { x: 410, y: 260, w: 55, h: 80, name: 'A Sewer Wall' },
+          { x: 165, y: 240, w: 50, h: 95, name: 'C Garage' },
+          { x: 180, y: 165, w: 50, h: 85, name: 'C-B Link Divider Wall' },
+          { x: 275, y: 185, w: 50, h: 45, name: 'B Back Wall' },
+          { x: 268, y: 230, w: 12, h: 50, name: 'B Site Left Pillar' },
+          { x: 320, y: 230, w: 12, h: 50, name: 'B Site Right Pillar' },
+          { x: 350, y: 180, w: 50, h: 90, name: 'B-A Link Divider Wall' },
+          { x: 410, y: 250, w: 55, h: 90, name: 'A Sewer Wall' },
           { x: 470, y: 195, w: 35, h: 35, name: 'A Tower Base' }
         ]
       },
@@ -3005,6 +2991,7 @@
         },
         walls: [
           { x: 175, y: 220, w: 60, h: 75, name: 'B Rafters/Vent' },
+          { x: 260, y: 140, w: 65, h: 80, name: 'Mid Vent North Barrier' },
           { x: 345, y: 210, w: 60, h: 75, name: 'A Tower/Mail' },
           { x: 70, y: 165, w: 30, h: 35, name: 'B Site Box' },
           { x: 460, y: 140, w: 35, h: 35, name: 'A Screens Box' }
@@ -3037,6 +3024,7 @@
         },
         walls: [
           { x: 165, y: 280, w: 55, h: 80, name: 'B Market Wall' },
+          { x: 230, y: 170, w: 60, h: 90, name: 'Mid Courtyard Central Wall' },
           { x: 330, y: 260, w: 55, h: 80, name: 'Mid/A Wall' },
           { x: 95, y: 200, w: 35, h: 35, name: 'B Boba Box' },
           { x: 430, y: 210, w: 35, h: 35, name: 'A Link Box' }
@@ -3068,7 +3056,10 @@
           rushC: [{ x: 120, y: 150, r: 24 }, { x: 180, y: 200, r: 24 }]
         },
         walls: [
+          { x: 180, y: 175, w: 55, h: 80, name: 'C-B Upper Mound Wall' },
           { x: 210, y: 240, w: 55, h: 75, name: 'B/C Waterfall Wall' },
+          { x: 275, y: 230, w: 55, h: 35, name: 'B Upper Enclosure' },
+          { x: 380, y: 180, w: 55, h: 85, name: 'A-B Main Divider Wall' },
           { x: 415, y: 260, w: 55, h: 75, name: 'A Tree Wall' },
           { x: 85, y: 220, w: 30, h: 35, name: 'C Site Box' },
           { x: 495, y: 180, w: 30, h: 35, name: 'A Site Pillar' }
@@ -3098,6 +3089,7 @@
           rushB: [{ x: 109, y: 180, r: 24 }, { x: 180, y: 180, r: 24 }]
         },
         walls: [
+          { x: 280, y: 150, w: 55, h: 110, name: 'Abyss Spire Center Divider' },
           { x: 250, y: 260, w: 55, h: 70, name: 'Library Wall' },
           { x: 420, y: 270, w: 55, h: 75, name: 'A Tower Wall' },
           { x: 130, y: 250, w: 50, h: 75, name: 'B Danger Wall' }
@@ -3129,9 +3121,30 @@
              lineIntersectsLine(x1, y1, x2, y2, rx, ry + rh, rx, ry);
     }
 
+    function arePointsCrossSite(x1, y1, x2, y2, mapName) {
+      const m = MAP_DATA[mapName] || MAP_DATA['Ascent'];
+      if (!m) return false;
+      const getZone = (x, y) => {
+        if (m.aSite && Math.hypot(x - m.aSite.x, y - m.aSite.y) <= (m.aSite.r + 45)) return 'SITE_A';
+        if (m.bSite && Math.hypot(x - m.bSite.x, y - m.bSite.y) <= (m.bSite.r + 45)) return 'SITE_B';
+        if (m.hasSiteC && m.cSite && Math.hypot(x - m.cSite.x, y - m.cSite.y) <= (m.cSite.r + 45)) return 'SITE_C';
+        return null;
+      };
+      const z1 = getZone(x1, y1);
+      const z2 = getZone(x2, y2);
+      if (z1 && z2 && z1 !== z2) {
+        return true; // Cross-site shooting is strictly blocked
+      }
+      return false;
+    }
+
     function hasLineOfSight(x1, y1, x2, y2, mapName) {
       const m = MAP_DATA[mapName] || MAP_DATA['Ascent'];
-      if (!m || !m.walls || m.walls.length === 0) return true;
+      if (!m) return true;
+      if (arePointsCrossSite(x1, y1, x2, y2, mapName)) {
+        return false;
+      }
+      if (!m.walls || m.walls.length === 0) return true;
       for (let w of m.walls) {
         if (lineIntersectsRect(x1, y1, x2, y2, w.x, w.y, w.w, w.h)) {
           return false;
@@ -7701,15 +7714,15 @@
     }
 
     function getLossBonus(streak) {
-      if (streak <= 0) return 1900;
-      if (streak === 1) return 2400;
+      if (streak <= 1) return 1900;
+      if (streak === 2) return 2400;
       return 2900;
     }
 
     function getOpponentEcoTier(creds) {
       if (creds >= 19500) return 'FULL BUY READY ($20k+)';
-      if (creds >= 12000) return 'FORCE BUY ($12k+)';
-      return 'ECO SAVE (<$10k)';
+      if (creds >= 13500) return 'FORCE BUY ($13.5k+)';
+      return 'ECO SAVE (<$13.5k)';
     }
 
     function triggerHalfTimeSwap() {
@@ -7789,11 +7802,25 @@
       } else {
         const canOpBuy = matchState.teamCredsA >= 21000;
         const canFullBuy = matchState.teamCredsA >= 15000;
+        const isRound2AfterPistol = (matchState.round === 2 || matchState.round === 14);
+        const lostPistolA = isRound2AfterPistol && matchState.lossStreakA > 0;
+
+        let defaultBuy = 'ECO_SAVE';
+        if (lostPistolA) {
+          defaultBuy = 'ECO_SAVE';
+        } else if (canFullBuy) {
+          defaultBuy = 'FULL_BUY';
+        } else if (matchState.teamCredsA >= 13500) {
+          defaultBuy = 'FORCE_BUY';
+        } else {
+          defaultBuy = 'ECO_SAVE';
+        }
+
         select.innerHTML = `
-          <option value="OP_FULL_BUY" ${canOpBuy ? 'selected' : (canFullBuy ? '' : 'disabled')}>🎯 Operator + Full Buy: 1x Operator ($4,700) + 4x Vandals/Phantoms + Heavy Shields ${!canOpBuy ? '[เงินไม่พอ]' : ''}</option>
-          <option value="FULL_BUY" ${canFullBuy && !canOpBuy ? 'selected' : (!canFullBuy ? 'disabled' : '')}>🔫 Full Buy: Vandal / Phantom + Full Armor ($3,900/คน) [รอดชีวิตเก็บปืนเดิมไว้ฟรี] ${!canFullBuy ? '[เงินไม่พอ]' : ''}</option>
-          <option value="FORCE_BUY" ${!canFullBuy ? 'selected' : ''}>⚡ Force Buy: Spectre / Bulldog / Outlaw / Marshal / Judge + Armor [รอดชีวิตเก็บปืนเดิมไว้ฟรี]</option>
-          <option value="ECO_SAVE">🪙 Eco Save: Ghost / Sheriff / Classic ($0-$800/คน) [รอดชีวิตเก็บปืนเดิมไว้ฟรี]</option>
+          <option value="FULL_BUY" ${defaultBuy === 'FULL_BUY' ? 'selected' : (!canFullBuy ? 'disabled' : '')}>🔫 Full Buy: Vandal / Phantom + Full Armor ($3,900/คน) [รอดชีวิตเก็บปืนเดิมไว้ฟรี] ${!canFullBuy ? '[เงินไม่พอ]' : ''}</option>
+          <option value="FORCE_BUY" ${defaultBuy === 'FORCE_BUY' ? 'selected' : ''}>⚡ Force Buy: Spectre / Bulldog / Outlaw / Marshal / Judge + Armor [รอดชีวิตเก็บปืนเดิมไว้ฟรี]</option>
+          <option value="ECO_SAVE" ${defaultBuy === 'ECO_SAVE' ? 'selected' : ''}>🪙 Eco Save: Ghost / Sheriff / Classic ($0-$800/คน) [รอดชีวิตเก็บปืนเดิมไว้ฟรี]</option>
+          <option value="OP_FULL_BUY" ${!canOpBuy ? 'disabled' : ''}>🎯 Operator + Full Buy: 1x Operator ($4,700) + 4x Vandals/Phantoms + Heavy Shields ${!canOpBuy ? '[เงินไม่พอ]' : ''}</option>
           <option value="HERO_OP" ${matchState.teamCredsA >= 9000 ? '' : 'disabled'}>🎯 Hero Sniper: 1x Operator ($4,700) + เพื่อน Eco/Pistols</option>
         `;
       }
@@ -7962,10 +7989,15 @@
         const aiPistols = ['PISTOL_ARMOR', 'PISTOL_GHOST', 'PISTOL_SHERIFF', 'PISTOL_FRENZY'];
         currentBuyB = aiPistols[Math.floor(Math.random() * aiPistols.length)];
       } else {
-        if (matchState.teamCredsB >= 22000 && Math.random() < 0.45) {
+        const isRound2AfterPistol = (matchState.round === 2 || matchState.round === 14);
+        const lostPistolB = isRound2AfterPistol && matchState.lossStreakB > 0;
+        if (lostPistolB) {
+          // AI lost pistol round -> strictly ECO SAVE
+          currentBuyB = 'ECO_SAVE';
+        } else if (matchState.teamCredsB >= 22000 && Math.random() < 0.20) {
           currentBuyB = 'OP_FULL_BUY';
         } else {
-          currentBuyB = matchState.teamCredsB >= 17000 ? 'FULL_BUY' : (matchState.teamCredsB >= 10000 ? 'FORCE_BUY' : 'ECO_SAVE');
+          currentBuyB = matchState.teamCredsB >= 18000 ? 'FULL_BUY' : (matchState.teamCredsB >= 13500 ? 'FORCE_BUY' : 'ECO_SAVE');
         }
       }
 
@@ -9673,7 +9705,7 @@
               if (!atk.alive) continue;
               const dToDefuser = Math.hypot(atk.x - primaryDefuser.x, atk.y - primaryDefuser.y);
               // In post-plant, open site sightlines allow shooting up to 210px
-              if (dToDefuser < 210 && hasLineOfSight(atk.x, atk.y, primaryDefuser.x, primaryDefuser.y, currentMap)) {
+              if (dToDefuser < 165 && hasLineOfSight(atk.x, atk.y, primaryDefuser.x, primaryDefuser.y, currentMap)) {
                 // Attacker catches defuser! Defuser cannot fire back while hands are on the kit
                 defuserShotThisFrame = true;
                 const isHeadshot = Math.random() < 0.40;
@@ -9753,8 +9785,8 @@
             if (!b.alive) continue;
             const dist = Math.hypot(a.x - b.x, a.y - b.y);
             const isSniperDuel = (a.weapon === 'Operator' || b.weapon === 'Operator' || a.weapon === 'Outlaw' || b.weapon === 'Outlaw' || a.weapon === 'Marshal' || b.weapon === 'Marshal');
-            // Snipers hold long sightlines up to 230px, while regular rifles engage at up to 145px
-            const maxEngagementDist = isSniperDuel ? 230 : 145;
+            // Snipers hold long sightlines up to 170px (calibrated from 230px to stop cross-site firing), while regular rifles engage at up to 135px
+            const maxEngagementDist = isSniperDuel ? 170 : 135;
             if (dist < maxEngagementDist && hasLineOfSight(a.x, a.y, b.x, b.y, currentMap)) {
               resolveGunfight(a, b, dist);
               break;
@@ -13127,6 +13159,126 @@ function endRound(winner) {
       } catch (err) {
         console.error('Error loading save:', err);
         return false;
+      }
+    }
+
+    // =========================================================================
+    // SAVE CLOUD & CROSS-DEVICE SAVE / LOAD WORKFLOWS
+    // =========================================================================
+    function openSaveCloudModal() {
+      const modal = document.getElementById('save-cloud-modal');
+      if (!modal) return;
+      saveGameToStorage(true); // make sure freshest data is saved
+      const raw = localStorage.getItem('TACTIX_CAREER_SAVE_v1');
+      const ta = document.getElementById('save-code-textarea');
+      if (ta && raw) {
+        ta.value = raw;
+      }
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeSaveCloudModal() {
+      const modal = document.getElementById('save-cloud-modal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    }
+
+    function exportSaveToFile() {
+      saveGameToStorage(true);
+      const raw = localStorage.getItem('TACTIX_CAREER_SAVE_v1');
+      if (!raw) {
+        alert('⚠️ ไม่พบข้อมูลเซฟในเครื่องเพื่อส่งออก!');
+        return;
+      }
+      try {
+        const parsed = JSON.parse(raw);
+        const club = (parsed.myClubName || 'TACTIX').replace(/[^a-zA-Z0-9]/g, '_');
+        const filename = `tactix_save_${club}_s${parsed.currentSeasonNumber || 1}_w${parsed.currentSeasonWeek || 1}.json`;
+        const blob = new Blob([raw], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        alert(`✅ ส่งออกไฟล์เซฟสำเร็จ!\nไฟล์: ${filename}\n\nคุณสามารถส่งไฟล์นี้ไปเปิดบนคอมพิวเตอร์เครื่องอื่นผ่านปุ่ม "นำเข้าไฟล์เซฟ" เพื่อเล่นต่อได้ทันที`);
+      } catch (err) {
+        alert('เกิดข้อผิดพลาดในการส่งออกไฟล์เซฟ: ' + err.message);
+      }
+    }
+
+    function triggerImportSaveFile() {
+      const input = document.getElementById('save-file-input');
+      if (input) input.click();
+    }
+
+    function handleSaveFileSelect(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const text = e.target.result;
+        try {
+          const data = JSON.parse(text);
+          if (!data || (!data.myClubName && !data.myRoster && !data.allPlayers)) {
+            throw new Error('รูปแบบไฟล์เซฟไม่ถูกต้อง ไม่พบข้อมูลสโมสรหรือผู้เล่น');
+          }
+          localStorage.setItem('TACTIX_CAREER_SAVE_v1', text);
+          closeSaveCloudModal();
+          closeGameModeModal();
+          loadGameFromStorage(true);
+          alert(`🎉 นำเข้าเซฟสำเร็จ!\nยินดีต้อนรับสู่สโมสร ${data.myClubName || 'สโมสรของคุณ'}\nSeason ${data.currentSeasonNumber || 1}, Week ${data.currentSeasonWeek || 1}`);
+        } catch (err) {
+          alert('❌ ไฟล์เซฟไม่ถูกต้องหรือเสียหาย: ' + err.message);
+        }
+      };
+      reader.readAsText(file);
+      event.target.value = '';
+    }
+
+    function copySaveCodeToClipboard() {
+      saveGameToStorage(true);
+      const raw = localStorage.getItem('TACTIX_CAREER_SAVE_v1');
+      if (!raw) {
+        alert('⚠️ ไม่พบข้อมูลเซฟในเครื่องเพื่อคัดลอก');
+        return;
+      }
+      navigator.clipboard.writeText(raw).then(() => {
+        alert('📋 คัดลอกรหัสเซฟทั้งหมดลงในคลิปบอร์ดแล้ว!\nคุณสามารถนำข้อความนี้ไปส่งทาง Discord/Line หรืออีเมล แล้วนำไปวางบนคอมพิวเตอร์อีกเครื่องได้ทันที');
+      }).catch(() => {
+        const ta = document.getElementById('save-code-textarea');
+        if (ta) {
+          ta.value = raw;
+          ta.select();
+          alert('กรุณากด Ctrl+C เพื่อคัดลอกรหัสเซฟจากช่องข้อความ');
+        }
+      });
+    }
+
+    function importSaveFromCode() {
+      const ta = document.getElementById('save-code-textarea');
+      const text = ta ? ta.value.trim() : '';
+      if (!text) {
+        alert('⚠️ กรุณาวางรหัสเซฟในช่องข้อความก่อนกดยืนยัน');
+        return;
+      }
+      try {
+        const data = JSON.parse(text);
+        if (!data || (!data.myClubName && !data.myRoster && !data.allPlayers)) {
+          throw new Error('รูปแบบรหัสเซฟไม่ถูกต้อง');
+        }
+        localStorage.setItem('TACTIX_CAREER_SAVE_v1', text);
+        closeSaveCloudModal();
+        closeGameModeModal();
+        loadGameFromStorage(true);
+        alert(`🎉 นำเข้ารหัสเซฟสำเร็จ!\nโหลดสโมสร ${data.myClubName || 'สโมสรของคุณ'} พร้อมเล่นต่อทันที!`);
+      } catch (err) {
+        alert('❌ รหัสเซฟไม่ถูกต้อง: ' + err.message);
       }
     }
 
